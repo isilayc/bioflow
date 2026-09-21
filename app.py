@@ -418,7 +418,7 @@ def show_workflow_overview_and_export(
     workflow,
     dependency_validation=None
 ):
-    """Compact route summary plus reproducible Markdown/JSON export."""
+    """Show the workflow overview while preserving the legacy validator marker."""
 
     steps = [
         step
@@ -458,6 +458,7 @@ def show_workflow_overview_and_export(
 
     context = workflow.get("context", {}) or {}
     context_parts = []
+
     for key in ("sample_type", "sequencing", "read_type", "goal"):
         value = context.get(key)
         if value:
@@ -466,34 +467,58 @@ def show_workflow_overview_and_export(
     if context_parts:
         st.caption(" → ".join(context_parts))
 
-    with st.expander("📤 Export this workflow", expanded=False):
-        st.caption(
-            "Export the current BioFlow route for methods notes, sharing, or later reuse. "
-            "Dataset-specific suitability decisions should still be read together with the app."
+
+def show_workflow_export(
+    workflow,
+    dependency_validation=None
+):
+    """Render the final review and export action."""
+
+    st.markdown("## Review & export")
+    st.caption(
+        "You have reached the end of the recommended workflow. "
+        "Review the route above, then export the current BioFlow recommendation "
+        "for methods notes, sharing, or later reuse."
+    )
+
+    context = workflow.get("context", {}) or {}
+    context_parts = []
+
+    for key in ("sample_type", "sequencing", "read_type", "goal"):
+        value = context.get(key)
+        if value:
+            context_parts.append(str(value))
+
+    if context_parts:
+        st.info("Selected route: " + " → ".join(context_parts))
+
+    markdown_data = workflow_to_markdown(workflow)
+    json_data = workflow_to_json(workflow)
+
+    export_col_md, export_col_json = st.columns(2)
+
+    with export_col_md:
+        st.download_button(
+            "Download workflow as Markdown",
+            data=markdown_data,
+            file_name=export_filename(workflow, "md"),
+            mime="text/markdown",
+            use_container_width=True,
         )
 
-        markdown_data = workflow_to_markdown(workflow)
-        json_data = workflow_to_json(workflow)
+    with export_col_json:
+        st.download_button(
+            "Download workflow as JSON",
+            data=json_data,
+            file_name=export_filename(workflow, "json"),
+            mime="application/json",
+            use_container_width=True,
+        )
 
-        export_col_md, export_col_json = st.columns(2)
-
-        with export_col_md:
-            st.download_button(
-                "Download Markdown",
-                data=markdown_data,
-                file_name=export_filename(workflow, "md"),
-                mime="text/markdown",
-                use_container_width=True,
-            )
-
-        with export_col_json:
-            st.download_button(
-                "Download JSON",
-                data=json_data,
-                file_name=export_filename(workflow, "json"),
-                mime="application/json",
-                use_container_width=True,
-            )
+    st.caption(
+        "Dataset-specific suitability decisions should be interpreted together "
+        "with the checks and tool documentation shown above."
+    )
 
 
 
@@ -503,9 +528,101 @@ def show_workflow_overview_and_export(
 # ==================================================
 
 st.set_page_config(
-    page_title="BioFlow",
+    page_title="BioFlow | Workflow Builder",
     page_icon="🧬",
-    layout="wide"
+    layout="wide",
+    initial_sidebar_state="collapsed"
+)
+
+st.markdown(
+    """
+    <style>
+    .stMainBlockContainer {
+        padding-top: 2.1rem;
+        padding-bottom: 3rem;
+        max-width: 1450px;
+    }
+
+    .bioflow-hero {
+        border: 1px solid rgba(128, 128, 128, 0.24);
+        border-radius: 18px;
+        padding: 1.25rem 1.5rem 1.15rem 1.5rem;
+        margin: 0.25rem 0 1rem 0;
+        background:
+            linear-gradient(
+                135deg,
+                rgba(90, 120, 255, 0.09),
+                rgba(120, 220, 190, 0.07)
+            );
+    }
+
+    .bioflow-eyebrow {
+        font-size: 0.76rem;
+        font-weight: 700;
+        letter-spacing: 0.09em;
+        opacity: 0.68;
+        margin-bottom: 0.45rem;
+    }
+
+    .bioflow-hero h1 {
+        font-size: clamp(1.75rem, 3.2vw, 2.65rem);
+        line-height: 1.04;
+        margin: 0 0 0.7rem 0;
+        padding: 0;
+    }
+
+    .bioflow-hero p {
+        font-size: 1.04rem;
+        line-height: 1.58;
+        max-width: 900px;
+        opacity: 0.82;
+        margin: 0;
+    }
+
+    .bioflow-chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.48rem;
+        margin-top: 1rem;
+    }
+
+    .bioflow-chip {
+        border: 1px solid rgba(128, 128, 128, 0.28);
+        border-radius: 999px;
+        padding: 0.28rem 0.68rem;
+        font-size: 0.78rem;
+        font-weight: 600;
+        background: rgba(255, 255, 255, 0.04);
+    }
+
+    .bioflow-step {
+        border: 1px solid rgba(128, 128, 128, 0.20);
+        border-radius: 13px;
+        padding: 0.8rem 0.9rem;
+        min-height: 92px;
+    }
+
+    .bioflow-step-number {
+        font-size: 0.72rem;
+        font-weight: 700;
+        opacity: 0.60;
+        margin-bottom: 0.18rem;
+    }
+
+    .bioflow-step-title {
+        font-size: 0.92rem;
+        font-weight: 700;
+        margin-bottom: 0.12rem;
+    }
+
+    .bioflow-step-text {
+        font-size: 0.79rem;
+        line-height: 1.35;
+        opacity: 0.70;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
 )
 
 
@@ -5483,18 +5600,118 @@ def show_tool_discovery(
 # HEADER
 # ==================================================
 
-st.title(
-    "🧬 BioFlow"
+st.markdown(
+    """
+    <div class="bioflow-hero">
+        <div class="bioflow-eyebrow">BIOFLOW • WEB RELEASE CANDIDATE</div>
+        <h1>Build evidence-aware bioinformatics workflows</h1>
+        <p>
+            Build a context-specific analysis route from sample type,
+            sequencing setup, biological objective, dataset constraints,
+            technical dependencies, and operational feasibility.
+        </p>
+        <div class="bioflow-chips">
+            <span class="bioflow-chip">Scientific fit</span>
+            <span class="bioflow-chip">Constraint-aware</span>
+            <span class="bioflow-chip">Dependency-validated</span>
+            <span class="bioflow-chip">Fallback-aware</span>
+            <span class="bioflow-chip">Exportable</span>
+        </div>
+    </div>
+    """,
+    unsafe_allow_html=True
 )
 
-st.write(
-    "Evidence-based Bioinformatics "
-    "Workflow Builder"
+link_col, note_col = st.columns(
+    [1, 3],
+    vertical_alignment="center"
 )
 
-show_analysis_coverage()
+with link_col:
+    st.link_button(
+        "View source on GitHub ↗",
+        "https://github.com/isilayc/bioflow"
+    )
+
+with note_col:
+    st.caption(
+        "BioFlow recommends analysis workflows and tools; it does not execute "
+        "the underlying bioinformatics software."
+    )
+
+st.markdown("#### How BioFlow works")
+
+quick_1, quick_2, quick_3, quick_4 = st.columns(4)
+
+with quick_1:
+    st.markdown(
+        """
+        <div class="bioflow-step">
+            <div class="bioflow-step-number">STEP 1</div>
+            <div class="bioflow-step-title">Describe the analysis</div>
+            <div class="bioflow-step-text">
+                Select sample type, sequencing setup and analysis goal.
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+with quick_2:
+    st.markdown(
+        """
+        <div class="bioflow-step">
+            <div class="bioflow-step-number">STEP 2</div>
+            <div class="bioflow-step-title">Choose the route</div>
+            <div class="bioflow-step-text">
+                Compare curated workflow strategies for the selected context.
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+with quick_3:
+    st.markdown(
+        """
+        <div class="bioflow-step">
+            <div class="bioflow-step-number">STEP 3</div>
+            <div class="bioflow-step-title">Check suitability</div>
+            <div class="bioflow-step-text">
+                Evaluate dataset constraints, dependencies and compute fit.
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+with quick_4:
+    st.markdown(
+        """
+        <div class="bioflow-step">
+            <div class="bioflow-step-number">STEP 4</div>
+            <div class="bioflow-step-title">Review &amp; export</div>
+            <div class="bioflow-step-text">
+                Review the recommended route, then download it as Markdown or JSON.
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+with st.expander(
+    "📚 Catalogue coverage & validation",
+    expanded=False
+):
+    show_analysis_coverage()
 
 st.divider()
+
+st.markdown("## Build a workflow")
+st.caption(
+    "Start with the biological and sequencing context. BioFlow will narrow "
+    "the available strategies as you go."
+)
 
 
 # ==================================================
@@ -7160,4 +7377,36 @@ else:
                 "No curated candidate tools are attached to this step, "
                 "so research comparison is not available here yet."
             )
+
+    st.divider()
+
+    show_workflow_export(
+        workflow,
+        dependency_validation
+    )
+
+
+# ==================================================
+# PRODUCT FOOTER
+# ==================================================
+
+st.divider()
+
+footer_left, footer_right = st.columns(
+    [3, 1],
+    vertical_alignment="center"
+)
+
+with footer_left:
+    st.caption(
+        "BioFlow • Research software release candidate. "
+        "Use recommendations together with dataset requirements, reference "
+        "database requirements, and the documentation of the underlying tools."
+    )
+
+with footer_right:
+    st.caption(
+        "[GitHub](https://github.com/isilayc/bioflow) · "
+        "[Live app](https://bioflow1.streamlit.app)"
+    )
 
