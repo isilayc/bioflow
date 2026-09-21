@@ -1,0 +1,646 @@
+spades:
+  platform:
+    native:
+    - linux
+    - macos
+    windows_via_wsl: true
+    container_route: true
+  compute:
+    gpu_required: false
+    cpu_demand: high
+    memory_demand: high
+    disk_demand: high
+    dataset_scaling: high
+  large_downloads: false
+  notes:
+  - 'SPAdes does not require a GPU. Assembly feasibility is mainly affected by RAM, CPU time, temporary/output disk use
+    and dataset complexity.
+
+    '
+  - 'The official SPAdes binaries target 64-bit Linux and macOS. Windows users normally need a Linux execution route such
+    as WSL, a container, remote Linux or HPC.
+
+    '
+  - 'SPAdes exposes a configurable memory limit; its documented default is a limit, not a statement that every dataset requires
+    that much RAM.
+
+    '
+  evidence:
+  - type: official_documentation
+    url: https://ablab.github.io/spades/installation.html
+  - type: official_documentation
+    url: https://ablab.github.io/spades/running.html
+metaspades:
+  platform:
+    native:
+    - linux
+    - macos
+    windows_via_wsl: true
+    container_route: true
+  compute:
+    gpu_required: false
+    cpu_demand: high
+    memory_demand: very_high
+    disk_demand: high
+    dataset_scaling: very_high
+  large_downloads: false
+  notes:
+  - 'metaSPAdes is the metagenomic mode of SPAdes and can become computationally demanding for large or complex communities.
+
+    '
+  - 'GPU is not required. Local feasibility is driven primarily by RAM, CPU, disk and metagenome complexity.
+
+    '
+  - 'The official SPAdes installation targets Linux and macOS; Windows generally requires WSL, containerized Linux, remote
+    Linux or HPC.
+
+    '
+  evidence:
+  - type: official_documentation
+    url: https://ablab.github.io/spades/installation.html
+  - type: official_documentation
+    url: https://ablab.github.io/spades/running.html
+megahit:
+  platform:
+    native:
+    - linux
+    windows_via_wsl: true
+    container_route: true
+  compute:
+    gpu_required: false
+    cpu_demand: high
+    memory_demand: moderate
+    disk_demand: moderate
+    dataset_scaling: high
+  large_downloads: false
+  notes:
+  - 'MEGAHIT is designed as a memory-efficient assembler for large and complex metagenomic datasets.
+
+    '
+  - 'Current standard use does not require a GPU. The project provides Linux binaries and a Docker execution route.
+
+    '
+  - 'Resource use still scales with read volume and metagenome complexity, so very large datasets may benefit from HPC.
+
+    '
+  evidence:
+  - type: official_repository
+    url: https://github.com/voutcn/megahit
+kraken2:
+  platform:
+    native:
+    - linux
+    - macos
+    windows_via_wsl: true
+    container_route: true
+  compute:
+    gpu_required: false
+    cpu_demand: moderate
+    memory_demand: high
+    disk_demand: high
+    dataset_scaling: moderate
+  database:
+    required: true
+    footprint: variable_high
+    memory_resident_default: true
+    notes:
+    - 'Kraken2''s practical RAM and disk requirements are strongly determined by the selected database.
+
+      '
+    - 'The official manual states that efficient default execution normally needs enough free memory to hold the database
+      hash table, while memory mapping can be used to avoid loading the entire table into process-local RAM.
+
+      '
+    - 'Historical standard-database figures in the manual should not be treated as current fixed sizes because database
+      contents change.
+
+      '
+  large_downloads: true
+  notes:
+  - 'Kraken2 is often computationally fast once the database is ready, but database download/storage and RAM can be the
+    limiting factors.
+
+    '
+  - 'A small/custom database and a broad multi-kingdom database should not be treated as having the same operational cost.
+
+    '
+  evidence:
+  - type: official_documentation
+    url: https://github.com/DerrickWood/kraken2/wiki/Manual
+kaiju:
+  platform:
+    native:
+    - linux
+    - macos
+    windows_via_wsl: true
+    container_route: true
+  compute:
+    gpu_required: false
+    cpu_demand: moderate
+    memory_demand: very_high
+    disk_demand: very_high
+    dataset_scaling: moderate
+  database:
+    required: true
+    footprint: very_high
+    memory_resident_default: true
+    profiles:
+      refseq_ref:
+        run_ram_gb: 54
+      refseq:
+        run_ram_gb: 111
+      refseq_nr:
+        run_ram_gb: 153
+      nr:
+        run_ram_gb: 219
+      nr_euk:
+        run_ram_gb: 250
+    notes:
+    - 'Official Kaiju documentation reports very different RAM needs depending on the selected index.
+
+      '
+    - 'The broad nr_euk database used for fungi and microbial eukaryotes is especially demanding.
+
+      '
+    - 'Building local indexes can require very large temporary disk space; pre-built indexes may avoid part of that burden.
+
+      '
+  large_downloads: true
+  notes:
+  - 'Database choice can dominate Kaiju''s operational feasibility. Broad eukaryote-inclusive profiling is substantially
+    more demanding than small targeted database configurations.
+
+    '
+  - 'The listed database RAM values are the official late-2024 figures published by the Kaiju project and should be versioned
+    over time.
+
+    '
+  evidence:
+  - type: official_repository
+    url: https://github.com/bioinformatics-centre/kaiju
+metaphlan:
+  platform:
+    native:
+    - linux
+    - macos
+    windows_via_wsl: true
+    container_route: true
+  compute:
+    gpu_required: false
+    cpu_demand: moderate
+    memory_demand: high
+    ram_minimum_gb: 30
+    disk_demand: moderate
+    dataset_scaling: moderate
+  database:
+    required: true
+    footprint: moderate
+    memory_resident_default: false
+    notes:
+    - 'MetaPhlAn uses a local marker database. Database installation and version should be tracked as part of reproducibility.
+
+      '
+  large_downloads: true
+  notes:
+  - 'MetaPhlAn is marker-based rather than an exhaustive sequence classifier, so its scientific scope and its resource footprint
+    should be considered separately.
+
+    '
+  - 'MetaPhlAn 4.2 documentation states that at least 30 GB of memory is needed for that release/database generation.
+
+    '
+  evidence:
+  - type: official_documentation
+    url: https://github.com/biobakery/MetaPhlAn/wiki/MetaPhlAn-4.2
+vsearch:
+  platform:
+    native:
+    - windows
+    - linux
+    - macos
+    windows_via_wsl: false
+    container_route: true
+  compute:
+    gpu_required: false
+    cpu_demand: moderate
+    memory_demand: moderate
+    disk_demand: moderate
+    dataset_scaling: moderate
+  large_downloads: false
+  notes:
+  - VSEARCH provides native 64-bit binaries for Windows, Linux and macOS and does not require a GPU.
+  - Bioconda/BioContainers are additional Linux/macOS deployment routes; Windows users can also use the official native
+    vsearch.exe binary.
+  - OTU clustering cost depends on sequence count, dereplication and the chosen clustering workflow rather than on a large
+    reference database by default.
+  evidence:
+  - type: official_repository
+    url: https://github.com/torognes/vsearch
+  - type: package_documentation
+    url: https://bioconda.github.io/recipes/vsearch/README.html
+mothur:
+  platform:
+    native:
+    - windows
+    - linux
+    - macos
+    windows_via_wsl: false
+    container_route: true
+  compute:
+    gpu_required: false
+    cpu_demand: moderate
+    memory_demand: moderate
+    disk_demand: moderate
+    dataset_scaling: high
+  large_downloads: false
+  notes:
+  - mothur provides native Windows, Linux and macOS binaries and does not require a GPU.
+  - Distance-based OTU clustering can become memory-intensive as datasets grow; mothur's cluster.split/OptiClust workflows
+    are designed to make larger analyses more manageable.
+  evidence:
+  - type: official_documentation
+    url: https://mothur.org/wiki/cluster.split/
+  - type: official_repository
+    url: https://github.com/mothur/mothur
+obitools4_workflow:
+  platform:
+    native:
+    - linux
+    - macos
+    windows_via_wsl: true
+    container_route: false
+  compute:
+    gpu_required: false
+    cpu_demand: moderate
+    memory_demand: moderate
+    disk_demand: moderate
+    dataset_scaling: moderate
+  large_downloads: false
+  notes:
+  - OBITools4 is a UNIX-command toolkit; its documented install path is Unix-like. Windows users should expect WSL/Linux-style
+    execution.
+  - The workflow is composed of OBITools4 commands and does not require a separate Cutadapt step.
+  evidence:
+  - type: official_documentation
+    url: https://obitools4.metabarcoding.org/
+  - type: official_documentation
+    url: https://obitools4.metabarcoding.org/docs/cookbook/illumina/
+silvangs_workflow:
+  platform:
+    native: []
+    windows_via_wsl: false
+    container_route: false
+  compute:
+    gpu_required: false
+    cpu_demand: low
+    memory_demand: low
+    disk_demand: low
+    dataset_scaling: low
+  service:
+    online_only: true
+  large_downloads: false
+  notes:
+  - SILVAngs runs remotely, so local CPU/RAM are not the main constraint.
+  - The service accepts DNA FASTA and uses a credit system; large uploads can be constrained by service/upload limits.
+  evidence:
+  - type: official_documentation
+    url: https://www.arb-silva.de/documentation/silvangs/userfaq/
+nfcore_ampliseq_workflow:
+  platform:
+    native:
+    - linux
+    - macos
+    windows_via_wsl: true
+    container_route: true
+  compute:
+    gpu_required: false
+    cpu_demand: moderate
+    memory_demand: moderate
+    disk_demand: moderate
+    dataset_scaling: high
+  large_downloads: true
+  notes:
+  - nf-core/ampliseq is a Nextflow workflow and is easiest to run in Linux/WSL/HPC/container environments.
+  - It bundles reproducible process environments and can use configured reference-taxonomy resources.
+  evidence:
+  - type: official_documentation
+    url: https://nf-co.re/ampliseq/latest/
+frogs_workflow:
+  platform:
+    native:
+    - linux
+    windows_via_wsl: true
+    container_route: false
+  compute:
+    gpu_required: false
+    cpu_demand: moderate
+    memory_demand: moderate
+    disk_demand: moderate
+    dataset_scaling: high
+  large_downloads: false
+  notes:
+  - FROGS is available through Galaxy, where compute runs remotely, or by command line.
+  - For Windows users, Galaxy avoids local Linux/WSL installation and local compute limits.
+  evidence:
+  - type: official_documentation
+    url: https://frogs.toulouse.inrae.fr/
+  - type: official_documentation
+    url: https://frogs.toulouse.inrae.fr/tutos/galaxy-ff-GetStarted
+lotus2_workflow:
+  platform:
+    native:
+    - linux
+    windows_via_wsl: true
+    container_route: true
+  compute:
+    gpu_required: false
+    cpu_demand: moderate
+    memory_demand: moderate
+    disk_demand: moderate
+    dataset_scaling: moderate
+  large_downloads: true
+  notes:
+  - LotuS2 is designed as a lightweight complete amplicon pipeline and provides containerized/local execution routes.
+  - Reference-database choice and selected clustering/taxonomy options influence storage and runtime.
+  evidence:
+  - type: official_documentation
+    url: https://lotus2.earlham.ac.uk/
+vsearch_otu_workflow:
+  platform:
+    native:
+    - windows
+    - linux
+    - macos
+    windows_via_wsl: false
+    container_route: true
+  compute:
+    gpu_required: false
+    cpu_demand: moderate
+    memory_demand: moderate
+    disk_demand: moderate
+    dataset_scaling: moderate
+  large_downloads: false
+  notes:
+  - VSEARCH provides native 64-bit binaries for Windows, Linux and macOS and does not require a GPU.
+  - Bioconda/BioContainers are additional Linux/macOS deployment routes; Windows users can also use the official native
+    vsearch.exe binary.
+  - OTU clustering cost depends on sequence count, dereplication and the chosen clustering workflow rather than on a large
+    reference database by default.
+  evidence:
+  - type: official_repository
+    url: https://github.com/torognes/vsearch
+  - type: package_documentation
+    url: https://bioconda.github.io/recipes/vsearch/README.html
+mothur_otu_workflow:
+  platform:
+    native:
+    - windows
+    - linux
+    - macos
+    windows_via_wsl: false
+    container_route: true
+  compute:
+    gpu_required: false
+    cpu_demand: moderate
+    memory_demand: moderate
+    disk_demand: moderate
+    dataset_scaling: high
+  large_downloads: false
+  notes:
+  - mothur provides native Windows, Linux and macOS binaries and does not require a GPU.
+  - Distance-based OTU clustering can become memory-intensive as datasets grow; mothur's cluster.split/OptiClust workflows
+    are designed to make larger analyses more manageable.
+  evidence:
+  - type: official_documentation
+    url: https://mothur.org/wiki/cluster.split/
+  - type: official_repository
+    url: https://github.com/mothur/mothur
+qiime2_asv_workflow:
+  platform:
+    native:
+    - linux
+    - macos
+    windows_via_wsl: true
+    container_route: true
+  compute:
+    gpu_required: false
+    cpu_demand: moderate
+    memory_demand: moderate
+    disk_demand: moderate
+    dataset_scaling: moderate
+  large_downloads: true
+  notes:
+  - QIIME 2 is most commonly deployed in Linux/macOS or a Linux-compatible environment; Windows users can use WSL or containers.
+  - Resource use depends on the selected plugins and dataset size rather than on a GPU requirement.
+  evidence:
+  - type: official_documentation
+    url: https://amplicon-docs.qiime2.org/en/stable/
+qiime2_otu_workflow:
+  platform:
+    native:
+    - linux
+    - macos
+    windows_via_wsl: true
+    container_route: true
+  compute:
+    gpu_required: false
+    cpu_demand: moderate
+    memory_demand: moderate
+    disk_demand: moderate
+    dataset_scaling: moderate
+  large_downloads: true
+  notes:
+  - QIIME 2 is most commonly deployed in Linux/macOS or a Linux-compatible environment; Windows users can use WSL or containers.
+  - Resource use depends on the selected plugins and dataset size rather than on a GPU requirement.
+  evidence:
+  - type: official_documentation
+    url: https://amplicon-docs.qiime2.org/en/stable/
+silvangs_input_prep:
+  platform:
+    native:
+    - windows
+    - linux
+    - macos
+    windows_via_wsl: false
+    container_route: true
+  compute:
+    gpu_required: false
+    cpu_demand: moderate
+    memory_demand: moderate
+    disk_demand: moderate
+    dataset_scaling: moderate
+  large_downloads: false
+  notes:
+  - 'This is an abstract preparation step: paired reads must be assembled/demultiplexed and written as per-sample DNA Multi-FASTA
+    before SILVAngs upload.'
+  evidence:
+  - type: official_documentation
+    url: https://www.arb-silva.de/documentation/silvangs/userfaq/
+phyloseq:
+  platform:
+    native:
+    - windows
+    - linux
+    - macos
+    windows_via_wsl: false
+    container_route: true
+  compute:
+    gpu_required: false
+    cpu_demand: low
+    memory_demand: low
+    disk_demand: low
+    dataset_scaling: moderate
+  large_downloads: false
+  notes:
+  - phyloseq is an R/Bioconductor package and normally runs comfortably on workstation-scale amplicon feature tables.
+  - Memory use is mainly driven by feature-table size and downstream ordination/distance calculations.
+  evidence:
+  - type: official_documentation
+    url: https://bioconductor.org/packages/phyloseq/
+vegan:
+  platform:
+    native:
+    - windows
+    - linux
+    - macos
+    windows_via_wsl: false
+    container_route: true
+  compute:
+    gpu_required: false
+    cpu_demand: low
+    memory_demand: low
+    disk_demand: low
+    dataset_scaling: moderate
+  large_downloads: false
+  notes:
+  - vegan is an R package and does not require a GPU.
+  - Large all-by-all distance matrices scale with sample count, so very large studies can increase memory/runtime.
+  evidence:
+  - type: official_documentation
+    url: https://vegandevs.github.io/vegan/
+ancombc2:
+  platform:
+    native:
+    - windows
+    - linux
+    - macos
+    windows_via_wsl: false
+    container_route: true
+  compute:
+    gpu_required: false
+    cpu_demand: low
+    memory_demand: low
+    disk_demand: low
+    dataset_scaling: moderate
+  large_downloads: false
+  notes:
+  - This is an R/Bioconductor statistical method and does not require a GPU.
+  - Typical amplicon feature-table analyses are workstation-friendly; runtime increases with feature count, sample count
+    and model complexity.
+  evidence:
+  - type: official_documentation
+    url: https://bioconductor.org/packages/ANCOMBC/
+aldex2:
+  platform:
+    native:
+    - windows
+    - linux
+    - macos
+    windows_via_wsl: false
+    container_route: true
+  compute:
+    gpu_required: false
+    cpu_demand: low
+    memory_demand: low
+    disk_demand: low
+    dataset_scaling: moderate
+  large_downloads: false
+  notes:
+  - This is an R/Bioconductor statistical method and does not require a GPU.
+  - Typical amplicon feature-table analyses are workstation-friendly; runtime increases with feature count, sample count
+    and model complexity.
+  evidence:
+  - type: official_documentation
+    url: https://bioconductor.org/packages/ALDEx2/
+deseq2:
+  platform:
+    native:
+    - windows
+    - linux
+    - macos
+    windows_via_wsl: false
+    container_route: true
+  compute:
+    gpu_required: false
+    cpu_demand: low
+    memory_demand: low
+    disk_demand: low
+    dataset_scaling: moderate
+  large_downloads: false
+  notes:
+  - This is an R/Bioconductor statistical method and does not require a GPU.
+  - Typical amplicon feature-table analyses are workstation-friendly; runtime increases with feature count, sample count
+    and model complexity.
+  evidence:
+  - type: official_documentation
+    url: https://bioconductor.org/packages/DESeq2/
+plasx_workflow:
+  platform:
+    native:
+    - linux
+    windows_via_wsl: true
+    container_route: false
+  compute:
+    gpu_required: false
+    cpu_demand: moderate
+    memory_demand: moderate
+    disk_demand: moderate
+    dataset_scaling: moderate
+  minimum_ram_gb: 8
+  large_downloads: true
+  notes:
+  - The documented PlasX workflow has been tested on Linux and includes anvi'o plus de novo gene-family annotation prerequisites.
+  - The PlasX README states at least 8 GB RAM for the documented workflow.
+  evidence:
+  - type: official_repository
+    url: https://github.com/michaelkyu/PlasX
+braker4:
+  platform:
+    native:
+    - linux
+    windows_via_wsl: true
+    container_route: true
+  compute:
+    gpu_required: false
+    cpu_demand: high
+    memory_demand: high
+    disk_demand: high
+    dataset_scaling: moderate
+  large_downloads: true
+  notes:
+  - BRAKER4 requires Linux plus Snakemake and Singularity/Apptainer; the official documentation recommends a Linux VM or
+    WSL2 on Windows/macOS.
+  - Most bioinformatics dependencies run inside containers, so local installation burden is shifted to the workflow/container
+    stack.
+  evidence:
+  - type: official_repository
+    url: https://github.com/Gaius-Augustus/BRAKER4
+amrplusplus:
+  platform:
+    native:
+    - linux
+    windows_via_wsl: true
+    container_route: true
+  compute:
+    gpu_required: false
+    cpu_demand: high
+    memory_demand: moderate
+    disk_demand: high
+    dataset_scaling: high
+  large_downloads: true
+  notes:
+  - AMR++ is a Nextflow workflow and can generate a large work directory; its own documentation recommends staged execution
+    when storage is limiting.
+  evidence:
+  - type: official_repository
+    url: https://github.com/Microbial-Ecology-Group/AMRplusplus

@@ -1,0 +1,624 @@
+schema_version: 1
+tools:
+  dada2:
+    fields:
+      forward_retained_length:
+        type: integer
+        label: Retained forward-read length (bp)
+        description: Length remaining after primer removal / truncation for the forward read.
+      reverse_retained_length:
+        type: integer
+        label: Retained reverse-read length (bp)
+        description: Length remaining after primer removal / truncation for the reverse read.
+      expected_amplicon_length:
+        type: integer
+        label: Expected amplicon length (bp)
+        description: Approximate biological amplicon length after primer removal. ITS may vary substantially among
+          taxa.
+    rules:
+    - id: paired_end_overlap_possible
+      kind: sum_minus_min
+      when:
+        read_type: Paired-end
+      fields:
+      - forward_retained_length
+      - reverse_retained_length
+      subtract_field: expected_amplicon_length
+      min_value: 12
+      severity: warning
+      missing_message: Enter retained read lengths and expected amplicon length to check the default DADA2 paired-end
+        overlap requirement.
+      pass_message: Theoretical overlap is at least the DADA2 mergePairs default minimum of 12 bp.
+      fail_message: Theoretical overlap is below the DADA2 mergePairs default minOverlap=12 bp. Adjust trimming/read
+        strategy or explicitly justify a different merging approach.
+    references:
+    - https://benjjneb.github.io/dada2/
+    - https://rdrr.io/bioc/dada2/man/mergePairs.html
+  busco:
+    fields:
+      lineage_is_closest_available:
+        type: boolean
+        label: Is the BUSCO lineage the closest appropriate lineage?
+        description: Choose Yes if you selected the most closely related available BUSCO lineage, or used an appropriate
+          auto-lineage mode.
+    rules:
+    - id: busco_lineage_appropriate
+      kind: equals
+      field: lineage_is_closest_available
+      expected: true
+      severity: warning
+      missing_message: Confirm whether the BUSCO lineage is appropriate for the organism.
+      pass_message: BUSCO lineage choice is consistent with the recommended closest-lineage principle.
+      fail_message: BUSCO completeness should not be interpreted with a knowingly inappropriate lineage dataset;
+        choose the closest available lineage or a justified auto-lineage mode.
+  aldex2:
+    fields:
+      biological_replicates_per_condition:
+        type: integer
+        label: Minimum biological replicates per condition
+        description: Smallest number of independent biological replicates in any compared condition.
+    rules:
+    - id: aldex2_replication
+      kind: numeric_min
+      field: biological_replicates_per_condition
+      min_value: 3
+      severity: warning
+      missing_message: Enter the minimum number of biological replicates per condition to assess ALDEx2 suitability.
+      pass_message: Replication is within the range ALDEx2 documentation describes as optimized for typical inference.
+      fail_message: ALDEx2 documentation notes optimization for three or more replicates; with fewer replicates,
+        treat inference cautiously and consider the study design explicitly.
+  checkv:
+    references:
+    - https://bitbucket.org/berkeleylab/checkv/src/master/
+    fields:
+      min_viral_contig_length:
+        type: integer
+        label: Minimum viral contig length
+        unit: bp
+        description: Shortest viral contig that will be interpreted with CheckV quality outputs.
+      checkv_database_available:
+        type: boolean
+        label: CheckV database configured / available
+        description: Choose Yes when the CheckV reference database is installed and accessible in the execution
+          environment.
+    rules:
+    - id: checkv_minimum_contig_length
+      kind: numeric_min
+      field: min_viral_contig_length
+      min_value: 1000
+      severity: warning
+      missing_message: Enter the minimum viral contig length to evaluate CheckV suitability.
+      pass_message: Viral contig length is within BioFlow's standard CheckV interpretation range.
+      fail_message: Viral contigs below 1,000 bp can provide limited evidence for completeness/contamination interpretation;
+        keep the result advisory.
+    - id: checkv_database_available
+      kind: equals
+      field: checkv_database_available
+      expected: true
+      severity: block
+      missing_message: Specify whether the CheckV database is available.
+      pass_message: CheckV reference database is available.
+      fail_message: CheckV requires its reference database before this analysis can be executed.
+  genomad:
+    references:
+    - https://portal.nersc.gov/genomad/
+    - https://github.com/apcamargo/genomad
+    fields:
+      genomad_database_available:
+        type: boolean
+        label: geNomad database configured / available
+        description: Choose Yes when the geNomad marker/taxonomy database is installed and accessible.
+      genomad_min_sequence_length:
+        type: integer
+        label: Shortest geNomad sequence to interpret
+        unit: bp
+        description: Shortest input sequence whose geNomad classification you intend to interpret. Under default
+          filters, sequences shorter than 2,500 bp receive stricter evidence requirements.
+    rules:
+    - id: genomad_database_available
+      kind: equals
+      field: genomad_database_available
+      expected: true
+      severity: block
+      missing_message: Specify whether the geNomad database is available.
+      pass_message: geNomad database is available.
+      fail_message: geNomad end-to-end classification requires its database to be installed and accessible.
+    - id: genomad_short_sequence_default_filter
+      kind: numeric_min
+      field: genomad_min_sequence_length
+      min_value: 2500
+      severity: warning
+      missing_message: Enter the shortest sequence length you intend to interpret from geNomad.
+      pass_message: The interpreted sequences are at least 2,500 bp, avoiding geNomad's extra short-sequence hallmark
+        requirement under default filters.
+      fail_message: geNomad can analyze shorter sequences, but its default post-classification filters apply stricter
+        evidence to sequences below 2,500 bp; interpret short-fragment calls cautiously.
+  virsorter2:
+    references:
+    - https://github.com/jiarong/VirSorter2
+    fields:
+      virsorter2_database_available:
+        type: boolean
+        label: VirSorter2 database configured / available
+        description: Choose Yes when the VirSorter2 databases/dependencies have been set up and are accessible.
+      virsorter2_min_length:
+        type: integer
+        label: VirSorter2 --min-length
+        unit: bp
+        description: Minimum sequence length passed to VirSorter2. The official quick-start example uses 1,500 bp.
+    rules:
+    - id: virsorter2_database_available
+      kind: equals
+      field: virsorter2_database_available
+      expected: true
+      severity: block
+      missing_message: Specify whether the VirSorter2 database is available.
+      pass_message: VirSorter2 database and configured dependencies are available.
+      fail_message: VirSorter2 requires its database/setup before viral classification can run.
+    - id: virsorter2_min_length_advisory
+      kind: numeric_min
+      field: virsorter2_min_length
+      min_value: 1500
+      severity: warning
+      missing_message: Enter the VirSorter2 minimum sequence length.
+      pass_message: VirSorter2 minimum length is at least the 1,500 bp setting used in the official quick-start
+        workflow.
+      fail_message: A VirSorter2 minimum below 1,500 bp is possible but increases reliance on short-fragment evidence;
+        justify the lower threshold and validate downstream.
+  iphop:
+    references:
+    - https://github.com/simroux/iphop
+    - https://bitbucket.org/srouxjgi/iphop/
+    fields:
+      iphop_database_available:
+        type: boolean
+        label: iPHoP database configured / available
+        description: Choose Yes when a compatible iPHoP host database is downloaded, verified, and accessible.
+      iphop_input_is_prokaryotic_virus:
+        type: boolean
+        label: Are the input viruses bacteriophages / archaeal viruses?
+        description: iPHoP is designed for host prediction of bacteriophages and archaeal viruses, not general eukaryotic-virus
+          host prediction.
+      iphop_viral_sequences_quality_assessed:
+        type: boolean
+        label: Were candidate viral sequences quality-screened before iPHoP?
+        description: Choose Yes when viral candidates were screened/curated (for example with CheckV and/or other
+          evidence) before host prediction.
+    rules:
+    - id: iphop_database_available
+      kind: equals
+      field: iphop_database_available
+      expected: true
+      severity: block
+      missing_message: Specify whether an iPHoP host database is available.
+      pass_message: iPHoP host database is available.
+      fail_message: iPHoP predictions require an installed and accessible host database.
+    - id: iphop_prokaryotic_virus_scope
+      kind: equals
+      field: iphop_input_is_prokaryotic_virus
+      expected: true
+      severity: block
+      missing_message: Specify whether the input viruses are bacteriophages / archaeal viruses.
+      pass_message: The viral input is within iPHoP's prokaryotic-virus host-prediction scope.
+      fail_message: iPHoP is not a general host predictor for eukaryotic viruses; use it for bacteriophages and
+        archaeal viruses.
+    - id: iphop_quality_screened_input
+      kind: equals
+      field: iphop_viral_sequences_quality_assessed
+      expected: true
+      severity: warning
+      missing_message: Specify whether viral candidates were quality-screened before host prediction.
+      pass_message: Viral candidates were quality-screened before iPHoP host prediction.
+      fail_message: Host predictions from uncurated viral candidates can propagate false-positive viral calls; quality-screen
+        the viral set before strong biological interpretation.
+  gtdbtk:
+    references:
+    - https://ecogenomics.github.io/GTDBTk/
+    - https://github.com/Ecogenomics/GTDBTk
+    fields:
+      gtdbtk_database_compatible:
+        type: boolean
+        label: GTDB-Tk reference data installed and version-compatible
+        description: Choose Yes when GTDBTK_DATA_PATH points to an installed reference package supported by the
+          installed GTDB-Tk version.
+      gtdbtk_input_is_bacteria_archaea:
+        type: boolean
+        label: Are the genomes bacterial and/or archaeal?
+        description: GTDB-Tk taxonomic classification is designed for bacterial and archaeal genomes/MAGs.
+      gtdbtk_genomes_quality_screened:
+        type: boolean
+        label: Were genomes/MAGs quality-screened before taxonomy?
+        description: Choose Yes when genome completeness/contamination or equivalent quality evidence was reviewed
+          before interpreting taxonomy.
+    rules:
+    - id: gtdbtk_database_compatible
+      kind: equals
+      field: gtdbtk_database_compatible
+      expected: true
+      severity: block
+      missing_message: Confirm that the GTDB-Tk reference package is installed and compatible with the installed
+        GTDB-Tk version.
+      pass_message: GTDB-Tk reference data is installed and version-compatible.
+      fail_message: GTDB-Tk requires a compatible reference-data package and a valid GTDBTK_DATA_PATH before classification
+        can run.
+    - id: gtdbtk_domain_scope
+      kind: equals
+      field: gtdbtk_input_is_bacteria_archaea
+      expected: true
+      severity: block
+      missing_message: Specify whether the input genomes are bacterial and/or archaeal.
+      pass_message: The input genomes are within GTDB-Tk's bacterial/archaeal classification scope.
+      fail_message: GTDB-Tk should not be used as the primary taxonomy method for eukaryotic genomes.
+    - id: gtdbtk_quality_screened
+      kind: equals
+      field: gtdbtk_genomes_quality_screened
+      expected: true
+      severity: warning
+      missing_message: Specify whether genome/MAG quality was screened before taxonomy.
+      pass_message: Genome/MAG quality was reviewed before GTDB-Tk taxonomic interpretation.
+      fail_message: GTDB-Tk can classify imperfect genomes, but taxonomy from very incomplete or contaminated bins
+        should be interpreted cautiously; review genome quality first.
+  metabat2:
+    references:
+    - https://bitbucket.org/berkeleylab/metabat/
+    - https://github.com/merenlab/anvio/blob/master/anvio/drivers/metabat2.py
+    fields:
+      metabat2_min_contig_length:
+        type: integer
+        label: MetaBAT2 minimum contig length
+        unit: bp
+        description: Minimum contig-size threshold used for binning. MetaBAT2 help recommends a value of at least
+          1,500 bp.
+      metabat2_depth_available:
+        type: boolean
+        label: Coverage/depth information available for MetaBAT2
+        description: Choose Yes when contig abundance/depth information from mapped reads is supplied. MetaBAT2
+          can run without it, but coverage-informed binning is normally preferable.
+    rules:
+    - id: metabat2_min_contig_length
+      kind: numeric_min
+      field: metabat2_min_contig_length
+      min_value: 1500
+      severity: warning
+      missing_message: Enter the minimum contig length used for MetaBAT2 binning.
+      pass_message: MetaBAT2 minimum contig length is at least 1,500 bp.
+      fail_message: MetaBAT2 documentation recommends a minimum contig size of at least 1,500 bp; shorter contigs
+        can weaken composition-based binning and should be justified.
+    - id: metabat2_depth_available
+      kind: equals
+      field: metabat2_depth_available
+      expected: true
+      severity: warning
+      missing_message: Specify whether contig coverage/depth information is available.
+      pass_message: Coverage/depth information is available for MetaBAT2 binning.
+      fail_message: MetaBAT2 can bin without abundance information, but omitting mapped-read depth removes an important
+        binning signal; prefer coverage-informed binning when possible.
+  catbat:
+    references:
+    - https://github.com/MGXlab/CAT_pack
+    - https://bioconda.github.io/recipes/cat/README.html
+    fields:
+      gtdbtk_input_is_bacteria_archaea:
+        type: boolean
+        label: Are the genomes bacterial and/or archaeal?
+        description: GTDB-Tk taxonomic classification is designed for bacterial and archaeal genomes/MAGs.
+      catbat_database_available:
+        type: boolean
+        label: CAT/BAT reference database available
+        description: Choose Yes when a CAT/BAT-compatible reference database has been downloaded/built and is accessible
+          for BAT classification.
+    rules:
+    - id: catbat_domain_scope
+      kind: equals
+      field: gtdbtk_input_is_bacteria_archaea
+      expected: true
+      severity: block
+      missing_message: Specify whether the MAGs are bacterial and/or archaeal.
+      pass_message: The MAGs are within the curated bacterial/archaeal MAG-taxonomy workflow scope.
+      fail_message: This curated MAG-taxonomy fallback should not be used to bypass a domain mismatch. Choose an
+        appropriate non-prokaryotic taxonomy workflow instead.
+    - id: catbat_database_available
+      kind: equals
+      field: catbat_database_available
+      expected: true
+      severity: block
+      missing_message: Specify whether a CAT/BAT reference database is available.
+      pass_message: A CAT/BAT reference database is available for MAG classification.
+      fail_message: CAT/BAT requires an accessible reference database before BAT can classify MAGs.
+  sourmash:
+    references:
+    - https://sourmash.readthedocs.io/en/stable/command-line.html
+    - https://sourmash.readthedocs.io/en/stable/databases.html
+    fields:
+      gtdbtk_input_is_bacteria_archaea:
+        type: boolean
+        label: Are the genomes bacterial and/or archaeal?
+        description: GTDB-Tk taxonomic classification is designed for bacterial and archaeal genomes/MAGs.
+      sourmash_reference_database_available:
+        type: boolean
+        label: sourmash genome reference collection available
+        description: Choose Yes when an appropriate sourmash genome reference collection (for example GTDB or NCBI)
+          is available for gather.
+      sourmash_taxonomy_mapping_available:
+        type: boolean
+        label: Matching sourmash taxonomy mapping available
+        description: Choose Yes when taxonomy information matching the identifiers in the reference collection is
+          available for sourmash tax genome.
+    rules:
+    - id: sourmash_domain_scope
+      kind: equals
+      field: gtdbtk_input_is_bacteria_archaea
+      expected: true
+      severity: block
+      missing_message: Specify whether the MAGs are bacterial and/or archaeal.
+      pass_message: The MAGs are within the curated bacterial/archaeal MAG-taxonomy workflow scope.
+      fail_message: This curated MAG-taxonomy fallback should not be used to bypass a domain mismatch. Choose an
+        appropriate non-prokaryotic taxonomy workflow instead.
+    - id: sourmash_reference_database_available
+      kind: equals
+      field: sourmash_reference_database_available
+      expected: true
+      severity: block
+      missing_message: Specify whether a sourmash genome reference collection is available.
+      pass_message: A sourmash genome reference collection is available.
+      fail_message: sourmash gather requires an appropriate genome reference collection.
+    - id: sourmash_taxonomy_mapping_available
+      kind: equals
+      field: sourmash_taxonomy_mapping_available
+      expected: true
+      severity: block
+      missing_message: Specify whether matching taxonomy information is available.
+      pass_message: Matching taxonomy information is available for sourmash tax genome.
+      fail_message: sourmash tax genome requires taxonomy information whose identifiers match the gather database.
+workflow_constraints:
+  bacterial_illumina_pangenome:
+    fields:
+      genome_count:
+        type: integer
+        label: Number of genomes / isolates
+        description: Number of independent bacterial genomes included in the pangenome analysis.
+    rules:
+    - id: pangenome_multiple_genomes
+      kind: numeric_min
+      field: genome_count
+      min_value: 2
+      severity: block
+      missing_message: Enter the number of genomes included in the pangenome analysis.
+      pass_message: At least two genomes are available for pangenome analysis.
+      fail_message: Pangenome analysis requires more than one genome.
+  bacterial_illumina_phylogenomics:
+    fields:
+      genome_count:
+        type: integer
+        label: Number of genomes / isolates
+        description: Number of independent bacterial genomes included in the core-gene phylogeny.
+    rules:
+    - id: phylogenomics_multiple_genomes
+      kind: numeric_min
+      field: genome_count
+      min_value: 2
+      severity: block
+      missing_message: Enter the number of genomes included in the phylogenomic analysis.
+      pass_message: Multiple genomes are available for phylogenomic comparison.
+      fail_message: A comparative phylogenomic analysis requires at least two genomes.
+    - id: phylogenomics_tree_interpretability
+      kind: numeric_min
+      field: genome_count
+      min_value: 3
+      severity: warning
+      missing_message: Enter the number of genomes included in the phylogenomic analysis.
+      pass_message: At least three genomes are available for a non-trivial comparative tree.
+      fail_message: Two genomes can be compared, but a two-tip result has very limited phylogenetic interpretation;
+        three or more taxa are recommended for an informative tree.
+  metagenome_illumina_strain_phylogenomics:
+    fields:
+      strainphlan_sample_reference_count:
+        type: integer
+        label: StrainPhlAn samples + references entering analysis
+        description: Total number of sample consensus-marker files plus reference genomes supplied to StrainPhlAn.
+    rules:
+    - id: strainphlan_min_inputs
+      kind: numeric_min
+      field: strainphlan_sample_reference_count
+      min_value: 4
+      severity: block
+      missing_message: Enter the total number of StrainPhlAn sample/reference inputs.
+      pass_message: At least four sample/reference inputs are available for StrainPhlAn.
+      fail_message: Current StrainPhlAn requires at least four total sample/reference inputs, and at least four
+        must also remain after filtering.
+  metagenome_illumina_mag_coassembly:
+    fields:
+      coassembly_sample_count:
+        type: integer
+        label: Number of samples in the coassembly
+        description: Number of biologically compatible metagenomic samples contributing reads to the shared coassembly.
+    rules:
+    - id: mag_coassembly_multiple_samples
+      kind: numeric_min
+      field: coassembly_sample_count
+      min_value: 2
+      severity: block
+      missing_message: Enter the number of samples contributing to the coassembly.
+      pass_message: The coassembly contains at least two samples.
+      fail_message: Use the single-sample MAG route when only one sample is being assembled.
+  bulk_transcriptome_illumina_differential_expression_alignment:
+    fields:
+      condition_count:
+        type: integer
+        label: Number of biological conditions/groups
+        description: Number of biological conditions or comparison groups in the differential analysis.
+      biological_replicates_per_condition:
+        type: integer
+        label: Minimum biological replicates per condition
+        description: Smallest number of independent biological replicates in any compared condition.
+    rules:
+    - id: bulk_de_two_conditions
+      kind: numeric_min
+      field: condition_count
+      min_value: 2
+      severity: block
+      missing_message: Enter the number of biological conditions/groups.
+      pass_message: At least two biological conditions/groups are available.
+      fail_message: Differential analysis requires at least two biological conditions/groups.
+    - id: bulk_de_replication
+      kind: numeric_min
+      field: biological_replicates_per_condition
+      min_value: 2
+      severity: warning
+      missing_message: Enter the minimum number of biological replicates per condition.
+      pass_message: The design contains biological replication within conditions.
+      fail_message: Without biological replication, differential inference is generally unreliable or unsupported
+        by standard dispersion-estimation workflows.
+  bulk_transcriptome_illumina_differential_expression_lightweight:
+    fields:
+      condition_count:
+        type: integer
+        label: Number of biological conditions/groups
+        description: Number of biological conditions or comparison groups in the differential analysis.
+      biological_replicates_per_condition:
+        type: integer
+        label: Minimum biological replicates per condition
+        description: Smallest number of independent biological replicates in any compared condition.
+    rules:
+    - id: bulk_de_two_conditions
+      kind: numeric_min
+      field: condition_count
+      min_value: 2
+      severity: block
+      missing_message: Enter the number of biological conditions/groups.
+      pass_message: At least two biological conditions/groups are available.
+      fail_message: Differential analysis requires at least two biological conditions/groups.
+    - id: bulk_de_replication
+      kind: numeric_min
+      field: biological_replicates_per_condition
+      min_value: 2
+      severity: warning
+      missing_message: Enter the minimum number of biological replicates per condition.
+      pass_message: The design contains biological replication within conditions.
+      fail_message: Without biological replication, differential inference is generally unreliable or unsupported
+        by standard dispersion-estimation workflows.
+  metatranscriptome_illumina_differential_expression:
+    fields:
+      condition_count:
+        type: integer
+        label: Number of biological conditions/groups
+        description: Number of biological conditions or comparison groups in the differential analysis.
+      biological_replicates_per_condition:
+        type: integer
+        label: Minimum biological replicates per condition
+        description: Smallest number of independent biological replicates in any compared condition.
+    rules:
+    - id: metatranscriptome_de_two_conditions
+      kind: numeric_min
+      field: condition_count
+      min_value: 2
+      severity: block
+      missing_message: Enter the number of biological conditions/groups.
+      pass_message: At least two biological conditions/groups are available.
+      fail_message: Differential analysis requires at least two biological conditions/groups.
+    - id: metatranscriptome_de_replication
+      kind: numeric_min
+      field: biological_replicates_per_condition
+      min_value: 2
+      severity: warning
+      missing_message: Enter the minimum number of biological replicates per condition.
+      pass_message: The design contains biological replication within conditions.
+      fail_message: Without biological replication, differential inference is generally unreliable or unsupported
+        by standard dispersion-estimation workflows.
+  amplicon_illumina_da_simple:
+    fields:
+      condition_count:
+        type: integer
+        label: Number of biological conditions/groups
+        description: Number of biological conditions or comparison groups in the differential analysis.
+      biological_replicates_per_condition:
+        type: integer
+        label: Minimum biological replicates per condition
+        description: Smallest number of independent biological replicates in any compared condition.
+    rules:
+    - id: amplicon_da_two_conditions
+      kind: numeric_min
+      field: condition_count
+      min_value: 2
+      severity: block
+      missing_message: Enter the number of biological conditions/groups.
+      pass_message: At least two biological conditions/groups are available.
+      fail_message: Differential analysis requires at least two biological conditions/groups.
+    - id: amplicon_da_replication
+      kind: numeric_min
+      field: biological_replicates_per_condition
+      min_value: 2
+      severity: warning
+      missing_message: Enter the minimum number of biological replicates per condition.
+      pass_message: The design contains biological replication within conditions.
+      fail_message: Without biological replication, differential inference is generally unreliable or unsupported
+        by standard dispersion-estimation workflows.
+  amplicon_illumina_da_multivariable:
+    fields:
+      condition_count:
+        type: integer
+        label: Number of biological conditions/groups
+        description: Number of biological conditions or comparison groups in the differential analysis.
+      biological_replicates_per_condition:
+        type: integer
+        label: Minimum biological replicates per condition
+        description: Smallest number of independent biological replicates in any compared condition.
+    rules:
+    - id: amplicon_da_two_conditions
+      kind: numeric_min
+      field: condition_count
+      min_value: 2
+      severity: block
+      missing_message: Enter the number of biological conditions/groups.
+      pass_message: At least two biological conditions/groups are available.
+      fail_message: Differential analysis requires at least two biological conditions/groups.
+    - id: amplicon_da_replication
+      kind: numeric_min
+      field: biological_replicates_per_condition
+      min_value: 2
+      severity: warning
+      missing_message: Enter the minimum number of biological replicates per condition.
+      pass_message: The design contains biological replication within conditions.
+      fail_message: Without biological replication, differential inference is generally unreliable or unsupported
+        by standard dispersion-estimation workflows.
+  amplicon_illumina_da_repeated:
+    fields:
+      condition_count:
+        type: integer
+        label: Number of biological conditions/groups
+        description: Number of biological conditions or comparison groups in the differential analysis.
+      biological_replicates_per_condition:
+        type: integer
+        label: Minimum biological replicates per condition
+        description: Smallest number of independent biological replicates in any compared condition.
+      minimum_observations_per_subject:
+        type: integer
+        label: Minimum observations per subject
+        description: Smallest number of repeated measurements available for any subject included in the repeated-measures
+          design.
+    rules:
+    - id: amplicon_da_two_conditions
+      kind: numeric_min
+      field: condition_count
+      min_value: 2
+      severity: block
+      missing_message: Enter the number of biological conditions/groups.
+      pass_message: At least two biological conditions/groups are available.
+      fail_message: Differential analysis requires at least two biological conditions/groups.
+    - id: amplicon_da_replication
+      kind: numeric_min
+      field: biological_replicates_per_condition
+      min_value: 2
+      severity: warning
+      missing_message: Enter the minimum number of biological replicates per condition.
+      pass_message: The design contains biological replication within conditions.
+      fail_message: Without biological replication, differential inference is generally unreliable or unsupported
+        by standard dispersion-estimation workflows.
+    - id: repeated_measure_has_repeated_observations
+      kind: numeric_min
+      field: minimum_observations_per_subject
+      min_value: 2
+      severity: block
+      missing_message: Enter the minimum number of observations per subject.
+      pass_message: Subjects have repeated observations.
+      fail_message: A repeated-measures/longitudinal route requires at least two observations for a subject.

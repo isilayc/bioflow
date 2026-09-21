@@ -1,0 +1,122 @@
+schema_version: 1
+
+rules:
+  - tool_id: genomad
+    operations: [viral_sequence_detection]
+    direct_tool_ids: [virsorter2]
+    allow_strategy_search: false
+    title: Use VirSorter2 as the direct viral-detection fallback
+    remediation: >
+      If geNomad is blocked because its database or configuration is unavailable,
+      VirSorter2 can remain as the curated viral-sequence-detection alternative
+      in the same workflow step when its own requirements are satisfied.
+    fallback_note: >
+      Viral detectors are methodologically different; record which detector was
+      used rather than treating their outputs as numerically interchangeable.
+
+  - tool_id: genomad
+    operations: [plasmid_detection]
+    allow_strategy_search: true
+    title: Switch plasmid-detection strategy
+    remediation: >
+      Configure the geNomad database to keep this route, or choose another
+      BioFlow plasmid-analysis strategy for the same dataset context when one is
+      available.
+    fallback_note: >
+      Alternative plasmid routes can answer somewhat different biological
+      questions, so BioFlow surfaces the strategy change instead of silently
+      replacing geNomad.
+
+  - tool_id: genomad
+    operations: [viral_taxonomy]
+    allow_strategy_search: true
+    title: Resolve geNomad taxonomy requirements
+    remediation: >
+      Configure a compatible geNomad database to keep the current viral-taxonomy
+      route. If no alternative workflow strategy is shown, BioFlow currently has
+      no curated equivalent taxonomy substitute for this step.
+    fallback_note: >
+      BioFlow does not invent a taxonomy fallback when the catalog does not
+      contain a method with comparable scope.
+
+  - tool_id: checkv
+    operations: [viral_quality, viral_genome_quality]
+    allow_strategy_search: true
+    title: Restore viral-genome quality assessment
+    remediation: >
+      Configure a compatible CheckV reference database and rerun suitability.
+      If no alternative workflow strategy is shown, the current catalog has no
+      curated equivalent replacement for CheckV in this step.
+    fallback_note: >
+      Viral detection or taxonomy tools are not treated as replacements for
+      viral-genome completeness and contamination assessment.
+
+  - tool_id: dada2
+    operations: [asv_inference]
+    allow_strategy_search: true
+    title: Change amplicon inference strategy
+    remediation: >
+      First correct read-length, trimming, or paired-end overlap settings when
+      possible. If the dataset genuinely cannot satisfy the DADA2 route, BioFlow
+      can suggest another complete workflow strategy for the same marker and goal.
+    fallback_note: >
+      ASV, OTU, and turnkey amplicon workflows are not silently treated as
+      equivalent; switching route is an explicit methodological change.
+
+  - tool_id: iphop
+    operations: [viral_host_prediction]
+    allow_strategy_search: true
+    title: Restore viral host prediction
+    remediation: >
+      Configure the iPHoP database and provide the required viral-genome input.
+      If no alternative strategy appears, BioFlow currently has no equivalent
+      curated host-prediction fallback in the catalog.
+    fallback_note: >
+      An unrelated viral-analysis tool is not recommended merely to avoid a
+      blocked iPHoP configuration.
+
+  - tool_id: virsorter2
+    operations: [dramv_preparation]
+    allow_strategy_search: true
+    title: Keep the DRAM-v preparation chain consistent
+    remediation: >
+      Resolve the VirSorter2 requirement for this DRAM-v route, or choose a
+      different complete AMG-analysis strategy if BioFlow offers one.
+    fallback_note: >
+      geNomad is not inserted automatically as a drop-in replacement for the
+      VirSorter2 preparation chain used by this workflow.
+
+  - tool_id: busco
+    operations: [genome_quality_assessment]
+    allow_strategy_search: true
+    title: Resolve BUSCO lineage/database requirements
+    remediation: >
+      Select an appropriate BUSCO lineage dataset and ensure it is available.
+      If BioFlow shows no alternative strategy, the current catalog has no
+      curated equivalent lineage-based completeness method for this workflow.
+    fallback_note: >
+      General assembly statistics are not treated as equivalent to lineage-based
+      completeness assessment.
+
+  - tool_id: gtdbtk
+    operations: [species_identification]
+    allow_strategy_search: true
+    title: Switch species-identification strategy
+    remediation: >
+      Configure the compatible GTDB-Tk reference package to keep this route. For
+      bacterial isolate species identification, BioFlow can suggest an ANI-based
+      strategy when a suitable reference set is available.
+    fallback_note: >
+      GTDB taxonomy and ANI-based identification are distinct approaches, so the
+      strategy switch is shown explicitly.
+
+  - tool_id: gtdbtk
+    operations: [mag_taxonomy]
+    allow_strategy_search: true
+    title: Use another MAG-taxonomy candidate when available
+    remediation: >
+      Configure a compatible GTDB-Tk reference package, or use another curated
+      MAG-taxonomy candidate already present in the step when that candidate's
+      own requirements are satisfied.
+    fallback_note: >
+      A fallback must still be biologically appropriate for the current MAG set.

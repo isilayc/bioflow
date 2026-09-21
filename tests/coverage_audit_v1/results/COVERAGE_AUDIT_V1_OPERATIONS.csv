@@ -1,0 +1,71 @@
+﻿operation,unique_candidate_tools,tool_ids,alternative_depth
+alignment_processing,1,samtools,LOW
+alpha_diversity,3,"phyloseq, qiime2_diversity, vegan",GOOD
+alternative_splicing,1,rmats,LOW
+amplicon_end_to_end,9,"frogs_workflow, lotus2_workflow, mothur_otu_workflow, nfcore_ampliseq_workflow, obitools4_workflow, qiime2_asv_workflow, qiime2_otu_workflow, silvangs_workflow, vsearch_otu_workflow",GOOD
+amr_detection,3,"abricate, amrfinderplus, resfinder",GOOD
+assembly_qc,1,quast,LOW
+asv_inference,1,dada2,LOW
+auxiliary_metabolic_gene_analysis,1,dramv,LOW
+beta_diversity,3,"phyloseq, qiime2_diversity, vegan",GOOD
+bin_refinement,1,dastool,LOW
+comparative_genomics,1,syri,LOW
+core_genome_alignment,1,panaroo,LOW
+coverage_estimation,1,jgi_depth,LOW
+differential_abundance,3,"aldex2, ancombc2, deseq2",GOOD
+differential_expression,2,"deseq2, edger",MODERATE
+dramv_preparation,1,virsorter2,LOW
+functional_annotation,1,eggnog_mapper,LOW
+functional_enrichment,1,clusterprofiler,LOW
+functional_profiling,1,humann,LOW
+gene_prediction,2,"augustus, braker4",MODERATE
+gene_quantification,1,featurecounts,LOW
+genome_annotation,2,"bakta, prokka",MODERATE
+genome_assembly,5,"flye, hifiasm, raven, shovill, spades",GOOD
+genome_binning,4,"concoct, maxbin2, metabat2, semibin2",GOOD
+genome_quality_assessment,1,busco,LOW
+host_read_removal,1,bowtie2,LOW
+hybrid_genome_assembly,4,"hybracter, masurca, spades, unicycler",GOOD
+lightweight_quantification,2,"kallisto, salmon",MODERATE
+mag_quality,1,checkm2,LOW
+mag_taxonomy,3,"catbat, gtdbtk, sourmash",GOOD
+marker_reconstruction,1,sample2markers,LOW
+metagenome_assembly,2,"megahit, metaspades",MODERATE
+mlst_typing,2,"mlst, pymlst",MODERATE
+otu_clustering,2,"mothur, vsearch",MODERATE
+pangenome_analysis,2,"panaroo, ppanggolin",MODERATE
+pathway_analysis,2,"fgsea, humann",MODERATE
+phylogenetic_inference,2,"iqtree2, raxmlng",MODERATE
+plasmid_detection,4,"genomad, mobsuite, plasmidfinder, plasx_workflow",GOOD
+primer_trimming,1,cutadapt,LOW
+prophage_detection,2,"genomad, phispy",MODERATE
+raw_read_qc,2,"fastqc, nanoplot",MODERATE
+read_mapping,2,"bowtie2, bwa_mem2",MODERATE
+read_preprocessing,4,"chopper, cutadapt, fastp, filtlong",GOOD
+repeat_annotation,1,repeatmasker,LOW
+repeat_discovery,1,repeatmodeler,LOW
+resistome_profiling,3,"amrplusplus, deeparg, rgi",GOOD
+rna_alignment,2,"hisat2, star",MODERATE
+rrna_depletion_assessment,1,sortmerna,LOW
+sequence_selection,1,seqkit,LOW
+silvangs_input_preparation,1,silvangs_input_prep,LOW
+species_identification,2,"fastani, gtdbtk",MODERATE
+strain_profiling,2,"instrain, strainphlan",MODERATE
+taxonomic_profiling,3,"kaiju, kraken2, metaphlan",GOOD
+taxonomy_assignment,5,"dada2_taxonomy, decipher_idtaxa, mothur_classify_seqs, qiime2_feature_classifier, vsearch_sintax",GOOD
+transcript_assembly,2,"stringtie, trinity",MODERATE
+transcript_to_gene_summarization,1,tximport,LOW
+transcriptome_indexing,4,"hisat2, kallisto, salmon, star",GOOD
+variant_calling,2,"bcftools, freebayes",MODERATE
+variant_filtering,1,bcftools,LOW
+viral_abundance_profiling,1,coverm,LOW
+viral_functional_annotation,1,eggnog_mapper,LOW
+viral_gene_prediction,1,prodigal_gv,LOW
+viral_genome_quality,1,checkv,LOW
+viral_host_prediction,1,iphop,LOW
+viral_quality,1,checkv,LOW
+viral_sequence_detection,2,"genomad, virsorter2",MODERATE
+viral_taxonomy,1,genomad,LOW
+viral_votu_clustering,1,vclust,LOW
+virulence_profiling,3,"abricate, pathofact2, virulencefinder",GOOD
+whole_genome_alignment,1,mummer4,LOW

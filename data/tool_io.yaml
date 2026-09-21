@@ -1,0 +1,1277 @@
+fastqc:
+  routes:
+  - requires:
+    - paired_fastq
+    produces:
+    - qc_report
+  - requires:
+    - single_fastq
+    produces:
+    - qc_report
+  - requires:
+    - long_fastq
+    produces:
+    - qc_report
+  - requires:
+    - paired_fastq_collection
+    produces:
+    - qc_report_collection
+fastp:
+  routes:
+  - requires:
+    - paired_fastq
+    produces:
+    - cleaned_paired_fastq
+    - qc_report
+  - requires:
+    - single_fastq
+    produces:
+    - cleaned_single_fastq
+    - qc_report
+  - requires:
+    - paired_fastq_collection
+    produces:
+    - cleaned_paired_fastq_collection
+    - qc_report_collection
+cutadapt:
+  routes:
+  - requires:
+    - paired_fastq
+    produces:
+    - cleaned_paired_fastq
+  - requires:
+    - single_fastq
+    produces:
+    - cleaned_single_fastq
+  - requires:
+    - amplicon_fastq
+    produces:
+    - primer_trimmed_fastq
+  - requires:
+    - paired_fastq_collection
+    produces:
+    - cleaned_paired_fastq_collection
+nanoplot:
+  routes:
+  - requires:
+    - long_fastq
+    produces:
+    - qc_report
+chopper:
+  routes:
+  - requires:
+    - long_fastq
+    produces:
+    - cleaned_long_fastq
+filtlong:
+  routes:
+  - requires:
+    - long_fastq
+    produces:
+    - cleaned_long_fastq
+spades:
+  routes:
+  - requires:
+    - paired_fastq
+    produces:
+    - genome_fasta
+  - requires:
+    - paired_fastq
+    - long_fastq
+    produces:
+    - genome_fasta
+  - requires:
+    - paired_fastq_collection
+    produces:
+    - genome_fasta_collection
+shovill:
+  routes:
+  - requires:
+    - paired_fastq
+    produces:
+    - genome_fasta
+  - requires:
+    - paired_fastq_collection
+    produces:
+    - genome_fasta_collection
+flye:
+  routes:
+  - requires:
+    - long_fastq
+    produces:
+    - genome_fasta
+  - requires:
+    - long_fastq
+    produces:
+    - eukaryotic_genome_fasta
+raven:
+  routes:
+  - requires:
+    - long_fastq
+    produces:
+    - genome_fasta
+unicycler:
+  routes:
+  - requires:
+    - paired_fastq
+    - long_fastq
+    produces:
+    - genome_fasta
+hybracter:
+  routes:
+  - requires:
+    - paired_fastq
+    - long_fastq
+    produces:
+    - genome_fasta
+megahit:
+  routes:
+  - requires:
+    - paired_fastq
+    produces:
+    - metagenome_contigs_fasta
+  - requires:
+    - paired_fastq_collection
+    produces:
+    - metagenome_contigs_fasta
+metaspades:
+  routes:
+  - requires:
+    - paired_fastq
+    produces:
+    - metagenome_contigs_fasta
+  - requires:
+    - paired_fastq_collection
+    produces:
+    - metagenome_contigs_fasta
+quast:
+  routes:
+  - requires:
+    - fasta_sequence
+    produces:
+    - assembly_qc_report
+  - requires:
+    - genome_fasta_collection
+    produces:
+    - assembly_qc_report_collection
+  - requires:
+    - eukaryotic_genome_fasta
+    produces:
+    - assembly_qc_report
+bakta:
+  routes:
+  - requires:
+    - genome_fasta
+    produces:
+    - annotated_genome_gff
+    - annotated_genome_genbank
+    - protein_fasta
+  - requires:
+    - genome_fasta_collection
+    produces:
+    - annotated_genome_gff_collection
+prokka:
+  routes:
+  - requires:
+    - genome_fasta
+    produces:
+    - annotated_genome_gff
+    - annotated_genome_genbank
+    - protein_fasta
+  - requires:
+    - genome_fasta_collection
+    produces:
+    - annotated_genome_gff_collection
+kraken2:
+  routes:
+  - requires:
+    - paired_fastq
+    produces:
+    - taxonomic_profile
+kaiju:
+  routes:
+  - requires:
+    - paired_fastq
+    produces:
+    - taxonomic_profile
+metaphlan:
+  routes:
+  - requires:
+    - paired_fastq
+    produces:
+    - taxonomic_profile
+    - metaphlan_sam
+  - requires:
+    - single_fastq
+    produces:
+    - taxonomic_profile
+    - metaphlan_sam
+  - requires:
+    - long_fastq
+    produces:
+    - taxonomic_profile
+    - metaphlan_sam
+  - requires:
+    - paired_fastq_collection
+    produces:
+    - taxonomic_profile_collection
+    - metaphlan_mapout_collection
+gtdbtk:
+  routes:
+  - requires:
+    - genome_fasta
+    produces:
+    - genome_taxonomy
+  - requires:
+    - mag_bins
+    produces:
+    - genome_taxonomy
+bowtie2:
+  routes:
+  - requires:
+    - paired_fastq
+    - reference_genome_fasta
+    produces:
+    - mapped_reads_sam
+  - requires:
+    - paired_fastq
+    - metagenome_contigs_fasta
+    produces:
+    - mapped_reads_sam
+  - requires:
+    - paired_fastq
+    - host_reference_genome_fasta
+    produces:
+    - host_depleted_paired_fastq
+  - requires:
+    - paired_fastq_collection
+    - host_reference_genome_fasta
+    produces:
+    - host_depleted_paired_fastq_collection
+  - requires:
+    - non_rrna_paired_fastq_collection
+    - metatranscriptome_reference_fasta
+    produces:
+    - metatranscriptome_alignment_sam_collection
+  - requires:
+    - paired_fastq
+    - representative_genome_database_fasta
+    produces:
+    - mapped_reads_sam
+  - requires:
+    - paired_fastq
+    - checkv_processed_viral_fasta
+    produces:
+    - mapped_reads_sam
+  - requires:
+    - paired_fastq
+    - votu_representative_fasta
+    produces:
+    - mapped_reads_sam
+  - requires:
+    - paired_fastq_collection
+    - metagenome_contigs_fasta
+    produces:
+    - mapped_reads_sam_collection
+bwa_mem2:
+  routes:
+  - requires:
+    - paired_fastq
+    - reference_genome_fasta
+    produces:
+    - mapped_reads_sam
+bcftools:
+  routes:
+  - requires:
+    - sorted_mapped_reads_bam
+    - bam_index
+    - reference_genome_fasta
+    produces:
+    - vcf
+  - requires:
+    - vcf
+    produces:
+    - vcf
+freebayes:
+  routes:
+  - requires:
+    - sorted_mapped_reads_bam
+    - bam_index
+    - reference_genome_fasta
+    produces:
+    - vcf
+semibin2:
+  routes:
+  - requires:
+    - metagenome_contigs_fasta
+    - mapped_reads_bam
+    produces:
+    - mag_bins
+  - requires:
+    - metagenome_contigs_fasta
+    - sorted_mapped_reads_bam_collection
+    produces:
+    - mag_bins
+metabat2:
+  routes:
+  - requires:
+    - metagenome_contigs_fasta
+    - coverage_table
+    produces:
+    - mag_bins
+maxbin2:
+  routes:
+  - requires:
+    - metagenome_contigs_fasta
+    - paired_fastq
+    produces:
+    - mag_bins
+  - requires:
+    - metagenome_contigs_fasta
+    - paired_fastq_collection
+    produces:
+    - mag_bins
+concoct:
+  routes:
+  - requires:
+    - metagenome_contigs_fasta
+    - coverage_table
+    produces:
+    - mag_bins
+dastool:
+  routes:
+  - requires:
+    - multiple_mag_bin_sets
+    produces:
+    - refined_mag_bins
+checkm2:
+  routes:
+  - requires:
+    - mag_bins
+    produces:
+    - mag_quality_report
+amrfinderplus:
+  routes:
+  - requires:
+    - genome_fasta
+    produces:
+    - arg_profile
+  - requires:
+    - protein_fasta
+    produces:
+    - arg_profile
+resfinder:
+  routes:
+  - requires:
+    - genome_fasta
+    produces:
+    - arg_profile
+  - requires:
+    - paired_fastq
+    produces:
+    - arg_profile
+abricate:
+  routes:
+  - requires:
+    - genome_fasta
+    produces:
+    - arg_profile
+    - virulence_profile
+virulencefinder:
+  routes:
+  - requires:
+    - genome_fasta
+    produces:
+    - virulence_profile
+mlst:
+  routes:
+  - requires:
+    - genome_fasta
+    produces:
+    - mlst_profile
+pymlst:
+  routes:
+  - requires:
+    - genome_fasta
+    produces:
+    - mlst_profile
+mobsuite:
+  routes:
+  - requires:
+    - genome_fasta
+    produces:
+    - plasmid_prediction
+    - plasmid_fasta
+    - plasmid_typing_report
+plasmidfinder:
+  routes:
+  - requires:
+    - genome_fasta
+    produces:
+    - plasmid_replicon_report
+genomad:
+  routes:
+  - requires:
+    - genome_fasta
+    produces:
+    - viral_fasta
+    - plasmid_prediction
+    - plasmid_fasta
+    - prophage_prediction
+  - requires:
+    - metagenome_contigs_fasta
+    produces:
+    - viral_contigs_fasta
+    - plasmid_prediction
+    - plasmid_fasta
+    - viral_taxonomy
+  - requires:
+    - viral_fasta
+    produces:
+    - viral_taxonomy
+phispy:
+  routes:
+  - requires:
+    - annotated_genome_genbank
+    produces:
+    - prophage_prediction
+virsorter2:
+  routes:
+  - requires:
+    - metagenome_contigs_fasta
+    produces:
+    - viral_contigs_fasta
+  - requires:
+    - metagenome_contigs_fasta
+    produces:
+    - dramv_prepared_viral_fasta
+    - virsorter2_dramv_metadata
+checkv:
+  routes:
+  - requires:
+    - viral_fasta
+    produces:
+    - viral_quality_report
+    - checkv_processed_viral_fasta
+  - requires:
+    - viral_contigs_fasta
+    produces:
+    - viral_quality_report
+    - checkv_processed_viral_fasta
+vclust:
+  routes:
+  - requires:
+    - checkv_processed_viral_fasta
+    produces:
+    - viral_ani_table
+    - viral_cluster_membership
+    - votu_representative_ids
+strainphlan:
+  routes:
+  - requires:
+    - strainphlan_consensus_markers
+    produces:
+    - strain_profile
+    - strainphlan_result
+  - requires:
+    - strainphlan_consensus_markers_collection
+    produces:
+    - strain_profile
+    - strainphlan_result
+instrain:
+  routes:
+  - requires:
+    - sorted_mapped_reads_bam
+    - bam_index
+    - representative_genome_database_fasta
+    produces:
+    - strain_profile
+panaroo:
+  routes:
+  - requires:
+    - annotated_genome_gff_collection
+    produces:
+    - pangenome_result
+    - core_genome_alignment
+ppanggolin:
+  routes:
+  - requires:
+    - annotated_genome_gff_collection
+    produces:
+    - pangenome_result
+iqtree2:
+  routes:
+  - requires:
+    - core_genome_alignment
+    produces:
+    - phylogenetic_tree
+raxmlng:
+  routes:
+  - requires:
+    - core_genome_alignment
+    produces:
+    - phylogenetic_tree
+samtools:
+  routes:
+  - requires:
+    - mapped_reads_sam
+    produces:
+    - sorted_mapped_reads_bam
+    - bam_index
+  - requires:
+    - mapped_reads_bam
+    produces:
+    - sorted_mapped_reads_bam
+    - bam_index
+  - requires:
+    - rna_alignment_sam
+    produces:
+    - sorted_rna_bam
+    - bam_index
+  - requires:
+    - sorted_rna_bam
+    produces:
+    - bam_index
+  - requires:
+    - rna_alignment_sam_collection
+    produces:
+    - sorted_rna_bam_collection
+  - requires:
+    - sorted_rna_bam_collection
+    produces:
+    - sorted_rna_bam_collection
+  - requires:
+    - metatranscriptome_alignment_sam_collection
+    produces:
+    - sorted_metatranscriptome_bam_collection
+  - requires:
+    - mapped_reads_sam_collection
+    produces:
+    - sorted_mapped_reads_bam_collection
+sample2markers:
+  routes:
+  - requires:
+    - metaphlan_sam
+    produces:
+    - strainphlan_consensus_markers
+  - requires:
+    - metaphlan_mapout_collection
+    produces:
+    - strainphlan_consensus_markers_collection
+humann:
+  routes:
+  - requires:
+    - paired_fastq
+    produces:
+    - functional_profile
+    - pathway_profile
+  - requires:
+    - non_rrna_paired_fastq
+    produces:
+    - metatranscriptome_gene_family_table
+    - metatranscriptome_pathway_table
+  - requires:
+    - non_rrna_paired_fastq
+    - taxonomic_profile
+    produces:
+    - metatranscriptome_gene_family_table
+    - metatranscriptome_pathway_table
+  - requires:
+    - non_rrna_paired_fastq
+    - matched_metagenome_taxonomic_profile
+    produces:
+    - metatranscriptome_gene_family_table
+    - metatranscriptome_pathway_table
+deeparg:
+  routes:
+  - requires:
+    - paired_fastq
+    produces:
+    - arg_profile
+amrplusplus:
+  routes:
+  - requires:
+    - raw_paired_fastq
+    produces:
+    - arg_profile
+  - requires:
+    - paired_fastq
+    produces:
+    - arg_profile
+rgi:
+  routes:
+  - requires:
+    - paired_fastq
+    produces:
+    - arg_profile
+pathofact2:
+  routes:
+  - requires:
+    - metagenome_contigs_fasta
+    produces:
+    - virulence_profile
+jgi_depth:
+  routes:
+  - requires:
+    - sorted_mapped_reads_bam
+    - metagenome_contigs_fasta
+    produces:
+    - coverage_table
+  - requires:
+    - sorted_mapped_reads_bam_collection
+    - metagenome_contigs_fasta
+    produces:
+    - coassembly_coverage_table
+dada2:
+  routes:
+  - requires:
+    - primer_trimmed_fastq
+    produces:
+    - asv_table
+    - representative_sequences
+qiime2_feature_classifier:
+  routes:
+  - requires:
+    - representative_sequences
+    - trained_taxonomy_classifier
+    produces:
+    - amplicon_taxonomy
+  - requires:
+    - representative_sequences
+    - taxonomy_reference_database
+    produces:
+    - amplicon_taxonomy
+qiime2_phylogeny:
+  routes:
+  - requires:
+    - representative_sequences
+    produces:
+    - phylogenetic_tree_amplicon
+qiime2_diversity:
+  routes:
+  - requires:
+    - asv_table
+    produces:
+    - alpha_diversity_results
+  - requires:
+    - asv_table
+    - phylogenetic_tree_amplicon
+    produces:
+    - alpha_diversity_results
+  - requires:
+    - asv_table
+    produces:
+    - beta_diversity_results
+    - ordination_results
+  - requires:
+    - asv_table
+    - phylogenetic_tree_amplicon
+    produces:
+    - beta_diversity_results
+    - ordination_results
+  - requires:
+    - otu_table
+    produces:
+    - alpha_diversity_results
+  - requires:
+    - otu_table
+    - phylogenetic_tree_amplicon
+    produces:
+    - alpha_diversity_results
+  - requires:
+    - otu_table
+    produces:
+    - beta_diversity_results
+    - ordination_results
+  - requires:
+    - otu_table
+    - phylogenetic_tree_amplicon
+    produces:
+    - beta_diversity_results
+    - ordination_results
+  - requires:
+    - amplicon_feature_table
+    produces:
+    - alpha_diversity_results
+  - requires:
+    - amplicon_feature_table
+    - phylogenetic_tree_amplicon
+    produces:
+    - alpha_diversity_results
+  - requires:
+    - amplicon_feature_table
+    produces:
+    - beta_diversity_results
+    - ordination_results
+  - requires:
+    - amplicon_feature_table
+    - phylogenetic_tree_amplicon
+    produces:
+    - beta_diversity_results
+    - ordination_results
+ancombc:
+  routes:
+  - requires:
+    - asv_table
+    - sample_metadata
+    - analysis_design
+    produces:
+    - differential_abundance_results
+  - requires:
+    - otu_table
+    - sample_metadata
+    - analysis_design
+    produces:
+    - differential_abundance_results
+aldex2:
+  routes:
+  - requires:
+    - amplicon_feature_table
+    - sample_metadata
+    - analysis_design
+    produces:
+    - differential_abundance_results
+  - requires:
+    - asv_table
+    - sample_metadata
+    - analysis_design
+    produces:
+    - differential_abundance_results
+  - requires:
+    - otu_table
+    - sample_metadata
+    - analysis_design
+    produces:
+    - differential_abundance_results
+deseq2:
+  routes:
+  - requires:
+    - amplicon_feature_table
+    - sample_metadata
+    - analysis_design
+    produces:
+    - differential_abundance_results
+  - requires:
+    - asv_table
+    - sample_metadata
+    - analysis_design
+    produces:
+    - differential_abundance_results
+  - requires:
+    - otu_table
+    - sample_metadata
+    - analysis_design
+    produces:
+    - differential_abundance_results
+  - requires:
+    - gene_count_matrix
+    - sample_metadata
+    - analysis_design
+    produces:
+    - differential_expression_results
+    - significant_gene_list
+    - ranked_gene_list
+  - requires:
+    - metatranscriptome_count_matrix
+    - sample_metadata
+    - analysis_design
+    produces:
+    - differential_expression_results
+star:
+  routes:
+  - requires:
+    - reference_genome_fasta
+    - gene_annotation_gtf
+    produces:
+    - star_genome_index
+  - requires:
+    - rna_fastq
+    - star_genome_index
+    produces:
+    - sorted_rna_bam
+  - requires:
+    - rna_fastq_collection
+    - star_genome_index
+    produces:
+    - sorted_rna_bam_collection
+hisat2:
+  routes:
+  - requires:
+    - reference_genome_fasta
+    produces:
+    - hisat2_genome_index
+  - requires:
+    - rna_fastq
+    - hisat2_genome_index
+    produces:
+    - rna_alignment_sam
+  - requires:
+    - rna_fastq_collection
+    - hisat2_genome_index
+    produces:
+    - rna_alignment_sam_collection
+featurecounts:
+  routes:
+  - requires:
+    - sorted_rna_bam
+    - gene_annotation_gtf
+    produces:
+    - gene_count_matrix
+  - requires:
+    - sorted_metatranscriptome_bam_collection
+    - metatranscriptome_gene_annotation_gff
+    produces:
+    - metatranscriptome_count_matrix
+salmon:
+  routes:
+  - requires:
+    - transcriptome_fasta
+    produces:
+    - salmon_transcriptome_index
+  - requires:
+    - rna_fastq
+    - salmon_transcriptome_index
+    produces:
+    - transcript_abundance
+    - transcript_count_matrix
+kallisto:
+  routes:
+  - requires:
+    - transcriptome_fasta
+    produces:
+    - kallisto_transcriptome_index
+  - requires:
+    - rna_fastq
+    - kallisto_transcriptome_index
+    produces:
+    - transcript_abundance
+    - transcript_count_matrix
+edger:
+  routes:
+  - requires:
+    - gene_count_matrix
+    - sample_metadata
+    - analysis_design
+    produces:
+    - differential_expression_results
+    - significant_gene_list
+    - ranked_gene_list
+  - requires:
+    - metatranscriptome_count_matrix
+    - sample_metadata
+    - analysis_design
+    produces:
+    - differential_expression_results
+tximport:
+  routes:
+  - requires:
+    - transcript_count_matrix
+    - transcript_to_gene_mapping
+    produces:
+    - gene_count_matrix
+stringtie:
+  routes:
+  - requires:
+    - sorted_rna_bam
+    - gene_annotation_gtf
+    produces:
+    - transcript_assembly_gtf
+  - requires:
+    - sorted_rna_bam
+    produces:
+    - transcript_assembly_gtf
+trinity:
+  routes:
+  - requires:
+    - rna_fastq
+    produces:
+    - transcriptome_fasta
+rmats:
+  routes:
+  - requires:
+    - sorted_rna_bam_collection
+    - gene_annotation_gtf
+    - sample_metadata
+    - analysis_design
+    produces:
+    - splice_event_results
+clusterprofiler:
+  routes:
+  - requires:
+    - significant_gene_list
+    - gene_identifier_mapping
+    - gene_set_database
+    produces:
+    - functional_enrichment_results
+  - requires:
+    - significant_gene_list
+    - gene_identifier_mapping
+    - pathway_gene_sets
+    produces:
+    - pathway_enrichment_results
+fgsea:
+  routes:
+  - requires:
+    - ranked_gene_list
+    - pathway_gene_sets
+    produces:
+    - pathway_enrichment_results
+coverm:
+  routes:
+  - requires:
+    - sorted_mapped_reads_bam
+    - checkv_processed_viral_fasta
+    produces:
+    - viral_abundance_table
+  - requires:
+    - sorted_mapped_reads_bam
+    - votu_representative_fasta
+    produces:
+    - viral_abundance_table
+iphop:
+  routes:
+  - requires:
+    - checkv_processed_viral_fasta
+    - iphop_database
+    produces:
+    - viral_host_predictions
+prodigal_gv:
+  routes:
+  - requires:
+    - checkv_processed_viral_fasta
+    produces:
+    - viral_protein_fasta
+    - viral_gene_annotation_gff
+eggnog_mapper:
+  routes:
+  - requires:
+    - viral_protein_fasta
+    - eggnog_database
+    produces:
+    - viral_functional_annotation
+  - requires:
+    - eukaryotic_protein_fasta
+    - orthology_database
+    produces:
+    - functional_annotation_table
+dramv:
+  routes:
+  - requires:
+    - dramv_prepared_viral_fasta
+    - virsorter2_dramv_metadata
+    - dramv_database
+    produces:
+    - viral_functional_annotation
+    - auxiliary_metabolic_gene_results
+hifiasm:
+  routes:
+  - requires:
+    - long_fastq
+    produces:
+    - eukaryotic_genome_fasta
+masurca:
+  routes:
+  - requires:
+    - paired_fastq
+    - long_fastq
+    produces:
+    - eukaryotic_genome_fasta
+busco:
+  routes:
+  - requires:
+    - eukaryotic_genome_fasta
+    - busco_lineage_database
+    produces:
+    - genome_completeness_report
+repeatmodeler:
+  routes:
+  - requires:
+    - eukaryotic_genome_fasta
+    produces:
+    - repeat_library
+repeatmasker:
+  routes:
+  - requires:
+    - eukaryotic_genome_fasta
+    - repeat_library
+    produces:
+    - masked_eukaryotic_genome_fasta
+    - repeat_annotation_gff
+braker:
+  routes:
+  - requires:
+    - masked_eukaryotic_genome_fasta
+    - protein_evidence_fasta
+    produces:
+    - eukaryotic_gene_annotation_gff
+    - eukaryotic_protein_fasta
+augustus:
+  routes:
+  - requires:
+    - masked_eukaryotic_genome_fasta
+    - augustus_species_model
+    produces:
+    - eukaryotic_gene_annotation_gff
+    - eukaryotic_protein_fasta
+mummer4:
+  routes:
+  - requires:
+    - reference_eukaryotic_genome_fasta
+    - query_eukaryotic_genome_fasta
+    produces:
+    - whole_genome_alignment
+syri:
+  routes:
+  - requires:
+    - whole_genome_alignment
+    - reference_eukaryotic_genome_fasta
+    - query_eukaryotic_genome_fasta
+    produces:
+    - synteny_results
+    - comparative_genomics_results
+sortmerna:
+  routes:
+  - requires:
+    - paired_fastq
+    - rrna_reference_database
+    produces:
+    - rrna_content_report
+    - non_rrna_paired_fastq
+  - requires:
+    - host_depleted_paired_fastq_collection
+    - rrna_reference_database
+    produces:
+    - rrna_content_report
+    - non_rrna_paired_fastq_collection
+vsearch:
+  routes:
+  - requires:
+    - primer_trimmed_fastq
+    produces:
+    - otu_table
+    - representative_sequences
+mothur:
+  routes:
+  - requires:
+    - primer_trimmed_fastq
+    produces:
+    - otu_table
+    - representative_sequences
+dada2_taxonomy:
+  routes:
+  - requires:
+    - representative_sequences
+    - taxonomy_reference_database
+    produces:
+    - amplicon_taxonomy
+decipher_idtaxa:
+  routes:
+  - requires:
+    - representative_sequences
+    - taxonomy_reference_database
+    produces:
+    - amplicon_taxonomy
+vsearch_sintax:
+  routes:
+  - requires:
+    - representative_sequences
+    - taxonomy_reference_database
+    produces:
+    - amplicon_taxonomy
+mothur_classify_seqs:
+  routes:
+  - requires:
+    - representative_sequences
+    - taxonomy_reference_database
+    produces:
+    - amplicon_taxonomy
+qiime2_asv_workflow:
+  routes:
+  - requires:
+    - amplicon_fastq
+    - taxonomy_reference_database
+    produces:
+    - asv_table
+    - representative_sequences
+    - amplicon_taxonomy
+    - amplicon_analysis_report
+qiime2_otu_workflow:
+  routes:
+  - requires:
+    - amplicon_fastq
+    - taxonomy_reference_database
+    produces:
+    - otu_table
+    - representative_sequences
+    - amplicon_taxonomy
+    - amplicon_analysis_report
+nfcore_ampliseq_workflow:
+  routes:
+  - requires:
+    - amplicon_fastq
+    produces:
+    - asv_table
+    - representative_sequences
+    - amplicon_taxonomy
+    - phylogenetic_tree_amplicon
+    - alpha_diversity_results
+    - beta_diversity_results
+    - ordination_results
+    - differential_abundance_results
+    - amplicon_analysis_report
+frogs_workflow:
+  routes:
+  - requires:
+    - amplicon_fastq
+    produces:
+    - amplicon_feature_table
+    - representative_sequences
+    - amplicon_taxonomy
+    - amplicon_analysis_report
+lotus2_workflow:
+  routes:
+  - requires:
+    - amplicon_fastq
+    produces:
+    - amplicon_feature_table
+    - representative_sequences
+    - amplicon_taxonomy
+    - phylogenetic_tree_amplicon
+    - amplicon_analysis_report
+obitools4_workflow:
+  routes:
+  - requires:
+    - amplicon_fastq
+    - taxonomy_reference_database
+    produces:
+    - motu_table
+    - representative_sequences
+    - amplicon_taxonomy
+    - amplicon_analysis_report
+mothur_otu_workflow:
+  routes:
+  - requires:
+    - amplicon_fastq
+    - taxonomy_reference_database
+    produces:
+    - otu_table
+    - representative_sequences
+    - amplicon_taxonomy
+    - amplicon_analysis_report
+vsearch_otu_workflow:
+  routes:
+  - requires:
+    - amplicon_fastq
+    - taxonomy_reference_database
+    produces:
+    - otu_table
+    - representative_sequences
+    - amplicon_taxonomy
+    - amplicon_analysis_report
+silvangs_input_prep:
+  routes:
+  - requires:
+    - amplicon_fastq
+    produces:
+    - amplicon_multifasta_collection
+silvangs_workflow:
+  routes:
+  - requires:
+    - amplicon_multifasta_collection
+    produces:
+    - otu_table
+    - representative_sequences
+    - amplicon_taxonomy
+    - amplicon_analysis_report
+phyloseq:
+  routes:
+  - requires:
+    - amplicon_feature_table
+    produces:
+    - alpha_diversity_results
+  - requires:
+    - amplicon_feature_table
+    produces:
+    - beta_diversity_results
+    - ordination_results
+  - requires:
+    - amplicon_feature_table
+    - phylogenetic_tree_amplicon
+    produces:
+    - beta_diversity_results
+    - ordination_results
+vegan:
+  routes:
+  - requires:
+    - amplicon_feature_table
+    produces:
+    - alpha_diversity_results
+  - requires:
+    - amplicon_feature_table
+    - sample_metadata
+    produces:
+    - beta_diversity_results
+    - ordination_results
+ancombc2:
+  routes:
+  - requires:
+    - amplicon_feature_table
+    - sample_metadata
+    - analysis_design
+    produces:
+    - differential_abundance_results
+fastani:
+  routes:
+  - requires:
+    - genome_fasta
+    - reference_genome_collection
+    produces:
+    - ani_comparison_results
+plasx:
+  routes:
+  - requires:
+    - plasx_gene_annotations
+    - plasx_denovo_gene_families
+    produces:
+    - plasmid_prediction
+plasx_workflow:
+  routes:
+  - requires:
+    - metagenome_contigs_fasta
+    produces:
+    - plasmid_prediction
+seqkit:
+  routes:
+  - requires:
+    - checkv_processed_viral_fasta
+    - votu_representative_ids
+    produces:
+    - votu_representative_fasta
+braker4:
+  routes:
+  - requires:
+    - masked_eukaryotic_genome_fasta
+    - protein_evidence_fasta
+    produces:
+    - eukaryotic_gene_annotation_gff
+    - eukaryotic_protein_fasta
+catbat:
+  routes:
+  - requires:
+    - mag_bins
+    produces:
+    - genome_taxonomy
+  - requires:
+    - genome_fasta
+    produces:
+    - genome_taxonomy
+sourmash:
+  routes:
+  - requires:
+    - mag_bins
+    produces:
+    - genome_taxonomy
+  - requires:
+    - genome_fasta
+    produces:
+    - genome_taxonomy

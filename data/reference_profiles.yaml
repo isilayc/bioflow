@@ -1,0 +1,172 @@
+18S rRNA analysis:
+  label: 18S taxonomic scope
+  default_scope: protists
+  scopes:
+    protists:
+      label: Protists / microbial eukaryotes
+      preferred_database: PR2 (Protist Ribosomal Reference database)
+      alternatives:
+      - Eukaryote-appropriate SILVA SSU reference when broader SSU coverage is needed
+      avoid:
+      - Do not use the standard DADA2-maintained SILVA 138.x training FASTA for 18S eukaryotes; that maintained file is optimized
+        for Bacteria/Archaea.
+      notes:
+      - PR2 is the default BioFlow recommendation for protist/microbial-eukaryote 18S profiling.
+    broad_eukaryotes:
+      label: Broad Eukaryota
+      preferred_database: PR2 or a full/eukaryote-appropriate SILVA SSU reference, depending on biological scope
+      alternatives:
+      - Custom curated 18S reference appropriate for the target clades
+      avoid:
+      - Do not reuse a 16S-only SILVA classifier or prokaryote-optimized DADA2 SILVA training FASTA.
+      notes:
+      - PR2 is highly curated for protists; full/eukaryote SILVA can be preferable when broad non-protist eukaryotic coverage
+        is central.
+  route_overrides:
+    amplicon_illumina_18s:
+      status: preferred
+      recommendation: Use a DADA2-formatted PR2 reference for protist-focused 18S. For broader Eukaryota, use PR2 or another
+        properly formatted eukaryotic 18S reference.
+      important:
+      - The standard maintained DADA2 SILVA 138.x training FASTA is not suitable for eukaryotic 18S classification.
+    amplicon_illumina_18s_qiime2_asv:
+      status: preferred
+      recommendation: Train/import q2-feature-classifier resources from PR2 for protist-focused 18S, or from another eukaryote-appropriate
+        18S reference for broader Eukaryota.
+      important:
+      - Do not apply a 16S-specific pre-trained classifier to 18S reads.
+    amplicon_illumina_18s_nfcore:
+      status: preferred
+      recommendation: Use nf-core/ampliseq's preconfigured `pr2` taxonomy database for 18S. Custom databases are available
+        when broader or project-specific eukaryotic coverage is needed.
+      important:
+      - The nf-core/ampliseq documentation explicitly maps `pr2` to 18S rRNA.
+    amplicon_illumina_18s_frogs:
+      status: preferred
+      recommendation: Use FROGS PR2 for protist-focused 18S; FROGS also provides 18S SILVA databases for broader SSU classification.
+      important:
+      - Choose the databank deliberately; PR2 and SILVA are not interchangeable taxonomic schemes.
+    amplicon_illumina_18s_lotus2:
+      status: preferred
+      recommendation: Set `-amplicon_type SSU` and `-tax_group eukarya`; use PR2 for protist-focused work or SLV/SILVA for
+        broader SSU classification.
+      important:
+      - LotuS2 warns against combining reference databases with incompatible taxonomic levels.
+    amplicon_illumina_18s_obitools4:
+      status: supported
+      recommendation: Use a curated 18S reference database compatible with `obitag`; a PR2-derived reference is a strong biological
+        choice for protists.
+      important:
+      - OBITools4 does not require one bundled taxonomy database; reference construction/formatting is part of the workflow.
+    amplicon_illumina_18s_mothur:
+      status: preferred
+      recommendation: Use PR2-formatted 18S references for protist-focused work or mothur's full SILVA 138.2 eukaryotic SSU
+        reference for broader 18S alignment/classification.
+      important:
+      - mothur's SILVA reference alignment explicitly includes eukaryotic 18S sequences.
+    amplicon_illumina_18s_vsearch_otu:
+      status: supported
+      recommendation: Use a taxonomy-annotated PR2 or eukaryotic SILVA reference for SINTAX/global matching, selected according
+        to biological scope.
+      important: []
+    amplicon_illumina_18s_qiime2_otu:
+      status: supported
+      recommendation: Use q2-vsearch for OTU clustering and a separate q2-feature-classifier reference trained/imported from
+        PR2 or another suitable 18S database.
+      important:
+      - OTU clustering and taxonomy-reference choice are separate decisions.
+    amplicon_illumina_18s_silvangs:
+      status: supported
+      recommendation: SILVAngs uses the SILVA rDNA ecosystem internally. It is suitable for 18S rDNA analysis, but it is not
+        a PR2-specialized taxonomy route.
+      important:
+      - If PR2-specific protist taxonomy is a project requirement, prefer a PR2-based local/pipeline route.
+      preferred_database: SILVA rDNA reference managed within SILVAngs
+ITS analysis:
+  label: ITS taxonomic scope
+  default_scope: fungi
+  scopes:
+    fungi:
+      label: Fungi
+      preferred_database: UNITE fungi
+      alternatives:
+      - UNITE all-eukaryotes when non-fungal ITS recovery is also biologically relevant
+      avoid:
+      - Do not use SILVA SSU/16S/18S as the primary fungal ITS taxonomy reference.
+      notes:
+      - UNITE is the BioFlow default for fungal ITS taxonomy.
+    all_eukaryotes:
+      label: All eukaryotes
+      preferred_database: UNITE all-eukaryotes
+      alternatives:
+      - A custom curated ITS reference when the study targets a restricted non-fungal group
+      avoid:
+      - Do not assume fungi-only UNITE releases represent all eukaryotic ITS diversity.
+      notes:
+      - UNITE provides both fungi-only and all-eukaryote release files.
+  route_overrides:
+    amplicon_illumina_its:
+      status: preferred
+      recommendation: Use UNITE General FASTA with DADA2 `assignTaxonomy`; fungi-only or all-eukaryote scope should match
+        the study question.
+      important:
+      - 'ITS is biologically variable in length: remove primers carefully and do not impose fixed-length truncation merely
+        to mimic a 16S workflow.'
+      - Paired-read merging can fail for taxa whose ITS amplicons exceed the combined read span.
+    amplicon_illumina_its_qiime2_asv:
+      status: preferred
+      recommendation: Use an ITS-appropriate UNITE classifier/reference with q2-feature-classifier; fungi-only versus all-eukaryote
+        UNITE should match the selected scope.
+      important:
+      - Do not use a SILVA 16S/18S classifier for ITS taxonomy.
+      - ITS primer handling and variable-length behavior should be treated differently from 16S.
+    amplicon_illumina_its_nfcore:
+      status: preferred
+      recommendation: Use `unite-fungi` for fungal ITS or `unite-alleuk` for broad eukaryotic ITS. nf-core/ampliseq also supports
+        ITS-specific processing such as ITSx outputs.
+      important:
+      - The pipeline's generic defaults are optimized for paired-end 16S, so ITS-specific settings/reference selection must
+        be explicit.
+    amplicon_illumina_its_frogs:
+      status: preferred
+      recommendation: Use FROGS UNITE Fungi for fungal ITS or UNITE Eukaryote for all-eukaryote ITS; current FROGS databank
+        dashboards provide both.
+      important: []
+    amplicon_illumina_its_lotus2:
+      status: preferred
+      scope_status:
+        fungi: preferred
+        all_eukaryotes: conditional
+      recommendation: For fungal ITS set `-amplicon_type ITS/ITS1/ITS2`, `-tax_group fungi`, and `-refDB UNITE`; LotuS2 activates
+        ITS-specific post-filtering and ITSx.
+      scope_notes:
+        all_eukaryotes:
+        - LotuS2 documents its built-in UNITE option as fungi-specific; for broad all-eukaryote ITS use a validated custom
+          reference or prefer a route with explicit all-eukaryote UNITE support.
+      important:
+      - LotuS2 recommends caution with ITS phylogenetic trees because ITS sequence variability can make them unreliable.
+    amplicon_illumina_its_obitools4:
+      status: supported
+      recommendation: Use an ITS reference compatible with `obitag`, ideally built/curated for the exact primer/target scope.
+        UNITE is biologically appropriate for ITS but must be integrated in an OBITools-compatible reference workflow.
+      important:
+      - '`obitag` performs LCA-based assignment against a user-provided reference database; OBITools4 does not force one universal
+        ITS database.'
+    amplicon_illumina_its_mothur:
+      status: conditional
+      recommendation: Use an ITS-specific UNITE/custom reference for `classify.seqs`, but do not reuse the standard global
+        16S alignment workflow.
+      important:
+      - ITS cannot be globally aligned across fungi in the same way as 16S/18S; mothur guidance points to pairwise approaches
+        for ITS clustering.
+      - Treat this as an advanced/conditional route rather than the default ITS recommendation.
+    amplicon_illumina_its_vsearch_otu:
+      status: supported
+      recommendation: Use a taxonomy-annotated UNITE reference for SINTAX/global matching; choose fungi-only or all-eukaryote
+        UNITE to match scope.
+      important: []
+    amplicon_illumina_its_qiime2_otu:
+      status: supported
+      recommendation: Use q2-vsearch for OTU clustering and an ITS-specific UNITE classifier/reference for taxonomy.
+      important:
+      - Clustering threshold and taxonomy database are separate decisions.

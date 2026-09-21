@@ -1,0 +1,324 @@
+schema_version: 1
+workflows:
+  metagenome_illumina_taxonomy_prokaryotic:
+    operations:
+      taxonomic_profiling:
+        kraken2:
+          fit: strong
+          rationale: 'Kraken2 is well suited to rapid bacterial and archaeal taxonomic classification from shotgun
+            metagenomic reads.
+
+            '
+          database_requirement: 'Use a database with appropriate bacterial and archaeal coverage. The standard Kraken2
+            database includes bacterial and archaeal RefSeq genomes together with viral and several non-target libraries.
+
+            '
+        kaiju:
+          fit: strong
+          rationale: 'Kaiju performs protein-level taxonomic classification and is well suited to prokaryotic shotgun
+            metagenomic profiling.
+
+            '
+          database_requirement: 'Use an appropriate prokaryote-inclusive Kaiju database such as refseq, nr or another
+            curated database suitable for the study.
+
+            '
+        metaphlan:
+          fit: strong
+          rationale: 'MetaPhlAn provides marker-based species-level profiling and is well suited to bacterial and
+            archaeal community composition analysis.
+
+            '
+          database_requirement: 'Use the current MetaPhlAn marker database compatible with the installed MetaPhlAn
+            version.
+
+            '
+  metagenome_illumina_taxonomy_eukaryotic:
+    operations:
+      taxonomic_profiling:
+        kaiju:
+          fit: strong
+          rationale: 'Kaiju can profile fungi and other microbial eukaryotes when an explicitly eukaryote- inclusive
+            protein database is used.
+
+            '
+          database_requirement: 'Use an eukaryote-inclusive database such as nr_euk or refseq_nr. A prokaryote-only
+            Kaiju database is not sufficient for this strategy.
+
+            '
+        metaphlan:
+          fit: supported
+          rationale: 'MetaPhlAn supports species-level profiling of microbial eukaryotes using clade-specific markers,
+            but it is a marker-based profiler rather than an exhaustive sequence-level biodiversity search.
+
+            '
+          database_requirement: 'Use the current MetaPhlAn marker database compatible with the installed MetaPhlAn
+            version.
+
+            '
+  metagenome_illumina_taxonomy_broad:
+    operations:
+      taxonomic_profiling:
+        kaiju:
+          fit: strong
+          rationale: 'Kaiju is a strong option for broad microbial diversity profiling when a protein database explicitly
+            containing prokaryotic, viral, fungal and microbial eukaryotic sequences is used.
+
+            '
+          database_requirement: 'Use nr_euk, refseq_nr or an equivalent broad eukaryote-inclusive Kaiju database.
+
+            '
+        metaphlan:
+          fit: supported
+          rationale: 'MetaPhlAn supports profiling of bacteria, archaea, eukaryotes and viruses, but its marker-based
+            design should not be interpreted as exhaustive recovery of all sequence-level biodiversity.
+
+            '
+          database_requirement: 'Use the current MetaPhlAn marker database compatible with the installed MetaPhlAn
+            version.
+
+            '
+        kraken2:
+          fit: conditional
+          rationale: 'Kraken2 can support broad multi-kingdom classification, but the taxonomic scope is determined
+            by the database used. The standard database alone should not be treated as a comprehensive eukaryotic
+            biodiversity reference.
+
+            '
+          database_requirement: 'Use a suitably broad custom Kraken2 database containing the relevant eukaryotic
+            libraries, such as fungi and protozoa, in addition to prokaryotic and viral references.
+
+            '
+  amplicon_illumina_16s:
+    operations:
+      taxonomy_assignment:
+        dada2_taxonomy:
+          fit: strong
+          rationale: DADA2 assignTaxonomy is a natural continuation of a DADA2 ASV workflow and directly classifies
+            the representative ASV sequences.
+          database_requirement: Use a DADA2-compatible reference appropriate for 16S.
+        decipher_idtaxa:
+          fit: strong
+          rationale: DECIPHER IdTaxa provides an independent sequence classification method and is not tied to OTU
+            clustering.
+          database_requirement: Use an IdTaxa training set appropriate for 16S.
+        qiime2_feature_classifier:
+          fit: strong
+          rationale: q2-feature-classifier is appropriate for representative ASV sequences when the chosen classifier/reference
+            is trained for the amplified marker region.
+          database_requirement: Use a QIIME 2-compatible classifier or reference appropriate for 16S.
+  amplicon_illumina_18s:
+    operations:
+      taxonomy_assignment:
+        dada2_taxonomy:
+          fit: strong
+          rationale: DADA2 assignTaxonomy is a natural continuation of a DADA2 ASV workflow and directly classifies
+            the representative ASV sequences.
+          database_requirement: Use a DADA2-compatible reference appropriate for 18S.
+        decipher_idtaxa:
+          fit: strong
+          rationale: DECIPHER IdTaxa provides an independent sequence classification method and is not tied to OTU
+            clustering.
+          database_requirement: Use an IdTaxa training set appropriate for 18S.
+        qiime2_feature_classifier:
+          fit: strong
+          rationale: q2-feature-classifier is appropriate for representative ASV sequences when the chosen classifier/reference
+            is trained for the amplified marker region.
+          database_requirement: Use a QIIME 2-compatible classifier or reference appropriate for 18S.
+  amplicon_illumina_its:
+    operations:
+      taxonomy_assignment:
+        dada2_taxonomy:
+          fit: strong
+          rationale: DADA2 assignTaxonomy is a natural continuation of a DADA2 ASV workflow and directly classifies
+            the representative ASV sequences.
+          database_requirement: Use a DADA2-compatible reference appropriate for ITS.
+        decipher_idtaxa:
+          fit: strong
+          rationale: DECIPHER IdTaxa provides an independent sequence classification method and is not tied to OTU
+            clustering.
+          database_requirement: Use an IdTaxa training set appropriate for ITS.
+        qiime2_feature_classifier:
+          fit: strong
+          rationale: q2-feature-classifier is appropriate for representative ASV sequences when the chosen classifier/reference
+            is trained for the amplified marker region.
+          database_requirement: Use a QIIME 2-compatible classifier or reference appropriate for ITS.
+  amplicon_illumina_taxonomic_assignment:
+    operations:
+      taxonomy_assignment:
+        dada2_taxonomy:
+          fit: strong
+          rationale: DADA2 assignTaxonomy is a natural continuation of a DADA2 ASV workflow and directly classifies
+            the representative ASV sequences.
+          database_requirement: Use a DADA2-compatible reference appropriate for the amplified marker.
+        decipher_idtaxa:
+          fit: strong
+          rationale: DECIPHER IdTaxa provides an independent sequence classification method and is not tied to OTU
+            clustering.
+          database_requirement: Use an IdTaxa training set appropriate for the amplified marker.
+        qiime2_feature_classifier:
+          fit: strong
+          rationale: q2-feature-classifier is appropriate for representative ASV sequences when the chosen classifier/reference
+            is trained for the amplified marker region.
+          database_requirement: Use a QIIME 2-compatible classifier or reference appropriate for the amplified marker.
+  amplicon_illumina_taxonomic_assignment_otu:
+    operations:
+      taxonomy_assignment:
+        vsearch_sintax:
+          fit: strong
+          rationale: VSEARCH SINTAX is especially convenient when OTUs were already generated with VSEARCH, while
+            still remaining a separate taxonomy-classification step.
+          database_requirement: Use a taxonomy-annotated reference appropriate for the amplified marker.
+        mothur_classify_seqs:
+          fit: strong
+          rationale: mothur classify.seqs is a strong fit when the OTU workflow is already being performed in mothur.
+          database_requirement: Use a mothur-formatted reference/training taxonomy appropriate for the amplified
+            marker.
+        decipher_idtaxa:
+          fit: supported
+          rationale: DECIPHER IdTaxa can classify representative OTU sequences independently of how the OTUs were
+            generated.
+          database_requirement: Use an IdTaxa training set appropriate for the amplified marker.
+        qiime2_feature_classifier:
+          fit: supported
+          rationale: q2-feature-classifier can classify representative OTU sequences. QIIME 2 is not the OTU-clustering
+            algorithm here; this candidate refers only to the taxonomy component.
+          database_requirement: Use a QIIME 2-compatible classifier or reference appropriate for the amplified marker.
+  amplicon_illumina_alpha_nonphylogenetic:
+    operations:
+      alpha_diversity:
+        qiime2_diversity:
+          fit: strong
+          rationale: QIIME 2 directly computes non-phylogenetic alpha metrics from a feature-frequency table and
+            does not require a tree for these metrics.
+        phyloseq:
+          fit: strong
+          rationale: phyloseq provides standard richness/diversity summaries from generic amplicon feature tables
+            and integrates naturally with taxonomy and metadata.
+        vegan:
+          fit: strong
+          rationale: vegan provides established ecological diversity indices directly from community matrices and
+            is independent of feature-generation strategy.
+  amplicon_illumina_alpha_phylogenetic:
+    operations:
+      alpha_diversity:
+        qiime2_diversity:
+          fit: strong
+          rationale: QIIME 2 has an explicit phylogenetic-alpha pathway for Faith PD requiring a rooted tree and
+            matching feature identifiers.
+  amplicon_illumina_beta_nonphylogenetic:
+    operations:
+      beta_diversity:
+        qiime2_diversity:
+          fit: strong
+          rationale: QIIME 2 supports non-phylogenetic beta distances including Bray-Curtis, Jaccard and Aitchison
+            with ordination and group-testing utilities.
+        vegan:
+          fit: strong
+          rationale: vegan provides a broad set of ecological dissimilarities, Aitchison/robust-Aitchison options,
+            ordination and PERMANOVA/dispersion tools.
+        phyloseq:
+          fit: strong
+          rationale: phyloseq provides microbiome-oriented distance and ordination workflows and interoperates with
+            common ecological distance methods.
+  amplicon_illumina_beta_phylogenetic:
+    operations:
+      beta_diversity:
+        qiime2_diversity:
+          fit: strong
+          rationale: QIIME 2 has explicit weighted, unweighted and generalized UniFrac methods requiring a compatible
+            rooted tree.
+        phyloseq:
+          fit: strong
+          rationale: phyloseq supports UniFrac distances when the microbiome object includes both the feature table
+            and phylogenetic tree.
+  amplicon_illumina_da_simple:
+    operations:
+      differential_abundance:
+        ancombc2:
+          fit: strong
+          rationale: ANCOM-BC2 is microbiome-specific, uses bias correction and is appropriate for standard two-group
+            differential-abundance analysis.
+        aldex2:
+          fit: strong
+          rationale: ALDEx2 explicitly treats compositional count uncertainty with Dirichlet Monte Carlo sampling
+            and log-ratio analysis; it is well suited to replicated simple comparisons.
+        deseq2:
+          fit: conditional
+          rationale: DESeq2 can analyze microbiome counts, but its negative-binomial/RLE framework was developed
+            for RNA-seq and is not explicitly compositional; use as a conditional sensitivity or legacy analysis
+            rather than the sole default.
+  amplicon_illumina_da_multivariable:
+    operations:
+      differential_abundance:
+        ancombc2:
+          fit: strong
+          rationale: ANCOM-BC2 directly supports continuous/categorical covariates and multi-group global, pairwise,
+            Dunnett-type and trend tests while correcting microbiome sampling/taxon biases.
+        aldex2:
+          fit: supported
+          rationale: ALDEx2 provides generalized linear-model functionality and can accommodate more than two conditions,
+            but ANCOM-BC2 has more explicit microbiome-specific multi-group testing machinery.
+        deseq2:
+          fit: conditional
+          rationale: DESeq2 can encode covariates in a design matrix, but it remains an RNA-seq-derived negative-binomial
+            method rather than an explicitly compositional microbiome model.
+  amplicon_illumina_da_repeated:
+    operations:
+      differential_abundance:
+        ancombc2:
+          fit: strong
+          rationale: ANCOM-BC2 explicitly implements repeated-measures microbiome differential-abundance analysis
+            through fixed and random-effect formulas.
+        aldex2:
+          fit: conditional
+          rationale: ALDEx2 supports paired analyses and GLM-style tests, but it is not a general mixed-effects
+            repeated-measures framework equivalent to ANCOM-BC2.
+        deseq2:
+          fit: conditional
+          rationale: DESeq2 can represent simple pairing/blocking with fixed-effect designs, but it does not provide
+            a general random-effects longitudinal model.
+  metagenome_illumina_mag_single:
+    operations:
+      mag_taxonomy:
+        gtdbtk:
+          fit: strong
+          rationale: GTDB-Tk remains the preferred standardized bacterial/archaeal MAG taxonomy route when its reference
+            package and domain assumptions are satisfied.
+          database_requirement: Use the GTDB-Tk reference package compatible with the installed GTDB-Tk version.
+        catbat:
+          fit: supported
+          rationale: BAT is a direct MAG/bin taxonomic-classification alternative based on protein evidence and
+            LCA-style taxonomic assignment. It is useful when GTDB-Tk cannot be run, but the methodology and taxonomy
+            framework are not identical to GTDB-Tk.
+          database_requirement: Use a CAT/BAT-compatible database built from an appropriate NCBI or GTDB reference
+            source.
+        sourmash:
+          fit: supported
+          rationale: sourmash tax genome can classify genome/MAG queries from gather results against a genome collection.
+            It is an independent sketch/containment-based alternative rather than a drop-in reproduction of GTDB-Tk's
+            phylogenomic classifier.
+          database_requirement: Use an appropriate sourmash genome collection plus matching taxonomy metadata (for
+            example GTDB or NCBI).
+  metagenome_illumina_mag_coassembly:
+    operations:
+      mag_taxonomy:
+        gtdbtk:
+          fit: strong
+          rationale: GTDB-Tk remains the preferred standardized bacterial/archaeal MAG taxonomy route when its reference
+            package and domain assumptions are satisfied.
+          database_requirement: Use the GTDB-Tk reference package compatible with the installed GTDB-Tk version.
+        catbat:
+          fit: supported
+          rationale: BAT is a direct MAG/bin taxonomic-classification alternative based on protein evidence and
+            LCA-style taxonomic assignment. It is useful when GTDB-Tk cannot be run, but the methodology and taxonomy
+            framework are not identical to GTDB-Tk.
+          database_requirement: Use a CAT/BAT-compatible database built from an appropriate NCBI or GTDB reference
+            source.
+        sourmash:
+          fit: supported
+          rationale: sourmash tax genome can classify genome/MAG queries from gather results against a genome collection.
+            It is an independent sketch/containment-based alternative rather than a drop-in reproduction of GTDB-Tk's
+            phylogenomic classifier.
+          database_requirement: Use an appropriate sourmash genome collection plus matching taxonomy metadata (for
+            example GTDB or NCBI).

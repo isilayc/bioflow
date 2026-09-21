@@ -1,0 +1,453 @@
+﻿workflow_id,step_number,step_name,operation,candidate_rank_in_yaml,tool_id,tool_defined,io_route_defined,constraint_defined,candidate_count_for_step,fallback_available,risk_if_blocked
+bacterial_illumina_wgs,1,Raw read quality control,raw_read_qc,1,fastqc,True,True,False,1,False,MEDIUM
+bacterial_illumina_wgs,2,Read preprocessing,read_preprocessing,1,fastp,True,True,False,2,True,LOW
+bacterial_illumina_wgs,2,Read preprocessing,read_preprocessing,2,cutadapt,True,True,False,2,True,LOW
+bacterial_illumina_wgs,3,Genome assembly,genome_assembly,1,spades,True,True,False,2,True,LOW
+bacterial_illumina_wgs,3,Genome assembly,genome_assembly,2,shovill,True,True,False,2,True,LOW
+bacterial_illumina_wgs,4,Assembly quality control,assembly_qc,1,quast,True,True,False,1,False,MEDIUM
+bacterial_illumina_wgs,5,Genome annotation,genome_annotation,1,bakta,True,True,False,2,True,LOW
+bacterial_illumina_wgs,5,Genome annotation,genome_annotation,2,prokka,True,True,False,2,True,LOW
+bacterial_nanopore_wgs,1,Long-read quality control,raw_read_qc,1,nanoplot,True,True,False,1,False,MEDIUM
+bacterial_nanopore_wgs,2,Long-read preprocessing,read_preprocessing,1,chopper,True,True,False,2,True,LOW
+bacterial_nanopore_wgs,2,Long-read preprocessing,read_preprocessing,2,filtlong,True,True,False,2,True,LOW
+bacterial_nanopore_wgs,3,Long-read genome assembly,genome_assembly,1,flye,True,True,False,2,True,LOW
+bacterial_nanopore_wgs,3,Long-read genome assembly,genome_assembly,2,raven,True,True,False,2,True,LOW
+bacterial_nanopore_wgs,4,Assembly quality control,assembly_qc,1,quast,True,True,False,1,False,MEDIUM
+bacterial_nanopore_wgs,5,Genome annotation,genome_annotation,1,bakta,True,True,False,2,True,LOW
+bacterial_nanopore_wgs,5,Genome annotation,genome_annotation,2,prokka,True,True,False,2,True,LOW
+metagenome_illumina_strain_phylogenomics,1,Raw read quality control,raw_read_qc,1,fastqc,True,True,False,1,False,MEDIUM
+metagenome_illumina_strain_phylogenomics,2,Read preprocessing,read_preprocessing,1,fastp,True,True,False,2,True,LOW
+metagenome_illumina_strain_phylogenomics,2,Read preprocessing,read_preprocessing,2,cutadapt,True,True,False,2,True,LOW
+metagenome_illumina_strain_phylogenomics,3,Species profiling and marker mapping,taxonomic_profiling,1,metaphlan,True,True,False,1,False,MEDIUM
+metagenome_illumina_strain_phylogenomics,4,Consensus marker reconstruction,marker_reconstruction,1,sample2markers,True,True,False,1,False,MEDIUM
+metagenome_illumina_strain_phylogenomics,5,Strain-level phylogenomics,strain_profiling,1,strainphlan,True,True,False,1,False,MEDIUM
+metagenome_illumina_microdiversity,1,Raw read quality control,raw_read_qc,1,fastqc,True,True,False,1,False,MEDIUM
+metagenome_illumina_microdiversity,2,Read preprocessing,read_preprocessing,1,fastp,True,True,False,2,True,LOW
+metagenome_illumina_microdiversity,2,Read preprocessing,read_preprocessing,2,cutadapt,True,True,False,2,True,LOW
+metagenome_illumina_microdiversity,3,Competitive mapping to representative genomes,read_mapping,1,bowtie2,True,True,False,1,False,MEDIUM
+metagenome_illumina_microdiversity,4,Alignment sorting and indexing,alignment_processing,1,samtools,True,True,False,1,False,MEDIUM
+metagenome_illumina_microdiversity,5,Population microdiversity analysis,strain_profiling,1,instrain,True,True,False,1,False,MEDIUM
+bacterial_illumina_amr,1,Raw read quality control,raw_read_qc,1,fastqc,True,True,False,1,False,MEDIUM
+bacterial_illumina_amr,2,Read preprocessing,read_preprocessing,1,fastp,True,True,False,2,True,LOW
+bacterial_illumina_amr,2,Read preprocessing,read_preprocessing,2,cutadapt,True,True,False,2,True,LOW
+bacterial_illumina_amr,3,Genome assembly,genome_assembly,1,spades,True,True,False,2,True,LOW
+bacterial_illumina_amr,3,Genome assembly,genome_assembly,2,shovill,True,True,False,2,True,LOW
+bacterial_illumina_amr,4,Assembly quality control,assembly_qc,1,quast,True,True,False,1,False,MEDIUM
+bacterial_illumina_amr,5,Antimicrobial resistance detection,amr_detection,1,amrfinderplus,True,True,False,3,True,LOW
+bacterial_illumina_amr,5,Antimicrobial resistance detection,amr_detection,2,resfinder,True,True,False,3,True,LOW
+bacterial_illumina_amr,5,Antimicrobial resistance detection,amr_detection,3,abricate,True,True,False,3,True,LOW
+bacterial_illumina_virulence,1,Raw read quality control,raw_read_qc,1,fastqc,True,True,False,1,False,MEDIUM
+bacterial_illumina_virulence,2,Read preprocessing,read_preprocessing,1,fastp,True,True,False,2,True,LOW
+bacterial_illumina_virulence,2,Read preprocessing,read_preprocessing,2,cutadapt,True,True,False,2,True,LOW
+bacterial_illumina_virulence,3,Genome assembly,genome_assembly,1,spades,True,True,False,2,True,LOW
+bacterial_illumina_virulence,3,Genome assembly,genome_assembly,2,shovill,True,True,False,2,True,LOW
+bacterial_illumina_virulence,4,Assembly quality control,assembly_qc,1,quast,True,True,False,1,False,MEDIUM
+bacterial_illumina_virulence,5,Virulence profiling,virulence_profiling,1,virulencefinder,True,True,False,2,True,LOW
+bacterial_illumina_virulence,5,Virulence profiling,virulence_profiling,2,abricate,True,True,False,2,True,LOW
+bacterial_illumina_mlst,1,Raw read quality control,raw_read_qc,1,fastqc,True,True,False,1,False,MEDIUM
+bacterial_illumina_mlst,2,Read preprocessing,read_preprocessing,1,fastp,True,True,False,2,True,LOW
+bacterial_illumina_mlst,2,Read preprocessing,read_preprocessing,2,cutadapt,True,True,False,2,True,LOW
+bacterial_illumina_mlst,3,Genome assembly,genome_assembly,1,spades,True,True,False,2,True,LOW
+bacterial_illumina_mlst,3,Genome assembly,genome_assembly,2,shovill,True,True,False,2,True,LOW
+bacterial_illumina_mlst,4,Assembly quality control,assembly_qc,1,quast,True,True,False,1,False,MEDIUM
+bacterial_illumina_mlst,5,MLST / strain typing,mlst_typing,1,mlst,True,True,False,2,True,LOW
+bacterial_illumina_mlst,5,MLST / strain typing,mlst_typing,2,pymlst,True,True,False,2,True,LOW
+bacterial_illumina_prophage,1,Raw read quality control,raw_read_qc,1,fastqc,True,True,False,1,False,MEDIUM
+bacterial_illumina_prophage,2,Read preprocessing,read_preprocessing,1,fastp,True,True,False,2,True,LOW
+bacterial_illumina_prophage,2,Read preprocessing,read_preprocessing,2,cutadapt,True,True,False,2,True,LOW
+bacterial_illumina_prophage,3,Genome assembly,genome_assembly,1,spades,True,True,False,2,True,LOW
+bacterial_illumina_prophage,3,Genome assembly,genome_assembly,2,shovill,True,True,False,2,True,LOW
+bacterial_illumina_prophage,4,Assembly quality control,assembly_qc,1,quast,True,True,False,1,False,MEDIUM
+bacterial_illumina_prophage,5,Genome annotation,genome_annotation,1,bakta,True,True,False,2,True,LOW
+bacterial_illumina_prophage,5,Genome annotation,genome_annotation,2,prokka,True,True,False,2,True,LOW
+bacterial_illumina_prophage,6,Prophage detection,prophage_detection,1,genomad,True,True,True,2,True,LOW
+bacterial_illumina_prophage,6,Prophage detection,prophage_detection,2,phispy,True,True,False,2,True,LOW
+bacterial_illumina_variant_analysis,1,Raw read quality control,raw_read_qc,1,fastqc,True,True,False,1,False,MEDIUM
+bacterial_illumina_variant_analysis,2,Read preprocessing,read_preprocessing,1,fastp,True,True,False,2,True,LOW
+bacterial_illumina_variant_analysis,2,Read preprocessing,read_preprocessing,2,cutadapt,True,True,False,2,True,LOW
+bacterial_illumina_variant_analysis,3,Reference genome alignment,read_mapping,1,bwa_mem2,True,True,False,1,False,MEDIUM
+bacterial_illumina_variant_analysis,4,Alignment sorting and indexing,alignment_processing,1,samtools,True,True,False,1,False,MEDIUM
+bacterial_illumina_variant_analysis,5,Variant calling,variant_calling,1,bcftools,True,True,False,2,True,LOW
+bacterial_illumina_variant_analysis,5,Variant calling,variant_calling,2,freebayes,True,True,False,2,True,LOW
+bacterial_illumina_variant_analysis,6,Variant filtering and normalization,variant_filtering,1,bcftools,True,True,False,1,False,MEDIUM
+bacterial_illumina_pangenome,1,Raw read quality control,raw_read_qc,1,fastqc,True,True,False,1,False,MEDIUM
+bacterial_illumina_pangenome,2,Read preprocessing,read_preprocessing,1,fastp,True,True,False,2,True,LOW
+bacterial_illumina_pangenome,2,Read preprocessing,read_preprocessing,2,cutadapt,True,True,False,2,True,LOW
+bacterial_illumina_pangenome,3,Genome assembly,genome_assembly,1,spades,True,True,False,2,True,LOW
+bacterial_illumina_pangenome,3,Genome assembly,genome_assembly,2,shovill,True,True,False,2,True,LOW
+bacterial_illumina_pangenome,4,Assembly quality control,assembly_qc,1,quast,True,True,False,1,False,MEDIUM
+bacterial_illumina_pangenome,5,Standardized genome annotation,genome_annotation,1,bakta,True,True,False,2,True,LOW
+bacterial_illumina_pangenome,5,Standardized genome annotation,genome_annotation,2,prokka,True,True,False,2,True,LOW
+bacterial_illumina_pangenome,6,Pangenome analysis,pangenome_analysis,1,panaroo,True,True,False,2,True,LOW
+bacterial_illumina_pangenome,6,Pangenome analysis,pangenome_analysis,2,ppanggolin,True,True,False,2,True,LOW
+bacterial_illumina_phylogenomics,1,Raw read quality control,raw_read_qc,1,fastqc,True,True,False,1,False,MEDIUM
+bacterial_illumina_phylogenomics,2,Read preprocessing,read_preprocessing,1,fastp,True,True,False,2,True,LOW
+bacterial_illumina_phylogenomics,2,Read preprocessing,read_preprocessing,2,cutadapt,True,True,False,2,True,LOW
+bacterial_illumina_phylogenomics,3,Genome assembly,genome_assembly,1,spades,True,True,False,2,True,LOW
+bacterial_illumina_phylogenomics,3,Genome assembly,genome_assembly,2,shovill,True,True,False,2,True,LOW
+bacterial_illumina_phylogenomics,4,Assembly quality control,assembly_qc,1,quast,True,True,False,1,False,MEDIUM
+bacterial_illumina_phylogenomics,5,Standardized genome annotation,genome_annotation,1,bakta,True,True,False,2,True,LOW
+bacterial_illumina_phylogenomics,5,Standardized genome annotation,genome_annotation,2,prokka,True,True,False,2,True,LOW
+bacterial_illumina_phylogenomics,6,Core genome alignment,core_genome_alignment,1,panaroo,True,True,False,1,False,MEDIUM
+bacterial_illumina_phylogenomics,7,Phylogenetic inference,phylogenetic_inference,1,iqtree2,True,True,False,2,True,LOW
+bacterial_illumina_phylogenomics,7,Phylogenetic inference,phylogenetic_inference,2,raxmlng,True,True,False,2,True,LOW
+bacterial_illumina_ont_hybrid,1,Illumina read quality control,raw_read_qc,1,fastqc,True,True,False,1,False,MEDIUM
+bacterial_illumina_ont_hybrid,2,Oxford Nanopore read quality control,raw_read_qc,1,nanoplot,True,True,False,1,False,MEDIUM
+bacterial_illumina_ont_hybrid,3,Illumina read preprocessing,read_preprocessing,1,fastp,True,True,False,2,True,LOW
+bacterial_illumina_ont_hybrid,3,Illumina read preprocessing,read_preprocessing,2,cutadapt,True,True,False,2,True,LOW
+bacterial_illumina_ont_hybrid,4,Oxford Nanopore read preprocessing,read_preprocessing,1,chopper,True,True,False,2,True,LOW
+bacterial_illumina_ont_hybrid,4,Oxford Nanopore read preprocessing,read_preprocessing,2,filtlong,True,True,False,2,True,LOW
+bacterial_illumina_ont_hybrid,5,Hybrid genome assembly,hybrid_genome_assembly,1,hybracter,True,True,False,3,True,LOW
+bacterial_illumina_ont_hybrid,5,Hybrid genome assembly,hybrid_genome_assembly,2,unicycler,True,True,False,3,True,LOW
+bacterial_illumina_ont_hybrid,5,Hybrid genome assembly,hybrid_genome_assembly,3,spades,True,True,False,3,True,LOW
+bacterial_illumina_ont_hybrid,6,Assembly quality control,assembly_qc,1,quast,True,True,False,1,False,MEDIUM
+bacterial_illumina_ont_hybrid,7,Genome annotation,genome_annotation,1,bakta,True,True,False,2,True,LOW
+bacterial_illumina_ont_hybrid,7,Genome annotation,genome_annotation,2,prokka,True,True,False,2,True,LOW
+bacterial_illumina_pacbio_hybrid,1,Illumina read quality control,raw_read_qc,1,fastqc,True,True,False,1,False,MEDIUM
+bacterial_illumina_pacbio_hybrid,2,PacBio read quality control,raw_read_qc,1,nanoplot,True,True,False,1,False,MEDIUM
+bacterial_illumina_pacbio_hybrid,3,Illumina read preprocessing,read_preprocessing,1,fastp,True,True,False,2,True,LOW
+bacterial_illumina_pacbio_hybrid,3,Illumina read preprocessing,read_preprocessing,2,cutadapt,True,True,False,2,True,LOW
+bacterial_illumina_pacbio_hybrid,4,PacBio read preprocessing,read_preprocessing,1,filtlong,True,True,False,1,False,MEDIUM
+bacterial_illumina_pacbio_hybrid,5,Hybrid genome assembly,hybrid_genome_assembly,1,unicycler,True,True,False,2,True,LOW
+bacterial_illumina_pacbio_hybrid,5,Hybrid genome assembly,hybrid_genome_assembly,2,spades,True,True,False,2,True,LOW
+bacterial_illumina_pacbio_hybrid,6,Assembly quality control,assembly_qc,1,quast,True,True,False,1,False,MEDIUM
+bacterial_illumina_pacbio_hybrid,7,Genome annotation,genome_annotation,1,bakta,True,True,False,2,True,LOW
+bacterial_illumina_pacbio_hybrid,7,Genome annotation,genome_annotation,2,prokka,True,True,False,2,True,LOW
+metagenome_illumina_functional,1,Raw read quality control,raw_read_qc,1,fastqc,True,True,False,1,False,MEDIUM
+metagenome_illumina_functional,2,Read preprocessing,read_preprocessing,1,fastp,True,True,False,2,True,LOW
+metagenome_illumina_functional,2,Read preprocessing,read_preprocessing,2,cutadapt,True,True,False,2,True,LOW
+metagenome_illumina_functional,3,Functional profiling,functional_profiling,1,humann,True,True,False,1,False,MEDIUM
+metagenome_illumina_pathways,1,Raw read quality control,raw_read_qc,1,fastqc,True,True,False,1,False,MEDIUM
+metagenome_illumina_pathways,2,Read preprocessing,read_preprocessing,1,fastp,True,True,False,2,True,LOW
+metagenome_illumina_pathways,2,Read preprocessing,read_preprocessing,2,cutadapt,True,True,False,2,True,LOW
+metagenome_illumina_pathways,3,Metabolic pathway profiling,pathway_analysis,1,humann,True,True,False,1,False,MEDIUM
+metagenome_illumina_virulence,1,Raw read quality control,raw_read_qc,1,fastqc,True,True,False,1,False,MEDIUM
+metagenome_illumina_virulence,2,Read preprocessing,read_preprocessing,1,fastp,True,True,False,2,True,LOW
+metagenome_illumina_virulence,2,Read preprocessing,read_preprocessing,2,cutadapt,True,True,False,2,True,LOW
+metagenome_illumina_virulence,3,Metagenome assembly,metagenome_assembly,1,megahit,True,True,False,2,True,LOW
+metagenome_illumina_virulence,3,Metagenome assembly,metagenome_assembly,2,metaspades,True,True,False,2,True,LOW
+metagenome_illumina_virulence,4,Virulence factor profiling,virulence_profiling,1,pathofact2,True,True,False,1,False,MEDIUM
+metagenome_illumina_viral,1,Raw read quality control,raw_read_qc,1,fastqc,True,True,False,1,False,MEDIUM
+metagenome_illumina_viral,2,Read preprocessing,read_preprocessing,1,fastp,True,True,False,2,True,LOW
+metagenome_illumina_viral,2,Read preprocessing,read_preprocessing,2,cutadapt,True,True,False,2,True,LOW
+metagenome_illumina_viral,3,Metagenome assembly,metagenome_assembly,1,megahit,True,True,False,2,True,LOW
+metagenome_illumina_viral,3,Metagenome assembly,metagenome_assembly,2,metaspades,True,True,False,2,True,LOW
+metagenome_illumina_viral,4,Viral sequence detection,viral_sequence_detection,1,genomad,True,True,True,2,True,LOW
+metagenome_illumina_viral,4,Viral sequence detection,viral_sequence_detection,2,virsorter2,True,True,True,2,True,LOW
+metagenome_illumina_viral,5,Viral genome quality assessment,viral_quality,1,checkv,True,True,True,1,False,HIGH
+metagenome_illumina_viral,6,Viral taxonomic classification,viral_taxonomy,1,genomad,True,True,True,1,False,HIGH
+amplicon_illumina_16s,1,Primer and adapter removal,primer_trimming,1,cutadapt,True,True,False,1,False,MEDIUM
+amplicon_illumina_16s,2,ASV inference,asv_inference,1,dada2,True,True,True,1,False,HIGH
+amplicon_illumina_16s,3,Taxonomic assignment,taxonomy_assignment,1,dada2_taxonomy,True,True,False,3,True,LOW
+amplicon_illumina_16s,3,Taxonomic assignment,taxonomy_assignment,2,decipher_idtaxa,True,True,False,3,True,LOW
+amplicon_illumina_16s,3,Taxonomic assignment,taxonomy_assignment,3,qiime2_feature_classifier,True,True,False,3,True,LOW
+amplicon_illumina_16s_qiime2_asv,1,ASV · QIIME 2 q2-dada2 (16S),amplicon_end_to_end,1,qiime2_asv_workflow,True,True,False,1,False,MEDIUM
+amplicon_illumina_16s_nfcore,1,ASV turnkey · nf-core/ampliseq (16S),amplicon_end_to_end,1,nfcore_ampliseq_workflow,True,True,False,1,False,MEDIUM
+amplicon_illumina_16s_frogs,1,Flexible pipeline · FROGS (16S),amplicon_end_to_end,1,frogs_workflow,True,True,False,1,False,MEDIUM
+amplicon_illumina_16s_lotus2,1,Flexible pipeline · LotuS2 (16S),amplicon_end_to_end,1,lotus2_workflow,True,True,False,1,False,MEDIUM
+amplicon_illumina_16s_obitools4,1,MOTU/metabarcoding · OBITools4-composed workflow (16S),amplicon_end_to_end,1,obitools4_workflow,True,True,False,1,False,MEDIUM
+amplicon_illumina_16s_mothur,1,OTU · mothur (16S),amplicon_end_to_end,1,mothur_otu_workflow,True,True,False,1,False,MEDIUM
+amplicon_illumina_16s_vsearch_otu,1,OTU · VSEARCH-centered modular workflow (16S),amplicon_end_to_end,1,vsearch_otu_workflow,True,True,False,1,False,MEDIUM
+amplicon_illumina_16s_qiime2_otu,1,OTU · QIIME 2 q2-vsearch (16S),amplicon_end_to_end,1,qiime2_otu_workflow,True,True,False,1,False,MEDIUM
+amplicon_illumina_16s_silvangs,1,Prepare SILVAngs Multi-FASTA input,silvangs_input_preparation,1,silvangs_input_prep,True,True,False,1,False,MEDIUM
+amplicon_illumina_16s_silvangs,2,SILVAngs rDNA analysis,amplicon_end_to_end,1,silvangs_workflow,True,True,False,1,False,MEDIUM
+amplicon_illumina_18s,1,Primer and adapter removal,primer_trimming,1,cutadapt,True,True,False,1,False,MEDIUM
+amplicon_illumina_18s,2,18S ASV inference,asv_inference,1,dada2,True,True,True,1,False,HIGH
+amplicon_illumina_18s,3,Taxonomic assignment,taxonomy_assignment,1,dada2_taxonomy,True,True,False,3,True,LOW
+amplicon_illumina_18s,3,Taxonomic assignment,taxonomy_assignment,2,decipher_idtaxa,True,True,False,3,True,LOW
+amplicon_illumina_18s,3,Taxonomic assignment,taxonomy_assignment,3,qiime2_feature_classifier,True,True,False,3,True,LOW
+amplicon_illumina_18s_qiime2_asv,1,ASV · QIIME 2 q2-dada2 (18S),amplicon_end_to_end,1,qiime2_asv_workflow,True,True,False,1,False,MEDIUM
+amplicon_illumina_18s_nfcore,1,ASV turnkey · nf-core/ampliseq (18S),amplicon_end_to_end,1,nfcore_ampliseq_workflow,True,True,False,1,False,MEDIUM
+amplicon_illumina_18s_frogs,1,Flexible pipeline · FROGS (18S),amplicon_end_to_end,1,frogs_workflow,True,True,False,1,False,MEDIUM
+amplicon_illumina_18s_lotus2,1,Flexible pipeline · LotuS2 (18S),amplicon_end_to_end,1,lotus2_workflow,True,True,False,1,False,MEDIUM
+amplicon_illumina_18s_obitools4,1,MOTU/metabarcoding · OBITools4-composed workflow (18S),amplicon_end_to_end,1,obitools4_workflow,True,True,False,1,False,MEDIUM
+amplicon_illumina_18s_mothur,1,OTU · mothur (18S),amplicon_end_to_end,1,mothur_otu_workflow,True,True,False,1,False,MEDIUM
+amplicon_illumina_18s_vsearch_otu,1,OTU · VSEARCH-centered modular workflow (18S),amplicon_end_to_end,1,vsearch_otu_workflow,True,True,False,1,False,MEDIUM
+amplicon_illumina_18s_qiime2_otu,1,OTU · QIIME 2 q2-vsearch (18S),amplicon_end_to_end,1,qiime2_otu_workflow,True,True,False,1,False,MEDIUM
+amplicon_illumina_18s_silvangs,1,Prepare SILVAngs Multi-FASTA input,silvangs_input_preparation,1,silvangs_input_prep,True,True,False,1,False,MEDIUM
+amplicon_illumina_18s_silvangs,2,SILVAngs rDNA analysis,amplicon_end_to_end,1,silvangs_workflow,True,True,False,1,False,MEDIUM
+amplicon_illumina_its,1,ITS primer removal,primer_trimming,1,cutadapt,True,True,False,1,False,MEDIUM
+amplicon_illumina_its,2,ITS ASV inference,asv_inference,1,dada2,True,True,True,1,False,HIGH
+amplicon_illumina_its,3,Fungal taxonomic assignment,taxonomy_assignment,1,dada2_taxonomy,True,True,False,3,True,LOW
+amplicon_illumina_its,3,Fungal taxonomic assignment,taxonomy_assignment,2,decipher_idtaxa,True,True,False,3,True,LOW
+amplicon_illumina_its,3,Fungal taxonomic assignment,taxonomy_assignment,3,qiime2_feature_classifier,True,True,False,3,True,LOW
+amplicon_illumina_its_qiime2_asv,1,ASV · QIIME 2 q2-dada2 (ITS),amplicon_end_to_end,1,qiime2_asv_workflow,True,True,False,1,False,MEDIUM
+amplicon_illumina_its_nfcore,1,ASV turnkey · nf-core/ampliseq (ITS),amplicon_end_to_end,1,nfcore_ampliseq_workflow,True,True,False,1,False,MEDIUM
+amplicon_illumina_its_frogs,1,Flexible pipeline · FROGS (ITS),amplicon_end_to_end,1,frogs_workflow,True,True,False,1,False,MEDIUM
+amplicon_illumina_its_lotus2,1,Flexible pipeline · LotuS2 (ITS),amplicon_end_to_end,1,lotus2_workflow,True,True,False,1,False,MEDIUM
+amplicon_illumina_its_obitools4,1,MOTU/metabarcoding · OBITools4-composed workflow (ITS),amplicon_end_to_end,1,obitools4_workflow,True,True,False,1,False,MEDIUM
+amplicon_illumina_its_mothur,1,OTU · mothur (ITS),amplicon_end_to_end,1,mothur_otu_workflow,True,True,False,1,False,MEDIUM
+amplicon_illumina_its_vsearch_otu,1,OTU · VSEARCH-centered modular workflow (ITS),amplicon_end_to_end,1,vsearch_otu_workflow,True,True,False,1,False,MEDIUM
+amplicon_illumina_its_qiime2_otu,1,OTU · QIIME 2 q2-vsearch (ITS),amplicon_end_to_end,1,qiime2_otu_workflow,True,True,False,1,False,MEDIUM
+amplicon_illumina_asv_inference,1,Primer and adapter removal,primer_trimming,1,cutadapt,True,True,False,1,False,MEDIUM
+amplicon_illumina_asv_inference,2,ASV inference,asv_inference,1,dada2,True,True,True,1,False,HIGH
+amplicon_illumina_taxonomic_assignment,1,Primer and adapter removal,primer_trimming,1,cutadapt,True,True,False,1,False,MEDIUM
+amplicon_illumina_taxonomic_assignment,2,ASV inference,asv_inference,1,dada2,True,True,True,1,False,HIGH
+amplicon_illumina_taxonomic_assignment,3,Taxonomic assignment,taxonomy_assignment,1,dada2_taxonomy,True,True,False,3,True,LOW
+amplicon_illumina_taxonomic_assignment,3,Taxonomic assignment,taxonomy_assignment,2,decipher_idtaxa,True,True,False,3,True,LOW
+amplicon_illumina_taxonomic_assignment,3,Taxonomic assignment,taxonomy_assignment,3,qiime2_feature_classifier,True,True,False,3,True,LOW
+amplicon_illumina_taxonomic_assignment_otu,1,Primer and adapter removal,primer_trimming,1,cutadapt,True,True,False,1,False,MEDIUM
+amplicon_illumina_taxonomic_assignment_otu,2,OTU clustering,otu_clustering,1,vsearch,True,True,False,2,True,LOW
+amplicon_illumina_taxonomic_assignment_otu,2,OTU clustering,otu_clustering,2,mothur,True,True,False,2,True,LOW
+amplicon_illumina_taxonomic_assignment_otu,3,Taxonomic assignment,taxonomy_assignment,1,vsearch_sintax,True,True,False,4,True,LOW
+amplicon_illumina_taxonomic_assignment_otu,3,Taxonomic assignment,taxonomy_assignment,2,mothur_classify_seqs,True,True,False,4,True,LOW
+amplicon_illumina_taxonomic_assignment_otu,3,Taxonomic assignment,taxonomy_assignment,3,decipher_idtaxa,True,True,False,4,True,LOW
+amplicon_illumina_taxonomic_assignment_otu,3,Taxonomic assignment,taxonomy_assignment,4,qiime2_feature_classifier,True,True,False,4,True,LOW
+bulk_transcriptome_illumina_alignment_based,1,Reference genome indexing,transcriptome_indexing,1,star,True,True,False,2,True,LOW
+bulk_transcriptome_illumina_alignment_based,1,Reference genome indexing,transcriptome_indexing,2,hisat2,True,True,False,2,True,LOW
+bulk_transcriptome_illumina_alignment_based,2,Splice-aware RNA-seq alignment,rna_alignment,1,star,True,True,False,2,True,LOW
+bulk_transcriptome_illumina_alignment_based,2,Splice-aware RNA-seq alignment,rna_alignment,2,hisat2,True,True,False,2,True,LOW
+bulk_transcriptome_illumina_alignment_based,3,Alignment processing,alignment_processing,1,samtools,True,True,False,1,False,MEDIUM
+bulk_transcriptome_illumina_alignment_based,4,Gene-level quantification,gene_quantification,1,featurecounts,True,True,False,1,False,MEDIUM
+bulk_transcriptome_illumina_lightweight_quantification,1,Transcriptome indexing,transcriptome_indexing,1,salmon,True,True,False,2,True,LOW
+bulk_transcriptome_illumina_lightweight_quantification,1,Transcriptome indexing,transcriptome_indexing,2,kallisto,True,True,False,2,True,LOW
+bulk_transcriptome_illumina_lightweight_quantification,2,Transcript-level quantification,lightweight_quantification,1,salmon,True,True,False,2,True,LOW
+bulk_transcriptome_illumina_lightweight_quantification,2,Transcript-level quantification,lightweight_quantification,2,kallisto,True,True,False,2,True,LOW
+bulk_transcriptome_illumina_differential_expression_alignment,1,Reference genome indexing,transcriptome_indexing,1,star,True,True,False,2,True,LOW
+bulk_transcriptome_illumina_differential_expression_alignment,1,Reference genome indexing,transcriptome_indexing,2,hisat2,True,True,False,2,True,LOW
+bulk_transcriptome_illumina_differential_expression_alignment,2,RNA-seq alignment,rna_alignment,1,star,True,True,False,2,True,LOW
+bulk_transcriptome_illumina_differential_expression_alignment,2,RNA-seq alignment,rna_alignment,2,hisat2,True,True,False,2,True,LOW
+bulk_transcriptome_illumina_differential_expression_alignment,3,Alignment processing,alignment_processing,1,samtools,True,True,False,1,False,MEDIUM
+bulk_transcriptome_illumina_differential_expression_alignment,4,Gene-level quantification,gene_quantification,1,featurecounts,True,True,False,1,False,MEDIUM
+bulk_transcriptome_illumina_differential_expression_alignment,5,Differential expression analysis,differential_expression,1,deseq2,True,True,False,2,True,LOW
+bulk_transcriptome_illumina_differential_expression_alignment,5,Differential expression analysis,differential_expression,2,edger,True,True,False,2,True,LOW
+bulk_transcriptome_illumina_differential_expression_lightweight,1,Transcriptome indexing,transcriptome_indexing,1,salmon,True,True,False,2,True,LOW
+bulk_transcriptome_illumina_differential_expression_lightweight,1,Transcriptome indexing,transcriptome_indexing,2,kallisto,True,True,False,2,True,LOW
+bulk_transcriptome_illumina_differential_expression_lightweight,2,Transcript-level quantification,lightweight_quantification,1,salmon,True,True,False,2,True,LOW
+bulk_transcriptome_illumina_differential_expression_lightweight,2,Transcript-level quantification,lightweight_quantification,2,kallisto,True,True,False,2,True,LOW
+bulk_transcriptome_illumina_differential_expression_lightweight,3,Transcript-to-gene summarization,transcript_to_gene_summarization,1,tximport,True,True,False,1,False,MEDIUM
+bulk_transcriptome_illumina_differential_expression_lightweight,4,Differential expression analysis,differential_expression,1,deseq2,True,True,False,2,True,LOW
+bulk_transcriptome_illumina_differential_expression_lightweight,4,Differential expression analysis,differential_expression,2,edger,True,True,False,2,True,LOW
+bulk_transcriptome_illumina_transcript_assembly_guided,1,Reference genome indexing,transcriptome_indexing,1,star,True,True,False,2,True,LOW
+bulk_transcriptome_illumina_transcript_assembly_guided,1,Reference genome indexing,transcriptome_indexing,2,hisat2,True,True,False,2,True,LOW
+bulk_transcriptome_illumina_transcript_assembly_guided,2,Splice-aware RNA-seq alignment,rna_alignment,1,star,True,True,False,2,True,LOW
+bulk_transcriptome_illumina_transcript_assembly_guided,2,Splice-aware RNA-seq alignment,rna_alignment,2,hisat2,True,True,False,2,True,LOW
+bulk_transcriptome_illumina_transcript_assembly_guided,3,Alignment processing,alignment_processing,1,samtools,True,True,False,1,False,MEDIUM
+bulk_transcriptome_illumina_transcript_assembly_guided,4,Genome-guided transcript reconstruction,transcript_assembly,1,stringtie,True,True,False,1,False,MEDIUM
+bulk_transcriptome_illumina_transcript_assembly_denovo,1,De novo transcriptome assembly,transcript_assembly,1,trinity,True,True,False,1,False,MEDIUM
+bulk_transcriptome_illumina_alternative_splicing,1,Reference genome indexing,transcriptome_indexing,1,star,True,True,False,2,True,LOW
+bulk_transcriptome_illumina_alternative_splicing,1,Reference genome indexing,transcriptome_indexing,2,hisat2,True,True,False,2,True,LOW
+bulk_transcriptome_illumina_alternative_splicing,2,Replicate RNA-seq alignment,rna_alignment,1,star,True,True,False,2,True,LOW
+bulk_transcriptome_illumina_alternative_splicing,2,Replicate RNA-seq alignment,rna_alignment,2,hisat2,True,True,False,2,True,LOW
+bulk_transcriptome_illumina_alternative_splicing,3,Alignment preparation,alignment_processing,1,samtools,True,True,False,1,False,MEDIUM
+bulk_transcriptome_illumina_alternative_splicing,4,Differential alternative splicing,alternative_splicing,1,rmats,True,True,False,1,False,MEDIUM
+bulk_transcriptome_functional_enrichment,1,Functional enrichment analysis,functional_enrichment,1,clusterprofiler,True,True,False,1,False,MEDIUM
+bulk_transcriptome_pathway_analysis,1,Ranked gene-set pathway analysis,pathway_analysis,1,fgsea,True,True,False,1,False,MEDIUM
+virome_illumina_viral_detection,1,Read preprocessing,read_preprocessing,1,fastp,True,True,False,1,False,MEDIUM
+virome_illumina_viral_detection,2,Virome assembly,metagenome_assembly,1,megahit,True,True,False,1,False,MEDIUM
+virome_illumina_viral_detection,3,Viral sequence detection,viral_sequence_detection,1,genomad,True,True,True,1,False,HIGH
+virome_illumina_quality_assessment,1,Read preprocessing,read_preprocessing,1,fastp,True,True,False,1,False,MEDIUM
+virome_illumina_quality_assessment,2,Virome assembly,metagenome_assembly,1,megahit,True,True,False,1,False,MEDIUM
+virome_illumina_quality_assessment,3,Viral sequence detection,viral_sequence_detection,1,genomad,True,True,True,1,False,HIGH
+virome_illumina_quality_assessment,4,Viral genome quality assessment,viral_genome_quality,1,checkv,True,True,True,1,False,HIGH
+virome_illumina_viral_taxonomy,1,Read preprocessing,read_preprocessing,1,fastp,True,True,False,1,False,MEDIUM
+virome_illumina_viral_taxonomy,2,Virome assembly,metagenome_assembly,1,megahit,True,True,False,1,False,MEDIUM
+virome_illumina_viral_taxonomy,3,Viral identification and ICTV taxonomy,viral_taxonomy,1,genomad,True,True,True,1,False,HIGH
+virome_illumina_host_prediction,1,Read preprocessing,read_preprocessing,1,fastp,True,True,False,1,False,MEDIUM
+virome_illumina_host_prediction,2,Virome assembly,metagenome_assembly,1,megahit,True,True,False,1,False,MEDIUM
+virome_illumina_host_prediction,3,Viral sequence detection,viral_sequence_detection,1,genomad,True,True,True,1,False,HIGH
+virome_illumina_host_prediction,4,Viral genome quality assessment,viral_genome_quality,1,checkv,True,True,True,1,False,HIGH
+virome_illumina_host_prediction,5,Phage/archaeovirus host-genus prediction,viral_host_prediction,1,iphop,True,True,True,1,False,HIGH
+virome_illumina_votu_clustering,1,Read preprocessing,read_preprocessing,1,fastp,True,True,False,1,False,MEDIUM
+virome_illumina_votu_clustering,2,Virome assembly,metagenome_assembly,1,megahit,True,True,False,1,False,MEDIUM
+virome_illumina_votu_clustering,3,Viral sequence detection,viral_sequence_detection,1,genomad,True,True,True,1,False,HIGH
+virome_illumina_votu_clustering,4,Viral genome quality assessment,viral_genome_quality,1,checkv,True,True,True,1,False,HIGH
+virome_illumina_votu_clustering,5,Species-level vOTU clustering,viral_votu_clustering,1,vclust,True,True,False,1,False,MEDIUM
+virome_illumina_functional_annotation,1,Read preprocessing,read_preprocessing,1,fastp,True,True,False,1,False,MEDIUM
+virome_illumina_functional_annotation,2,Virome assembly,metagenome_assembly,1,megahit,True,True,False,1,False,MEDIUM
+virome_illumina_functional_annotation,3,Viral sequence detection,viral_sequence_detection,1,genomad,True,True,True,1,False,HIGH
+virome_illumina_functional_annotation,4,Viral genome quality assessment,viral_genome_quality,1,checkv,True,True,True,1,False,HIGH
+virome_illumina_functional_annotation,5,Viral gene prediction,viral_gene_prediction,1,prodigal_gv,True,True,False,1,False,MEDIUM
+virome_illumina_functional_annotation,6,Viral protein functional annotation,viral_functional_annotation,1,eggnog_mapper,True,True,False,1,False,MEDIUM
+virome_illumina_amg_analysis,1,Read preprocessing,read_preprocessing,1,fastp,True,True,False,1,False,MEDIUM
+virome_illumina_amg_analysis,2,Virome assembly,metagenome_assembly,1,megahit,True,True,False,1,False,MEDIUM
+virome_illumina_amg_analysis,3,VirSorter2 DRAM-v preparation,dramv_preparation,1,virsorter2,True,True,True,1,False,HIGH
+virome_illumina_amg_analysis,4,DRAM-v AMG analysis,auxiliary_metabolic_gene_analysis,1,dramv,True,True,False,1,False,MEDIUM
+eukaryotic_genome_ont_assembly,1,Long-read genome assembly,genome_assembly,1,flye,True,True,False,1,False,MEDIUM
+eukaryotic_genome_pacbio_assembly,1,HiFi genome assembly,genome_assembly,1,hifiasm,True,True,False,1,False,MEDIUM
+eukaryotic_genome_illumina_ont_hybrid,1,Hybrid genome assembly,hybrid_genome_assembly,1,masurca,True,True,False,1,False,MEDIUM
+eukaryotic_genome_quality,1,Assembly statistics,assembly_qc,1,quast,True,True,False,1,False,MEDIUM
+eukaryotic_genome_quality,2,Genome completeness assessment,genome_quality_assessment,1,busco,True,True,True,1,False,HIGH
+eukaryotic_genome_repeat_annotation,1,De novo repeat discovery,repeat_discovery,1,repeatmodeler,True,True,False,1,False,MEDIUM
+eukaryotic_genome_repeat_annotation,2,Repeat annotation and masking,repeat_annotation,1,repeatmasker,True,True,False,1,False,MEDIUM
+eukaryotic_genome_gene_prediction_braker,1,De novo repeat discovery,repeat_discovery,1,repeatmodeler,True,True,False,1,False,MEDIUM
+eukaryotic_genome_gene_prediction_braker,2,Repeat masking,repeat_annotation,1,repeatmasker,True,True,False,1,False,MEDIUM
+eukaryotic_genome_gene_prediction_braker,3,Protein-evidence gene prediction with BRAKER4,gene_prediction,1,braker4,True,True,False,1,False,MEDIUM
+eukaryotic_genome_gene_prediction_augustus,1,De novo repeat discovery,repeat_discovery,1,repeatmodeler,True,True,False,1,False,MEDIUM
+eukaryotic_genome_gene_prediction_augustus,2,Repeat masking,repeat_annotation,1,repeatmasker,True,True,False,1,False,MEDIUM
+eukaryotic_genome_gene_prediction_augustus,3,Ab initio gene prediction,gene_prediction,1,augustus,True,True,False,1,False,MEDIUM
+eukaryotic_genome_functional_annotation,1,Protein functional annotation,functional_annotation,1,eggnog_mapper,True,True,False,1,False,MEDIUM
+eukaryotic_genome_illumina_variant_analysis,1,Read mapping,read_mapping,1,bwa_mem2,True,True,False,1,False,MEDIUM
+eukaryotic_genome_illumina_variant_analysis,2,Alignment sorting and indexing,alignment_processing,1,samtools,True,True,False,1,False,MEDIUM
+eukaryotic_genome_illumina_variant_analysis,3,Variant calling,variant_calling,1,bcftools,True,True,False,2,True,LOW
+eukaryotic_genome_illumina_variant_analysis,3,Variant calling,variant_calling,2,freebayes,True,True,False,2,True,LOW
+eukaryotic_genome_comparative_genomics,1,Whole-genome alignment,whole_genome_alignment,1,mummer4,True,True,False,1,False,MEDIUM
+eukaryotic_genome_comparative_genomics,2,Synteny and structural genome comparison,comparative_genomics,1,syri,True,True,False,1,False,MEDIUM
+metatranscriptome_illumina_host_removal,1,Host read removal,host_read_removal,1,bowtie2,True,True,False,1,False,MEDIUM
+metatranscriptome_illumina_rrna_assessment,1,rRNA detection and filtering,rrna_depletion_assessment,1,sortmerna,True,True,False,1,False,MEDIUM
+metatranscriptome_illumina_taxonomy,1,Host read removal,host_read_removal,1,bowtie2,True,True,False,1,False,MEDIUM
+metatranscriptome_illumina_taxonomy,2,rRNA filtering,rrna_depletion_assessment,1,sortmerna,True,True,False,1,False,MEDIUM
+metatranscriptome_illumina_taxonomy,3,Taxonomic profiling,taxonomic_profiling,1,metaphlan,True,True,False,2,True,LOW
+metatranscriptome_illumina_taxonomy,3,Taxonomic profiling,taxonomic_profiling,2,kaiju,True,True,False,2,True,LOW
+metatranscriptome_illumina_differential_expression,1,Host read removal across samples,host_read_removal,1,bowtie2,True,True,False,1,False,MEDIUM
+metatranscriptome_illumina_differential_expression,2,rRNA filtering across samples,rrna_depletion_assessment,1,sortmerna,True,True,False,1,False,MEDIUM
+metatranscriptome_illumina_differential_expression,3,Mapping to microbial gene/reference catalogue,read_mapping,1,bowtie2,True,True,False,1,False,MEDIUM
+metatranscriptome_illumina_differential_expression,4,Alignment processing,alignment_processing,1,samtools,True,True,False,1,False,MEDIUM
+metatranscriptome_illumina_differential_expression,5,Gene-level count quantification,gene_quantification,1,featurecounts,True,True,False,1,False,MEDIUM
+metatranscriptome_illumina_differential_expression,6,Differential expression analysis,differential_expression,1,deseq2,True,True,False,2,True,LOW
+metatranscriptome_illumina_differential_expression,6,Differential expression analysis,differential_expression,2,edger,True,True,False,2,True,LOW
+metagenome_illumina_taxonomy_prokaryotic,1,Raw read quality control,raw_read_qc,1,fastqc,True,True,False,1,False,MEDIUM
+metagenome_illumina_taxonomy_prokaryotic,2,Read preprocessing,read_preprocessing,1,fastp,True,True,False,2,True,LOW
+metagenome_illumina_taxonomy_prokaryotic,2,Read preprocessing,read_preprocessing,2,cutadapt,True,True,False,2,True,LOW
+metagenome_illumina_taxonomy_prokaryotic,3,Prokaryotic taxonomic profiling,taxonomic_profiling,1,kraken2,True,True,False,3,True,LOW
+metagenome_illumina_taxonomy_prokaryotic,3,Prokaryotic taxonomic profiling,taxonomic_profiling,2,kaiju,True,True,False,3,True,LOW
+metagenome_illumina_taxonomy_prokaryotic,3,Prokaryotic taxonomic profiling,taxonomic_profiling,3,metaphlan,True,True,False,3,True,LOW
+metagenome_illumina_taxonomy_eukaryotic,1,Raw read quality control,raw_read_qc,1,fastqc,True,True,False,1,False,MEDIUM
+metagenome_illumina_taxonomy_eukaryotic,2,Read preprocessing,read_preprocessing,1,fastp,True,True,False,2,True,LOW
+metagenome_illumina_taxonomy_eukaryotic,2,Read preprocessing,read_preprocessing,2,cutadapt,True,True,False,2,True,LOW
+metagenome_illumina_taxonomy_eukaryotic,3,Microbial eukaryotic taxonomic profiling,taxonomic_profiling,1,kaiju,True,True,False,2,True,LOW
+metagenome_illumina_taxonomy_eukaryotic,3,Microbial eukaryotic taxonomic profiling,taxonomic_profiling,2,metaphlan,True,True,False,2,True,LOW
+metagenome_illumina_taxonomy_broad,1,Raw read quality control,raw_read_qc,1,fastqc,True,True,False,1,False,MEDIUM
+metagenome_illumina_taxonomy_broad,2,Read preprocessing,read_preprocessing,1,fastp,True,True,False,2,True,LOW
+metagenome_illumina_taxonomy_broad,2,Read preprocessing,read_preprocessing,2,cutadapt,True,True,False,2,True,LOW
+metagenome_illumina_taxonomy_broad,3,Broad multi-kingdom taxonomic profiling,taxonomic_profiling,1,kaiju,True,True,False,3,True,LOW
+metagenome_illumina_taxonomy_broad,3,Broad multi-kingdom taxonomic profiling,taxonomic_profiling,2,metaphlan,True,True,False,3,True,LOW
+metagenome_illumina_taxonomy_broad,3,Broad multi-kingdom taxonomic profiling,taxonomic_profiling,3,kraken2,True,True,False,3,True,LOW
+amplicon_illumina_alpha_nonphylogenetic,1,Non-phylogenetic alpha diversity,alpha_diversity,1,qiime2_diversity,True,True,False,3,True,LOW
+amplicon_illumina_alpha_nonphylogenetic,1,Non-phylogenetic alpha diversity,alpha_diversity,2,phyloseq,True,True,False,3,True,LOW
+amplicon_illumina_alpha_nonphylogenetic,1,Non-phylogenetic alpha diversity,alpha_diversity,3,vegan,True,True,False,3,True,LOW
+amplicon_illumina_alpha_phylogenetic,1,Phylogenetic alpha diversity,alpha_diversity,1,qiime2_diversity,True,True,False,1,False,MEDIUM
+amplicon_illumina_beta_nonphylogenetic,1,Non-phylogenetic beta diversity and ordination,beta_diversity,1,qiime2_diversity,True,True,False,3,True,LOW
+amplicon_illumina_beta_nonphylogenetic,1,Non-phylogenetic beta diversity and ordination,beta_diversity,2,vegan,True,True,False,3,True,LOW
+amplicon_illumina_beta_nonphylogenetic,1,Non-phylogenetic beta diversity and ordination,beta_diversity,3,phyloseq,True,True,False,3,True,LOW
+amplicon_illumina_beta_phylogenetic,1,Phylogenetic beta diversity and ordination,beta_diversity,1,qiime2_diversity,True,True,False,2,True,LOW
+amplicon_illumina_beta_phylogenetic,1,Phylogenetic beta diversity and ordination,beta_diversity,2,phyloseq,True,True,False,2,True,LOW
+amplicon_illumina_da_simple,1,Differential abundance analysis,differential_abundance,1,ancombc2,True,True,False,3,True,LOW
+amplicon_illumina_da_simple,1,Differential abundance analysis,differential_abundance,2,aldex2,True,True,True,3,True,LOW
+amplicon_illumina_da_simple,1,Differential abundance analysis,differential_abundance,3,deseq2,True,True,False,3,True,LOW
+amplicon_illumina_da_multivariable,1,Differential abundance analysis,differential_abundance,1,ancombc2,True,True,False,3,True,LOW
+amplicon_illumina_da_multivariable,1,Differential abundance analysis,differential_abundance,2,aldex2,True,True,True,3,True,LOW
+amplicon_illumina_da_multivariable,1,Differential abundance analysis,differential_abundance,3,deseq2,True,True,False,3,True,LOW
+amplicon_illumina_da_repeated,1,Differential abundance analysis,differential_abundance,1,ancombc2,True,True,False,3,True,LOW
+amplicon_illumina_da_repeated,1,Differential abundance analysis,differential_abundance,2,aldex2,True,True,True,3,True,LOW
+amplicon_illumina_da_repeated,1,Differential abundance analysis,differential_abundance,3,deseq2,True,True,False,3,True,LOW
+bacterial_illumina_species_identification_gtdbtk,1,Raw read quality control,raw_read_qc,1,fastqc,True,True,False,1,False,MEDIUM
+bacterial_illumina_species_identification_gtdbtk,2,Read preprocessing,read_preprocessing,1,fastp,True,True,False,2,True,LOW
+bacterial_illumina_species_identification_gtdbtk,2,Read preprocessing,read_preprocessing,2,cutadapt,True,True,False,2,True,LOW
+bacterial_illumina_species_identification_gtdbtk,3,Genome assembly,genome_assembly,1,spades,True,True,False,2,True,LOW
+bacterial_illumina_species_identification_gtdbtk,3,Genome assembly,genome_assembly,2,shovill,True,True,False,2,True,LOW
+bacterial_illumina_species_identification_gtdbtk,4,Assembly quality control,assembly_qc,1,quast,True,True,False,1,False,MEDIUM
+bacterial_illumina_species_identification_gtdbtk,5,Genome taxonomy,species_identification,1,gtdbtk,True,True,True,1,False,HIGH
+bacterial_illumina_species_identification_fastani,1,Raw read quality control,raw_read_qc,1,fastqc,True,True,False,1,False,MEDIUM
+bacterial_illumina_species_identification_fastani,2,Read preprocessing,read_preprocessing,1,fastp,True,True,False,2,True,LOW
+bacterial_illumina_species_identification_fastani,2,Read preprocessing,read_preprocessing,2,cutadapt,True,True,False,2,True,LOW
+bacterial_illumina_species_identification_fastani,3,Genome assembly,genome_assembly,1,spades,True,True,False,2,True,LOW
+bacterial_illumina_species_identification_fastani,3,Genome assembly,genome_assembly,2,shovill,True,True,False,2,True,LOW
+bacterial_illumina_species_identification_fastani,4,Assembly quality control,assembly_qc,1,quast,True,True,False,1,False,MEDIUM
+bacterial_illumina_species_identification_fastani,5,Reference ANI comparison,species_identification,1,fastani,True,True,False,1,False,MEDIUM
+bacterial_illumina_plasmid_mobsuite,1,Raw read quality control,raw_read_qc,1,fastqc,True,True,False,1,False,MEDIUM
+bacterial_illumina_plasmid_mobsuite,2,Read preprocessing,read_preprocessing,1,fastp,True,True,False,2,True,LOW
+bacterial_illumina_plasmid_mobsuite,2,Read preprocessing,read_preprocessing,2,cutadapt,True,True,False,2,True,LOW
+bacterial_illumina_plasmid_mobsuite,3,Genome assembly,genome_assembly,1,spades,True,True,False,2,True,LOW
+bacterial_illumina_plasmid_mobsuite,3,Genome assembly,genome_assembly,2,shovill,True,True,False,2,True,LOW
+bacterial_illumina_plasmid_mobsuite,4,Assembly quality control,assembly_qc,1,quast,True,True,False,1,False,MEDIUM
+bacterial_illumina_plasmid_mobsuite,5,Plasmid reconstruction and typing,plasmid_detection,1,mobsuite,True,True,False,1,False,MEDIUM
+bacterial_illumina_plasmid_replicon,1,Raw read quality control,raw_read_qc,1,fastqc,True,True,False,1,False,MEDIUM
+bacterial_illumina_plasmid_replicon,2,Read preprocessing,read_preprocessing,1,fastp,True,True,False,2,True,LOW
+bacterial_illumina_plasmid_replicon,2,Read preprocessing,read_preprocessing,2,cutadapt,True,True,False,2,True,LOW
+bacterial_illumina_plasmid_replicon,3,Genome assembly,genome_assembly,1,spades,True,True,False,2,True,LOW
+bacterial_illumina_plasmid_replicon,3,Genome assembly,genome_assembly,2,shovill,True,True,False,2,True,LOW
+bacterial_illumina_plasmid_replicon,4,Assembly quality control,assembly_qc,1,quast,True,True,False,1,False,MEDIUM
+bacterial_illumina_plasmid_replicon,5,Plasmid replicon screening,plasmid_detection,1,plasmidfinder,True,True,False,1,False,MEDIUM
+bacterial_illumina_plasmid_genomad,1,Raw read quality control,raw_read_qc,1,fastqc,True,True,False,1,False,MEDIUM
+bacterial_illumina_plasmid_genomad,2,Read preprocessing,read_preprocessing,1,fastp,True,True,False,2,True,LOW
+bacterial_illumina_plasmid_genomad,2,Read preprocessing,read_preprocessing,2,cutadapt,True,True,False,2,True,LOW
+bacterial_illumina_plasmid_genomad,3,Genome assembly,genome_assembly,1,spades,True,True,False,2,True,LOW
+bacterial_illumina_plasmid_genomad,3,Genome assembly,genome_assembly,2,shovill,True,True,False,2,True,LOW
+bacterial_illumina_plasmid_genomad,4,Assembly quality control,assembly_qc,1,quast,True,True,False,1,False,MEDIUM
+bacterial_illumina_plasmid_genomad,5,Plasmid sequence prediction,plasmid_detection,1,genomad,True,True,True,1,False,HIGH
+metagenome_illumina_resistome_deeparg,1,Raw read quality control,raw_read_qc,1,fastqc,True,True,False,1,False,MEDIUM
+metagenome_illumina_resistome_deeparg,2,Read preprocessing,read_preprocessing,1,fastp,True,True,False,2,True,LOW
+metagenome_illumina_resistome_deeparg,2,Read preprocessing,read_preprocessing,2,cutadapt,True,True,False,2,True,LOW
+metagenome_illumina_resistome_deeparg,3,DeepARG-SS resistome profiling,resistome_profiling,1,deeparg,True,True,False,1,False,MEDIUM
+metagenome_illumina_resistome_rgi,1,Raw read quality control,raw_read_qc,1,fastqc,True,True,False,1,False,MEDIUM
+metagenome_illumina_resistome_rgi,2,Read preprocessing,read_preprocessing,1,fastp,True,True,False,2,True,LOW
+metagenome_illumina_resistome_rgi,2,Read preprocessing,read_preprocessing,2,cutadapt,True,True,False,2,True,LOW
+metagenome_illumina_resistome_rgi,3,CARD RGI BWT resistome profiling,resistome_profiling,1,rgi,True,True,False,1,False,MEDIUM
+metagenome_illumina_resistome_amrplusplus,1,AMR++ end-to-end resistome pipeline,resistome_profiling,1,amrplusplus,True,True,False,1,False,MEDIUM
+metagenome_illumina_plasmid_genomad,1,Raw read quality control,raw_read_qc,1,fastqc,True,True,False,1,False,MEDIUM
+metagenome_illumina_plasmid_genomad,2,Read preprocessing,read_preprocessing,1,fastp,True,True,False,2,True,LOW
+metagenome_illumina_plasmid_genomad,2,Read preprocessing,read_preprocessing,2,cutadapt,True,True,False,2,True,LOW
+metagenome_illumina_plasmid_genomad,3,Metagenome assembly,metagenome_assembly,1,megahit,True,True,False,2,True,LOW
+metagenome_illumina_plasmid_genomad,3,Metagenome assembly,metagenome_assembly,2,metaspades,True,True,False,2,True,LOW
+metagenome_illumina_plasmid_genomad,4,Plasmid sequence prediction,plasmid_detection,1,genomad,True,True,True,1,False,HIGH
+metagenome_illumina_plasmid_plasx,1,Raw read quality control,raw_read_qc,1,fastqc,True,True,False,1,False,MEDIUM
+metagenome_illumina_plasmid_plasx,2,Read preprocessing,read_preprocessing,1,fastp,True,True,False,2,True,LOW
+metagenome_illumina_plasmid_plasx,2,Read preprocessing,read_preprocessing,2,cutadapt,True,True,False,2,True,LOW
+metagenome_illumina_plasmid_plasx,3,Metagenome assembly,metagenome_assembly,1,megahit,True,True,False,2,True,LOW
+metagenome_illumina_plasmid_plasx,3,Metagenome assembly,metagenome_assembly,2,metaspades,True,True,False,2,True,LOW
+metagenome_illumina_plasmid_plasx,4,PlasX prerequisite workflow and classification,plasmid_detection,1,plasx_workflow,True,True,False,1,False,MEDIUM
+virome_illumina_viral_abundance_contig,1,Read preprocessing,read_preprocessing,1,fastp,True,True,False,1,False,MEDIUM
+virome_illumina_viral_abundance_contig,2,Virome assembly,metagenome_assembly,1,megahit,True,True,False,1,False,MEDIUM
+virome_illumina_viral_abundance_contig,3,Viral sequence detection,viral_sequence_detection,1,genomad,True,True,True,1,False,HIGH
+virome_illumina_viral_abundance_contig,4,Viral genome quality assessment,viral_genome_quality,1,checkv,True,True,True,1,False,HIGH
+virome_illumina_viral_abundance_contig,5,Viral read mapping,read_mapping,1,bowtie2,True,True,False,1,False,MEDIUM
+virome_illumina_viral_abundance_contig,6,Viral alignment processing,alignment_processing,1,samtools,True,True,False,1,False,MEDIUM
+virome_illumina_viral_abundance_contig,7,Viral abundance estimation,viral_abundance_profiling,1,coverm,True,True,False,1,False,MEDIUM
+virome_illumina_viral_abundance_votu,1,Read preprocessing,read_preprocessing,1,fastp,True,True,False,1,False,MEDIUM
+virome_illumina_viral_abundance_votu,2,Virome assembly,metagenome_assembly,1,megahit,True,True,False,1,False,MEDIUM
+virome_illumina_viral_abundance_votu,3,Viral sequence detection,viral_sequence_detection,1,genomad,True,True,True,1,False,HIGH
+virome_illumina_viral_abundance_votu,4,Viral genome quality assessment,viral_genome_quality,1,checkv,True,True,True,1,False,HIGH
+virome_illumina_viral_abundance_votu,5,vOTU clustering and representative selection,viral_votu_clustering,1,vclust,True,True,False,1,False,MEDIUM
+virome_illumina_viral_abundance_votu,6,Extract vOTU representative sequences,sequence_selection,1,seqkit,True,True,False,1,False,MEDIUM
+virome_illumina_viral_abundance_votu,7,Map reads to vOTU representatives,read_mapping,1,bowtie2,True,True,False,1,False,MEDIUM
+virome_illumina_viral_abundance_votu,8,Viral alignment processing,alignment_processing,1,samtools,True,True,False,1,False,MEDIUM
+virome_illumina_viral_abundance_votu,9,vOTU abundance estimation,viral_abundance_profiling,1,coverm,True,True,False,1,False,MEDIUM
+metatranscriptome_illumina_functional_isolated,1,Host read removal,host_read_removal,1,bowtie2,True,True,False,1,False,MEDIUM
+metatranscriptome_illumina_functional_isolated,2,rRNA filtering,rrna_depletion_assessment,1,sortmerna,True,True,False,1,False,MEDIUM
+metatranscriptome_illumina_functional_isolated,3,RNA-only HUMAnN gene-family profiling,functional_profiling,1,humann,True,True,False,1,False,MEDIUM
+metatranscriptome_illumina_functional_dna_informed,1,Host read removal,host_read_removal,1,bowtie2,True,True,False,1,False,MEDIUM
+metatranscriptome_illumina_functional_dna_informed,2,rRNA filtering,rrna_depletion_assessment,1,sortmerna,True,True,False,1,False,MEDIUM
+metatranscriptome_illumina_functional_dna_informed,3,DNA-informed HUMAnN gene-family profiling,functional_profiling,1,humann,True,True,False,1,False,MEDIUM
+metatranscriptome_illumina_pathways_isolated,1,Host read removal,host_read_removal,1,bowtie2,True,True,False,1,False,MEDIUM
+metatranscriptome_illumina_pathways_isolated,2,rRNA filtering,rrna_depletion_assessment,1,sortmerna,True,True,False,1,False,MEDIUM
+metatranscriptome_illumina_pathways_isolated,3,RNA-only HUMAnN pathway profiling,pathway_analysis,1,humann,True,True,False,1,False,MEDIUM
+metatranscriptome_illumina_pathways_dna_informed,1,Host read removal,host_read_removal,1,bowtie2,True,True,False,1,False,MEDIUM
+metatranscriptome_illumina_pathways_dna_informed,2,rRNA filtering,rrna_depletion_assessment,1,sortmerna,True,True,False,1,False,MEDIUM
+metatranscriptome_illumina_pathways_dna_informed,3,DNA-informed HUMAnN pathway profiling,pathway_analysis,1,humann,True,True,False,1,False,MEDIUM
+metagenome_illumina_mag_single,1,Raw read quality control,raw_read_qc,1,fastqc,True,True,False,1,False,MEDIUM
+metagenome_illumina_mag_single,2,Read preprocessing,read_preprocessing,1,fastp,True,True,False,2,True,LOW
+metagenome_illumina_mag_single,2,Read preprocessing,read_preprocessing,2,cutadapt,True,True,False,2,True,LOW
+metagenome_illumina_mag_single,3,Metagenome assembly,metagenome_assembly,1,megahit,True,True,False,2,True,LOW
+metagenome_illumina_mag_single,3,Metagenome assembly,metagenome_assembly,2,metaspades,True,True,False,2,True,LOW
+metagenome_illumina_mag_single,4,Assembly quality control,assembly_qc,1,quast,True,True,False,1,False,MEDIUM
+metagenome_illumina_mag_single,5,Map the sample back to its assembly,read_mapping,1,bowtie2,True,True,False,1,False,MEDIUM
+metagenome_illumina_mag_single,6,Alignment sorting and indexing,alignment_processing,1,samtools,True,True,False,1,False,MEDIUM
+metagenome_illumina_mag_single,7,Contig coverage estimation,coverage_estimation,1,jgi_depth,True,True,False,1,False,MEDIUM
+metagenome_illumina_mag_single,8,Independent MAG binning,genome_binning,1,semibin2,True,True,False,4,True,LOW
+metagenome_illumina_mag_single,8,Independent MAG binning,genome_binning,2,metabat2,True,True,True,4,True,LOW
+metagenome_illumina_mag_single,8,Independent MAG binning,genome_binning,3,maxbin2,True,True,False,4,True,LOW
+metagenome_illumina_mag_single,8,Independent MAG binning,genome_binning,4,concoct,True,True,False,4,True,LOW
+metagenome_illumina_mag_single,9,Consensus bin refinement,bin_refinement,1,dastool,True,True,False,1,False,MEDIUM
+metagenome_illumina_mag_single,10,MAG quality assessment,mag_quality,1,checkm2,True,True,False,1,False,MEDIUM
+metagenome_illumina_mag_single,11,MAG taxonomic classification,mag_taxonomy,1,gtdbtk,True,True,True,3,True,LOW
+metagenome_illumina_mag_single,11,MAG taxonomic classification,mag_taxonomy,2,catbat,True,True,True,3,True,LOW
+metagenome_illumina_mag_single,11,MAG taxonomic classification,mag_taxonomy,3,sourmash,True,True,True,3,True,LOW
+metagenome_illumina_mag_coassembly,1,Raw read quality control,raw_read_qc,1,fastqc,True,True,False,1,False,MEDIUM
+metagenome_illumina_mag_coassembly,2,Read preprocessing,read_preprocessing,1,fastp,True,True,False,2,True,LOW
+metagenome_illumina_mag_coassembly,2,Read preprocessing,read_preprocessing,2,cutadapt,True,True,False,2,True,LOW
+metagenome_illumina_mag_coassembly,3,Metagenome coassembly,metagenome_assembly,1,megahit,True,True,False,2,True,LOW
+metagenome_illumina_mag_coassembly,3,Metagenome coassembly,metagenome_assembly,2,metaspades,True,True,False,2,True,LOW
+metagenome_illumina_mag_coassembly,4,Assembly quality control,assembly_qc,1,quast,True,True,False,1,False,MEDIUM
+metagenome_illumina_mag_coassembly,5,Map each sample back to the coassembly,read_mapping,1,bowtie2,True,True,False,1,False,MEDIUM
+metagenome_illumina_mag_coassembly,6,Sort the per-sample alignments,alignment_processing,1,samtools,True,True,False,1,False,MEDIUM
+metagenome_illumina_mag_coassembly,7,Cross-sample contig depth,coverage_estimation,1,jgi_depth,True,True,False,1,False,MEDIUM
+metagenome_illumina_mag_coassembly,8,Independent MAG binning,genome_binning,1,semibin2,True,True,False,4,True,LOW
+metagenome_illumina_mag_coassembly,8,Independent MAG binning,genome_binning,2,metabat2,True,True,True,4,True,LOW
+metagenome_illumina_mag_coassembly,8,Independent MAG binning,genome_binning,3,maxbin2,True,True,False,4,True,LOW
+metagenome_illumina_mag_coassembly,8,Independent MAG binning,genome_binning,4,concoct,True,True,False,4,True,LOW
+metagenome_illumina_mag_coassembly,9,Consensus bin refinement,bin_refinement,1,dastool,True,True,False,1,False,MEDIUM
+metagenome_illumina_mag_coassembly,10,MAG quality assessment,mag_quality,1,checkm2,True,True,False,1,False,MEDIUM
+metagenome_illumina_mag_coassembly,11,MAG taxonomic classification,mag_taxonomy,1,gtdbtk,True,True,True,3,True,LOW
+metagenome_illumina_mag_coassembly,11,MAG taxonomic classification,mag_taxonomy,2,catbat,True,True,True,3,True,LOW
+metagenome_illumina_mag_coassembly,11,MAG taxonomic classification,mag_taxonomy,3,sourmash,True,True,True,3,True,LOW

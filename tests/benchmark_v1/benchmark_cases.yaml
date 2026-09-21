@@ -1,0 +1,487 @@
+schema_version: 1
+benchmark_name: BioFlow Scientific Recommendation Benchmark v1
+description: Curated workflow-content benchmark for representative bioinformatics use cases. Hard checks validate workflow
+  resolution, essential analysis stages, accepted tool families, forbidden stage leakage, and fallback redundancy.
+cases:
+- id: bacterial_illumina_wgs
+  title: Bacterial isolate — Illumina WGS
+  workflow_id: bacterial_illumina_wgs
+  context:
+    sample_type: Bacterial isolate
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: Whole genome characterization
+  required_operations:
+  - raw_read_qc
+  - read_preprocessing
+  - genome_assembly
+  - assembly_qc
+  - genome_annotation
+  forbidden_operations:
+  - metagenome_assembly
+  - genome_binning
+  - viral_sequence_detection
+  key_steps:
+    genome_assembly:
+      accepted_any:
+      - spades
+      - shovill
+    assembly_qc:
+      accepted_any:
+      - quast
+    genome_annotation:
+      accepted_any:
+      - bakta
+      - prokka
+      min_candidates: 2
+- id: bacterial_nanopore_wgs
+  title: Bacterial isolate — Oxford Nanopore WGS
+  workflow_id: bacterial_nanopore_wgs
+  context:
+    sample_type: Bacterial isolate
+    sequencing: Oxford Nanopore
+    read_type: Long reads
+    goal: Whole genome characterization
+  required_operations:
+  - raw_read_qc
+  - read_preprocessing
+  - genome_assembly
+  - assembly_qc
+  - genome_annotation
+  forbidden_operations:
+  - asv_inference
+  - genome_binning
+  key_steps:
+    raw_read_qc:
+      accepted_any:
+      - nanoplot
+    genome_assembly:
+      accepted_any:
+      - flye
+      - raven
+      min_candidates: 2
+    genome_annotation:
+      accepted_any:
+      - bakta
+      - prokka
+- id: bacterial_amr
+  title: Bacterial isolate — AMR detection
+  workflow_id: bacterial_illumina_amr
+  context:
+    sample_type: Bacterial isolate
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: Antimicrobial resistance detection
+  required_operations:
+  - raw_read_qc
+  - read_preprocessing
+  - genome_assembly
+  - assembly_qc
+  - amr_detection
+  forbidden_operations:
+  - differential_expression
+  - viral_host_prediction
+  key_steps:
+    amr_detection:
+      accepted_any:
+      - amrfinderplus
+      - resfinder
+      - abricate
+      min_candidates: 2
+- id: mag_single
+  title: Metagenome — single-sample MAG reconstruction
+  workflow_id: metagenome_illumina_mag_single
+  context:
+    sample_type: Metagenome
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: MAG reconstruction
+  required_operations:
+  - raw_read_qc
+  - read_preprocessing
+  - metagenome_assembly
+  - assembly_qc
+  - read_mapping
+  - alignment_processing
+  - coverage_estimation
+  - genome_binning
+  - bin_refinement
+  - mag_quality
+  - mag_taxonomy
+  forbidden_operations:
+  - asv_inference
+  - differential_expression
+  key_steps:
+    metagenome_assembly:
+      accepted_any:
+      - megahit
+      - metaspades
+      min_candidates: 2
+    genome_binning:
+      accepted_any:
+      - semibin2
+      - metabat2
+      - maxbin2
+      - concoct
+      min_candidates: 3
+      mode: parallel
+    bin_refinement:
+      accepted_any:
+      - dastool
+    mag_quality:
+      accepted_any:
+      - checkm2
+    mag_taxonomy:
+      accepted_any:
+      - gtdbtk
+      - catbat
+      - sourmash
+      min_candidates: 2
+      required_any_fallback:
+      - catbat
+      - sourmash
+- id: mag_coassembly
+  title: Metagenome — coassembly MAG reconstruction
+  workflow_id: metagenome_illumina_mag_coassembly
+  context:
+    sample_type: Metagenome
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: MAG reconstruction
+  required_operations:
+  - metagenome_assembly
+  - read_mapping
+  - coverage_estimation
+  - genome_binning
+  - bin_refinement
+  - mag_quality
+  - mag_taxonomy
+  forbidden_operations:
+  - amplicon_denovo_clustering
+  key_steps:
+    genome_binning:
+      accepted_any:
+      - semibin2
+      - metabat2
+      - maxbin2
+      - concoct
+      min_candidates: 3
+      mode: parallel
+    mag_taxonomy:
+      accepted_any:
+      - gtdbtk
+      - catbat
+      - sourmash
+      min_candidates: 2
+- id: metagenome_viral
+  title: Metagenome — viral analysis
+  workflow_id: metagenome_illumina_viral
+  context:
+    sample_type: Metagenome
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: Viral analysis
+  required_operations:
+  - raw_read_qc
+  - read_preprocessing
+  - metagenome_assembly
+  - viral_sequence_detection
+  - viral_quality
+  - viral_taxonomy
+  forbidden_operations:
+  - genome_binning
+  - differential_expression
+  key_steps:
+    viral_sequence_detection:
+      accepted_any:
+      - genomad
+      - virsorter2
+      min_candidates: 2
+    viral_quality:
+      accepted_any:
+      - checkv
+    viral_taxonomy:
+      accepted_any:
+      - genomad
+- id: virome_host_prediction
+  title: Virome — viral host prediction
+  workflow_id: virome_illumina_host_prediction
+  context:
+    sample_type: Virome
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: Viral host prediction
+  required_operations:
+  - read_preprocessing
+  - metagenome_assembly
+  - viral_sequence_detection
+  - viral_genome_quality
+  - viral_host_prediction
+  forbidden_operations:
+  - genome_annotation
+  - asv_inference
+  key_steps:
+    viral_sequence_detection:
+      accepted_any:
+      - genomad
+      - virsorter2
+    viral_genome_quality:
+      accepted_any:
+      - checkv
+    viral_host_prediction:
+      accepted_any:
+      - iphop
+- id: virome_votu
+  title: Virome — vOTU clustering
+  workflow_id: virome_illumina_votu_clustering
+  context:
+    sample_type: Virome
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: Viral clustering / vOTU analysis
+  required_operations:
+  - read_preprocessing
+  - metagenome_assembly
+  - viral_sequence_detection
+  - viral_genome_quality
+  - viral_votu_clustering
+  forbidden_operations:
+  - mag_taxonomy
+  - differential_expression
+  key_steps:
+    viral_genome_quality:
+      accepted_any:
+      - checkv
+    viral_votu_clustering:
+      accepted_any:
+      - vclust
+- id: amplicon_16s_modular
+  title: Amplicon — modular 16S ASV workflow
+  workflow_id: amplicon_illumina_16s
+  context:
+    sample_type: Amplicon
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: 16S rRNA analysis
+  required_operations:
+  - primer_trimming
+  - asv_inference
+  - taxonomy_assignment
+  forbidden_operations:
+  - genome_assembly
+  - metagenome_assembly
+  - gene_quantification
+  key_steps:
+    primer_trimming:
+      accepted_any:
+      - cutadapt
+    asv_inference:
+      accepted_any:
+      - dada2
+    taxonomy_assignment:
+      accepted_any:
+      - dada2_taxonomy
+      - decipher_idtaxa
+      - qiime2_feature_classifier
+      min_candidates: 2
+  context_strategy_minimum: 3
+- id: amplicon_asv
+  title: Amplicon — ASV inference
+  workflow_id: amplicon_illumina_asv_inference
+  context:
+    sample_type: Amplicon
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: ASV inference
+  required_operations:
+  - primer_trimming
+  - asv_inference
+  forbidden_operations:
+  - genome_binning
+  - rna_alignment
+  key_steps:
+    asv_inference:
+      accepted_any:
+      - dada2
+- id: amplicon_da_repeated
+  title: Amplicon — repeated-measures differential abundance
+  workflow_id: amplicon_illumina_da_repeated
+  context:
+    sample_type: Amplicon
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: Differential abundance
+  required_operations:
+  - differential_abundance
+  forbidden_operations:
+  - genome_assembly
+  - viral_sequence_detection
+  key_steps:
+    differential_abundance:
+      accepted_any:
+      - ancombc2
+      - aldex2
+      - deseq2
+      min_candidates: 2
+- id: bulk_rna_de_alignment
+  title: Bulk RNA-seq — alignment-based differential expression
+  workflow_id: bulk_transcriptome_illumina_differential_expression_alignment
+  context:
+    sample_type: Bulk transcriptome
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: Differential expression
+  required_operations:
+  - transcriptome_indexing
+  - rna_alignment
+  - alignment_processing
+  - gene_quantification
+  - differential_expression
+  forbidden_operations:
+  - genome_binning
+  - viral_quality
+  key_steps:
+    rna_alignment:
+      accepted_any:
+      - star
+      - hisat2
+      min_candidates: 2
+    gene_quantification:
+      accepted_any:
+      - featurecounts
+    differential_expression:
+      accepted_any:
+      - deseq2
+      - edger
+      min_candidates: 2
+  context_strategy_minimum: 2
+- id: bulk_rna_de_lightweight
+  title: Bulk RNA-seq — lightweight differential expression
+  workflow_id: bulk_transcriptome_illumina_differential_expression_lightweight
+  context:
+    sample_type: Bulk transcriptome
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: Differential expression
+  required_operations:
+  - transcriptome_indexing
+  - lightweight_quantification
+  - transcript_to_gene_summarization
+  - differential_expression
+  forbidden_operations:
+  - rna_alignment
+  - genome_binning
+  key_steps:
+    lightweight_quantification:
+      accepted_any:
+      - salmon
+      - kallisto
+      min_candidates: 2
+    transcript_to_gene_summarization:
+      accepted_any:
+      - tximport
+    differential_expression:
+      accepted_any:
+      - deseq2
+      - edger
+      min_candidates: 2
+- id: eukaryotic_ont_assembly
+  title: Eukaryotic genome — ONT assembly
+  workflow_id: eukaryotic_genome_ont_assembly
+  context:
+    sample_type: Eukaryotic genome
+    sequencing: Oxford Nanopore
+    read_type: Long reads
+    goal: Genome assembly
+  required_operations:
+  - genome_assembly
+  forbidden_operations:
+  - asv_inference
+  - differential_abundance
+  key_steps:
+    genome_assembly:
+      accepted_any:
+      - flye
+- id: eukaryotic_gene_prediction
+  title: Eukaryotic genome — gene prediction with repeat masking
+  workflow_id: eukaryotic_genome_gene_prediction_braker
+  context:
+    sample_type: Eukaryotic genome
+    sequencing: Oxford Nanopore
+    read_type: Long reads
+    goal: Gene prediction
+  required_operations:
+  - repeat_discovery
+  - repeat_annotation
+  - gene_prediction
+  forbidden_operations:
+  - genome_binning
+  - viral_host_prediction
+  key_steps:
+    repeat_discovery:
+      accepted_any:
+      - repeatmodeler
+    repeat_annotation:
+      accepted_any:
+      - repeatmasker
+    gene_prediction:
+      accepted_any:
+      - braker4
+- id: metatranscriptome_de
+  title: Metatranscriptome — differential expression
+  workflow_id: metatranscriptome_illumina_differential_expression
+  context:
+    sample_type: Metatranscriptome
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: Differential expression
+  required_operations:
+  - host_read_removal
+  - rrna_depletion_assessment
+  - read_mapping
+  - alignment_processing
+  - gene_quantification
+  - differential_expression
+  forbidden_operations:
+  - asv_inference
+  - mag_taxonomy
+  key_steps:
+    rrna_depletion_assessment:
+      accepted_any:
+      - sortmerna
+    gene_quantification:
+      accepted_any:
+      - featurecounts
+    differential_expression:
+      accepted_any:
+      - deseq2
+      - edger
+      min_candidates: 2
+- id: metagenome_broad_taxonomy
+  title: Metagenome — broad taxonomic profiling
+  workflow_id: metagenome_illumina_taxonomy_broad
+  context:
+    sample_type: Metagenome
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: Taxonomic profiling
+  required_operations:
+  - raw_read_qc
+  - read_preprocessing
+  - taxonomic_profiling
+  forbidden_operations:
+  - genome_binning
+  - differential_expression
+  key_steps:
+    taxonomic_profiling:
+      accepted_any:
+      - kaiju
+      - metaphlan
+      - kraken2
+      min_candidates: 3
+  context_strategy_minimum: 3
+global_checks:
+  all_workflow_candidates_exist_in_tools: true
+  all_workflow_candidates_declare_step_operation: true
+  all_workflow_candidates_have_tool_io_route: true
+  candidate_list_has_no_duplicates: true

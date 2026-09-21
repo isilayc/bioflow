@@ -1,0 +1,15 @@
+{
+  "total_workflows": 107,
+  "total_steps": 327,
+  "total_candidate_references": 452,
+  "unique_candidate_tools": 114,
+  "constraint_covered_candidate_tools": 11,
+  "constraint_coverage_pct": 9.65,
+  "single_candidate_steps": 223,
+  "single_candidate_steps_pct": 68.2,
+  "single_candidate_steps_with_constraints": 27,
+  "steps_with_fallback_pct": 31.8,
+  "unknown_candidate_refs": 0,
+  "candidate_refs_missing_io_route": 0,
+  "operations_with_only_one_unique_tool": 35
+}

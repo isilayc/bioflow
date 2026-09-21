@@ -1,0 +1,3279 @@
+fastqc:
+  name: FastQC
+  description: Raw sequencing read quality assessment.
+  operations:
+  - raw_read_qc
+  sample_types:
+  - Bacterial isolate
+  - Metagenome
+  sequencing:
+  - Illumina
+  read_types:
+  - Paired-end
+  - Single-end
+  input:
+  - FASTQ
+  output:
+  - QC report
+  maintenance: active
+  community: very_high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: true
+fastp:
+  name: fastp
+  description: Quality control, adapter trimming and filtering of short-read FASTQ data.
+  operations:
+  - raw_read_qc
+  - read_preprocessing
+  sample_types:
+  - Bacterial isolate
+  - Metagenome
+  - Virome
+  sequencing:
+  - Illumina
+  read_types:
+  - Paired-end
+  - Single-end
+  input:
+  - FASTQ
+  output:
+  - FASTQ
+  - QC report
+  maintenance: active
+  community: very_high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: true
+cutadapt:
+  name: Cutadapt
+  description: Adapter and primer trimming for sequencing reads, including locus-specific primer removal in amplicon
+    workflows.
+  operations:
+  - read_preprocessing
+  - primer_trimming
+  sample_types:
+  - Bacterial isolate
+  - Metagenome
+  - Amplicon
+  sequencing:
+  - Illumina
+  read_types:
+  - Paired-end
+  - Single-end
+  input:
+  - FASTQ
+  output:
+  - FASTQ
+  maintenance: active
+  community: high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: true
+spades:
+  name: SPAdes
+  description: De novo bacterial genome assembler for Illumina data that can also use ONT or PacBio reads as supplementary
+    long-read libraries in hybrid assembly. SPAdes does not require a GPU; practical limits are mainly CPU, RAM,
+    disk/I/O and dataset complexity.
+  operations:
+  - genome_assembly
+  - hybrid_genome_assembly
+  sample_types:
+  - Bacterial isolate
+  sequencing:
+  - Illumina
+  - Oxford Nanopore
+  - PacBio
+  read_types:
+  - Paired-end
+  - Long reads
+  input:
+  - FASTQ
+  output:
+  - FASTA
+  official_docs: https://ablab.github.io/spades/
+  repository: https://github.com/ablab/spades
+  maintenance: active
+  community: very_high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: true
+shovill:
+  name: Shovill
+  description: Pipeline for rapid assembly of bacterial isolate genomes from Illumina reads.
+  operations:
+  - genome_assembly
+  sample_types:
+  - Bacterial isolate
+  sequencing:
+  - Illumina
+  read_types:
+  - Paired-end
+  input:
+  - FASTQ
+  output:
+  - FASTA
+  maintenance: moderate
+  community: high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: false
+nanoplot:
+  name: NanoPlot
+  description: Quality control plots and summary statistics for long-read sequencing data.
+  operations:
+  - raw_read_qc
+  sample_types:
+  - Bacterial isolate
+  sequencing:
+  - Oxford Nanopore
+  - PacBio
+  read_types:
+  - Long reads
+  input:
+  - FASTQ
+  output:
+  - QC report
+  official_docs: https://github.com/wdecoster/NanoPlot
+  repository: https://github.com/wdecoster/NanoPlot
+  maintenance: active
+  community: high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: true
+chopper:
+  name: Chopper
+  description: Fast quality and length filtering and trimming for long-read FASTQ data.
+  operations:
+  - read_preprocessing
+  sample_types:
+  - Bacterial isolate
+  sequencing:
+  - Oxford Nanopore
+  - PacBio
+  read_types:
+  - Long reads
+  input:
+  - FASTQ
+  output:
+  - FASTQ
+  official_docs: https://github.com/wdecoster/chopper
+  repository: https://github.com/wdecoster/chopper
+  maintenance: active
+  community: high
+  bioconda: true
+  container: true
+  galaxy: false
+  nfcore: true
+filtlong:
+  name: Filtlong
+  description: Quality filtering of long reads using read quality and length.
+  operations:
+  - read_preprocessing
+  sample_types:
+  - Bacterial isolate
+  sequencing:
+  - Oxford Nanopore
+  - PacBio
+  read_types:
+  - Long reads
+  input:
+  - FASTQ
+  output:
+  - FASTQ
+  official_docs: https://github.com/rrwick/Filtlong
+  repository: https://github.com/rrwick/Filtlong
+  maintenance: moderate
+  community: high
+  bioconda: true
+  container: true
+  galaxy: false
+  nfcore: true
+flye:
+  name: Flye
+  description: De novo long-read assembler for ONT and PacBio reads. For diploid eukaryotic genomes Flye typically
+    produces a collapsed/mosaic assembly rather than a haplotype-resolved diploid assembly; a phased-assembly strategy
+    should be chosen when haplotype resolution is a primary objective.
+  operations:
+  - genome_assembly
+  sample_types:
+  - Bacterial isolate
+  - Eukaryotic genome
+  sequencing:
+  - Oxford Nanopore
+  - PacBio
+  read_types:
+  - Long reads
+  input:
+  - FASTQ
+  - FASTA
+  output:
+  - FASTA
+  official_docs: https://github.com/mikolmogorov/Flye
+  repository: https://github.com/mikolmogorov/Flye
+  maintenance: active
+  community: very_high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: true
+raven:
+  name: Raven
+  description: De novo genome assembler for long uncorrected sequencing reads.
+  operations:
+  - genome_assembly
+  sample_types:
+  - Bacterial isolate
+  sequencing:
+  - Oxford Nanopore
+  - PacBio
+  read_types:
+  - Long reads
+  input:
+  - FASTQ
+  - FASTA
+  output:
+  - FASTA
+  official_docs: https://github.com/lbcb-sci/raven
+  repository: https://github.com/lbcb-sci/raven
+  maintenance: active
+  community: moderate
+  bioconda: true
+  container: true
+  galaxy: false
+  nfcore: true
+quast:
+  name: QUAST
+  description: Genome and metagenome assembly quality assessment.
+  operations:
+  - assembly_qc
+  sample_types:
+  - Bacterial isolate
+  - Metagenome
+  - Eukaryotic genome
+  sequencing:
+  - Any
+  read_types:
+  - Any
+  input:
+  - FASTA
+  output:
+  - QC report
+  maintenance: active
+  community: very_high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: true
+bakta:
+  name: Bakta
+  description: Rapid annotation of bacterial genomes and plasmids.
+  operations:
+  - genome_annotation
+  sample_types:
+  - Bacterial isolate
+  sequencing:
+  - Any
+  read_types:
+  - Any
+  input:
+  - FASTA
+  output:
+  - Annotation
+  maintenance: active
+  community: high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: true
+prokka:
+  name: Prokka
+  description: Rapid prokaryotic genome annotation tool retained as a legacy/compatibility option. The Prokka maintainer
+    states that Prokka is no longer actively maintained beyond limited fixes/database updates and recommends Bakta
+    for new analysis pipelines; BioFlow therefore ranks Bakta more favorably for new workflows.
+  operations:
+  - genome_annotation
+  sample_types:
+  - Bacterial isolate
+  sequencing:
+  - Any
+  read_types:
+  - Any
+  input:
+  - FASTA
+  output:
+  - Annotation
+  maintenance: legacy
+  community: very_high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: true
+  official_docs: https://github.com/tseemann/prokka
+  repository: https://github.com/tseemann/prokka
+kraken2:
+  name: Kraken2
+  description: K-mer based taxonomic classification of metagenomic sequencing reads.
+  operations:
+  - taxonomic_profiling
+  sample_types:
+  - Metagenome
+  sequencing:
+  - Illumina
+  read_types:
+  - Paired-end
+  - Single-end
+  input:
+  - FASTQ
+  output:
+  - Taxonomic classification
+  official_docs: https://github.com/DerrickWood/kraken2/wiki/Manual
+  repository: https://github.com/DerrickWood/kraken2
+  maintenance: active
+  community: very_high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: true
+kaiju:
+  name: Kaiju
+  description: Protein-level taxonomic classification of metagenomic sequencing reads.
+  operations:
+  - taxonomic_profiling
+  sample_types:
+  - Metagenome
+  - Metatranscriptome
+  sequencing:
+  - Illumina
+  read_types:
+  - Paired-end
+  - Single-end
+  input:
+  - FASTQ
+  output:
+  - Taxonomic classification
+  official_docs: https://github.com/bioinformatics-centre/kaiju
+  repository: https://github.com/bioinformatics-centre/kaiju
+  maintenance: active
+  community: high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: true
+metaphlan:
+  name: MetaPhlAn
+  description: Marker-based profiling of microbial community composition from shotgun sequencing data. MetaPhlAn
+    also produces marker-mapping output used by sample2markers/StrainPhlAn. For RNA-only metatranscriptomes, taxonomic
+    proportions describe transcript-weighted signal rather than organism/genome abundance.
+  operations:
+  - taxonomic_profiling
+  sample_types:
+  - Metagenome
+  - Metatranscriptome
+  sequencing:
+  - Illumina
+  read_types:
+  - Paired-end
+  - Single-end
+  input:
+  - FASTQ
+  output:
+  - Taxonomic profile
+  official_docs: https://github.com/biobakery/MetaPhlAn
+  repository: https://github.com/biobakery/MetaPhlAn
+  maintenance: active
+  community: very_high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: true
+megahit:
+  name: MEGAHIT
+  description: Fast and memory-efficient de novo assembler designed for large metagenomic sequencing datasets.
+  operations:
+  - metagenome_assembly
+  sample_types:
+  - Metagenome
+  - Virome
+  sequencing:
+  - Illumina
+  read_types:
+  - Paired-end
+  - Single-end
+  input:
+  - FASTQ
+  output:
+  - FASTA
+  repository: https://github.com/voutcn/megahit
+  maintenance: active
+  community: very_high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: true
+metaspades:
+  name: metaSPAdes
+  description: SPAdes mode designed for de novo assembly of metagenomic short-read sequencing datasets.
+  operations:
+  - metagenome_assembly
+  sample_types:
+  - Metagenome
+  sequencing:
+  - Illumina
+  read_types:
+  - Paired-end
+  input:
+  - FASTQ
+  output:
+  - FASTA
+  official_docs: https://ablab.github.io/spades/
+  repository: https://github.com/ablab/spades
+  maintenance: active
+  community: very_high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: true
+bowtie2:
+  name: Bowtie2
+  description: Short-read aligner used to map metagenomic reads back to assembled contigs for abundance and coverage
+    estimation.
+  operations:
+  - read_mapping
+  - host_read_removal
+  sample_types:
+  - Metagenome
+  - Metatranscriptome
+  - Virome
+  sequencing:
+  - Illumina
+  read_types:
+  - Paired-end
+  - Single-end
+  input:
+  - FASTQ
+  - FASTA
+  output:
+  - BAM
+  repository: https://github.com/BenLangmead/bowtie2
+  maintenance: active
+  community: very_high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: true
+semibin2:
+  name: SemiBin2
+  description: Metagenomic binning tool using sequence composition, abundance information and self-supervised or
+    semi-supervised learning.
+  operations:
+  - genome_binning
+  sample_types:
+  - Metagenome
+  sequencing:
+  - Any
+  read_types:
+  - Any
+  input:
+  - FASTA
+  - BAM
+  output:
+  - MAG bins
+  official_docs: https://github.com/BigDataBiology/SemiBin
+  repository: https://github.com/BigDataBiology/SemiBin
+  maintenance: active
+  community: high
+  bioconda: true
+  container: true
+  galaxy: false
+  nfcore: true
+metabat2:
+  name: MetaBAT2
+  description: Metagenome binning tool using tetranucleotide frequency and contig abundance information.
+  operations:
+  - genome_binning
+  sample_types:
+  - Metagenome
+  sequencing:
+  - Any
+  read_types:
+  - Any
+  input:
+  - FASTA
+  - Coverage table
+  output:
+  - MAG bins
+  repository: https://bitbucket.org/berkeleylab/metabat/
+  maintenance: active
+  community: very_high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: true
+maxbin2:
+  name: MaxBin2
+  description: Automated metagenomic binning method based on abundance and sequence composition.
+  operations:
+  - genome_binning
+  sample_types:
+  - Metagenome
+  sequencing:
+  - Any
+  read_types:
+  - Any
+  input:
+  - FASTA
+  - Coverage table
+  output:
+  - MAG bins
+  maintenance: moderate
+  community: high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: true
+concoct:
+  name: CONCOCT
+  description: Metagenomic contig binning using sequence composition and coverage across samples.
+  operations:
+  - genome_binning
+  sample_types:
+  - Metagenome
+  sequencing:
+  - Any
+  read_types:
+  - Any
+  input:
+  - FASTA
+  - Coverage table
+  output:
+  - MAG bins
+  repository: https://github.com/BinPro/CONCOCT
+  maintenance: active
+  community: high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: true
+dastool:
+  name: DAS Tool
+  description: Integrates multiple metagenomic binning results and selects a refined non-redundant set of genome
+    bins.
+  operations:
+  - bin_refinement
+  sample_types:
+  - Metagenome
+  sequencing:
+  - Any
+  read_types:
+  - Any
+  input:
+  - FASTA
+  - Multiple binning results
+  output:
+  - Refined MAG bins
+  repository: https://github.com/cmks/DAS_Tool
+  maintenance: active
+  community: high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: true
+checkm2:
+  name: CheckM2
+  description: Machine-learning based prediction of microbial genome completeness and contamination.
+  operations:
+  - mag_quality
+  sample_types:
+  - Metagenome
+  sequencing:
+  - Any
+  read_types:
+  - Any
+  input:
+  - MAG bins
+  output:
+  - Completeness and contamination report
+  repository: https://github.com/chklovski/CheckM2
+  maintenance: active
+  community: high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: true
+gtdbtk:
+  name: GTDB-Tk
+  description: 'Genome-based taxonomic classification of bacterial and archaeal genomes using the Genome Taxonomy
+    Database. Can be applied to isolate genomes as well as metagenome-assembled genomes.
+
+    '
+  operations:
+  - mag_taxonomy
+  - species_identification
+  sample_types:
+  - Bacterial isolate
+  - Metagenome
+  sequencing:
+  - Any
+  read_types:
+  - Any
+  input:
+  - FASTA
+  output:
+  - Genome taxonomy
+  official_docs: https://ecogenomics.github.io/GTDBTk/
+  repository: https://github.com/Ecogenomics/GTDBTk
+  maintenance: active
+  community: very_high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: true
+amrfinderplus:
+  name: AMRFinderPlus
+  description: 'NCBI tool for detecting acquired antimicrobial resistance genes and organism-specific resistance
+    mutations in assembled bacterial nucleotide or protein sequences.
+
+    '
+  operations:
+  - amr_detection
+  sample_types:
+  - Bacterial isolate
+  sequencing:
+  - Any
+  read_types:
+  - Any
+  input:
+  - FASTA
+  - Protein FASTA
+  output:
+  - AMR report
+  official_docs: https://github.com/ncbi/amr/wiki
+  repository: https://github.com/ncbi/amr
+  maintenance: active
+  community: very_high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: true
+resfinder:
+  name: ResFinder
+  description: 'Detection of acquired antimicrobial resistance genes and supported resistance-associated point mutations
+    in bacterial sequencing data.
+
+    '
+  operations:
+  - amr_detection
+  sample_types:
+  - Bacterial isolate
+  sequencing:
+  - Any
+  read_types:
+  - Any
+  input:
+  - FASTA
+  - FASTQ
+  output:
+  - AMR report
+  official_docs: https://github.com/genomicepidemiology/resfinder
+  repository: https://github.com/genomicepidemiology/resfinder
+  maintenance: active
+  community: high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: true
+abricate:
+  name: ABRicate
+  description: 'BLAST-based screening of assembled bacterial contigs against antimicrobial resistance, virulence
+    and other gene databases. Results depend on the selected reference database.
+
+    '
+  operations:
+  - amr_detection
+  - virulence_profiling
+  sample_types:
+  - Bacterial isolate
+  sequencing:
+  - Any
+  read_types:
+  - Any
+  input:
+  - FASTA
+  output:
+  - Gene screening report
+  official_docs: https://github.com/tseemann/abricate
+  repository: https://github.com/tseemann/abricate
+  maintenance: moderate
+  community: high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: true
+virulencefinder:
+  name: VirulenceFinder
+  description: 'Detection of known bacterial virulence genes from assembled genomes or sequencing reads. Database
+    coverage is species-dependent and does not currently represent all bacterial taxa.
+
+    '
+  operations:
+  - virulence_profiling
+  sample_types:
+  - Bacterial isolate
+  sequencing:
+  - Any
+  read_types:
+  - Any
+  input:
+  - FASTA
+  - FASTQ
+  output:
+  - Virulence gene report
+  official_docs: https://github.com/genomicepidemiology/virulencefinder
+  repository: https://github.com/genomicepidemiology/virulencefinder
+  maintenance: moderate
+  community: high
+  bioconda: true
+  container: true
+  galaxy: false
+  nfcore: false
+mlst:
+  name: mlst
+  description: 'Classical multilocus sequence typing of bacterial genome assemblies using PubMLST typing schemes.
+
+    '
+  operations:
+  - mlst_typing
+  sample_types:
+  - Bacterial isolate
+  sequencing:
+  - Any
+  read_types:
+  - Any
+  input:
+  - FASTA
+  - GenBank
+  output:
+  - Sequence type
+  - Allele profile
+  official_docs: https://github.com/tseemann/mlst
+  repository: https://github.com/tseemann/mlst
+  maintenance: active
+  community: very_high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: true
+pymlst:
+  name: pyMLST
+  description: 'Bacterial typing software supporting classical MLST as well as core-genome and whole-genome MLST
+    approaches using local allele databases.
+
+    '
+  operations:
+  - mlst_typing
+  sample_types:
+  - Bacterial isolate
+  sequencing:
+  - Any
+  read_types:
+  - Any
+  input:
+  - FASTA
+  - FASTQ
+  output:
+  - Sequence type
+  - Allele profile
+  official_docs: https://pymlst.readthedocs.io/en/latest/
+  repository: https://github.com/bvalot/pyMLST
+  maintenance: active
+  community: moderate
+  bioconda: true
+  container: false
+  galaxy: false
+  nfcore: false
+fastani:
+  name: FastANI
+  description: Fast whole-genome Average Nucleotide Identity (ANI) estimation between a query microbial assembly
+    and one or more explicit reference assemblies. FastANI is a reference-comparison method rather than an independent
+    taxonomic classifier; interpretation should consider ANI together with alignment fraction and reference-set
+    quality.
+  operations:
+  - species_identification
+  sample_types:
+  - Bacterial isolate
+  sequencing:
+  - Any
+  read_types:
+  - Any
+  input:
+  - Query genome FASTA
+  - Reference genome collection
+  output:
+  - ANI values
+  - Alignment-fraction information
+  repository: https://github.com/ParBLiSS/FastANI
+  maintenance: active
+  community: very_high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: false
+  official_docs: https://github.com/ParBLiSS/FastANI
+mobsuite:
+  name: MOB-suite
+  description: MOB-suite plasmid reconstruction and typing suite for bacterial draft or complete genome assemblies.
+    MOB-recon reconstructs candidate plasmid sequences from assembled contigs and provides plasmid typing/cluster
+    information.
+  operations:
+  - plasmid_detection
+  sample_types:
+  - Bacterial isolate
+  sequencing:
+  - Any
+  read_types:
+  - Any
+  input:
+  - FASTA
+  output:
+  - Reconstructed plasmid sequences
+  - Plasmid typing report
+  repository: https://github.com/phac-nml/mob-suite
+  maintenance: active
+  community: high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: true
+plasmidfinder:
+  name: PlasmidFinder
+  description: Reference-based screening for known plasmid replicons in completely or partially sequenced bacterial
+    isolates. It reports replicon hits and should not be interpreted as de novo reconstruction of complete plasmid
+    molecules.
+  operations:
+  - plasmid_detection
+  sample_types:
+  - Bacterial isolate
+  sequencing:
+  - Any
+  read_types:
+  - Any
+  input:
+  - FASTA
+  - FASTQ
+  output:
+  - Plasmid replicon report
+  official_docs: https://github.com/genomicepidemiology/plasmidfinder
+  repository: https://github.com/genomicepidemiology/plasmidfinder
+  maintenance: active
+  community: high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: false
+genomad:
+  name: geNomad
+  description: Identification and characterization of viruses and plasmids in isolate genomes, metagenomes and metatranscriptomes.
+    geNomad can output predicted virus/plasmid sequences, integrated proviruses, viral taxonomic assignments and
+    marker-based functional annotations.
+  operations:
+  - plasmid_detection
+  - prophage_detection
+  - viral_sequence_detection
+  - viral_taxonomy
+  sample_types:
+  - Bacterial isolate
+  - Metagenome
+  - Virome
+  - Metatranscriptome
+  sequencing:
+  - Any
+  read_types:
+  - Any
+  input:
+  - FASTA
+  output:
+  - Viral sequences
+  - Plasmid sequences
+  - Provirus predictions
+  - Viral taxonomy
+  - Protein annotations
+  official_docs: https://portal.nersc.gov/genomad/
+  repository: https://github.com/apcamargo/genomad
+  maintenance: active
+  community: very_high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: true
+phispy:
+  name: PhiSpy
+  description: 'Prophage prediction from annotated bacterial and archaeal genomes using multiple genomic signals.
+    PhiSpy primarily expects an annotated GenBank genome.
+
+    '
+  operations:
+  - prophage_detection
+  sample_types:
+  - Bacterial isolate
+  sequencing:
+  - Any
+  read_types:
+  - Any
+  input:
+  - GenBank
+  output:
+  - Prophage regions
+  - Prophage sequence files
+  official_docs: https://github.com/linsalrob/PhiSpy
+  repository: https://github.com/linsalrob/PhiSpy
+  maintenance: active
+  community: high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: false
+bwa_mem2:
+  name: BWA-MEM2
+  description: 'Fast short-read alignment against a reference genome. Suitable for mapping bacterial Illumina reads
+    before reference-based variant calling.
+
+    '
+  operations:
+  - read_mapping
+  sample_types:
+  - Bacterial isolate
+  - Eukaryotic genome
+  sequencing:
+  - Illumina
+  read_types:
+  - Paired-end
+  - Single-end
+  input:
+  - FASTQ
+  - Reference FASTA
+  output:
+  - SAM
+  - BAM
+  repository: https://github.com/bwa-mem2/bwa-mem2
+  maintenance: active
+  community: very_high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: true
+freebayes:
+  name: FreeBayes
+  description: 'Haplotype-based variant caller that can identify SNPs, indels and complex variants from mapped sequencing
+    reads.
+
+    '
+  operations:
+  - variant_calling
+  sample_types:
+  - Bacterial isolate
+  - Eukaryotic genome
+  sequencing:
+  - Any
+  read_types:
+  - Any
+  input:
+  - BAM
+  - Reference FASTA
+  output:
+  - VCF
+  repository: https://github.com/freebayes/freebayes
+  maintenance: active
+  community: high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: true
+bcftools:
+  name: BCFtools
+  description: 'Toolkit for variant calling, filtering, normalization and manipulation of VCF and BCF files from
+    mapped sequencing data.
+
+    '
+  operations:
+  - variant_calling
+  - variant_filtering
+  sample_types:
+  - Bacterial isolate
+  - Eukaryotic genome
+  sequencing:
+  - Any
+  read_types:
+  - Any
+  input:
+  - BAM
+  - VCF
+  - Reference FASTA
+  output:
+  - VCF
+  - BCF
+  official_docs: https://samtools.github.io/bcftools/bcftools.html
+  repository: https://github.com/samtools/bcftools
+  maintenance: active
+  community: very_high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: true
+panaroo:
+  name: Panaroo
+  description: 'Bacterial pangenome analysis pipeline designed to identify gene families while accounting for annotation
+    errors and fragmented assemblies. It can also generate core-genome alignments.
+
+    '
+  operations:
+  - pangenome_analysis
+  - core_genome_alignment
+  sample_types:
+  - Bacterial isolate
+  sequencing:
+  - Any
+  read_types:
+  - Any
+  input:
+  - GFF3
+  output:
+  - Gene presence absence matrix
+  - Pangenome graph
+  - Core genome alignment
+  official_docs: https://gtonkinhill.github.io/panaroo/
+  repository: https://github.com/gtonkinhill/panaroo
+  maintenance: active
+  community: very_high
+  bioconda: true
+  container: true
+  galaxy: false
+  nfcore: true
+ppanggolin:
+  name: PPanGGOLiN
+  description: 'Microbial pangenome analysis framework that builds partitioned pangenome graphs and separates persistent,
+    shell and cloud gene families.
+
+    '
+  operations:
+  - pangenome_analysis
+  sample_types:
+  - Bacterial isolate
+  sequencing:
+  - Any
+  read_types:
+  - Any
+  input:
+  - Annotated genomes
+  - GFF3
+  output:
+  - Pangenome graph
+  - Gene family partitions
+  - Presence absence information
+  official_docs: https://ppanggolin.readthedocs.io/
+  repository: https://github.com/labgem/PPanGGOLiN
+  maintenance: active
+  community: high
+  bioconda: true
+  container: true
+  galaxy: false
+  nfcore: false
+iqtree2:
+  name: IQ-TREE 2
+  description: 'Maximum-likelihood phylogenetic inference software with model selection and branch-support estimation
+    for nucleotide and protein sequence alignments.
+
+    '
+  operations:
+  - phylogenetic_inference
+  sample_types:
+  - Bacterial isolate
+  sequencing:
+  - Any
+  read_types:
+  - Any
+  input:
+  - Multiple sequence alignment
+  output:
+  - Phylogenetic tree
+  - Model statistics
+  - Branch support
+  official_docs: https://iqtree.github.io/
+  repository: https://github.com/iqtree/iqtree2
+  maintenance: active
+  community: very_high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: true
+raxmlng:
+  name: RAxML-NG
+  description: 'Maximum-likelihood phylogenetic inference software for large nucleotide and protein alignments with
+    bootstrap and model-based tree estimation.
+
+    '
+  operations:
+  - phylogenetic_inference
+  sample_types:
+  - Bacterial isolate
+  sequencing:
+  - Any
+  read_types:
+  - Any
+  input:
+  - Multiple sequence alignment
+  output:
+  - Phylogenetic tree
+  - Bootstrap trees
+  - Likelihood results
+  repository: https://github.com/amkozlov/raxml-ng
+  maintenance: active
+  community: very_high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: false
+unicycler:
+  name: Unicycler
+  description: Bacterial assembly pipeline with a short-read-first hybrid strategy. It combines Illumina short reads
+    with ONT/PacBio long reads and remains useful when a long-read-first strategy is not appropriate, particularly
+    when long-read depth/quality is limited.
+  operations:
+  - hybrid_genome_assembly
+  sample_types:
+  - Bacterial isolate
+  sequencing:
+  - Illumina
+  - Oxford Nanopore
+  - PacBio
+  read_types:
+  - Paired-end
+  - Long reads
+  input:
+  - Illumina paired-end FASTQ
+  - Long-read FASTQ
+  output:
+  - FASTA
+  - GFA assembly graph
+  official_docs: https://github.com/rrwick/Unicycler
+  repository: https://github.com/rrwick/Unicycler
+  maintenance: active
+  community: very_high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: true
+hybracter:
+  name: Hybracter
+  description: Automated long-read-first bacterial isolate assembly pipeline designed primarily for Oxford Nanopore
+    data. In hybrid mode it builds the assembly from ONT long reads and uses matched Illumina reads for polishing;
+    this differs conceptually from short-read-first hybrid assemblers.
+  operations:
+  - hybrid_genome_assembly
+  sample_types:
+  - Bacterial isolate
+  sequencing:
+  - Illumina
+  - Oxford Nanopore
+  read_types:
+  - Paired-end
+  - Long reads
+  input:
+  - Illumina paired-end FASTQ
+  - Oxford Nanopore FASTQ
+  output:
+  - FASTA
+  - Assembly reports
+  official_docs: https://hybracter.readthedocs.io/
+  repository: https://github.com/gbouras13/hybracter
+  maintenance: active
+  community: high
+  bioconda: true
+  container: true
+  galaxy: false
+  nfcore: false
+humann:
+  name: HUMAnN
+  description: Functional/pathway profiling pipeline for metagenomes and metatranscriptomes. For an isolated metatranscriptome
+    HUMAnN can analyze RNA reads directly, but transcript abundance is confounded with underlying gene copy number.
+    When matched metagenomic DNA is available, HUMAnN recommends supplying the DNA-derived taxonomic profile to
+    the RNA run via --taxonomic-profile; RNA/DNA normalization can then be used to estimate expression less confounded
+    by gene copy number.
+  operations:
+  - functional_profiling
+  - pathway_analysis
+  sample_types:
+  - Metagenome
+  - Metatranscriptome
+  sequencing:
+  - Illumina
+  read_types:
+  - Paired-end
+  - Single-end
+  input:
+  - FASTQ
+  - FASTA
+  - SAM
+  - BAM
+  output:
+  - Gene family abundance
+  - Reaction abundance
+  - Pathway abundance
+  - Pathway coverage
+  official_docs: https://github.com/biobakery/humann
+  repository: https://github.com/biobakery/humann
+  maintenance: active
+  community: very_high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: true
+eggnog_mapper:
+  name: eggNOG-mapper
+  description: 'Orthology-based functional annotation tool for proteins, coding sequences, genomes and metagenomic
+    gene catalogues using the eggNOG reference database. It can provide annotations such as COG, GO and KEGG orthology
+    assignments.
+
+    '
+  operations:
+  - functional_profiling
+  - functional_annotation
+  - viral_functional_annotation
+  sample_types:
+  - Metagenome
+  - Bacterial isolate
+  - Eukaryotic genome
+  - Virome
+  sequencing:
+  - Any
+  read_types:
+  - Any
+  input:
+  - Protein FASTA
+  - CDS FASTA
+  - Genome FASTA
+  - Metagenomic contigs
+  output:
+  - Orthology assignments
+  - Functional annotations
+  - KEGG annotations
+  - GO annotations
+  - COG annotations
+  official_docs: http://eggnog-mapper.embl.de/
+  repository: https://github.com/eggnogdb/eggnog-mapper
+  maintenance: active
+  community: very_high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: true
+deeparg:
+  name: DeepARG
+  description: DeepARG deep-learning ARG predictor. For Illumina metagenomes BioFlow uses the modern DeepARG-SS
+    short-read route after QC/preprocessing; DeepARG can also run its own paired-read short_reads_pipeline. Its
+    model/database bundle is distinct from CARD and MEGARes.
+  operations:
+  - resistome_profiling
+  sample_types:
+  - Metagenome
+  sequencing:
+  - Illumina
+  - Oxford Nanopore
+  - PacBio
+  read_types:
+  - Paired-end
+  - Single-end
+  - Long reads
+  input:
+  - FASTA
+  - Metagenomic reads
+  - Predicted ORFs
+  output:
+  - ARG predictions
+  - ARG abundance table
+  official_docs: https://github.com/gaarangoa/deeparg
+  repository: https://github.com/gaarangoa/deeparg
+  maintenance: active
+  community: high
+  bioconda: false
+  container: true
+  galaxy: true
+  nfcore: false
+amrplusplus:
+  name: AMR++
+  description: Nextflow end-to-end metagenomic resistome pipeline using MEGARes. Its standard route starts from
+    raw reads and includes QC/trimming, optional host-DNA removal, resistome alignment and count/summary generation;
+    it should therefore not be placed after a duplicate external preprocessing route.
+  operations:
+  - resistome_profiling
+  sample_types:
+  - Metagenome
+  sequencing:
+  - Illumina
+  read_types:
+  - Paired-end
+  - Single-end
+  input:
+  - FASTQ
+  output:
+  - ARG count matrix
+  - Resistome profiles
+  - Resistance hierarchy summaries
+  official_docs: https://github.com/Microbial-Ecology-Group/AMRplusplus
+  repository: https://github.com/Microbial-Ecology-Group/AMRplusplus
+  maintenance: active
+  community: high
+  bioconda: true
+  container: true
+  galaxy: false
+  nfcore: false
+rgi:
+  name: RGI
+  description: CARD Resistance Gene Identifier. For shotgun metagenomic reads, RGI BWT aligns quality-controlled
+    FASTQ reads against CARD/WildCARD references using KMA/Bowtie2/BWA and reports allele- and gene-level mappings.
+    CARD database preparation is required.
+  operations:
+  - resistome_profiling
+  - amr_detection
+  sample_types:
+  - Metagenome
+  - Bacterial isolate
+  sequencing:
+  - Illumina
+  read_types:
+  - Paired-end
+  - Single-end
+  input:
+  - FASTQ
+  - FASTA
+  - Protein FASTA
+  output:
+  - ARG report
+  - Resistance gene abundance
+  - Allele-level results
+  official_docs: https://github.com/arpcard/rgi
+  repository: https://github.com/arpcard/rgi
+  maintenance: active
+  community: very_high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: true
+pathofact2:
+  name: PathoFact 2.0
+  description: 'Metagenomic pathogenicity profiling pipeline for prediction of virulence factors, bacterial toxins,
+    antimicrobial resistance genes and additional pathogenicity-associated features from assembled metagenomic sequences.
+
+    '
+  operations:
+  - virulence_profiling
+  sample_types:
+  - Metagenome
+  sequencing:
+  - Any
+  read_types:
+  - Any
+  input:
+  - Metagenomic contig FASTA
+  output:
+  - Virulence factor predictions
+  - Toxin predictions
+  - Pathogenicity reports
+  official_docs: https://gitlab.com/uniluxembourg/lcsb/systems-ecology/pathofact2
+  repository: https://gitlab.com/uniluxembourg/lcsb/systems-ecology/pathofact2
+  maintenance: active
+  community: high
+  bioconda: false
+  container: false
+  galaxy: false
+  nfcore: false
+virsorter2:
+  name: VirSorter2
+  description: Multi-classifier workflow for identifying diverse viral sequences in genomic/metagenomic assemblies.
+    When DRAM-v is the downstream goal, VirSorter2 must be run with --prep-for-dramv so the viral FASTA and affi-contigs
+    metadata expected by DRAM-v are generated together.
+  operations:
+  - viral_detection
+  - dramv_preparation
+  - viral_sequence_detection
+  sample_types:
+  - Metagenome
+  - Virome
+  sequencing:
+  - Any
+  read_types:
+  - Any
+  input:
+  - FASTA
+  output:
+  - Viral contigs
+  - Viral classification scores
+  official_docs: https://github.com/jiarong/VirSorter2
+  repository: https://github.com/jiarong/VirSorter2
+  maintenance: active
+  community: very_high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: false
+checkv:
+  name: CheckV
+  description: Quality assessment of single-contig viral genomes, including completeness, host-contamination assessment,
+    provirus extraction and closed-genome detection. CheckV reports quality tiers, but its viruses.fna/proviruses.fna
+    outputs should not be mislabeled as automatically filtered to a chosen quality threshold.
+  operations:
+  - viral_quality
+  - viral_genome_quality
+  sample_types:
+  - Metagenome
+  - Virome
+  sequencing:
+  - Any
+  read_types:
+  - Any
+  input:
+  - Viral FASTA
+  output:
+  - Viral quality report
+  - Completeness/contamination estimates
+  - Extracted virus/provirus sequences
+  official_docs: https://bitbucket.org/berkeleylab/checkv/src/master/
+  repository: https://bitbucket.org/berkeleylab/checkv/src/master/
+  maintenance: active
+  community: very_high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: true
+vclust:
+  name: Vclust
+  description: Fast viral-genome ANI/aligned-fraction comparison and clustering tool. It supports vOTU clustering
+    following MIUViG-style sequence-similarity workflows and can report a representative sequence identifier for
+    each cluster for downstream dereplication/abundance analysis.
+  operations:
+  - viral_votu_clustering
+  sample_types:
+  - Virome
+  - Metagenome
+  sequencing:
+  - Any
+  read_types:
+  - Any
+  input:
+  - Viral FASTA
+  output:
+  - Viral ANI and aligned-fraction results
+  - vOTU cluster membership
+  official_docs: https://github.com/refresh-bio/vclust
+  repository: https://github.com/refresh-bio/vclust
+  maintenance: active
+  community: moderate
+  bioconda: false
+  container: false
+  galaxy: false
+  nfcore: false
+plasx:
+  name: PlasX
+  description: 'PlasX classifier for plasmid-associated metagenomic contigs using gene content/genetic architecture.
+    Bare PlasX is not a one-command FASTA classifier: its documented workflow first creates anvi''o gene/COG/Pfam
+    annotations and de novo gene-family annotations, then applies the PlasX model.'
+  operations:
+  - plasmid_detection
+  sample_types:
+  - Metagenome
+  sequencing:
+  - Any
+  read_types:
+  - Any
+  input:
+  - PlasX gene/COG/Pfam annotations
+  - PlasX de novo gene-family annotations
+  output:
+  - Plasmid probability scores / predicted plasmid contigs
+  official_docs: https://github.com/michaelkyu/PlasX
+  repository: https://github.com/michaelkyu/PlasX
+  maintenance: moderate
+  community: moderate
+  bioconda: false
+  container: false
+  galaxy: false
+  nfcore: false
+strainphlan:
+  name: StrainPhlAn
+  description: Strain-level phylogenomics method distributed with MetaPhlAn. It compares reconstructed species-specific
+    marker sequences across multiple samples and optional references. Current StrainPhlAn requires at least four
+    total sample/reference inputs and at least four to remain after marker/sample filtering before a phylogeny can
+    be inferred.
+  operations:
+  - strain_profiling
+  sample_types:
+  - Metagenome
+  sequencing:
+  - Illumina
+  read_types:
+  - Paired-end
+  - Single-end
+  input:
+  - Consensus-marker collection
+  - Optional reference genomes
+  output:
+  - Strain marker alignments
+  - Strain-level phylogenetic data
+  official_docs: https://segatalab.github.io/tools/strainphlan/
+  repository: https://github.com/biobakery/MetaPhlAn
+  maintenance: active
+  community: very_high
+  bioconda: true
+  container: true
+  galaxy: false
+  nfcore: false
+instrain:
+  name: inStrain
+  description: Population-genomics toolkit for metagenomes that profiles nucleotide diversity, SNVs, linkage, coverage
+    and strain similarity from reads mapped to representative genomes. BioFlow recommends competitive mapping to
+    a dereplicated representative-genome database rather than mapping each genome separately, because competitive
+    mapping reduces mis-mapped reads and false-positive SNPs.
+  operations:
+  - strain_profiling
+  sample_types:
+  - Metagenome
+  sequencing:
+  - Illumina
+  read_types:
+  - Paired-end
+  - Single-end
+  input:
+  - Sorted BAM
+  - Competitive representative-genome database FASTA
+  output:
+  - Microdiversity profiles
+  - SNP profiles
+  - Strain comparisons
+  - Population ANI
+  official_docs: https://instrain.readthedocs.io/
+  repository: https://github.com/MrOlm/inStrain
+  maintenance: active
+  community: high
+  bioconda: true
+  container: true
+  galaxy: false
+  nfcore: true
+samtools:
+  name: SAMtools
+  description: 'Widely used toolkit for manipulating sequence alignment files. BioFlow uses SAMtools after read
+    alignment to convert, sort and index alignment data before downstream analyses.
+
+    '
+  operations:
+  - alignment_processing
+  - bam_sorting
+  - bam_indexing
+  sample_types:
+  - Bacterial isolate
+  - Metagenome
+  - Metatranscriptome
+  - Eukaryotic genome
+  - Bulk transcriptome
+  - Virome
+  sequencing:
+  - Any
+  read_types:
+  - Any
+  input:
+  - SAM
+  - BAM
+  output:
+  - BAM
+  - Sorted BAM
+  - BAM index
+  official_docs: https://www.htslib.org/
+  repository: https://github.com/samtools/samtools
+  maintenance: active
+  community: very_high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: true
+sample2markers:
+  name: sample2markers
+  description: 'MetaPhlAn utility used in the StrainPhlAn workflow. It reconstructs sample-specific consensus marker
+    sequences from MetaPhlAn marker-mapping output before strain-level phylogenomic analysis.
+
+    '
+  operations:
+  - marker_reconstruction
+  sample_types:
+  - Metagenome
+  sequencing:
+  - Illumina
+  - Oxford Nanopore
+  read_types:
+  - Paired-end
+  - Single-end
+  - Long reads
+  input:
+  - MetaPhlAn marker-mapping output
+  output:
+  - Consensus marker files
+  official_docs: https://github.com/biobakery/MetaPhlAn
+  repository: https://github.com/biobakery/MetaPhlAn
+  maintenance: active
+  community: very_high
+  bioconda: true
+  container: true
+  galaxy: false
+  nfcore: false
+jgi_depth:
+  name: jgi_summarize_bam_contig_depths
+  description: 'Coverage summarization utility distributed with MetaBAT2. It calculates contig depth information
+    from mapped and sorted BAM files for downstream metagenomic genome binning.
+
+    '
+  operations:
+  - coverage_estimation
+  sample_types:
+  - Metagenome
+  sequencing:
+  - Any
+  read_types:
+  - Any
+  input:
+  - Sorted BAM
+  - Metagenome contigs FASTA
+  output:
+  - Contig depth table
+  repository: https://bitbucket.org/berkeleylab/metabat/
+  maintenance: active
+  community: high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: true
+dada2:
+  name: DADA2
+  description: 'Amplicon sequence inference method that models sequencing errors to resolve exact amplicon sequence
+    variants. It performs filtering, dereplication, denoising, paired-read merging and chimera removal.
+
+    '
+  operations:
+  - asv_inference
+  sample_types:
+  - Amplicon
+  sequencing:
+  - Illumina
+  read_types:
+  - Paired-end
+  - Single-end
+  input:
+  - Primer-trimmed FASTQ
+  output:
+  - ASV feature table
+  - Representative sequences
+  official_docs: https://benjjneb.github.io/dada2/
+  repository: https://github.com/benjjneb/dada2
+  maintenance: active
+  community: very_high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: true
+  capability_id: dada2
+qiime2_feature_classifier:
+  name: QIIME 2 feature-classifier
+  description: 'QIIME 2 plugin for assigning taxonomy to representative amplicon sequences using trained classifiers
+    or reference sequence databases.
+
+    '
+  operations:
+  - taxonomy_assignment
+  sample_types:
+  - Amplicon
+  sequencing:
+  - Any
+  read_types:
+  - Any
+  input:
+  - Representative ASV or OTU sequences
+  - Trained taxonomy classifier
+  output:
+  - Amplicon taxonomic assignments
+  official_docs: https://docs.qiime2.org/
+  repository: https://github.com/qiime2/q2-feature-classifier
+  maintenance: active
+  community: very_high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: true
+  capability_id: qiime2
+qiime2_diversity:
+  name: QIIME 2 diversity
+  description: 'QIIME 2 diversity analysis functionality for calculating alpha-diversity metrics, beta-diversity
+    distance matrices and ordination results from amplicon feature tables.
+
+    '
+  operations:
+  - alpha_diversity
+  - beta_diversity
+  sample_types:
+  - Amplicon
+  sequencing:
+  - Any
+  read_types:
+  - Any
+  input:
+  - Amplicon feature table (ASV, OTU, MOTU or imported equivalent)
+  - Phylogenetic tree only for phylogenetic metrics
+  - Sample metadata when grouping, plotting or group testing is required
+  output:
+  - Alpha diversity results
+  - Beta diversity distance matrix
+  - Ordination results
+  official_docs: https://amplicon-docs.qiime2.org/
+  repository: https://github.com/qiime2/q2-diversity
+  maintenance: active
+  community: very_high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: false
+qiime2_phylogeny:
+  name: QIIME 2 phylogeny
+  description: 'QIIME 2 phylogenetic workflow for aligning representative amplicon sequences and constructing a
+    phylogenetic tree for phylogeny-aware diversity metrics such as Faith PD and UniFrac.
+
+    '
+  operations:
+  - amplicon_phylogeny
+  sample_types:
+  - Amplicon
+  sequencing:
+  - Any
+  read_types:
+  - Any
+  input:
+  - Representative sequences
+  output:
+  - Phylogenetic tree
+  official_docs: https://amplicon-docs.qiime2.org/
+  repository: https://github.com/qiime2/q2-phylogeny
+  maintenance: active
+  community: very_high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: false
+ancombc:
+  name: ANCOM-BC
+  description: 'Differential abundance method designed for microbiome count data. It estimates taxon- or feature-level
+    abundance differences while accounting for compositional bias and supports covariates in statistical models.
+
+    '
+  operations:
+  - differential_abundance
+  sample_types:
+  - Amplicon
+  sequencing:
+  - Any
+  read_types:
+  - Any
+  input:
+  - ASV or OTU count table
+  - Sample metadata
+  - Statistical design
+  output:
+  - Differential abundance results
+  repository: https://github.com/FrederickHuangLin/ANCOMBC
+  maintenance: active
+  community: very_high
+  bioconda: false
+  container: true
+  galaxy: true
+  nfcore: false
+aldex2:
+  name: ALDEx2
+  description: Compositional differential-abundance method using Dirichlet Monte Carlo sampling and log-ratio transformations.
+    It supports two or more conditions, effect-size estimation, several tests and generalized linear models; the
+    package documentation notes that it is optimized for three or more experimental replicates.
+  operations:
+  - differential_abundance
+  sample_types:
+  - Amplicon
+  sequencing:
+  - Any
+  read_types:
+  - Any
+  input:
+  - Amplicon feature count table
+  - Sample metadata
+  - Statistical design
+  output:
+  - Differential abundance results
+  repository: https://github.com/ggloor/ALDEx_bioc
+  maintenance: active
+  community: high
+  bioconda: false
+  container: true
+  galaxy: true
+  nfcore: false
+deseq2:
+  name: DESeq2
+  description: Negative-binomial count-model framework originally developed for RNA-seq. It can be applied to amplicon
+    count tables and can encode covariates in the design matrix, but it is not explicitly compositional or microbiome-specific;
+    BioFlow therefore treats it as a conditional microbiome differential-abundance option rather than a default
+    first choice.
+  operations:
+  - differential_abundance
+  - differential_expression
+  sample_types:
+  - Amplicon
+  - Bulk transcriptome
+  - Metatranscriptome
+  sequencing:
+  - Any
+  read_types:
+  - Any
+  input:
+  - Amplicon feature count table
+  - Sample metadata
+  - Statistical design
+  output:
+  - Differential abundance results
+  official_docs: https://bioconductor.org/packages/DESeq2/
+  repository: https://github.com/thelovelab/DESeq2
+  maintenance: active
+  community: very_high
+  bioconda: false
+  container: true
+  galaxy: true
+  nfcore: false
+star:
+  name: STAR
+  description: 'Splice-aware RNA-seq aligner for mapping transcriptomic sequencing reads to a reference genome.
+    STAR can generate its own genome index and can directly produce coordinate-sorted BAM output for downstream
+    expression analysis.
+
+    '
+  operations:
+  - transcriptome_indexing
+  - rna_alignment
+  sample_types:
+  - Bulk transcriptome
+  sequencing:
+  - Illumina
+  read_types:
+  - Paired-end
+  - Single-end
+  input:
+  - RNA-seq FASTQ
+  - Reference genome FASTA
+  - Gene annotation GTF
+  output:
+  - STAR genome index
+  - Sorted BAM
+  official_docs: https://github.com/alexdobin/STAR
+  repository: https://github.com/alexdobin/STAR
+  maintenance: active
+  community: very_high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: true
+hisat2:
+  name: HISAT2
+  description: 'Splice-aware sequence alignment tool suitable for mapping RNA-seq reads to a reference genome. HISAT2
+    uses a dedicated genome index generated before read alignment.
+
+    '
+  operations:
+  - transcriptome_indexing
+  - rna_alignment
+  sample_types:
+  - Bulk transcriptome
+  sequencing:
+  - Illumina
+  read_types:
+  - Paired-end
+  - Single-end
+  input:
+  - RNA-seq FASTQ
+  - Reference genome FASTA
+  output:
+  - HISAT2 genome index
+  - SAM alignment
+  official_docs: https://daehwankimlab.github.io/hisat2/
+  repository: https://github.com/DaehwanKimLab/hisat2
+  maintenance: active
+  community: very_high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: true
+featurecounts:
+  name: featureCounts
+  description: 'Read summarization program distributed with the Subread package. It assigns aligned sequencing reads
+    to genomic features such as genes and produces gene-level count matrices for downstream differential-expression
+    analysis.
+
+    '
+  operations:
+  - gene_quantification
+  sample_types:
+  - Bulk transcriptome
+  - Metatranscriptome
+  sequencing:
+  - Any
+  read_types:
+  - Any
+  input:
+  - Sorted BAM
+  - Gene annotation GTF/GFF
+  output:
+  - Gene count matrix
+  official_docs: https://subread.sourceforge.net/
+  repository: https://github.com/ShiLab-Bioinformatics/subread
+  maintenance: active
+  community: very_high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: true
+salmon:
+  name: Salmon
+  description: 'Transcript-level RNA-seq quantification tool using selective alignment. Salmon quantifies transcript
+    abundance directly from sequencing reads using a pre-built transcriptome index.
+
+    '
+  operations:
+  - transcriptome_indexing
+  - lightweight_quantification
+  sample_types:
+  - Bulk transcriptome
+  sequencing:
+  - Illumina
+  read_types:
+  - Paired-end
+  - Single-end
+  input:
+  - RNA-seq FASTQ
+  - Reference transcriptome FASTA
+  output:
+  - Transcript abundance
+  - Transcript-level estimated counts
+  official_docs: https://salmon.readthedocs.io/
+  repository: https://github.com/COMBINE-lab/salmon
+  maintenance: active
+  community: very_high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: true
+kallisto:
+  name: kallisto
+  description: 'RNA-seq transcript abundance quantification tool based on rapid pseudoalignment-style sequence assignment
+    to an indexed reference transcriptome.
+
+    '
+  operations:
+  - transcriptome_indexing
+  - lightweight_quantification
+  sample_types:
+  - Bulk transcriptome
+  sequencing:
+  - Illumina
+  read_types:
+  - Paired-end
+  - Single-end
+  input:
+  - RNA-seq FASTQ
+  - Reference transcriptome FASTA
+  output:
+  - Transcript abundance
+  - Transcript-level estimated counts
+  official_docs: https://pachterlab.github.io/kallisto/
+  repository: https://github.com/pachterlab/kallisto
+  maintenance: active
+  community: very_high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: true
+edger:
+  name: edgeR
+  description: 'Bioconductor package for differential expression analysis of RNA-seq count data using negative binomial
+    statistical models.
+
+    '
+  operations:
+  - differential_expression
+  sample_types:
+  - Bulk transcriptome
+  - Metatranscriptome
+  sequencing:
+  - Any
+  read_types:
+  - Any
+  input:
+  - Gene count matrix
+  - Sample metadata
+  - Statistical design
+  output:
+  - Differential expression results
+  official_docs: https://bioconductor.org/packages/edgeR/
+  repository: https://git.bioconductor.org/packages/edgeR
+  maintenance: active
+  community: very_high
+  bioconda: false
+  container: true
+  galaxy: true
+  nfcore: false
+tximport:
+  name: tximport
+  description: 'R/Bioconductor package for importing transcript-level abundance estimates from tools such as Salmon
+    and kallisto and summarizing them to the gene level for downstream differential-expression analysis.
+
+    '
+  operations:
+  - transcript_to_gene_summarization
+  sample_types:
+  - Bulk transcriptome
+  sequencing:
+  - Any
+  read_types:
+  - Any
+  input:
+  - Transcript count matrix
+  - Transcript-to-gene mapping table
+  output:
+  - Gene count matrix
+  official_docs: https://bioconductor.org/packages/tximport/
+  repository: https://git.bioconductor.org/packages/tximport
+  maintenance: active
+  community: very_high
+  bioconda: false
+  container: true
+  galaxy: false
+  nfcore: true
+stringtie:
+  name: StringTie
+  description: 'Reference-guided transcript assembly and expression analysis tool that reconstructs transcripts
+    from RNA-seq alignments. An existing gene annotation can optionally guide transcript reconstruction.
+
+    '
+  operations:
+  - transcript_assembly
+  sample_types:
+  - Bulk transcriptome
+  sequencing:
+  - Any
+  read_types:
+  - Any
+  input:
+  - Sorted RNA-seq BAM
+  - Gene annotation GTF/GFF
+  output:
+  - Reconstructed transcript annotation GTF
+  official_docs: https://ccb.jhu.edu/software/stringtie/
+  repository: https://github.com/gpertea/stringtie
+  maintenance: active
+  community: very_high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: true
+trinity:
+  name: Trinity
+  description: 'De novo transcriptome assembler designed for reconstructing transcript sequences directly from RNA-seq
+    reads without requiring a reference genome.
+
+    '
+  operations:
+  - transcript_assembly
+  sample_types:
+  - Bulk transcriptome
+  sequencing:
+  - Illumina
+  read_types:
+  - Paired-end
+  - Single-end
+  input:
+  - RNA-seq FASTQ
+  output:
+  - Assembled transcriptome FASTA
+  official_docs: https://github.com/trinityrnaseq/trinityrnaseq/wiki
+  repository: https://github.com/trinityrnaseq/trinityrnaseq
+  maintenance: active
+  community: very_high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: false
+rmats:
+  name: rMATS
+  description: 'Replicate-aware alternative splicing analysis tool for RNA-seq experiments. It detects differential
+    alternative splicing events between biological conditions using RNA-seq alignments and a reference gene annotation.
+
+    '
+  operations:
+  - alternative_splicing
+  sample_types:
+  - Bulk transcriptome
+  sequencing:
+  - Illumina
+  read_types:
+  - Paired-end
+  - Single-end
+  input:
+  - Sorted RNA-seq BAM sample collection
+  - Gene annotation GTF
+  - Sample metadata
+  - Statistical analysis design
+  output:
+  - Alternative splicing results
+  repository: https://github.com/Xinglab/rmats-turbo
+  maintenance: active
+  community: high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: false
+clusterprofiler:
+  name: clusterProfiler
+  description: 'R/Bioconductor package for statistical analysis and visualization of functional profiles of genes
+    and gene clusters, including ontology and gene-set enrichment analyses.
+
+    '
+  operations:
+  - functional_enrichment
+  - pathway_analysis
+  sample_types:
+  - Bulk transcriptome
+  sequencing:
+  - Any
+  read_types:
+  - Any
+  input:
+  - Gene list
+  - Gene identifier mapping
+  - Functional or pathway gene sets
+  output:
+  - Functional enrichment results
+  - Pathway enrichment results
+  official_docs: https://bioconductor.org/packages/clusterProfiler/
+  repository: https://github.com/YuLab-SMU/clusterProfiler
+  maintenance: active
+  community: very_high
+  bioconda: false
+  container: true
+  galaxy: true
+  nfcore: false
+fgsea:
+  name: fgsea
+  description: 'Fast implementation of gene set enrichment analysis for testing whether predefined functional or
+    pathway gene sets are enriched toward the top or bottom of a ranked gene list.
+
+    '
+  operations:
+  - pathway_analysis
+  sample_types:
+  - Bulk transcriptome
+  sequencing:
+  - Any
+  read_types:
+  - Any
+  input:
+  - Ranked gene list
+  - Pathway gene sets
+  output:
+  - Pathway enrichment results
+  official_docs: https://bioconductor.org/packages/fgsea/
+  repository: https://github.com/alserglab/fgsea
+  maintenance: active
+  community: high
+  bioconda: false
+  container: true
+  galaxy: false
+  nfcore: false
+coverm:
+  name: CoverM
+  description: 'Read-mapping based coverage and abundance estimation tool for contigs and genomes. It can be used
+    to quantify viral sequences across sequencing samples after reads have been mapped to the viral reference set.
+
+    '
+  operations:
+  - viral_abundance_profiling
+  sample_types:
+  - Virome
+  - Metagenome
+  sequencing:
+  - Illumina
+  read_types:
+  - Paired-end
+  - Single-end
+  input:
+  - Sorted BAM
+  - Viral genome FASTA
+  output:
+  - Viral abundance table
+  repository: https://github.com/wwood/CoverM
+  maintenance: active
+  community: high
+  bioconda: true
+  container: true
+  galaxy: false
+  nfcore: true
+iphop:
+  name: iPHoP
+  description: Integrated Phage Host Prediction pipeline for predicting host genus of novel bacteriophages and archaeoviruses
+    from viral genome sequences. It is a prokaryotic-virus host-prediction method and should not be presented as
+    a general host predictor for all eukaryotic viruses.
+  operations:
+  - viral_host_prediction
+  sample_types:
+  - Virome
+  - Metagenome
+  sequencing:
+  - Any
+  read_types:
+  - Any
+  input:
+  - Viral genomes FASTA
+  - iPHoP database
+  output:
+  - Virus-host prediction results
+  repository: https://bitbucket.org/srouxjgi/iphop/
+  maintenance: active
+  community: high
+  bioconda: true
+  container: true
+  galaxy: false
+  nfcore: false
+prodigal_gv:
+  name: Prodigal-gv
+  description: 'Virus-oriented gene prediction tool derived from Prodigal and extended for viral genomes, including
+    viruses using alternative genetic codes.
+
+    '
+  operations:
+  - viral_gene_prediction
+  sample_types:
+  - Virome
+  sequencing:
+  - Any
+  read_types:
+  - Any
+  input:
+  - Quality-filtered viral genomes FASTA
+  output:
+  - Viral protein FASTA
+  - Viral gene prediction GFF
+  official_docs: https://github.com/apcamargo/prodigal-gv
+  repository: https://github.com/apcamargo/prodigal-gv
+  maintenance: active
+  community: high
+  bioconda: true
+  container: true
+  galaxy: false
+  nfcore: false
+dramv:
+  name: DRAM-v
+  description: Viral metabolic annotation workflow for identifying candidate auxiliary metabolic genes. The standard
+    DRAM-v route consumes the VirSorter2 --prep-for-dramv viral sequences together with the matching VirSorter2
+    affi-contigs metadata and the DRAM-v databases.
+  operations:
+  - auxiliary_metabolic_gene_analysis
+  sample_types:
+  - Virome
+  - Metagenome
+  sequencing:
+  - Any
+  read_types:
+  - Any
+  input:
+  - DRAM-v prepared viral sequences
+  - VirSorter2 DRAM-v metadata
+  - DRAM-v database
+  output:
+  - Viral functional annotation
+  - Auxiliary metabolic gene predictions
+  repository: https://github.com/WrightonLabCSU/DRAM
+  maintenance: active
+  community: high
+  bioconda: true
+  container: true
+  galaxy: false
+  nfcore: false
+hifiasm:
+  name: hifiasm
+  description: Fast haplotype-resolved de novo assembler initially designed for PacBio HiFi reads. Current hifiasm
+    releases also support ONT R10 simplex assembly with the dedicated --ont mode. BioFlow's curated PacBio workflow
+    uses the HiFi route; ONT use should only be recommended when the read chemistry/quality matches hifiasm's ONT
+    mode rather than treating all Nanopore reads as equivalent.
+  operations:
+  - genome_assembly
+  sample_types:
+  - Eukaryotic genome
+  sequencing:
+  - PacBio
+  - Oxford Nanopore
+  read_types:
+  - Long reads
+  input:
+  - Long-read FASTQ
+  output:
+  - Eukaryotic genome assembly FASTA
+  repository: https://github.com/chhylp123/hifiasm
+  maintenance: active
+  community: very_high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: true
+  official_docs: https://github.com/chhylp123/hifiasm
+masurca:
+  name: MaSuRCA
+  description: 'Genome assembly framework supporting hybrid combinations of accurate short reads and long reads
+    for large and complex genome assembly.
+
+    '
+  operations:
+  - hybrid_genome_assembly
+  sample_types:
+  - Eukaryotic genome
+  sequencing:
+  - Illumina
+  - Oxford Nanopore
+  - PacBio
+  read_types:
+  - Paired-end
+  - Long reads
+  input:
+  - Paired-end FASTQ
+  - Long-read FASTQ
+  output:
+  - Eukaryotic genome assembly FASTA
+  repository: https://github.com/alekseyzimin/masurca
+  maintenance: active
+  community: high
+  bioconda: true
+  container: true
+  galaxy: false
+  nfcore: false
+busco:
+  name: BUSCO
+  description: 'Genome completeness assessment framework that evaluates assemblies using conserved single-copy ortholog
+    sets from lineage-specific reference data.
+
+    '
+  operations:
+  - genome_quality_assessment
+  sample_types:
+  - Eukaryotic genome
+  sequencing:
+  - Any
+  read_types:
+  - Any
+  input:
+  - Genome FASTA
+  - BUSCO lineage dataset
+  output:
+  - Genome completeness assessment report
+  official_docs: https://busco.ezlab.org/
+  repository: https://gitlab.com/ezlab/busco
+  maintenance: active
+  community: very_high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: true
+repeatmodeler:
+  name: RepeatModeler
+  description: 'De novo repeat discovery framework used to identify repetitive sequence families in newly assembled
+    eukaryotic genomes and construct a species-specific repeat library.
+
+    '
+  operations:
+  - repeat_discovery
+  sample_types:
+  - Eukaryotic genome
+  sequencing:
+  - Any
+  read_types:
+  - Any
+  input:
+  - Eukaryotic genome FASTA
+  output:
+  - Species-specific repeat library
+  repository: https://github.com/Dfam-consortium/RepeatModeler
+  maintenance: active
+  community: very_high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: false
+repeatmasker:
+  name: RepeatMasker
+  description: 'Repeat annotation and genome masking software used to identify repetitive elements and generate
+    a repeat-masked genome for downstream gene prediction.
+
+    '
+  operations:
+  - repeat_annotation
+  sample_types:
+  - Eukaryotic genome
+  sequencing:
+  - Any
+  read_types:
+  - Any
+  input:
+  - Eukaryotic genome FASTA
+  - Repeat library
+  output:
+  - Repeat-masked genome FASTA
+  - Repeat annotation GFF
+  repository: https://github.com/Dfam-consortium/RepeatMasker
+  maintenance: active
+  community: very_high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: false
+braker:
+  name: BRAKER
+  description: Legacy BRAKER pipeline family entry retained for literature/backward compatibility. The upstream
+    BRAKER repository now directs new users to BRAKER4; BioFlow's current curated gene-prediction route uses BRAKER4
+    instead.
+  operations:
+  - gene_prediction
+  sample_types:
+  - Eukaryotic genome
+  sequencing:
+  - Any
+  read_types:
+  - Any
+  input:
+  - Repeat-masked eukaryotic genome FASTA
+  - Protein evidence FASTA
+  output:
+  - Eukaryotic gene annotation GFF
+  - Predicted protein FASTA
+  repository: https://github.com/Gaius-Augustus/BRAKER
+  maintenance: legacy
+  community: very_high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: false
+augustus:
+  name: AUGUSTUS
+  description: 'Ab initio eukaryotic gene prediction software that predicts gene structures using a species-specific
+    statistical model.
+
+    '
+  operations:
+  - gene_prediction
+  sample_types:
+  - Eukaryotic genome
+  sequencing:
+  - Any
+  read_types:
+  - Any
+  input:
+  - Repeat-masked eukaryotic genome FASTA
+  - AUGUSTUS species model
+  output:
+  - Eukaryotic gene annotation GFF
+  - Predicted protein FASTA
+  repository: https://github.com/Gaius-Augustus/Augustus
+  maintenance: active
+  community: very_high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: false
+mummer4:
+  name: MUMmer4
+  description: Whole-genome alignment toolkit. In the SyRI route BioFlow uses MUMmer4 to align one chromosome-level
+    reference assembly against one chromosome-level query assembly.
+  operations:
+  - whole_genome_alignment
+  sample_types:
+  - Eukaryotic genome
+  sequencing:
+  - Any
+  read_types:
+  - Any
+  input:
+  - Reference chromosome-level assembly
+  - Query chromosome-level assembly
+  output:
+  - Whole-genome alignment
+  repository: https://github.com/mummer4/mummer
+  maintenance: active
+  community: high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: false
+syri:
+  name: SyRI
+  description: Synteny and Rearrangement Identifier for pairwise comparison of two chromosome-level assemblies.
+    SyRI identifies syntenic regions and structural rearrangements from a whole-genome alignment; it should not
+    be represented as an arbitrary multi-genome comparative-genomics workflow.
+  operations:
+  - comparative_genomics
+  sample_types:
+  - Eukaryotic genome
+  sequencing:
+  - Any
+  read_types:
+  - Any
+  input:
+  - Whole-genome alignment
+  - Reference chromosome-level assembly
+  - Query chromosome-level assembly
+  output:
+  - Comparative synteny results
+  - Comparative genomics results
+  repository: https://github.com/schneebergerlab/syri
+  maintenance: active
+  community: high
+  bioconda: true
+  container: true
+  galaxy: false
+  nfcore: false
+sortmerna:
+  name: SortMeRNA
+  description: 'Sequence filtering tool designed for identifying ribosomal RNA reads in metatranscriptomic datasets.
+    It can separate rRNA-like reads from non-rRNA reads and provide rRNA-content information.
+
+    '
+  operations:
+  - rrna_depletion_assessment
+  sample_types:
+  - Metatranscriptome
+  sequencing:
+  - Illumina
+  read_types:
+  - Paired-end
+  - Single-end
+  input:
+  - Metatranscriptomic FASTQ
+  - rRNA reference database
+  output:
+  - rRNA content assessment report
+  - Non-rRNA FASTQ
+  repository: https://github.com/sortmerna/sortmerna
+  maintenance: active
+  community: high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: true
+vsearch:
+  name: VSEARCH
+  description: Open-source sequence-processing and similarity-clustering tool. For amplicon workflows it can merge/dereplicate
+    sequences, perform chimera filtering and cluster sequences into similarity-based OTUs, producing an OTU table
+    and representative centroid sequences.
+  operations:
+  - otu_clustering
+  sample_types:
+  - Amplicon
+  sequencing:
+  - Illumina
+  read_types:
+  - Paired-end
+  - Single-end
+  input:
+  - Primer-trimmed amplicon FASTQ
+  output:
+  - OTU feature table
+  - Representative OTU sequences
+  official_docs: https://github.com/torognes/vsearch/wiki
+  repository: https://github.com/torognes/vsearch
+  maintenance: active
+  community: high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: false
+  capability_id: vsearch
+mothur:
+  name: mothur
+  description: Integrated microbial-community analysis software. Its OTU workflows support similarity-based clustering,
+    including OptiClust, and can generate OTU assignments/feature tables from amplicon sequence data.
+  operations:
+  - otu_clustering
+  sample_types:
+  - Amplicon
+  sequencing:
+  - Illumina
+  read_types:
+  - Paired-end
+  - Single-end
+  input:
+  - Primer-trimmed amplicon reads
+  output:
+  - OTU feature table
+  - Representative OTU sequences
+  official_docs: https://mothur.org/wiki/miseq_sop/
+  repository: https://github.com/mothur/mothur
+  maintenance: active
+  community: high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: false
+  capability_id: mothur
+dada2_taxonomy:
+  name: DADA2 assignTaxonomy
+  description: DADA2 taxonomy-assignment component for classifying representative amplicon sequences against a DADA2-formatted
+    training reference. It is especially natural in DADA2/ASV workflows because it stays within the same package.
+  operations:
+  - taxonomy_assignment
+  sample_types:
+  - Amplicon
+  sequencing:
+  - Illumina
+  read_types:
+  - Paired-end
+  - Single-end
+  input:
+  - Representative ASV sequences
+  - DADA2-compatible taxonomy reference database
+  output:
+  - Amplicon taxonomic assignments
+  official_docs: https://benjjneb.github.io/dada2/training.html
+  repository: https://github.com/benjjneb/dada2
+  maintenance: active
+  community: very_high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: true
+  capability_id: dada2
+decipher_idtaxa:
+  name: DECIPHER IdTaxa
+  description: Taxonomic classification method in the DECIPHER Bioconductor package. IdTaxa classifies nucleotide
+    sequences against a trained reference and can be applied to representative amplicon sequences independently
+    of whether they originated as ASVs or OTUs.
+  operations:
+  - taxonomy_assignment
+  sample_types:
+  - Amplicon
+  sequencing:
+  - Any
+  read_types:
+  - Any
+  input:
+  - Representative amplicon sequences
+  - Trained taxonomy reference
+  output:
+  - Amplicon taxonomic assignments
+  official_docs: https://bioconductor.org/packages/release/bioc/html/DECIPHER.html
+  repository: https://code.bioconductor.org/browse/DECIPHER/
+  maintenance: active
+  community: high
+  bioconda: false
+  container: false
+  galaxy: false
+  nfcore: false
+  capability_id: decipher_idtaxa
+vsearch_sintax:
+  name: VSEARCH SINTAX
+  description: Taxonomic classification with VSEARCH's SINTAX command. It classifies representative nucleotide sequences
+    against a taxonomy-annotated reference database and is convenient when the workflow already uses VSEARCH.
+  operations:
+  - taxonomy_assignment
+  sample_types:
+  - Amplicon
+  sequencing:
+  - Illumina
+  read_types:
+  - Paired-end
+  - Single-end
+  input:
+  - Representative amplicon sequences
+  - Taxonomy-annotated reference database
+  output:
+  - Amplicon taxonomic assignments
+  official_docs: https://github.com/torognes/vsearch/blob/master/man/vsearch.1
+  repository: https://github.com/torognes/vsearch
+  maintenance: active
+  community: high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: false
+  capability_id: vsearch
+mothur_classify_seqs:
+  name: mothur classify.seqs
+  description: mothur taxonomy-classification command for assigning representative amplicon sequences against a
+    reference sequence and taxonomy training set. It is especially convenient in mothur-based OTU workflows.
+  operations:
+  - taxonomy_assignment
+  sample_types:
+  - Amplicon
+  sequencing:
+  - Illumina
+  read_types:
+  - Paired-end
+  - Single-end
+  input:
+  - Representative amplicon sequences
+  - Reference sequence and taxonomy training set
+  output:
+  - Amplicon taxonomic assignments
+  official_docs: https://mothur.org/wiki/classify.seqs/
+  repository: https://github.com/mothur/mothur
+  maintenance: active
+  community: high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: false
+  capability_id: mothur
+qiime2_asv_workflow:
+  name: QIIME 2 ASV workflow
+  description: Integrated QIIME 2 marker-gene route using q2-cutadapt for primer/adaptor handling, q2-dada2 for
+    paired-end ASV inference, and q2-feature-classifier for taxonomy. The relevant QIIME 2 plugins are treated as
+    one coherent workflow route rather than as unrelated standalone tools.
+  operations:
+  - amplicon_end_to_end
+  sample_types:
+  - Amplicon
+  sequencing:
+  - Illumina
+  read_types:
+  - Paired-end
+  markers:
+  - 16S
+  - 18S
+  - ITS
+  input:
+  - Raw/demultiplexed paired-end amplicon reads
+  output:
+  - Amplicon feature table
+  - Representative sequences
+  - Taxonomic assignments
+  official_docs: https://amplicon-docs.qiime2.org/en/stable/
+  repository: https://github.com/qiime2
+  maintenance: active
+  community: high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: false
+  capability_id: qiime2
+qiime2_otu_workflow:
+  name: QIIME 2 q2-vsearch OTU workflow
+  description: QIIME 2 OTU route using q2-cutadapt/q2-vsearch for paired-read preparation, quality filtering and
+    dereplication, followed by q2-vsearch de novo/open/closed-reference clustering and q2-feature-classifier taxonomy.
+    This is a multi-step QIIME 2 workflow.
+  operations:
+  - amplicon_end_to_end
+  sample_types:
+  - Amplicon
+  sequencing:
+  - Illumina
+  read_types:
+  - Paired-end
+  markers:
+  - 16S
+  - 18S
+  - ITS
+  input:
+  - Raw/demultiplexed paired-end amplicon reads
+  output:
+  - Amplicon feature table
+  - Representative sequences
+  - Taxonomic assignments
+  official_docs: https://amplicon-docs.qiime2.org/en/stable/how-to-guides/cluster-reads-into-otus/
+  repository: https://github.com/qiime2/q2-vsearch
+  maintenance: active
+  community: high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: false
+  capability_id: qiime2_vsearch
+nfcore_ampliseq_workflow:
+  name: nf-core/ampliseq
+  description: Turnkey Nextflow amplicon workflow. For Illumina paired-end data it performs QC, primer trimming,
+    DADA2 ASV inference, taxonomy, count tables, diversity analyses, visualization and optional differential-abundance
+    analysis. It supports 16S, 18S, ITS and other amplicons.
+  operations:
+  - amplicon_end_to_end
+  sample_types:
+  - Amplicon
+  sequencing:
+  - Illumina
+  read_types:
+  - Paired-end
+  markers:
+  - 16S
+  - 18S
+  - ITS
+  - COI
+  - other
+  input:
+  - Raw/demultiplexed paired-end amplicon reads
+  output:
+  - Amplicon feature table
+  - Representative sequences
+  - Taxonomic assignments
+  official_docs: https://nf-co.re/ampliseq/latest/
+  repository: https://github.com/nf-core/ampliseq
+  maintenance: active
+  community: high
+  bioconda: false
+  container: true
+  galaxy: false
+  nfcore: true
+  capability_id: nfcore_ampliseq
+frogs_workflow:
+  name: FROGS
+  description: End-to-end amplicon analysis workflow available on Galaxy or command line. FROGS handles raw-read
+    preprocessing including primer removal, supports Swarm or DADA2 for feature generation, performs chimera handling
+    and taxonomic affiliation, and supports 16S, 18S, ITS, COI and other amplicons.
+  operations:
+  - amplicon_end_to_end
+  sample_types:
+  - Amplicon
+  sequencing:
+  - Illumina
+  read_types:
+  - Paired-end
+  markers:
+  - 16S
+  - 18S
+  - ITS
+  - COI
+  - other
+  input:
+  - Raw/demultiplexed paired-end amplicon reads
+  output:
+  - Amplicon feature table
+  - Representative sequences
+  - Taxonomic assignments
+  official_docs: https://frogs.toulouse.inrae.fr/
+  repository: https://github.com/geraldinepascal/FROGS
+  maintenance: active
+  community: high
+  bioconda: true
+  container: false
+  galaxy: true
+  nfcore: false
+  capability_id: frogs
+lotus2_workflow:
+  name: LotuS2
+  description: Complete and flexible amplicon pipeline supporting 16S/18S/23S/28S/ITS. It can demultiplex/filter
+    FASTA or FASTQ, denoise and remove chimeras, generate OTUs/ASVs, assign taxonomy, construct abundance tables
+    and phylogenetic trees, and create phyloseq-compatible outputs.
+  operations:
+  - amplicon_end_to_end
+  sample_types:
+  - Amplicon
+  sequencing:
+  - Illumina
+  read_types:
+  - Paired-end
+  markers:
+  - 16S
+  - 18S
+  - ITS
+  - 23S
+  - 28S
+  input:
+  - Raw/demultiplexed paired-end amplicon reads
+  output:
+  - Amplicon feature table
+  - Representative sequences
+  - Taxonomic assignments
+  official_docs: https://lotus2.earlham.ac.uk/
+  repository: https://github.com/hildebra/lotus2
+  maintenance: active
+  community: high
+  bioconda: true
+  container: true
+  galaxy: false
+  nfcore: false
+  capability_id: lotus2
+obitools4_workflow:
+  name: OBITools4-composed metabarcoding workflow
+  description: 'A complete BioFlow route composed from OBITools4 commands rather than a fixed black-box pipeline:
+    paired-read assembly with obipairing, primer/barcode-aware demultiplexing with obimultiplex/obitagpcr, dereplication
+    with obiuniq, PCR-aware denoising/chimera handling with obiclean, taxonomy with obitag, and a sample-by-feature
+    matrix with obimatrix. This route is represented as MOTU/denoised-sequence analysis, not classical ASV or fixed-percent
+    OTU clustering.'
+  operations:
+  - amplicon_end_to_end
+  sample_types:
+  - Amplicon
+  sequencing:
+  - Illumina
+  read_types:
+  - Paired-end
+  markers:
+  - 16S
+  - 18S
+  - ITS
+  - COI
+  - other
+  input:
+  - Raw/demultiplexed paired-end amplicon reads
+  output:
+  - Amplicon feature table
+  - Representative sequences
+  - Taxonomic assignments
+  official_docs: https://obitools4.metabarcoding.org/docs/cookbook/illumina/
+  repository: https://github.com/metabarcoding/obitools4
+  maintenance: active
+  community: high
+  bioconda: false
+  container: false
+  galaxy: false
+  nfcore: false
+  capability_id: obitools4
+mothur_otu_workflow:
+  name: mothur OTU workflow
+  description: Integrated mothur route for amplicon processing and similarity-based OTU analysis. For 16S this follows
+    the well-established mothur MiSeq-style workflow; 18S can be adapted with an appropriate reference alignment.
+    ITS requires a different pairwise strategy because ITS sequences are not globally homologous.
+  operations:
+  - amplicon_end_to_end
+  sample_types:
+  - Amplicon
+  sequencing:
+  - Illumina
+  read_types:
+  - Paired-end
+  markers:
+  - 16S
+  - 18S
+  - ITS
+  input:
+  - Raw/demultiplexed paired-end amplicon reads
+  output:
+  - Amplicon feature table
+  - Representative sequences
+  - Taxonomic assignments
+  official_docs: https://mothur.org/wiki/miseq_sop/
+  repository: https://github.com/mothur/mothur
+  maintenance: active
+  community: high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: false
+  capability_id: mothur
+vsearch_otu_workflow:
+  name: VSEARCH-centered OTU workflow
+  description: Modular OTU route centered on VSEARCH for paired-read merging, quality filtering, dereplication,
+    chimera checking and similarity clustering, followed by taxonomy with SINTAX or another classifier. Primer removal
+    may still use a dedicated trimmer when needed.
+  operations:
+  - amplicon_end_to_end
+  sample_types:
+  - Amplicon
+  sequencing:
+  - Illumina
+  read_types:
+  - Paired-end
+  markers:
+  - 16S
+  - 18S
+  - ITS
+  input:
+  - Raw/demultiplexed paired-end amplicon reads
+  output:
+  - Amplicon feature table
+  - Representative sequences
+  - Taxonomic assignments
+  official_docs: https://github.com/torognes/vsearch
+  repository: https://github.com/torognes/vsearch
+  maintenance: active
+  community: high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: false
+  capability_id: vsearch
+silvangs_input_prep:
+  name: SILVAngs input preparation
+  description: Prepare per-sample Multi-FASTA input from paired-end Illumina amplicon reads before SILVAngs upload.
+    SILVAngs itself accepts DNA FASTA, so paired-end assembly/demultiplexing must be completed before the online
+    service.
+  operations:
+  - silvangs_input_preparation
+  sample_types:
+  - Amplicon
+  sequencing:
+  - Illumina
+  read_types:
+  - Paired-end
+  input:
+  - Paired-end amplicon FASTQ
+  output:
+  - Per-sample Multi-FASTA
+  official_docs: https://www.arb-silva.de/documentation/silvangs/userfaq/
+  repository: null
+  maintenance: active
+  community: moderate
+  bioconda: false
+  container: false
+  galaxy: false
+  nfcore: false
+  capability_id: silvangs
+silvangs_workflow:
+  name: SILVAngs
+  description: Online rDNA amplicon analysis service using SILVA references. After per-sample DNA Multi-FASTA upload,
+    SILVAngs performs alignment, quality management, dereplication, user-defined OTU clustering and classification.
+    It is appropriate for rDNA/SSU-LSU analysis such as 16S and 18S, but not fungal ITS taxonomy.
+  operations:
+  - amplicon_end_to_end
+  sample_types:
+  - Amplicon
+  sequencing:
+  - Illumina
+  read_types:
+  - Paired-end
+  markers:
+  - 16S
+  - 18S
+  input:
+  - Per-sample DNA Multi-FASTA
+  output:
+  - OTU table
+  - Representative sequences
+  - Taxonomic assignments
+  official_docs: https://www.arb-silva.de/fileadmin/silva_databases/sngs/SILVAngs_User_Guide.pdf
+  repository: null
+  maintenance: active
+  community: moderate
+  bioconda: false
+  container: false
+  galaxy: false
+  nfcore: false
+  capability_id: silvangs
+phyloseq:
+  name: phyloseq
+  description: R/Bioconductor framework for microbiome feature tables, taxonomy, metadata and phylogenies. It supports
+    standard alpha-diversity summaries, ecological distances, UniFrac, ordination and visualization from imported
+    amplicon feature tables.
+  operations:
+  - alpha_diversity
+  - beta_diversity
+  sample_types:
+  - Amplicon
+  sequencing:
+  - Any
+  read_types:
+  - Any
+  input:
+  - Amplicon feature table
+  - Sample metadata (optional for metric calculation; used for grouping/plots)
+  - Phylogenetic tree when a phylogenetic distance is requested
+  output:
+  - Alpha diversity results
+  - Beta diversity distance matrix
+  - Ordination results
+  official_docs: https://bioconductor.org/packages/phyloseq/
+  repository: https://github.com/joey711/phyloseq
+  maintenance: active
+  community: very_high
+  bioconda: false
+  container: true
+  galaxy: false
+  nfcore: false
+vegan:
+  name: vegan
+  description: R community-ecology package providing alpha-diversity indices, ecological dissimilarities such as
+    Bray-Curtis/Jaccard/Aitchison, ordination, PERMANOVA and dispersion diagnostics. It works on a generic community
+    feature matrix and is independent of ASV/OTU/MOTU origin.
+  operations:
+  - alpha_diversity
+  - beta_diversity
+  sample_types:
+  - Amplicon
+  sequencing:
+  - Any
+  read_types:
+  - Any
+  input:
+  - Amplicon feature table
+  - Sample metadata
+  output:
+  - Alpha diversity results
+  - Beta diversity distance matrix
+  - Ordination/statistical results
+  official_docs: https://vegandevs.github.io/vegan/
+  repository: https://github.com/vegandevs/vegan
+  maintenance: active
+  community: very_high
+  bioconda: false
+  container: true
+  galaxy: false
+  nfcore: false
+ancombc2:
+  name: ANCOM-BC2
+  description: Microbiome-specific differential-abundance method with bias correction. It accepts microbial count
+    tables with sample metadata, supports continuous/categorical covariates, multi-group global/pairwise/Dunnett/trend
+    tests, structural-zero handling and repeated-measures models.
+  operations:
+  - differential_abundance
+  sample_types:
+  - Amplicon
+  sequencing:
+  - Any
+  read_types:
+  - Any
+  input:
+  - Amplicon feature count table
+  - Sample metadata
+  - Statistical design
+  output:
+  - Differential abundance results
+  official_docs: https://bioconductor.org/packages/ANCOMBC/
+  repository: https://github.com/FrederickHuangLin/ANCOMBC
+  maintenance: active
+  community: very_high
+  bioconda: false
+  container: true
+  galaxy: false
+  nfcore: false
+plasx_workflow:
+  name: PlasX workflow
+  description: 'Composite PlasX route representing the documented prerequisite workflow: build an anvi''o contigs
+    database and annotate genes with COG/Pfam information, annotate de novo gene families, then run PlasX to score/classify
+    metagenomic contigs as plasmid/non-plasmid.'
+  operations:
+  - plasmid_detection
+  sample_types:
+  - Metagenome
+  sequencing:
+  - Any
+  read_types:
+  - Any
+  input:
+  - Metagenomic contig FASTA
+  output:
+  - Plasmid probability scores / predicted plasmid contigs
+  official_docs: https://github.com/michaelkyu/PlasX
+  repository: https://github.com/michaelkyu/PlasX
+  maintenance: moderate
+  community: moderate
+  bioconda: false
+  container: false
+  galaxy: false
+  nfcore: false
+seqkit:
+  name: SeqKit
+  description: Cross-platform FASTA/FASTQ manipulation toolkit. In BioFlow's virome route, SeqKit is used only to
+    extract the representative viral sequences identified by the vOTU clustering step.
+  operations:
+  - sequence_selection
+  sample_types:
+  - Virome
+  - Metagenome
+  sequencing:
+  - Any
+  read_types:
+  - Any
+  input:
+  - FASTA
+  - Sequence ID list
+  output:
+  - Selected FASTA
+  official_docs: https://bioinf.shenwei.me/seqkit/
+  repository: https://github.com/shenwei356/seqkit
+  maintenance: active
+  community: very_high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: true
+braker4:
+  name: BRAKER4
+  description: Current Snakemake-based BRAKER gene-prediction workflow. BioFlow's present route uses protein evidence
+    (EP/BRAKER2-style mode) with the genome assembly; BRAKER4 also supports RNA-seq and combined RNA+protein evidence
+    in other modes.
+  operations:
+  - gene_prediction
+  sample_types:
+  - Eukaryotic genome
+  sequencing:
+  - Any
+  read_types:
+  - Any
+  input:
+  - Eukaryotic genome FASTA
+  - Protein evidence FASTA
+  output:
+  - Eukaryotic gene annotation GFF
+  - Predicted protein FASTA
+  official_docs: https://github.com/Gaius-Augustus/BRAKER4
+  repository: https://github.com/Gaius-Augustus/BRAKER4
+  maintenance: active
+  community: high
+  bioconda: false
+  container: true
+  galaxy: false
+  nfcore: false
+catbat:
+  name: CAT/BAT
+  description: CAT/BAT (CAT pack) provides protein-based taxonomic classification of long contigs and metagenome-assembled
+    genomes (MAGs/bins). BAT is the bin-oriented route and can use a suitable NCBI- or GTDB-derived reference database.
+  operations:
+  - mag_taxonomy
+  sample_types:
+  - Metagenome
+  sequencing:
+  - Any
+  read_types:
+  - Any
+  input:
+  - MAG bins
+  - FASTA
+  output:
+  - Genome taxonomy
+  official_docs: https://github.com/MGXlab/CAT_pack
+  repository: https://github.com/MGXlab/CAT_pack
+  maintenance: active
+  community: high
+  bioconda: true
+  container: true
+  galaxy: false
+  nfcore: false
+sourmash:
+  name: sourmash tax genome
+  description: Genome/MAG taxonomic classification using sourmash gather followed by sourmash tax genome. It can
+    use GTDB- or NCBI-linked reference collections and is a methodologically distinct fallback to phylogeny-based
+    GTDB-Tk classification.
+  operations:
+  - mag_taxonomy
+  sample_types:
+  - Metagenome
+  sequencing:
+  - Any
+  read_types:
+  - Any
+  input:
+  - MAG bins
+  - FASTA
+  output:
+  - Genome taxonomy
+  official_docs: https://sourmash.readthedocs.io/en/stable/command-line.html
+  repository: https://github.com/sourmash-bio/sourmash
+  maintenance: active
+  community: high
+  bioconda: true
+  container: true
+  galaxy: false
+  nfcore: false

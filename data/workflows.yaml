@@ -1,0 +1,3836 @@
+bacterial_illumina_wgs:
+  name: Bacterial isolate — Illumina WGS
+  context:
+    sample_type: Bacterial isolate
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: Whole genome characterization
+  steps:
+  - operation: raw_read_qc
+    name: Raw read quality control
+    description: 'Inspect raw Illumina sequencing quality, base quality distributions and possible sequencing artefacts before
+      downstream analysis.
+
+      '
+    candidates:
+    - fastqc
+  - operation: read_preprocessing
+    name: Read preprocessing
+    description: 'Adapter removal and quality filtering can be performed when indicated by raw-read QC.
+
+      '
+    candidates:
+    - fastp
+    - cutadapt
+  - operation: genome_assembly
+    name: Genome assembly
+    description: 'Reconstruct the bacterial genome from Illumina paired-end reads.
+
+      '
+    candidates:
+    - spades
+    - shovill
+  - operation: assembly_qc
+    name: Assembly quality control
+    description: 'Evaluate assembly statistics and structural quality before downstream analysis.
+
+      '
+    candidates:
+    - quast
+  - operation: genome_annotation
+    name: Genome annotation
+    description: 'Identify genes and other genomic features in the assembled bacterial genome.
+
+      '
+    candidates:
+    - bakta
+    - prokka
+bacterial_nanopore_wgs:
+  name: Bacterial isolate — Oxford Nanopore WGS
+  context:
+    sample_type: Bacterial isolate
+    sequencing: Oxford Nanopore
+    read_type: Long reads
+    goal: Whole genome characterization
+  steps:
+  - operation: raw_read_qc
+    name: Long-read quality control
+    description: 'Inspect read-length distributions, sequencing quality and overall characteristics of Oxford Nanopore reads.
+
+      '
+    candidates:
+    - nanoplot
+  - operation: read_preprocessing
+    name: Long-read preprocessing
+    description: 'Filter or trim low-quality and very short long reads when indicated by QC results.
+
+      '
+    candidates:
+    - chopper
+    - filtlong
+  - operation: genome_assembly
+    name: Long-read genome assembly
+    description: 'Reconstruct the bacterial genome using Oxford Nanopore long reads.
+
+      '
+    candidates:
+    - flye
+    - raven
+  - operation: assembly_qc
+    name: Assembly quality control
+    description: 'Evaluate the resulting genome assembly before downstream interpretation.
+
+      '
+    candidates:
+    - quast
+  - operation: genome_annotation
+    name: Genome annotation
+    description: 'Identify genes and other genomic features in the assembled bacterial genome.
+
+      '
+    candidates:
+    - bakta
+    - prokka
+metagenome_illumina_strain_phylogenomics:
+  name: Metagenome — Illumina strain-level phylogenomics
+  context:
+    sample_type: Metagenome
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: Strain-level phylogenomics
+  steps:
+  - operation: raw_read_qc
+    name: Raw read quality control
+    description: Run read-quality assessment across the metagenomic sample collection.
+    candidates:
+    - fastqc
+  - operation: read_preprocessing
+    name: Read preprocessing
+    description: Preprocess the metagenomic read collection consistently across samples.
+    candidates:
+    - fastp
+    - cutadapt
+  - operation: taxonomic_profiling
+    name: Species profiling and marker mapping
+    description: Run MetaPhlAn for each sample and retain its marker-mapping output for StrainPhlAn.
+    candidates:
+    - metaphlan
+  - operation: marker_reconstruction
+    name: Consensus marker reconstruction
+    candidates:
+    - sample2markers
+    description: Convert each MetaPhlAn marker-mapping output into sample-specific consensus markers.
+  - operation: strain_profiling
+    name: Strain-level phylogenomics
+    description: Infer strain-level phylogenomics for a selected species/clade from the consensus-marker collection. At least
+      four sample/reference inputs must enter and at least four must survive filtering.
+    candidates:
+    - strainphlan
+  external_inputs:
+  - raw_paired_fastq_collection
+  description: StrainPhlAn multi-sample strain-level phylogenomics. Process each metagenomic sample with MetaPhlAn, reconstruct
+    sample-specific consensus markers with sample2markers, then infer a species-specific strain phylogeny with StrainPhlAn.
+    Current StrainPhlAn requires at least four total sample/reference inputs and at least four to remain after filtering.
+metagenome_illumina_microdiversity:
+  name: Metagenome — Illumina microdiversity profiling
+  context:
+    sample_type: Metagenome
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: Microdiversity profiling
+  external_inputs:
+  - representative_genome_database_fasta
+  steps:
+  - operation: raw_read_qc
+    name: Raw read quality control
+    description: 'Assess shotgun metagenomic read quality before reference-based population genomic analysis.
+
+      '
+    candidates:
+    - fastqc
+  - operation: read_preprocessing
+    name: Read preprocessing
+    description: 'Remove adapters and low-quality sequence before read mapping.
+
+      '
+    candidates:
+    - fastp
+    - cutadapt
+  - operation: read_mapping
+    name: Competitive mapping to representative genomes
+    description: Map reads simultaneously against the representative-genome database so competing homologous genomes are present
+      in the same alignment search.
+    candidates:
+    - bowtie2
+  - operation: alignment_processing
+    name: Alignment sorting and indexing
+    description: 'Convert and process the read alignment into a coordinate-sorted BAM file and create its index before downstream
+      population-genomic analysis.
+
+      '
+    candidates:
+    - samtools
+  - operation: strain_profiling
+    name: Population microdiversity analysis
+    description: Profile nucleotide diversity, SNVs, linkage and other population-genomic metrics with inStrain using the
+      same representative-genome database that was used for competitive mapping.
+    candidates:
+    - instrain
+  description: Population microdiversity profiling with inStrain using competitive mapping against a dereplicated representative-genome
+    database. Mapping to many relevant genomes simultaneously is the recommended default because mapping one genome at a time
+    increases read mis-assignment and false-positive SNP risk.
+bacterial_illumina_amr:
+  name: Bacterial isolate — Illumina antimicrobial resistance analysis
+  context:
+    sample_type: Bacterial isolate
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: Antimicrobial resistance detection
+  steps:
+  - operation: raw_read_qc
+    name: Raw read quality control
+    description: 'Evaluate Illumina read quality before downstream resistance analysis.
+
+      '
+    candidates:
+    - fastqc
+  - operation: read_preprocessing
+    name: Read preprocessing
+    description: 'Remove adapters and low-quality sequence when indicated by quality-control results.
+
+      '
+    candidates:
+    - fastp
+    - cutadapt
+  - operation: genome_assembly
+    name: Genome assembly
+    description: 'Reconstruct the bacterial isolate genome for assembly-based AMR detection.
+
+      '
+    candidates:
+    - spades
+    - shovill
+  - operation: assembly_qc
+    name: Assembly quality control
+    description: 'Evaluate assembly quality before interpreting antimicrobial resistance results.
+
+      '
+    candidates:
+    - quast
+  - operation: amr_detection
+    name: Antimicrobial resistance detection
+    description: 'Detect known antimicrobial resistance genes and, where supported by the selected method, resistance-associated
+      point mutations. Database version and organism-specific coverage should be considered during interpretation.
+
+      '
+    candidates:
+    - amrfinderplus
+    - resfinder
+    - abricate
+bacterial_illumina_virulence:
+  name: Bacterial isolate — Illumina virulence profiling
+  context:
+    sample_type: Bacterial isolate
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: Virulence profiling
+  steps:
+  - operation: raw_read_qc
+    name: Raw read quality control
+    description: 'Evaluate Illumina sequencing quality before downstream virulence analysis.
+
+      '
+    candidates:
+    - fastqc
+  - operation: read_preprocessing
+    name: Read preprocessing
+    description: 'Perform adapter removal and quality filtering when indicated by read-quality assessment.
+
+      '
+    candidates:
+    - fastp
+    - cutadapt
+  - operation: genome_assembly
+    name: Genome assembly
+    description: 'Reconstruct the bacterial genome for assembly-based virulence gene screening.
+
+      '
+    candidates:
+    - spades
+    - shovill
+  - operation: assembly_qc
+    name: Assembly quality control
+    description: 'Assess assembly quality before virulence gene detection and biological interpretation.
+
+      '
+    candidates:
+    - quast
+  - operation: virulence_profiling
+    name: Virulence profiling
+    description: 'Screen the isolate genome for known virulence factors. Database and species coverage differ substantially
+      among available methods, so absence of a detected factor should not automatically be interpreted as biological absence.
+
+      '
+    candidates:
+    - virulencefinder
+    - abricate
+bacterial_illumina_mlst:
+  name: Bacterial isolate — Illumina MLST and strain typing
+  context:
+    sample_type: Bacterial isolate
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: MLST / strain typing
+  steps:
+  - operation: raw_read_qc
+    name: Raw read quality control
+    description: 'Evaluate Illumina read quality before bacterial strain typing.
+
+      '
+    candidates:
+    - fastqc
+  - operation: read_preprocessing
+    name: Read preprocessing
+    description: 'Remove adapters and low-quality sequence when required.
+
+      '
+    candidates:
+    - fastp
+    - cutadapt
+  - operation: genome_assembly
+    name: Genome assembly
+    description: 'Produce a bacterial draft genome suitable for conventional assembly-based MLST.
+
+      '
+    candidates:
+    - spades
+    - shovill
+  - operation: assembly_qc
+    name: Assembly quality control
+    description: 'Evaluate the assembly before assigning allele profiles and sequence types.
+
+      '
+    candidates:
+    - quast
+  - operation: mlst_typing
+    name: MLST / strain typing
+    description: 'Determine bacterial allelic profiles and sequence types using established MLST schemes. Tool and scheme
+      selection should match the organism and intended typing resolution.
+
+      '
+    candidates:
+    - mlst
+    - pymlst
+bacterial_illumina_prophage:
+  name: Bacterial isolate — Illumina prophage detection
+  context:
+    sample_type: Bacterial isolate
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: Prophage detection
+  steps:
+  - operation: raw_read_qc
+    name: Raw read quality control
+    description: 'Evaluate sequencing quality before genome reconstruction and prophage analysis.
+
+      '
+    candidates:
+    - fastqc
+  - operation: read_preprocessing
+    name: Read preprocessing
+    description: 'Remove adapters and low-quality sequence when indicated by quality-control results.
+
+      '
+    candidates:
+    - fastp
+    - cutadapt
+  - operation: genome_assembly
+    name: Genome assembly
+    description: 'Reconstruct the bacterial genome for detection of integrated viral regions.
+
+      '
+    candidates:
+    - spades
+    - shovill
+  - operation: assembly_qc
+    name: Assembly quality control
+    description: 'Assess assembly quality because fragmented assemblies can affect prophage boundary detection.
+
+      '
+    candidates:
+    - quast
+  - operation: genome_annotation
+    name: Genome annotation
+    description: 'Annotate the bacterial assembly. Annotation is particularly useful for predictors such as PhiSpy that use
+      gene-level information, while other tools can operate directly on nucleotide assemblies.
+
+      '
+    candidates:
+    - bakta
+    - prokka
+  - operation: prophage_detection
+    name: Prophage detection
+    description: 'Detect viral sequences integrated within the bacterial genome. Different algorithms use different genomic
+      signals, so predicted regions should be interpreted as computational candidates.
+
+      '
+    candidates:
+    - genomad
+    - phispy
+bacterial_illumina_variant_analysis:
+  name: Bacterial isolate — Illumina variant analysis
+  context:
+    sample_type: Bacterial isolate
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: Variant analysis
+  steps:
+  - operation: raw_read_qc
+    name: Raw read quality control
+    description: 'Evaluate raw Illumina sequencing quality before reference-based variant analysis.
+
+      '
+    candidates:
+    - fastqc
+  - operation: read_preprocessing
+    name: Read preprocessing
+    description: 'Remove adapters and low-quality bases when indicated by raw-read quality assessment.
+
+      '
+    candidates:
+    - fastp
+    - cutadapt
+  - operation: read_mapping
+    name: Reference genome alignment
+    description: 'Align sequencing reads against an appropriate bacterial reference genome. Reference selection can substantially
+      affect downstream variant calls.
+
+      '
+    candidates:
+    - bwa_mem2
+  - operation: alignment_processing
+    name: Alignment sorting and indexing
+    description: 'Convert the sequence alignment into a coordinate-sorted BAM file and create its index before variant calling.
+
+      '
+    candidates:
+    - samtools
+  - operation: variant_calling
+    name: Variant calling
+    description: 'Identify SNPs, indels and other supported sequence variants from mapped reads.
+
+      '
+    candidates:
+    - bcftools
+    - freebayes
+  - operation: variant_filtering
+    name: Variant filtering and normalization
+    description: 'Filter and normalize variant calls before biological interpretation or comparative analysis. Appropriate
+      depth, quality and allele-frequency thresholds depend on the experimental context.
+
+      '
+    candidates:
+    - bcftools
+  external_inputs:
+  - reference_genome_fasta
+bacterial_illumina_pangenome:
+  name: Bacterial isolates — Illumina pangenome analysis
+  context:
+    sample_type: Bacterial isolate
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: Pangenome analysis
+  external_inputs:
+  - raw_paired_fastq_collection
+  steps:
+  - operation: raw_read_qc
+    name: Raw read quality control
+    description: 'Evaluate sequencing quality for each isolate before comparative genome reconstruction.
+
+      '
+    candidates:
+    - fastqc
+  - operation: read_preprocessing
+    name: Read preprocessing
+    description: 'Perform adapter removal and quality filtering when required.
+
+      '
+    candidates:
+    - fastp
+    - cutadapt
+  - operation: genome_assembly
+    name: Genome assembly
+    description: 'Assemble each bacterial isolate independently. Comparable assembly quality across isolates is important
+      for robust pangenome analysis.
+
+      '
+    candidates:
+    - spades
+    - shovill
+  - operation: assembly_qc
+    name: Assembly quality control
+    description: 'Assess each assembly before inclusion in the comparative genome dataset.
+
+      '
+    candidates:
+    - quast
+  - operation: genome_annotation
+    name: Standardized genome annotation
+    description: 'Annotate all genomes using a consistent method and database version to reduce technical differences in downstream
+      gene-family inference.
+
+      '
+    candidates:
+    - bakta
+    - prokka
+  - operation: pangenome_analysis
+    name: Pangenome analysis
+    description: 'Cluster homologous genes across multiple bacterial isolates and characterize conserved and variable genomic
+      content. This analysis requires multiple genomes rather than a single bacterial isolate.
+
+      '
+    candidates:
+    - panaroo
+    - ppanggolin
+bacterial_illumina_phylogenomics:
+  name: Bacterial isolates — Illumina phylogenomics
+  context:
+    sample_type: Bacterial isolate
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: Phylogenomics
+  external_inputs:
+  - raw_paired_fastq_collection
+  steps:
+  - operation: raw_read_qc
+    name: Raw read quality control
+    description: 'Evaluate sequencing quality across all isolates before comparative genome analysis.
+
+      '
+    candidates:
+    - fastqc
+  - operation: read_preprocessing
+    name: Read preprocessing
+    description: 'Remove adapters and low-quality sequence when required.
+
+      '
+    candidates:
+    - fastp
+    - cutadapt
+  - operation: genome_assembly
+    name: Genome assembly
+    description: 'Assemble each bacterial isolate independently before comparative phylogenomic analysis.
+
+      '
+    candidates:
+    - spades
+    - shovill
+  - operation: assembly_qc
+    name: Assembly quality control
+    description: 'Evaluate assembly quality and exclude severely incomplete or problematic genomes before constructing a comparative
+      alignment.
+
+      '
+    candidates:
+    - quast
+  - operation: genome_annotation
+    name: Standardized genome annotation
+    description: 'Annotate all genomes consistently before core-genome identification.
+
+      '
+    candidates:
+    - bakta
+    - prokka
+  - operation: core_genome_alignment
+    name: Core genome alignment
+    description: 'Identify shared orthologous genes across isolates and construct a core-genome alignment suitable for phylogenetic
+      inference.
+
+      '
+    candidates:
+    - panaroo
+  - operation: phylogenetic_inference
+    name: Phylogenetic inference
+    description: 'Infer a maximum-likelihood phylogenetic tree from the core-genome alignment and estimate branch support.
+
+      '
+    candidates:
+    - iqtree2
+    - raxmlng
+  description: Core-gene phylogenomics from multiple bacterial isolates using standardized assembly/annotation, Panaroo core-gene
+    alignment and maximum-likelihood tree inference. This is a concatenated core-gene route; recombination-aware tools such
+    as Gubbins require a whole-genome alignment and should not be inserted blindly after a Panaroo concatenated gene alignment.
+bacterial_illumina_ont_hybrid:
+  name: Bacterial isolate — Illumina + Oxford Nanopore hybrid assembly
+  context:
+    sample_type: Bacterial isolate
+    sequencing:
+    - Illumina
+    - Oxford Nanopore
+    read_type:
+    - Paired-end
+    - Long reads
+    goal: Hybrid genome assembly
+  steps:
+  - operation: raw_read_qc
+    name: Illumina read quality control
+    description: 'Assess paired-end Illumina read quality before hybrid bacterial genome reconstruction.
+
+      '
+    context:
+      sequencing: Illumina
+      read_type: Paired-end
+    candidates:
+    - fastqc
+  - operation: raw_read_qc
+    name: Oxford Nanopore read quality control
+    description: 'Assess Oxford Nanopore read length and quality distributions before hybrid genome assembly.
+
+      '
+    context:
+      sequencing: Oxford Nanopore
+      read_type: Long reads
+    candidates:
+    - nanoplot
+  - operation: read_preprocessing
+    name: Illumina read preprocessing
+    description: 'Remove adapters and low-quality short-read sequence when indicated by quality control.
+
+      '
+    context:
+      sequencing: Illumina
+      read_type: Paired-end
+    candidates:
+    - fastp
+    - cutadapt
+  - operation: read_preprocessing
+    name: Oxford Nanopore read preprocessing
+    description: 'Perform optional quality and length filtering of long reads when appropriate.
+
+      '
+    context:
+      sequencing: Oxford Nanopore
+      read_type: Long reads
+    candidates:
+    - chopper
+    - filtlong
+  - operation: hybrid_genome_assembly
+    name: Hybrid genome assembly
+    description: 'Combine matched Illumina paired-end reads and Oxford Nanopore long reads from the same bacterial isolate
+      to improve assembly continuity, repeat resolution and genome completion.
+
+      '
+    candidates:
+    - hybracter
+    - unicycler
+    - spades
+  - operation: assembly_qc
+    name: Assembly quality control
+    description: 'Evaluate the hybrid genome assembly before downstream annotation and interpretation.
+
+      '
+    candidates:
+    - quast
+  - operation: genome_annotation
+    name: Genome annotation
+    description: 'Identify genes and other genomic features in the reconstructed bacterial genome.
+
+      '
+    candidates:
+    - bakta
+    - prokka
+  description: Hybrid bacterial isolate assembly from matched Illumina and Oxford Nanopore data. Hybracter is the long-read-first
+    route; Unicycler is short-read-first; SPAdes treats long reads as supplementary hybrid evidence. These strategies are
+    not assumed to be biologically or computationally identical.
+bacterial_illumina_pacbio_hybrid:
+  name: Bacterial isolate — Illumina + PacBio hybrid assembly
+  context:
+    sample_type: Bacterial isolate
+    sequencing:
+    - Illumina
+    - PacBio
+    read_type:
+    - Paired-end
+    - Long reads
+    goal: Hybrid genome assembly
+  steps:
+  - operation: raw_read_qc
+    name: Illumina read quality control
+    description: 'Assess paired-end Illumina read quality before hybrid bacterial genome reconstruction.
+
+      '
+    context:
+      sequencing: Illumina
+      read_type: Paired-end
+    candidates:
+    - fastqc
+  - operation: raw_read_qc
+    name: PacBio read quality control
+    description: 'Assess PacBio long-read characteristics before hybrid genome assembly.
+
+      '
+    context:
+      sequencing: PacBio
+      read_type: Long reads
+    candidates:
+    - nanoplot
+  - operation: read_preprocessing
+    name: Illumina read preprocessing
+    description: 'Remove adapters and low-quality short-read sequence when indicated by quality control.
+
+      '
+    context:
+      sequencing: Illumina
+      read_type: Paired-end
+    candidates:
+    - fastp
+    - cutadapt
+  - operation: read_preprocessing
+    name: PacBio read preprocessing
+    description: 'Perform optional long-read filtering when appropriate for the PacBio dataset.
+
+      '
+    context:
+      sequencing: PacBio
+      read_type: Long reads
+    candidates:
+    - filtlong
+  - operation: hybrid_genome_assembly
+    name: Hybrid genome assembly
+    description: 'Combine matched Illumina paired-end reads and PacBio long reads from the same bacterial isolate for hybrid
+      genome reconstruction.
+
+      '
+    candidates:
+    - unicycler
+    - spades
+  - operation: assembly_qc
+    name: Assembly quality control
+    description: 'Evaluate the hybrid genome assembly before downstream interpretation.
+
+      '
+    candidates:
+    - quast
+  - operation: genome_annotation
+    name: Genome annotation
+    description: 'Identify genes and other genomic features in the reconstructed bacterial genome.
+
+      '
+    candidates:
+    - bakta
+    - prokka
+  description: Hybrid bacterial isolate assembly from matched Illumina and PacBio long reads. Unicycler provides a bacterial
+    short-read-first hybrid route, while SPAdes can use PacBio long reads as supplementary hybrid evidence. PacBio subtype/accuracy
+    should be considered before choosing the route.
+metagenome_illumina_functional:
+  name: Metagenome — Illumina functional profiling
+  context:
+    sample_type: Metagenome
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: Functional profiling
+  steps:
+  - operation: raw_read_qc
+    name: Raw read quality control
+    description: 'Assess shotgun metagenomic read quality before functional profiling.
+
+      '
+    candidates:
+    - fastqc
+  - operation: read_preprocessing
+    name: Read preprocessing
+    description: 'Remove adapters and low-quality sequence when indicated by quality-control results.
+
+      '
+    candidates:
+    - fastp
+    - cutadapt
+  - operation: functional_profiling
+    name: Functional profiling
+    description: 'Characterize the metabolic and functional potential of the microbial community. Candidate methods use different
+      strategies: HUMAnN performs quantitative read-based functional profiling, whereas eggNOG-mapper performs orthology-based
+      functional annotation of genes or assembled sequence. Their outputs are therefore complementary rather than strictly
+      equivalent.
+
+      '
+    candidates:
+    - humann
+metagenome_illumina_pathways:
+  name: Metagenome — Illumina pathway analysis
+  context:
+    sample_type: Metagenome
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: Pathway analysis
+  steps:
+  - operation: raw_read_qc
+    name: Raw read quality control
+    description: 'Assess shotgun metagenomic sequencing quality before pathway profiling.
+
+      '
+    candidates:
+    - fastqc
+  - operation: read_preprocessing
+    name: Read preprocessing
+    description: 'Remove adapters and low-quality sequence when required.
+
+      '
+    candidates:
+    - fastp
+    - cutadapt
+  - operation: pathway_analysis
+    name: Metabolic pathway profiling
+    description: 'Estimate microbial pathway presence and abundance from the metagenomic community. HUMAnN provides gene-family,
+      reaction and pathway-level outputs using taxonomically informed reference searches and pathway reconstruction.
+
+      '
+    candidates:
+    - humann
+metagenome_illumina_virulence:
+  name: Metagenome — Illumina virulence profiling
+  context:
+    sample_type: Metagenome
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: Virulence profiling
+  steps:
+  - operation: raw_read_qc
+    name: Raw read quality control
+    description: 'Assess shotgun metagenomic read quality before pathogenicity profiling.
+
+      '
+    candidates:
+    - fastqc
+  - operation: read_preprocessing
+    name: Read preprocessing
+    description: 'Remove adapters and low-quality sequences when indicated by quality-control results.
+
+      '
+    candidates:
+    - fastp
+    - cutadapt
+  - operation: metagenome_assembly
+    name: Metagenome assembly
+    description: 'Assemble metagenomic reads into contigs because PathoFact performs pathogenicity prediction from assembled
+      nucleotide sequences.
+
+      '
+    candidates:
+    - megahit
+    - metaspades
+  - operation: virulence_profiling
+    name: Virulence factor profiling
+    description: 'Detect potential virulence factors and bacterial toxins in assembled metagenomic sequences. Predictions
+      indicate sequence-level pathogenicity potential and should not by themselves be treated as evidence that a community
+      or organism is clinically pathogenic.
+
+      '
+    candidates:
+    - pathofact2
+metagenome_illumina_viral:
+  name: Metagenome — Illumina viral analysis
+  context:
+    sample_type: Metagenome
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: Viral analysis
+  steps:
+  - operation: raw_read_qc
+    name: Raw read quality control
+    description: 'Assess metagenomic read quality before assembly and viral sequence detection.
+
+      '
+    candidates:
+    - fastqc
+  - operation: read_preprocessing
+    name: Read preprocessing
+    description: 'Remove adapters and low-quality sequence when required.
+
+      '
+    candidates:
+    - fastp
+    - cutadapt
+  - operation: metagenome_assembly
+    name: Metagenome assembly
+    description: 'Assemble shotgun reads into contigs suitable for viral sequence identification.
+
+      '
+    candidates:
+    - megahit
+    - metaspades
+  - operation: viral_sequence_detection
+    name: Viral sequence detection
+    description: 'Identify candidate viral contigs using complementary sequence classification methods. Different viral detectors
+      may recover partially overlapping sets of sequences.
+
+      '
+    candidates:
+    - genomad
+    - virsorter2
+  - operation: viral_quality
+    name: Viral genome quality assessment
+    description: Assess completeness/contamination and obtain CheckV-extracted virus/provirus sequences; a chosen quality
+      threshold is a separate interpretation/filtering decision.
+    candidates:
+    - checkv
+  - operation: viral_taxonomy
+    name: Viral taxonomic classification
+    description: Assign viral taxonomy with geNomad's marker/ICTV taxonomy framework.
+    candidates:
+    - genomad
+  external_inputs: []
+  description: Assembly-based viral analysis combining viral-sequence detection, CheckV quality/contamination assessment and
+    viral taxonomy. geNomad taxonomy uses the geNomad marker database internally; BioFlow no longer treats an unspecified
+    external viral-reference FASTA as a required input.
+amplicon_illumina_16s:
+  name: ASV · DADA2 modular (16S)
+  description: 'Modular 16S ASV route: remove locus-specific primers when needed, infer exact sequence variants with DADA2,
+    then classify representative ASVs. This route keeps the individual tools visible and replaceable.'
+  context:
+    sample_type: Amplicon
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: 16S rRNA analysis
+    marker: 16S
+    feature_strategy: asv
+    route_family: modular_asv
+    route_name: DADA2 modular 16S
+  external_inputs:
+  - amplicon_fastq
+  - taxonomy_reference_database
+  steps:
+  - operation: primer_trimming
+    name: Primer and adapter removal
+    description: Remove locus-specific 16S PCR primers and residual adapter sequence before DADA2 inference when primers are
+      still present.
+    candidates:
+    - cutadapt
+  - operation: asv_inference
+    name: ASV inference
+    description: Infer exact amplicon sequence variants with DADA2, including error modelling, quality filtering, paired-read
+      merging and chimera removal.
+    candidates:
+    - dada2
+  - operation: taxonomy_assignment
+    name: Taxonomic assignment
+    description: Assign taxonomy to representative 16S ASVs using a classifier and reference database appropriate for the
+      amplified 16S marker.
+    candidates:
+    - dada2_taxonomy
+    - decipher_idtaxa
+    - qiime2_feature_classifier
+amplicon_illumina_16s_qiime2_asv:
+  name: ASV · QIIME 2 q2-dada2 (16S)
+  description: Integrated QIIME 2 16S ASV workflow using q2-cutadapt where primer removal is required, q2-dada2 for paired-end
+    denoising/ASV inference, and q2-feature-classifier for taxonomy.
+  context:
+    sample_type: Amplicon
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: 16S rRNA analysis
+    marker: 16S
+    feature_strategy: asv
+    route_family: qiime2_asv
+    route_name: ASV · QIIME 2 q2-dada2 (16S)
+  external_inputs:
+  - amplicon_fastq
+  - taxonomy_reference_database
+  steps:
+  - operation: amplicon_end_to_end
+    name: ASV · QIIME 2 q2-dada2 (16S)
+    description: Integrated QIIME 2 16S ASV workflow using q2-cutadapt where primer removal is required, q2-dada2 for paired-end
+      denoising/ASV inference, and q2-feature-classifier for taxonomy.
+    candidates:
+    - qiime2_asv_workflow
+amplicon_illumina_16s_nfcore:
+  name: ASV turnkey · nf-core/ampliseq (16S)
+  description: 'Turnkey, reproducible Nextflow route for 16S: QC, Cutadapt primer trimming, DADA2 ASV inference, taxonomy,
+    tables, diversity outputs and reporting are managed inside nf-core/ampliseq rather than exposed as separate BioFlow steps.'
+  context:
+    sample_type: Amplicon
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: 16S rRNA analysis
+    marker: 16S
+    feature_strategy: asv
+    route_family: turnkey_asv
+    route_name: ASV turnkey · nf-core/ampliseq (16S)
+  external_inputs:
+  - amplicon_fastq
+  steps:
+  - operation: amplicon_end_to_end
+    name: ASV turnkey · nf-core/ampliseq (16S)
+    description: 'Turnkey, reproducible Nextflow route for 16S: QC, Cutadapt primer trimming, DADA2 ASV inference, taxonomy,
+      tables, diversity outputs and reporting are managed inside nf-core/ampliseq rather than exposed as separate BioFlow
+      steps.'
+    candidates:
+    - nfcore_ampliseq_workflow
+amplicon_illumina_16s_frogs:
+  name: Flexible pipeline · FROGS (16S)
+  description: FROGS route for 16S from raw amplicon reads through primer-aware preprocessing, Swarm or DADA2 feature generation,
+    chimera handling, taxonomic affiliation and reports. Available through Galaxy or command line.
+  context:
+    sample_type: Amplicon
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: 16S rRNA analysis
+    marker: 16S
+    feature_strategy: flexible
+    route_family: flexible_pipeline
+    route_name: Flexible pipeline · FROGS (16S)
+  external_inputs:
+  - amplicon_fastq
+  steps:
+  - operation: amplicon_end_to_end
+    name: Flexible pipeline · FROGS (16S)
+    description: FROGS route for 16S from raw amplicon reads through primer-aware preprocessing, Swarm or DADA2 feature generation,
+      chimera handling, taxonomic affiliation and reports. Available through Galaxy or command line.
+    candidates:
+    - frogs_workflow
+amplicon_illumina_16s_lotus2:
+  name: Flexible pipeline · LotuS2 (16S)
+  description: LotuS2 complete 16S route supporting FASTA/FASTQ filtering, denoising/chimera handling, multiple OTU/ASV clustering
+    options, taxonomy, abundance tables and phylogenetic/phyloseq outputs.
+  context:
+    sample_type: Amplicon
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: 16S rRNA analysis
+    marker: 16S
+    feature_strategy: flexible
+    route_family: flexible_pipeline
+    route_name: Flexible pipeline · LotuS2 (16S)
+  external_inputs:
+  - amplicon_fastq
+  steps:
+  - operation: amplicon_end_to_end
+    name: Flexible pipeline · LotuS2 (16S)
+    description: LotuS2 complete 16S route supporting FASTA/FASTQ filtering, denoising/chimera handling, multiple OTU/ASV
+      clustering options, taxonomy, abundance tables and phylogenetic/phyloseq outputs.
+    candidates:
+    - lotus2_workflow
+amplicon_illumina_16s_obitools4:
+  name: MOTU/metabarcoding · OBITools4-composed workflow (16S)
+  description: 'A complete 16S workflow composed from OBITools4 commands: obipairing, obimultiplex/obitagpcr, obiuniq, obiclean,
+    obitag and obimatrix. It is shown as a PCR-aware MOTU/denoised-sequence route rather than being forced into classical
+    ASV or fixed-percent OTU terminology.'
+  context:
+    sample_type: Amplicon
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: 16S rRNA analysis
+    marker: 16S
+    feature_strategy: motu
+    route_family: obitools4_motu
+    route_name: MOTU/metabarcoding · OBITools4-composed workflow (16S)
+  external_inputs:
+  - amplicon_fastq
+  - taxonomy_reference_database
+  steps:
+  - operation: amplicon_end_to_end
+    name: MOTU/metabarcoding · OBITools4-composed workflow (16S)
+    description: 'A complete 16S workflow composed from OBITools4 commands: obipairing, obimultiplex/obitagpcr, obiuniq, obiclean,
+      obitag and obimatrix. It is shown as a PCR-aware MOTU/denoised-sequence route rather than being forced into classical
+      ASV or fixed-percent OTU terminology.'
+    candidates:
+    - obitools4_workflow
+amplicon_illumina_16s_mothur:
+  name: OTU · mothur (16S)
+  description: Well-established integrated mothur MiSeq-style OTU route for 16S, including contig assembly, quality control,
+    chimera handling, clustering and taxonomy.
+  context:
+    sample_type: Amplicon
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: 16S rRNA analysis
+    marker: 16S
+    feature_strategy: otu
+    route_family: mothur_otu
+    route_name: OTU · mothur (16S)
+  external_inputs:
+  - amplicon_fastq
+  - taxonomy_reference_database
+  steps:
+  - operation: amplicon_end_to_end
+    name: OTU · mothur (16S)
+    description: Well-established integrated mothur MiSeq-style OTU route for 16S, including contig assembly, quality control,
+      chimera handling, clustering and taxonomy.
+    candidates:
+    - mothur_otu_workflow
+amplicon_illumina_16s_vsearch_otu:
+  name: OTU · VSEARCH-centered modular workflow (16S)
+  description: VSEARCH-centered 16S OTU route for paired-read merging, quality filtering, dereplication, chimera checking
+    and similarity clustering, followed by taxonomy. A dedicated primer trimmer may still be used if primers are present.
+  context:
+    sample_type: Amplicon
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: 16S rRNA analysis
+    marker: 16S
+    feature_strategy: otu
+    route_family: vsearch_otu
+    route_name: OTU · VSEARCH-centered modular workflow (16S)
+  external_inputs:
+  - amplicon_fastq
+  - taxonomy_reference_database
+  steps:
+  - operation: amplicon_end_to_end
+    name: OTU · VSEARCH-centered modular workflow (16S)
+    description: VSEARCH-centered 16S OTU route for paired-read merging, quality filtering, dereplication, chimera checking
+      and similarity clustering, followed by taxonomy. A dedicated primer trimmer may still be used if primers are present.
+    candidates:
+    - vsearch_otu_workflow
+amplicon_illumina_16s_qiime2_otu:
+  name: OTU · QIIME 2 q2-vsearch (16S)
+  description: QIIME 2 16S OTU route using q2-vsearch. Paired reads are prepared/merged, quality-filtered and dereplicated
+    before de novo/open/closed-reference clustering; taxonomy is then assigned with a QIIME 2 classifier.
+  context:
+    sample_type: Amplicon
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: 16S rRNA analysis
+    marker: 16S
+    feature_strategy: otu
+    route_family: qiime2_otu
+    route_name: OTU · QIIME 2 q2-vsearch (16S)
+  external_inputs:
+  - amplicon_fastq
+  - taxonomy_reference_database
+  steps:
+  - operation: amplicon_end_to_end
+    name: OTU · QIIME 2 q2-vsearch (16S)
+    description: QIIME 2 16S OTU route using q2-vsearch. Paired reads are prepared/merged, quality-filtered and dereplicated
+      before de novo/open/closed-reference clustering; taxonomy is then assigned with a QIIME 2 classifier.
+    candidates:
+    - qiime2_otu_workflow
+amplicon_illumina_16s_silvangs:
+  name: OTU web service · SILVAngs (16S)
+  description: SILVAngs route for 16S rDNA. Because SILVAngs accepts per-sample DNA Multi-FASTA rather than raw paired FASTQ,
+    BioFlow first prepares/assembles the paired reads into the upload format. SILVAngs then performs alignment, quality management,
+    dereplication, user-defined OTU clustering and SILVA-based classification remotely.
+  context:
+    sample_type: Amplicon
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: 16S rRNA analysis
+    marker: 16S
+    feature_strategy: otu
+    route_family: web_service_otu
+    route_name: SILVAngs 16S
+  external_inputs:
+  - amplicon_fastq
+  steps:
+  - operation: silvangs_input_preparation
+    name: Prepare SILVAngs Multi-FASTA input
+    description: Assemble/demultiplex paired-end reads as needed and convert each sample to DNA Multi-FASTA for SILVAngs upload.
+      This is an input-contract requirement of the service, not an extra biological analysis step.
+    candidates:
+    - silvangs_input_prep
+  - operation: amplicon_end_to_end
+    name: SILVAngs rDNA analysis
+    description: 'Run the remote SILVAngs workflow: alignment, quality management, dereplication, user-defined OTU clustering
+      and taxonomic classification against SILVA.'
+    candidates:
+    - silvangs_workflow
+amplicon_illumina_18s:
+  name: ASV · DADA2 modular (18S)
+  description: 'Modular 18S ASV route: primer removal, DADA2 inference and taxonomy. For protist/microbial-eukaryote studies
+    BioFlow recommends PR2 as the default 18S reference. Do not reuse the standard DADA2-maintained SILVA 138.x Bacteria/Archaea
+    training FASTA for eukaryotic 18S.'
+  context:
+    sample_type: Amplicon
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: 18S rRNA analysis
+    marker: 18S
+    feature_strategy: asv
+    route_family: modular_asv
+    route_name: DADA2 modular 18S
+  external_inputs:
+  - amplicon_fastq
+  - taxonomy_reference_database
+  steps:
+  - operation: primer_trimming
+    name: Primer and adapter removal
+    description: Remove locus-specific 18S PCR primers and residual adapter sequence before DADA2 inference when primers are
+      still present.
+    candidates:
+    - cutadapt
+  - operation: asv_inference
+    name: 18S ASV inference
+    description: Infer exact amplicon sequence variants with DADA2, including error modelling, quality filtering, paired-read
+      merging and chimera removal.
+    candidates:
+    - dada2
+  - operation: taxonomy_assignment
+    name: Taxonomic assignment
+    description: Assign taxonomy to representative 18S ASVs using a classifier and reference database appropriate for the
+      amplified 18S marker.
+    candidates:
+    - dada2_taxonomy
+    - decipher_idtaxa
+    - qiime2_feature_classifier
+amplicon_illumina_18s_qiime2_asv:
+  name: ASV · QIIME 2 q2-dada2 (18S)
+  description: Integrated QIIME 2 18S ASV workflow. Use an 18S-appropriate classifier, preferably trained/imported from PR2
+    for protist-focused work, rather than a 16S-specific pre-trained classifier.
+  context:
+    sample_type: Amplicon
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: 18S rRNA analysis
+    marker: 18S
+    feature_strategy: asv
+    route_family: qiime2_asv
+    route_name: ASV · QIIME 2 q2-dada2 (18S)
+  external_inputs:
+  - amplicon_fastq
+  - taxonomy_reference_database
+  steps:
+  - operation: amplicon_end_to_end
+    name: ASV · QIIME 2 q2-dada2 (18S)
+    description: Integrated QIIME 2 18S ASV workflow using q2-cutadapt where primer removal is required, q2-dada2 for paired-end
+      denoising/ASV inference, and q2-feature-classifier for taxonomy.
+    candidates:
+    - qiime2_asv_workflow
+amplicon_illumina_18s_nfcore:
+  name: ASV turnkey · nf-core/ampliseq (18S)
+  description: Turnkey nf-core/ampliseq 18S ASV workflow. The pipeline explicitly supports PR2 for 18S taxonomy; custom references
+    can be supplied when broader or project-specific eukaryotic coverage is required.
+  context:
+    sample_type: Amplicon
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: 18S rRNA analysis
+    marker: 18S
+    feature_strategy: asv
+    route_family: turnkey_asv
+    route_name: ASV turnkey · nf-core/ampliseq (18S)
+  external_inputs:
+  - amplicon_fastq
+  steps:
+  - operation: amplicon_end_to_end
+    name: ASV turnkey · nf-core/ampliseq (18S)
+    description: 'Turnkey, reproducible Nextflow route for 18S: QC, Cutadapt primer trimming, DADA2 ASV inference, taxonomy,
+      tables, diversity outputs and reporting are managed inside nf-core/ampliseq rather than exposed as separate BioFlow
+      steps.'
+    candidates:
+    - nfcore_ampliseq_workflow
+amplicon_illumina_18s_frogs:
+  name: Flexible pipeline · FROGS (18S)
+  description: FROGS 18S workflow. FROGS provides PR2 and 18S SILVA databanks; PR2 is preferred for protist-focused profiling,
+    while SILVA can support broader SSU scope.
+  context:
+    sample_type: Amplicon
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: 18S rRNA analysis
+    marker: 18S
+    feature_strategy: flexible
+    route_family: flexible_pipeline
+    route_name: Flexible pipeline · FROGS (18S)
+  external_inputs:
+  - amplicon_fastq
+  steps:
+  - operation: amplicon_end_to_end
+    name: Flexible pipeline · FROGS (18S)
+    description: FROGS route for 18S from raw amplicon reads through primer-aware preprocessing, Swarm or DADA2 feature generation,
+      chimera handling, taxonomic affiliation and reports. Available through Galaxy or command line.
+    candidates:
+    - frogs_workflow
+amplicon_illumina_18s_lotus2:
+  name: Flexible pipeline · LotuS2 (18S)
+  description: LotuS2 18S workflow. Use SSU/eukaryote mode with PR2 for protist-focused classification or SILVA for broader
+    SSU classification; avoid combining databases with incompatible taxonomic hierarchies.
+  context:
+    sample_type: Amplicon
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: 18S rRNA analysis
+    marker: 18S
+    feature_strategy: flexible
+    route_family: flexible_pipeline
+    route_name: Flexible pipeline · LotuS2 (18S)
+  external_inputs:
+  - amplicon_fastq
+  steps:
+  - operation: amplicon_end_to_end
+    name: Flexible pipeline · LotuS2 (18S)
+    description: LotuS2 complete 18S route supporting FASTA/FASTQ filtering, denoising/chimera handling, multiple OTU/ASV
+      clustering options, taxonomy, abundance tables and phylogenetic/phyloseq outputs.
+    candidates:
+    - lotus2_workflow
+amplicon_illumina_18s_obitools4:
+  name: MOTU/metabarcoding · OBITools4-composed workflow (18S)
+  description: OBITools4-composed 18S workflow. Taxonomy is assigned with obitag against a user-provided reference; a PR2-derived
+    reference is a strong choice for protist-focused 18S, but the database must be prepared in an OBITools-compatible form.
+  context:
+    sample_type: Amplicon
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: 18S rRNA analysis
+    marker: 18S
+    feature_strategy: motu
+    route_family: obitools4_motu
+    route_name: MOTU/metabarcoding · OBITools4-composed workflow (18S)
+  external_inputs:
+  - amplicon_fastq
+  - taxonomy_reference_database
+  steps:
+  - operation: amplicon_end_to_end
+    name: MOTU/metabarcoding · OBITools4-composed workflow (18S)
+    description: 'A complete 18S workflow composed from OBITools4 commands: obipairing, obimultiplex/obitagpcr, obiuniq, obiclean,
+      obitag and obimatrix. It is shown as a PCR-aware MOTU/denoised-sequence route rather than being forced into classical
+      ASV or fixed-percent OTU terminology.'
+    candidates:
+    - obitools4_workflow
+amplicon_illumina_18s_mothur:
+  name: OTU · mothur (18S)
+  description: mothur 18S OTU workflow. Use an 18S-compatible PR2 or full/eukaryotic SILVA reference for alignment/classification
+    rather than a 16S-only reference.
+  context:
+    sample_type: Amplicon
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: 18S rRNA analysis
+    marker: 18S
+    feature_strategy: otu
+    route_family: mothur_otu
+    route_name: OTU · mothur (18S)
+  external_inputs:
+  - amplicon_fastq
+  - taxonomy_reference_database
+  steps:
+  - operation: amplicon_end_to_end
+    name: OTU · mothur (18S)
+    description: mothur-based OTU route. For 18S the workflow requires an appropriate 18S reference alignment and marker-specific
+      parameterization.
+    candidates:
+    - mothur_otu_workflow
+amplicon_illumina_18s_vsearch_otu:
+  name: OTU · VSEARCH-centered modular workflow (18S)
+  description: VSEARCH-centered 18S OTU workflow. Use PR2 or an eukaryote-appropriate SILVA reference for SINTAX/global taxonomic
+    assignment, selected according to the biological scope.
+  context:
+    sample_type: Amplicon
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: 18S rRNA analysis
+    marker: 18S
+    feature_strategy: otu
+    route_family: vsearch_otu
+    route_name: OTU · VSEARCH-centered modular workflow (18S)
+  external_inputs:
+  - amplicon_fastq
+  - taxonomy_reference_database
+  steps:
+  - operation: amplicon_end_to_end
+    name: OTU · VSEARCH-centered modular workflow (18S)
+    description: VSEARCH-centered 18S OTU route for paired-read merging, quality filtering, dereplication, chimera checking
+      and similarity clustering, followed by taxonomy. A dedicated primer trimmer may still be used if primers are present.
+    candidates:
+    - vsearch_otu_workflow
+amplicon_illumina_18s_qiime2_otu:
+  name: OTU · QIIME 2 q2-vsearch (18S)
+  description: QIIME 2 q2-vsearch 18S OTU workflow. OTU clustering and taxonomy are separate decisions; taxonomy should use
+    a PR2-derived or otherwise valid 18S classifier/reference.
+  context:
+    sample_type: Amplicon
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: 18S rRNA analysis
+    marker: 18S
+    feature_strategy: otu
+    route_family: qiime2_otu
+    route_name: OTU · QIIME 2 q2-vsearch (18S)
+  external_inputs:
+  - amplicon_fastq
+  - taxonomy_reference_database
+  steps:
+  - operation: amplicon_end_to_end
+    name: OTU · QIIME 2 q2-vsearch (18S)
+    description: QIIME 2 18S OTU route using q2-vsearch. Paired reads are prepared/merged, quality-filtered and dereplicated
+      before de novo/open/closed-reference clustering; taxonomy is then assigned with a QIIME 2 classifier.
+    candidates:
+    - qiime2_otu_workflow
+amplicon_illumina_18s_silvangs:
+  name: OTU web service · SILVAngs (18S)
+  description: SILVAngs 18S rDNA route. SILVAngs performs remote SILVA-based OTU analysis and classification after Multi-FASTA
+    preparation. It is valid for 18S, but is not a PR2-specialized protist taxonomy route.
+  context:
+    sample_type: Amplicon
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: 18S rRNA analysis
+    marker: 18S
+    feature_strategy: otu
+    route_family: web_service_otu
+    route_name: SILVAngs 18S
+  external_inputs:
+  - amplicon_fastq
+  steps:
+  - operation: silvangs_input_preparation
+    name: Prepare SILVAngs Multi-FASTA input
+    description: Assemble/demultiplex paired-end reads as needed and convert each sample to DNA Multi-FASTA for SILVAngs upload.
+      This is an input-contract requirement of the service, not an extra biological analysis step.
+    candidates:
+    - silvangs_input_prep
+  - operation: amplicon_end_to_end
+    name: SILVAngs rDNA analysis
+    description: 'Run the remote SILVAngs workflow: alignment, quality management, dereplication, user-defined OTU clustering
+      and taxonomic classification against SILVA.'
+    candidates:
+    - silvangs_workflow
+amplicon_illumina_its:
+  name: ASV · DADA2 modular (ITS)
+  description: 'Modular ITS ASV route following ITS-specific DADA2 principles: remove primers in orientations that account
+    for read-through, avoid fixed-length truncation that removes genuine biological length variation, infer ASVs, then classify
+    with UNITE (fungi-only or all-eukaryote according to study scope).'
+  context:
+    sample_type: Amplicon
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: ITS analysis
+    marker: ITS
+    feature_strategy: asv
+    route_family: modular_asv
+    route_name: DADA2 modular ITS
+  external_inputs:
+  - amplicon_fastq
+  - taxonomy_reference_database
+  steps:
+  - operation: primer_trimming
+    name: ITS primer removal
+    description: Remove locus-specific ITS PCR primers and residual adapter sequence before DADA2 inference when primers are
+      still present.
+    candidates:
+    - cutadapt
+  - operation: asv_inference
+    name: ITS ASV inference
+    description: Infer exact amplicon sequence variants with DADA2, including error modelling, quality filtering, paired-read
+      merging and chimera removal.
+    candidates:
+    - dada2
+  - operation: taxonomy_assignment
+    name: Fungal taxonomic assignment
+    description: Assign taxonomy to representative ITS ASVs using a classifier and reference database appropriate for the
+      amplified ITS marker.
+    candidates:
+    - dada2_taxonomy
+    - decipher_idtaxa
+    - qiime2_feature_classifier
+amplicon_illumina_its_qiime2_asv:
+  name: ASV · QIIME 2 q2-dada2 (ITS)
+  description: QIIME 2 ITS ASV workflow. ITS requires marker-aware primer handling and variable-length treatment; taxonomy
+    should use an ITS-specific UNITE classifier/reference, not a SILVA 16S/18S classifier.
+  context:
+    sample_type: Amplicon
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: ITS analysis
+    marker: ITS
+    feature_strategy: asv
+    route_family: qiime2_asv
+    route_name: ASV · QIIME 2 q2-dada2 (ITS)
+  external_inputs:
+  - amplicon_fastq
+  - taxonomy_reference_database
+  steps:
+  - operation: amplicon_end_to_end
+    name: ASV · QIIME 2 q2-dada2 (ITS)
+    description: Integrated QIIME 2 ITS ASV workflow using q2-cutadapt where primer removal is required, q2-dada2 for paired-end
+      denoising/ASV inference, and q2-feature-classifier for taxonomy.
+    candidates:
+    - qiime2_asv_workflow
+amplicon_illumina_its_nfcore:
+  name: ASV turnkey · nf-core/ampliseq (ITS)
+  description: nf-core/ampliseq ITS workflow. Select unite-fungi for fungal ITS or unite-alleuk for broad eukaryotic ITS;
+    the pipeline also supports ITS-specific processing/output such as ITSx.
+  context:
+    sample_type: Amplicon
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: ITS analysis
+    marker: ITS
+    feature_strategy: asv
+    route_family: turnkey_asv
+    route_name: ASV turnkey · nf-core/ampliseq (ITS)
+  external_inputs:
+  - amplicon_fastq
+  steps:
+  - operation: amplicon_end_to_end
+    name: ASV turnkey · nf-core/ampliseq (ITS)
+    description: 'Turnkey, reproducible Nextflow route for ITS: QC, Cutadapt primer trimming, DADA2 ASV inference, taxonomy,
+      tables, diversity outputs and reporting are managed inside nf-core/ampliseq rather than exposed as separate BioFlow
+      steps.'
+    candidates:
+    - nfcore_ampliseq_workflow
+amplicon_illumina_its_frogs:
+  name: Flexible pipeline · FROGS (ITS)
+  description: FROGS ITS workflow. Use the FROGS UNITE Fungi databank for fungal ITS or UNITE Eukaryote for all-eukaryote
+    ITS.
+  context:
+    sample_type: Amplicon
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: ITS analysis
+    marker: ITS
+    feature_strategy: flexible
+    route_family: flexible_pipeline
+    route_name: Flexible pipeline · FROGS (ITS)
+  external_inputs:
+  - amplicon_fastq
+  steps:
+  - operation: amplicon_end_to_end
+    name: Flexible pipeline · FROGS (ITS)
+    description: FROGS route for ITS from raw amplicon reads through primer-aware preprocessing, Swarm or DADA2 feature generation,
+      chimera handling, taxonomic affiliation and reports. Available through Galaxy or command line.
+    candidates:
+    - frogs_workflow
+amplicon_illumina_its_lotus2:
+  name: Flexible pipeline · LotuS2 (ITS)
+  description: LotuS2 ITS workflow. For fungal ITS use ITS/ITS1/ITS2 mode, fungi taxonomic group and UNITE; ITS-specific post-filtering/ITSx
+    is available. The built-in UNITE option is fungi-oriented, so broad all-eukaryote ITS requires a validated custom reference
+    or another route with explicit all-eukaryote support.
+  context:
+    sample_type: Amplicon
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: ITS analysis
+    marker: ITS
+    feature_strategy: flexible
+    route_family: flexible_pipeline
+    route_name: Flexible pipeline · LotuS2 (ITS)
+  external_inputs:
+  - amplicon_fastq
+  steps:
+  - operation: amplicon_end_to_end
+    name: Flexible pipeline · LotuS2 (ITS)
+    description: LotuS2 complete ITS route supporting FASTA/FASTQ filtering, denoising/chimera handling, multiple OTU/ASV
+      clustering options, taxonomy, abundance tables and phylogenetic/phyloseq outputs.
+    candidates:
+    - lotus2_workflow
+amplicon_illumina_its_obitools4:
+  name: MOTU/metabarcoding · OBITools4-composed workflow (ITS)
+  description: OBITools4-composed ITS workflow. obitag requires a user-provided ITS reference database; build/curate it for
+    the amplified primer region and study scope. UNITE is biologically appropriate for ITS but must be integrated into an
+    OBITools-compatible reference workflow.
+  context:
+    sample_type: Amplicon
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: ITS analysis
+    marker: ITS
+    feature_strategy: motu
+    route_family: obitools4_motu
+    route_name: MOTU/metabarcoding · OBITools4-composed workflow (ITS)
+  external_inputs:
+  - amplicon_fastq
+  - taxonomy_reference_database
+  steps:
+  - operation: amplicon_end_to_end
+    name: MOTU/metabarcoding · OBITools4-composed workflow (ITS)
+    description: 'A complete ITS workflow composed from OBITools4 commands: obipairing, obimultiplex/obitagpcr, obiuniq, obiclean,
+      obitag and obimatrix. It is shown as a PCR-aware MOTU/denoised-sequence route rather than being forced into classical
+      ASV or fixed-percent OTU terminology.'
+    candidates:
+    - obitools4_workflow
+amplicon_illumina_its_mothur:
+  name: OTU · mothur (ITS, conditional)
+  description: 'Conditional mothur ITS route. Use an ITS-specific UNITE/custom taxonomy reference, but do not reuse the standard
+    globally aligned 16S/18S workflow: ITS is not globally alignable across fungi and requires pairwise/ITS-specific handling.'
+  context:
+    sample_type: Amplicon
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: ITS analysis
+    marker: ITS
+    feature_strategy: otu
+    route_family: mothur_otu
+    route_name: OTU · mothur (ITS)
+  external_inputs:
+  - amplicon_fastq
+  - taxonomy_reference_database
+  steps:
+  - operation: amplicon_end_to_end
+    name: OTU · mothur (ITS)
+    description: Advanced/conditional mothur ITS route. ITS is not globally homologous, so the standard 16S reference-alignment
+      workflow should not be reused unchanged; pairwise-distance/clustering and ITS-specific taxonomy are required.
+    candidates:
+    - mothur_otu_workflow
+amplicon_illumina_its_vsearch_otu:
+  name: OTU · VSEARCH-centered modular workflow (ITS)
+  description: VSEARCH-centered ITS OTU workflow. Use a taxonomy-annotated UNITE reference for SINTAX/global assignment, choosing
+    fungi-only or all-eukaryote UNITE according to the biological scope.
+  context:
+    sample_type: Amplicon
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: ITS analysis
+    marker: ITS
+    feature_strategy: otu
+    route_family: vsearch_otu
+    route_name: OTU · VSEARCH-centered modular workflow (ITS)
+  external_inputs:
+  - amplicon_fastq
+  - taxonomy_reference_database
+  steps:
+  - operation: amplicon_end_to_end
+    name: OTU · VSEARCH-centered modular workflow (ITS)
+    description: VSEARCH-centered ITS OTU route for paired-read merging, quality filtering, dereplication, chimera checking
+      and similarity clustering, followed by taxonomy. A dedicated primer trimmer may still be used if primers are present.
+    candidates:
+    - vsearch_otu_workflow
+amplicon_illumina_its_qiime2_otu:
+  name: OTU · QIIME 2 q2-vsearch (ITS)
+  description: QIIME 2 q2-vsearch ITS OTU workflow. Use q2-vsearch for clustering and an ITS-specific UNITE classifier/reference
+    for taxonomy; clustering threshold and taxonomy-reference choice are separate decisions.
+  context:
+    sample_type: Amplicon
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: ITS analysis
+    marker: ITS
+    feature_strategy: otu
+    route_family: qiime2_otu
+    route_name: OTU · QIIME 2 q2-vsearch (ITS)
+  external_inputs:
+  - amplicon_fastq
+  - taxonomy_reference_database
+  steps:
+  - operation: amplicon_end_to_end
+    name: OTU · QIIME 2 q2-vsearch (ITS)
+    description: QIIME 2 ITS OTU route using q2-vsearch. Paired reads are prepared/merged, quality-filtered and dereplicated
+      before de novo/open/closed-reference clustering; taxonomy is then assigned with a QIIME 2 classifier.
+    candidates:
+    - qiime2_otu_workflow
+amplicon_illumina_asv_inference:
+  name: Amplicon — Illumina ASV inference
+  context:
+    sample_type: Amplicon
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: ASV inference
+    feature_strategy: asv
+  external_inputs:
+  - amplicon_fastq
+  steps:
+  - operation: primer_trimming
+    name: Primer and adapter removal
+    description: 'Remove locus-specific primers and residual adapter sequences before denoising.
+
+      '
+    candidates:
+    - cutadapt
+  - operation: asv_inference
+    name: ASV inference
+    description: 'Infer exact amplicon sequence variants from primer-trimmed reads and generate an ASV count table together
+      with representative sequences.
+
+      '
+    candidates:
+    - dada2
+amplicon_illumina_taxonomic_assignment:
+  name: Taxonomic assignment — ASV-based
+  context:
+    sample_type: Amplicon
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: Taxonomic assignment
+    feature_strategy: asv
+  external_inputs:
+  - amplicon_fastq
+  - taxonomy_reference_database
+  steps:
+  - operation: primer_trimming
+    name: Primer and adapter removal
+    description: 'Remove locus-specific primers and residual adapter sequences before denoising.
+
+      '
+    candidates:
+    - cutadapt
+  - operation: asv_inference
+    name: ASV inference
+    description: 'Infer exact amplicon sequence variants and generate representative sequences for downstream taxonomy assignment.
+
+      '
+    candidates:
+    - dada2
+  - operation: taxonomy_assignment
+    name: Taxonomic assignment
+    description: Assign taxonomy to representative ASV sequences. BioFlow compares multiple real taxonomy components rather
+      than treating QIIME 2 as the only valid route; the reference database must match the amplified marker.
+    candidates:
+    - dada2_taxonomy
+    - decipher_idtaxa
+    - qiime2_feature_classifier
+  description: Generate ASVs with DADA2 and assign taxonomy to representative sequences.
+amplicon_illumina_taxonomic_assignment_otu:
+  name: Taxonomic assignment — OTU-based
+  context:
+    sample_type: Amplicon
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: Taxonomic assignment
+    feature_strategy: otu
+  external_inputs:
+  - amplicon_fastq
+  - taxonomy_reference_database
+  steps:
+  - operation: primer_trimming
+    name: Primer and adapter removal
+    description: 'Remove locus-specific primers and residual adapter sequences before downstream OTU processing and clustering.
+
+      '
+    candidates:
+    - cutadapt
+  - operation: otu_clustering
+    name: OTU clustering
+    description: Cluster primer-trimmed amplicon sequences into similarity-based operational taxonomic units (OTUs). The identity
+      threshold is user-selectable; a historical 97% threshold is common but is not hard-coded by BioFlow. The step produces
+      an OTU feature table and representative OTU sequences.
+    candidates:
+    - vsearch
+    - mothur
+  - operation: taxonomy_assignment
+    name: Taxonomic assignment
+    description: Assign taxonomy to representative OTU sequences. The classifier is a separate decision from OTU clustering,
+      so VSEARCH, mothur, DECIPHER and the QIIME 2 feature-classifier component are compared as alternative taxonomy routes.
+    candidates:
+    - vsearch_sintax
+    - mothur_classify_seqs
+    - decipher_idtaxa
+    - qiime2_feature_classifier
+  description: Generate similarity-based OTUs with VSEARCH or mothur and assign taxonomy to representative OTU sequences.
+bulk_transcriptome_illumina_alignment_based:
+  name: Bulk transcriptome — Illumina alignment-based RNA-seq
+  context:
+    sample_type: Bulk transcriptome
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: Alignment-based RNA-seq
+  external_inputs:
+  - rna_fastq
+  - reference_genome_fasta
+  - gene_annotation_gtf
+  steps:
+  - operation: transcriptome_indexing
+    name: Reference genome indexing
+    description: 'Build an aligner-specific genome index from the reference genome before RNA-seq read mapping.
+
+      '
+    candidates:
+    - star
+    - hisat2
+  - operation: rna_alignment
+    name: Splice-aware RNA-seq alignment
+    description: 'Map RNA-seq reads to the reference genome using a splice-aware aligner. Each aligner uses its own compatible
+      genome index.
+
+      '
+    candidates:
+    - star
+    - hisat2
+  - operation: alignment_processing
+    name: Alignment processing
+    description: 'Sort and index RNA-seq alignments when required to produce a standardized BAM representation for downstream
+      quantification.
+
+      '
+    candidates:
+    - samtools
+  - operation: gene_quantification
+    name: Gene-level quantification
+    description: 'Assign aligned RNA-seq reads to annotated genes and generate a gene-level count matrix.
+
+      '
+    candidates:
+    - featurecounts
+bulk_transcriptome_illumina_lightweight_quantification:
+  name: Bulk transcriptome — Illumina lightweight quantification
+  context:
+    sample_type: Bulk transcriptome
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: Pseudoalignment / lightweight quantification
+  external_inputs:
+  - rna_fastq
+  - transcriptome_fasta
+  steps:
+  - operation: transcriptome_indexing
+    name: Transcriptome indexing
+    description: 'Build a tool-specific index from the reference transcriptome before read quantification.
+
+      '
+    candidates:
+    - salmon
+    - kallisto
+  - operation: lightweight_quantification
+    name: Transcript-level quantification
+    description: 'Estimate transcript-level abundance and counts directly from RNA-seq reads without conventional genome-alignment-based
+      gene counting.
+
+      '
+    candidates:
+    - salmon
+    - kallisto
+bulk_transcriptome_illumina_differential_expression_alignment:
+  name: Bulk transcriptome — Alignment-based differential expression
+  context:
+    sample_type: Bulk transcriptome
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: Differential expression
+  external_inputs:
+  - rna_fastq
+  - reference_genome_fasta
+  - gene_annotation_gtf
+  - sample_metadata
+  - analysis_design
+  steps:
+  - operation: transcriptome_indexing
+    name: Reference genome indexing
+    description: 'Build the aligner-specific genome index required for splice-aware RNA-seq read alignment.
+
+      '
+    candidates:
+    - star
+    - hisat2
+  - operation: rna_alignment
+    name: RNA-seq alignment
+    description: 'Map RNA-seq reads to the reference genome using a splice-aware alignment strategy.
+
+      '
+    candidates:
+    - star
+    - hisat2
+  - operation: alignment_processing
+    name: Alignment processing
+    description: 'Produce a coordinate-sorted BAM representation suitable for gene-level read summarization.
+
+      '
+    candidates:
+    - samtools
+  - operation: gene_quantification
+    name: Gene-level quantification
+    description: 'Count aligned reads overlapping annotated genes and generate a gene-level count matrix.
+
+      '
+    candidates:
+    - featurecounts
+  - operation: differential_expression
+    name: Differential expression analysis
+    description: 'Test gene-level count differences between biological conditions defined by the sample metadata and statistical
+      analysis design.
+
+      '
+    candidates:
+    - deseq2
+    - edger
+bulk_transcriptome_illumina_differential_expression_lightweight:
+  name: Bulk transcriptome — Lightweight differential expression
+  context:
+    sample_type: Bulk transcriptome
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: Differential expression
+  external_inputs:
+  - rna_fastq
+  - transcriptome_fasta
+  - transcript_to_gene_mapping
+  - sample_metadata
+  - analysis_design
+  steps:
+  - operation: transcriptome_indexing
+    name: Transcriptome indexing
+    description: 'Build the quantifier-specific transcriptome index.
+
+      '
+    candidates:
+    - salmon
+    - kallisto
+  - operation: lightweight_quantification
+    name: Transcript-level quantification
+    description: 'Estimate transcript abundance and transcript-level counts directly from RNA-seq reads.
+
+      '
+    candidates:
+    - salmon
+    - kallisto
+  - operation: transcript_to_gene_summarization
+    name: Transcript-to-gene summarization
+    description: 'Import transcript-level estimates and summarize them to the gene level using transcript-to-gene relationships.
+
+      '
+    candidates:
+    - tximport
+  - operation: differential_expression
+    name: Differential expression analysis
+    description: 'Test gene-level expression differences between biological conditions defined by the metadata and statistical
+      design.
+
+      '
+    candidates:
+    - deseq2
+    - edger
+bulk_transcriptome_illumina_transcript_assembly_guided:
+  name: Bulk transcriptome — Genome-guided transcript assembly
+  context:
+    sample_type: Bulk transcriptome
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: Transcript assembly
+  external_inputs:
+  - rna_fastq
+  - reference_genome_fasta
+  - gene_annotation_gtf
+  steps:
+  - operation: transcriptome_indexing
+    name: Reference genome indexing
+    description: 'Build the aligner-specific genome index required for splice-aware RNA-seq mapping.
+
+      '
+    candidates:
+    - star
+    - hisat2
+  - operation: rna_alignment
+    name: Splice-aware RNA-seq alignment
+    description: 'Align RNA-seq reads against the reference genome while preserving exon-spanning alignments.
+
+      '
+    candidates:
+    - star
+    - hisat2
+  - operation: alignment_processing
+    name: Alignment processing
+    description: 'Produce a coordinate-sorted RNA-seq BAM file suitable for transcript reconstruction.
+
+      '
+    candidates:
+    - samtools
+  - operation: transcript_assembly
+    name: Genome-guided transcript reconstruction
+    description: 'Reconstruct expressed transcript models from RNA-seq alignments, optionally using the supplied reference
+      gene annotation as guidance.
+
+      '
+    candidates:
+    - stringtie
+bulk_transcriptome_illumina_transcript_assembly_denovo:
+  name: Bulk transcriptome — De novo transcript assembly
+  context:
+    sample_type: Bulk transcriptome
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: Transcript assembly
+  external_inputs:
+  - rna_fastq
+  steps:
+  - operation: transcript_assembly
+    name: De novo transcriptome assembly
+    description: 'Reconstruct transcript sequences directly from RNA-seq reads without requiring a reference genome or existing
+      gene annotation.
+
+      '
+    candidates:
+    - trinity
+bulk_transcriptome_illumina_alternative_splicing:
+  name: Bulk transcriptome — Replicate-aware alternative splicing
+  context:
+    sample_type: Bulk transcriptome
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: Alternative splicing
+  external_inputs:
+  - rna_fastq_collection
+  - reference_genome_fasta
+  - gene_annotation_gtf
+  - sample_metadata
+  - analysis_design
+  steps:
+  - operation: transcriptome_indexing
+    name: Reference genome indexing
+    description: 'Build an aligner-specific reference genome index for splice-aware RNA-seq alignment.
+
+      '
+    candidates:
+    - star
+    - hisat2
+  - operation: rna_alignment
+    name: Replicate RNA-seq alignment
+    description: 'Align all RNA-seq samples independently to the same reference genome while preserving splice junction information.
+
+      '
+    candidates:
+    - star
+    - hisat2
+  - operation: alignment_processing
+    name: Alignment preparation
+    description: 'Prepare coordinate-sorted RNA-seq BAM files across all biological samples for downstream alternative-splicing
+      analysis.
+
+      '
+    candidates:
+    - samtools
+  - operation: alternative_splicing
+    name: Differential alternative splicing
+    description: 'Compare biological groups defined by the sample metadata and statistical design and identify differential
+      exon-skipping and other alternative splicing events.
+
+      '
+    candidates:
+    - rmats
+  description: Replicate-aware differential alternative-splicing analysis. Align each sample consistently with a splice-aware
+    aligner, prepare replicate BAMs and use rMATS to compare defined sample groups. Alignment/library settings must remain
+    consistent across groups.
+bulk_transcriptome_functional_enrichment:
+  name: Bulk transcriptome — Functional enrichment
+  context:
+    sample_type: Bulk transcriptome
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: Functional enrichment
+  external_inputs:
+  - significant_gene_list
+  - gene_identifier_mapping
+  - gene_set_database
+  steps:
+  - operation: functional_enrichment
+    name: Functional enrichment analysis
+    description: 'Test whether functional categories such as Gene Ontology terms are over-represented among genes selected
+      from differential-expression results. Gene identifier compatibility and the appropriate background/reference universe
+      must be considered when interpreting enrichment.
+
+      '
+    candidates:
+    - clusterprofiler
+bulk_transcriptome_pathway_analysis:
+  name: Bulk transcriptome — Ranked pathway enrichment
+  context:
+    sample_type: Bulk transcriptome
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: Pathway analysis
+  external_inputs:
+  - ranked_gene_list
+  - pathway_gene_sets
+  steps:
+  - operation: pathway_analysis
+    name: Ranked gene-set pathway analysis
+    description: 'Test predefined biological pathways against a ranked gene list, retaining information from the complete
+      differential-expression result rather than applying a hard significance cutoff.
+
+      '
+    candidates:
+    - fgsea
+virome_illumina_viral_detection:
+  name: Virome — Illumina viral sequence detection
+  context:
+    sample_type: Virome
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: Viral sequence detection
+  external_inputs:
+  - raw_paired_fastq
+  steps:
+  - operation: read_preprocessing
+    name: Read preprocessing
+    description: 'Perform quality filtering and preprocessing of paired-end virome sequencing reads.
+
+      '
+    candidates:
+    - fastp
+  - operation: metagenome_assembly
+    name: Virome assembly
+    description: 'Assemble quality-controlled virome reads into contigs for downstream viral sequence detection.
+
+      '
+    candidates:
+    - megahit
+  - operation: viral_sequence_detection
+    name: Viral sequence detection
+    description: 'Identify viral sequences among assembled contigs.
+
+      '
+    candidates:
+    - genomad
+    - virsorter2
+virome_illumina_quality_assessment:
+  name: Virome — Illumina viral genome quality assessment
+  context:
+    sample_type: Virome
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: Viral genome quality assessment
+  external_inputs:
+  - raw_paired_fastq
+  steps:
+  - operation: read_preprocessing
+    name: Read preprocessing
+    description: 'Perform quality filtering and preprocessing of paired-end virome sequencing reads.
+
+      '
+    candidates:
+    - fastp
+  - operation: metagenome_assembly
+    name: Virome assembly
+    description: 'Assemble quality-controlled reads into contigs.
+
+      '
+    candidates:
+    - megahit
+  - operation: viral_sequence_detection
+    name: Viral sequence detection
+    description: 'Detect candidate viral contigs in the assembly.
+
+      '
+    candidates:
+    - genomad
+    - virsorter2
+  - operation: viral_genome_quality
+    name: Viral genome quality assessment
+    description: 'Assess completeness and contamination of predicted viral genomes and retain quality-assessed viral sequences
+      for downstream analyses.
+
+      '
+    candidates:
+    - checkv
+  description: Assemble viral-enriched reads, identify viral contigs with geNomad and assess viral-genome completeness/contamination
+    with CheckV. CheckV quality tiers are reported rather than automatically being treated as a hard quality-filtering threshold.
+virome_illumina_viral_taxonomy:
+  name: Virome — Illumina geNomad viral taxonomy
+  description: Assemble the virome and use geNomad for viral identification plus ICTV-based taxonomic assignment. CheckV quality
+    assessment is available as a separate goal and is not a prerequisite for obtaining geNomad taxonomy.
+  context:
+    sample_type: Virome
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: Viral taxonomy
+  external_inputs:
+  - raw_paired_fastq
+  steps:
+  - operation: read_preprocessing
+    name: Read preprocessing
+    description: Preprocess virome reads with fastp.
+    candidates:
+    - fastp
+  - operation: metagenome_assembly
+    name: Virome assembly
+    description: Assemble virome reads into contigs with MEGAHIT.
+    candidates:
+    - megahit
+  - operation: viral_taxonomy
+    name: Viral identification and ICTV taxonomy
+    description: Run geNomad on assembled contigs and retain its predicted viral sequences and sequence-level taxonomic assignments.
+      No separate user-supplied viral taxonomy FASTA is required.
+    candidates:
+    - genomad
+virome_illumina_host_prediction:
+  name: Virome — prokaryotic virus host prediction
+  context:
+    sample_type: Virome
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: Viral host prediction
+  external_inputs:
+  - raw_paired_fastq
+  - iphop_database
+  steps:
+  - operation: read_preprocessing
+    name: Read preprocessing
+    description: 'Quality-filter paired-end virome sequencing reads before assembly.
+
+      '
+    candidates:
+    - fastp
+  - operation: metagenome_assembly
+    name: Virome assembly
+    description: 'Assemble quality-controlled virome reads into contigs.
+
+      '
+    candidates:
+    - megahit
+  - operation: viral_sequence_detection
+    name: Viral sequence detection
+    description: 'Identify candidate viral sequences among assembled contigs.
+
+      '
+    candidates:
+    - genomad
+    - virsorter2
+  - operation: viral_genome_quality
+    name: Viral genome quality assessment
+    description: 'Assess predicted viral genomes and generate the quality-assessed viral sequence set used for host prediction.
+
+      '
+    candidates:
+    - checkv
+  - operation: viral_host_prediction
+    name: Phage/archaeovirus host-genus prediction
+    description: Predict likely prokaryotic host genus with iPHoP using the iPHoP host database.
+    candidates:
+    - iphop
+  description: Predict host genus for bacteriophages and archaeoviruses with iPHoP after viral identification and CheckV processing.
+    iPHoP is not a general eukaryotic-virus host-prediction method.
+virome_illumina_votu_clustering:
+  name: Virome — Illumina viral clustering and vOTU definition
+  context:
+    sample_type: Virome
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: Viral clustering / vOTU analysis
+  external_inputs:
+  - raw_paired_fastq
+  steps:
+  - operation: read_preprocessing
+    name: Read preprocessing
+    description: 'Quality-filter paired-end virome sequencing reads before assembly.
+
+      '
+    candidates:
+    - fastp
+  - operation: metagenome_assembly
+    name: Virome assembly
+    description: 'Assemble quality-controlled reads into candidate genomic contigs.
+
+      '
+    candidates:
+    - megahit
+  - operation: viral_sequence_detection
+    name: Viral sequence detection
+    description: 'Detect candidate viral contigs in the assembly.
+
+      '
+    candidates:
+    - genomad
+    - virsorter2
+  - operation: viral_genome_quality
+    name: Viral genome quality assessment
+    description: Assess completeness/contamination and obtain CheckV-extracted viral/proviral sequences.
+    candidates:
+    - checkv
+  - operation: viral_votu_clustering
+    name: Species-level vOTU clustering
+    description: 'Compare quality-assessed viral sequences using nucleotide identity and aligned-fraction criteria and group
+      sufficiently similar sequences into species-level viral operational taxonomic units. A commonly used MIUViG-style definition
+      is at least 95% ANI across at least 85% of the shorter sequence.
+
+      '
+    candidates:
+    - vclust
+  description: Define viral operational taxonomic units from CheckV-processed viral sequences with Vclust. Report the ANI
+    and aligned-fraction/coverage criterion used; a 95% ANI species-like threshold is common in MIUViG-style workflows but
+    BioFlow does not hard-code one universal clustering rule.
+virome_illumina_functional_annotation:
+  name: Virome — Illumina viral functional annotation
+  context:
+    sample_type: Virome
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: Viral functional annotation
+  external_inputs:
+  - raw_paired_fastq
+  - eggnog_database
+  steps:
+  - operation: read_preprocessing
+    name: Read preprocessing
+    description: 'Quality-filter paired-end virome reads before assembly.
+
+      '
+    candidates:
+    - fastp
+  - operation: metagenome_assembly
+    name: Virome assembly
+    description: 'Assemble quality-controlled reads into contigs.
+
+      '
+    candidates:
+    - megahit
+  - operation: viral_sequence_detection
+    name: Viral sequence detection
+    description: 'Identify candidate viral sequences among assembled contigs.
+
+      '
+    candidates:
+    - genomad
+    - virsorter2
+  - operation: viral_genome_quality
+    name: Viral genome quality assessment
+    description: 'Assess viral genomes and generate the quality-filtered viral sequence set.
+
+      '
+    candidates:
+    - checkv
+  - operation: viral_gene_prediction
+    name: Viral gene prediction
+    description: 'Predict protein-coding genes from quality-assessed viral genomes using a virus-oriented gene-calling model.
+
+      '
+    candidates:
+    - prodigal_gv
+  - operation: viral_functional_annotation
+    name: Viral protein functional annotation
+    description: 'Assign functional information to predicted viral proteins through orthology-based annotation.
+
+      '
+    candidates:
+    - eggnog_mapper
+  description: Identify viral sequences, assess them with CheckV, predict viral genes with Prodigal-gv and annotate the predicted
+    proteins with eggNOG-mapper. Functional annotation is separate from DRAM-v AMG scoring.
+virome_illumina_amg_analysis:
+  name: Virome — DRAM-v auxiliary metabolic gene analysis
+  description: 'Standard DRAM-v-compatible route: preprocess reads, assemble contigs, run VirSorter2 with --prep-for-dramv
+    to generate the matched viral FASTA and affi-contigs metadata, then run DRAM-v. geNomad/CheckV output is not substituted
+    for VirSorter2''s required DRAM-v metadata.'
+  context:
+    sample_type: Virome
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: Auxiliary metabolic gene analysis
+  external_inputs:
+  - raw_paired_fastq
+  - dramv_database
+  steps:
+  - operation: read_preprocessing
+    name: Read preprocessing
+    description: Preprocess virome reads with fastp.
+    candidates:
+    - fastp
+  - operation: metagenome_assembly
+    name: Virome assembly
+    description: Assemble virome reads into contigs with MEGAHIT.
+    candidates:
+    - megahit
+  - operation: dramv_preparation
+    name: VirSorter2 DRAM-v preparation
+    description: Run VirSorter2 with --prep-for-dramv so the viral sequences and the matching viral-affi/affi-contigs metadata
+      required by DRAM-v are generated together.
+    candidates:
+    - virsorter2
+  - operation: auxiliary_metabolic_gene_analysis
+    name: DRAM-v AMG analysis
+    description: Annotate the VirSorter2-prepared viral sequences with DRAM-v and identify candidate auxiliary metabolic genes
+      using the VirSorter2 contextual metadata.
+    candidates:
+    - dramv
+eukaryotic_genome_ont_assembly:
+  name: Eukaryotic genome — Oxford Nanopore collapsed/consensus assembly
+  context:
+    sample_type: Eukaryotic genome
+    sequencing: Oxford Nanopore
+    read_type: Long reads
+    goal: Genome assembly
+  external_inputs:
+  - raw_long_fastq
+  steps:
+  - operation: genome_assembly
+    name: Long-read genome assembly
+    description: Assemble ONT whole-genome reads with Flye to obtain a consensus/collapsed assembly.
+    candidates:
+    - flye
+  description: Long-read eukaryotic assembly with Flye. Appropriate when a consensus/collapsed assembly is the goal; Flye
+    typically collapses diploid genomes into a mosaic haplotype and is therefore not BioFlow's default recommendation for
+    explicitly haplotype-resolved diploid assembly.
+eukaryotic_genome_pacbio_assembly:
+  name: Eukaryotic genome — PacBio HiFi assembly
+  context:
+    sample_type: Eukaryotic genome
+    sequencing: PacBio
+    read_type: Long reads
+    goal: Genome assembly
+  external_inputs:
+  - raw_long_fastq
+  steps:
+  - operation: genome_assembly
+    name: HiFi genome assembly
+    description: 'Assemble PacBio long-read data into a highly contiguous eukaryotic genome assembly.
+
+      '
+    candidates:
+    - hifiasm
+eukaryotic_genome_illumina_ont_hybrid:
+  name: Eukaryotic genome — Illumina + Oxford Nanopore hybrid assembly
+  context:
+    sample_type: Eukaryotic genome
+    sequencing:
+    - Illumina
+    - Oxford Nanopore
+    read_type:
+    - Paired-end
+    - Long reads
+    goal: Hybrid genome assembly
+  external_inputs:
+  - raw_paired_fastq
+  - raw_long_fastq
+  steps:
+  - operation: hybrid_genome_assembly
+    name: Hybrid genome assembly
+    description: 'Combine accurate paired-end short reads with long reads to construct a hybrid eukaryotic genome assembly.
+
+      '
+    candidates:
+    - masurca
+eukaryotic_genome_quality:
+  name: Eukaryotic genome — Assembly quality assessment
+  context:
+    sample_type: Eukaryotic genome
+    sequencing: Oxford Nanopore
+    read_type: Long reads
+    goal: Genome quality assessment
+  external_inputs:
+  - eukaryotic_genome_fasta
+  - busco_lineage_database
+  steps:
+  - operation: assembly_qc
+    name: Assembly statistics
+    description: 'Calculate structural assembly statistics such as contig count, total assembly size and N50.
+
+      '
+    candidates:
+    - quast
+  - operation: genome_quality_assessment
+    name: Genome completeness assessment
+    description: 'Estimate biological completeness using conserved lineage-specific single-copy orthologs.
+
+      '
+    candidates:
+    - busco
+eukaryotic_genome_repeat_annotation:
+  name: Eukaryotic genome — De novo repeat annotation
+  context:
+    sample_type: Eukaryotic genome
+    sequencing: Oxford Nanopore
+    read_type: Long reads
+    goal: Repeat annotation
+  external_inputs:
+  - eukaryotic_genome_fasta
+  steps:
+  - operation: repeat_discovery
+    name: De novo repeat discovery
+    description: 'Identify repetitive sequence families directly from the assembled genome and construct a species-specific
+      repeat library.
+
+      '
+    candidates:
+    - repeatmodeler
+  - operation: repeat_annotation
+    name: Repeat annotation and masking
+    description: 'Annotate repetitive elements using the inferred repeat library and generate a repeat-masked genome for downstream
+      gene prediction.
+
+      '
+    candidates:
+    - repeatmasker
+eukaryotic_genome_gene_prediction_braker:
+  name: Eukaryotic genome — protein-evidence gene prediction (BRAKER4 EP mode)
+  context:
+    sample_type: Eukaryotic genome
+    sequencing: Oxford Nanopore
+    read_type: Long reads
+    goal: Gene prediction
+  external_inputs:
+  - eukaryotic_genome_fasta
+  - protein_evidence_fasta
+  steps:
+  - operation: repeat_discovery
+    name: De novo repeat discovery
+    description: 'Construct a species-specific repeat library from the assembled genome.
+
+      '
+    candidates:
+    - repeatmodeler
+  - operation: repeat_annotation
+    name: Repeat masking
+    description: 'Mask repetitive genomic regions before gene model prediction.
+
+      '
+    candidates:
+    - repeatmasker
+  - operation: gene_prediction
+    name: Protein-evidence gene prediction with BRAKER4
+    description: Run BRAKER4 with the masked genome and homologous protein evidence in EP mode.
+    candidates:
+    - braker4
+  description: Repeat-mask the genome and run the current BRAKER4 workflow in protein-evidence (EP/BRAKER2-style) mode. This
+    route intentionally represents protein evidence only; RNA+protein ETP/BRAKER3-style annotation is a different evidence
+    design.
+eukaryotic_genome_gene_prediction_augustus:
+  name: Eukaryotic genome — Ab initio gene prediction
+  context:
+    sample_type: Eukaryotic genome
+    sequencing: Oxford Nanopore
+    read_type: Long reads
+    goal: Gene prediction
+  external_inputs:
+  - eukaryotic_genome_fasta
+  - augustus_species_model
+  steps:
+  - operation: repeat_discovery
+    name: De novo repeat discovery
+    description: 'Construct a species-specific repeat library from the assembled genome.
+
+      '
+    candidates:
+    - repeatmodeler
+  - operation: repeat_annotation
+    name: Repeat masking
+    description: 'Mask repetitive regions before ab initio gene prediction.
+
+      '
+    candidates:
+    - repeatmasker
+  - operation: gene_prediction
+    name: Ab initio gene prediction
+    description: 'Predict gene structures from the repeat-masked genome using a supplied AUGUSTUS species model.
+
+      '
+    candidates:
+    - augustus
+eukaryotic_genome_functional_annotation:
+  name: Eukaryotic genome — Protein functional annotation
+  context:
+    sample_type: Eukaryotic genome
+    sequencing: Oxford Nanopore
+    read_type: Long reads
+    goal: Functional annotation
+  external_inputs:
+  - eukaryotic_protein_fasta
+  - orthology_database
+  steps:
+  - operation: functional_annotation
+    name: Protein functional annotation
+    description: 'Assign orthology-based functional information to predicted eukaryotic proteins for downstream interpretation
+      of gene functions and biological processes.
+
+      '
+    candidates:
+    - eggnog_mapper
+eukaryotic_genome_illumina_variant_analysis:
+  name: Eukaryotic genome — Illumina variant analysis
+  context:
+    sample_type: Eukaryotic genome
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: Variant analysis
+  external_inputs:
+  - raw_paired_fastq
+  - reference_genome_fasta
+  steps:
+  - operation: read_mapping
+    name: Read mapping
+    description: 'Align paired-end genomic sequencing reads to the supplied eukaryotic reference genome.
+
+      '
+    candidates:
+    - bwa_mem2
+  - operation: alignment_processing
+    name: Alignment sorting and indexing
+    description: 'Convert alignments to coordinate-sorted BAM format and generate the BAM index required for downstream variant
+      calling.
+
+      '
+    candidates:
+    - samtools
+  - operation: variant_calling
+    name: Variant calling
+    description: 'Identify sequence variants from mapped genomic reads relative to the supplied reference genome.
+
+      '
+    candidates:
+    - bcftools
+    - freebayes
+  description: Reference-based Illumina small-variant analysis for a eukaryotic genome. Reference quality, organism ploidy,
+    expected heterozygosity and sample design affect variant-caller settings and downstream interpretation; BioFlow therefore
+    does not assume one universal diploid model.
+eukaryotic_genome_comparative_genomics:
+  name: Eukaryotic genome — pairwise chromosome-level synteny/rearrangements
+  context:
+    sample_type: Eukaryotic genome
+    sequencing: Oxford Nanopore
+    read_type: Long reads
+    goal: Comparative genomics
+  external_inputs:
+  - reference_eukaryotic_genome_fasta
+  - query_eukaryotic_genome_fasta
+  steps:
+  - operation: whole_genome_alignment
+    name: Whole-genome alignment
+    description: Align one chromosome-level reference assembly against one chromosome-level query assembly with MUMmer4.
+    candidates:
+    - mummer4
+  - operation: comparative_genomics
+    name: Synteny and structural genome comparison
+    description: Use SyRI on the pairwise whole-genome alignment to identify synteny and structural rearrangements.
+    candidates:
+    - syri
+  description: Pairwise structural comparison of two chromosome-level assemblies. Align the reference and query assemblies
+    with MUMmer4, then use SyRI to identify syntenic regions and structural rearrangements. This is not an arbitrary multi-genome
+    comparative-genomics workflow.
+metatranscriptome_illumina_host_removal:
+  name: Metatranscriptome — Illumina host read removal
+  context:
+    sample_type: Metatranscriptome
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: Host read removal
+  external_inputs:
+  - raw_paired_fastq
+  - host_reference_genome_fasta
+  steps:
+  - operation: host_read_removal
+    name: Host read removal
+    description: 'Align metatranscriptomic reads against the supplied host reference genome and retain paired reads that do
+      not map to the host for downstream microbial community analysis.
+
+      '
+    candidates:
+    - bowtie2
+metatranscriptome_illumina_rrna_assessment:
+  name: Metatranscriptome — Illumina rRNA depletion assessment
+  context:
+    sample_type: Metatranscriptome
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: rRNA depletion assessment
+  external_inputs:
+  - host_depleted_paired_fastq
+  - rrna_reference_database
+  steps:
+  - operation: rrna_depletion_assessment
+    name: rRNA detection and filtering
+    description: 'Identify residual ribosomal RNA reads and separate them from non-rRNA reads. The resulting report can be
+      used to evaluate rRNA depletion efficiency, while non-rRNA reads can be used for downstream taxonomic and functional
+      analyses.
+
+      '
+    candidates:
+    - sortmerna
+metatranscriptome_illumina_taxonomy:
+  name: Metatranscriptome — RNA transcript-weighted taxonomic signal
+  context:
+    sample_type: Metatranscriptome
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: Taxonomic profiling
+  external_inputs:
+  - raw_paired_fastq
+  - host_reference_genome_fasta
+  - rrna_reference_database
+  steps:
+  - operation: host_read_removal
+    name: Host read removal
+    description: 'Remove reads mapping to the supplied host reference genome.
+
+      '
+    candidates:
+    - bowtie2
+  - operation: rrna_depletion_assessment
+    name: rRNA filtering
+    description: 'Identify residual rRNA and retain non-rRNA reads for microbial community profiling.
+
+      '
+    candidates:
+    - sortmerna
+  - operation: taxonomic_profiling
+    name: Taxonomic profiling
+    description: Profile/classify the RNA-derived microbial signal. Interpret relative abundance as transcript-weighted taxonomic
+      signal rather than cell/genome abundance.
+    candidates:
+    - metaphlan
+    - kaiju
+  description: Classify/profile non-host, non-rRNA metatranscriptomic reads. In an RNA-only sample, taxonomic proportions
+    reflect taxa contributing detectable transcripts and must not be interpreted as direct organism/genome abundance. When
+    a matched metagenome exists, DNA-derived taxonomy is preferred for community composition and for informing HUMAnN RNA
+    analysis.
+metatranscriptome_illumina_differential_expression:
+  name: Metatranscriptome — microbial gene-catalog differential transcription
+  context:
+    sample_type: Metatranscriptome
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: Differential expression
+  external_inputs:
+  - raw_paired_fastq_collection
+  - host_reference_genome_fasta
+  - rrna_reference_database
+  - metatranscriptome_reference_fasta
+  - metatranscriptome_gene_annotation_gff
+  - sample_metadata
+  - analysis_design
+  steps:
+  - operation: host_read_removal
+    name: Host read removal across samples
+    description: 'Remove host-derived reads independently from each metatranscriptomic sample while preserving the biological
+      sample collection.
+
+      '
+    candidates:
+    - bowtie2
+  - operation: rrna_depletion_assessment
+    name: rRNA filtering across samples
+    description: 'Identify residual ribosomal RNA and retain non-rRNA reads independently for each sample.
+
+      '
+    candidates:
+    - sortmerna
+  - operation: read_mapping
+    name: Mapping to microbial gene/reference catalogue
+    description: Map non-rRNA metatranscriptomic reads to the supplied microbial reference/gene catalogue.
+    candidates:
+    - bowtie2
+  - operation: alignment_processing
+    name: Alignment processing
+    description: 'Prepare sorted alignment files for all samples before gene-level read counting.
+
+      '
+    candidates:
+    - samtools
+  - operation: gene_quantification
+    name: Gene-level count quantification
+    description: 'Count reads assigned to annotated reference features across all biological samples and construct a raw gene
+      count matrix.
+
+      '
+    candidates:
+    - featurecounts
+  - operation: differential_expression
+    name: Differential expression analysis
+    description: Test differential RNA-level gene counts across the defined study design. Interpret results in light of community-composition
+      and gene-copy-number confounding when matched DNA is unavailable.
+    candidates:
+    - deseq2
+    - edger
+  description: Map rRNA-depleted metatranscriptomic reads to a microbial gene/reference catalogue, quantify gene-level counts
+    and test differential transcription with DESeq2/edgeR. Without matched metagenomic DNA, a change in RNA counts can reflect
+    transcriptional regulation, organism abundance and/or gene copy-number change; it should not automatically be interpreted
+    as per-cell expression regulation.
+metagenome_illumina_taxonomy_prokaryotic:
+  name: Metagenome — Illumina prokaryotic taxonomic profiling
+  description: 'Taxonomic profiling of bacterial and archaeal communities from Illumina shotgun metagenomic reads.
+
+    '
+  context:
+    sample_type: Metagenome
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: Taxonomic profiling
+  external_inputs:
+  - raw_paired_fastq
+  steps:
+  - operation: raw_read_qc
+    name: Raw read quality control
+    description: 'Assess raw paired-end metagenomic read quality before preprocessing.
+
+      '
+    candidates:
+    - fastqc
+  - operation: read_preprocessing
+    name: Read preprocessing
+    description: 'Perform adapter trimming and quality filtering when preprocessing is required.
+
+      '
+    candidates:
+    - fastp
+    - cutadapt
+  - operation: taxonomic_profiling
+    name: Prokaryotic taxonomic profiling
+    description: 'Estimate bacterial and archaeal community composition from quality-controlled shotgun metagenomic reads.
+
+      '
+    candidates:
+    - kraken2
+    - kaiju
+    - metaphlan
+metagenome_illumina_taxonomy_eukaryotic:
+  name: Metagenome — Illumina microbial eukaryotic taxonomic profiling
+  description: 'Taxonomic profiling focused on fungi and other microbial eukaryotes from Illumina shotgun metagenomic reads.
+
+    '
+  context:
+    sample_type: Metagenome
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: Taxonomic profiling
+  external_inputs:
+  - raw_paired_fastq
+  steps:
+  - operation: raw_read_qc
+    name: Raw read quality control
+    description: 'Assess raw paired-end metagenomic read quality before preprocessing.
+
+      '
+    candidates:
+    - fastqc
+  - operation: read_preprocessing
+    name: Read preprocessing
+    description: 'Perform adapter trimming and quality filtering when preprocessing is required.
+
+      '
+    candidates:
+    - fastp
+    - cutadapt
+  - operation: taxonomic_profiling
+    name: Microbial eukaryotic taxonomic profiling
+    description: 'Profile fungi and other microbial eukaryotes using a taxonomic reference database that explicitly contains
+      eukaryotic sequences.
+
+      '
+    candidates:
+    - kaiju
+    - metaphlan
+metagenome_illumina_taxonomy_broad:
+  name: Metagenome — Illumina broad multi-kingdom taxonomic profiling
+  description: 'Broad taxonomic profiling of shotgun metagenomic reads across prokaryotic, microbial eukaryotic and viral
+    diversity using reference databases with explicitly broad taxonomic coverage.
+
+    '
+  context:
+    sample_type: Metagenome
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: Taxonomic profiling
+  external_inputs:
+  - raw_paired_fastq
+  steps:
+  - operation: raw_read_qc
+    name: Raw read quality control
+    description: 'Assess raw paired-end metagenomic read quality before preprocessing.
+
+      '
+    candidates:
+    - fastqc
+  - operation: read_preprocessing
+    name: Read preprocessing
+    description: 'Perform adapter trimming and quality filtering when preprocessing is required.
+
+      '
+    candidates:
+    - fastp
+    - cutadapt
+  - operation: taxonomic_profiling
+    name: Broad multi-kingdom taxonomic profiling
+    description: 'Profile broad microbial diversity using a reference database that explicitly includes prokaryotic, microbial
+      eukaryotic and viral sequence diversity.
+
+      '
+    candidates:
+    - kaiju
+    - metaphlan
+    - kraken2
+amplicon_illumina_alpha_nonphylogenetic:
+  name: Downstream · non-phylogenetic alpha diversity
+  description: Start from an existing amplicon feature table produced by any upstream BioFlow route (ASV, OTU, MOTU or another
+    validated feature table). Calculate non-phylogenetic within-sample diversity such as observed features, Shannon or Simpson.
+    A phylogenetic tree is not required. For default denoised ASV datasets, avoid singleton-dependent Chao1/ACE richness estimators.
+  context:
+    sample_type: Amplicon
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: Alpha diversity
+    downstream_stage: feature_table
+    metric_family: non_phylogenetic
+  external_inputs:
+  - amplicon_feature_table
+  steps:
+  - operation: alpha_diversity
+    name: Non-phylogenetic alpha diversity
+    description: Calculate within-sample diversity directly from the feature table. Use observed features/Shannon/Simpson
+      or other justified non-phylogenetic metrics; do not build a phylogenetic tree merely because the analysis goal is alpha
+      diversity.
+    candidates:
+    - qiime2_diversity
+    - phyloseq
+    - vegan
+amplicon_illumina_alpha_phylogenetic:
+  name: Downstream · phylogenetic alpha diversity (Faith PD)
+  description: Calculate phylogenetic alpha diversity from an existing feature table plus a rooted phylogenetic tree whose
+    tip identifiers correspond to the feature table. This route is appropriate for phylogenetically meaningful aligned markers;
+    it should not be applied automatically to highly variable regions such as fungal ITS.
+  context:
+    sample_type: Amplicon
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: Alpha diversity
+    downstream_stage: feature_table
+    metric_family: phylogenetic
+  external_inputs:
+  - amplicon_feature_table
+  - phylogenetic_tree_amplicon
+  steps:
+  - operation: alpha_diversity
+    name: Phylogenetic alpha diversity
+    description: Calculate Faith's phylogenetic diversity from the feature table and a compatible rooted tree.
+    candidates:
+    - qiime2_diversity
+amplicon_illumina_beta_nonphylogenetic:
+  name: Downstream · non-phylogenetic beta diversity
+  description: Start from an existing amplicon feature table and sample metadata. Compute ecological dissimilarities such
+    as Bray-Curtis/Jaccard or a compositional distance such as Aitchison, then ordinate samples. A phylogenetic tree is not
+    required. If testing group separation with PERMANOVA, inspect multivariate dispersion as well as location effects.
+  context:
+    sample_type: Amplicon
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: Beta diversity
+    downstream_stage: feature_table
+    metric_family: non_phylogenetic
+  external_inputs:
+  - amplicon_feature_table
+  - sample_metadata
+  steps:
+  - operation: beta_diversity
+    name: Non-phylogenetic beta diversity and ordination
+    description: Compute a justified non-phylogenetic distance/dissimilarity and ordination. Bray-Curtis/Jaccard and Aitchison
+      answer different questions, so the metric should match the biological interpretation rather than being selected by habit.
+    candidates:
+    - qiime2_diversity
+    - vegan
+    - phyloseq
+amplicon_illumina_beta_phylogenetic:
+  name: Downstream · phylogenetic beta diversity (UniFrac)
+  description: Calculate phylogenetic beta diversity such as weighted or unweighted UniFrac from an existing feature table
+    plus a rooted tree. This route is useful for markers with defensible sequence alignment/phylogeny and should not be the
+    automatic default for ITS.
+  context:
+    sample_type: Amplicon
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: Beta diversity
+    downstream_stage: feature_table
+    metric_family: phylogenetic
+  external_inputs:
+  - amplicon_feature_table
+  - sample_metadata
+  - phylogenetic_tree_amplicon
+  steps:
+  - operation: beta_diversity
+    name: Phylogenetic beta diversity and ordination
+    description: Compute weighted/unweighted UniFrac and ordination using a feature table whose feature IDs match the tips
+      in the rooted phylogenetic tree.
+    candidates:
+    - qiime2_diversity
+    - phyloseq
+amplicon_illumina_da_simple:
+  name: Downstream · simple independent-group DA
+  description: Differential abundance from an existing amplicon count table for a simple independent-group comparison. ANCOM-BC2
+    and ALDEx2 are treated as strong microbiome-oriented choices; DESeq2 remains available as a conditional count-model sensitivity/legacy
+    option.
+  context:
+    sample_type: Amplicon
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: Differential abundance
+    downstream_stage: feature_table
+    analysis_design_type: simple_independent
+  external_inputs:
+  - amplicon_feature_table
+  - sample_metadata
+  - analysis_design
+  steps:
+  - operation: differential_abundance
+    name: Differential abundance analysis
+    description: Analyze the existing microbial feature-count table without rerunning primer trimming, denoising or OTU clustering.
+      Preserve the original integer count structure unless the selected method explicitly specifies a transformation internally.
+    candidates:
+    - ancombc2
+    - aldex2
+    - deseq2
+amplicon_illumina_da_multivariable:
+  name: Downstream · multigroup / covariate-adjusted DA
+  description: Differential abundance for more than two groups, continuous predictors or models requiring covariate adjustment.
+    ANCOM-BC2 is prioritized because it directly supports multi-group global, pairwise, Dunnett-type and trend analyses with
+    covariate adjustment.
+  context:
+    sample_type: Amplicon
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: Differential abundance
+    downstream_stage: feature_table
+    analysis_design_type: multivariable
+  external_inputs:
+  - amplicon_feature_table
+  - sample_metadata
+  - analysis_design
+  steps:
+  - operation: differential_abundance
+    name: Differential abundance analysis
+    description: Analyze the existing microbial feature-count table without rerunning primer trimming, denoising or OTU clustering.
+      Preserve the original integer count structure unless the selected method explicitly specifies a transformation internally.
+    candidates:
+    - ancombc2
+    - aldex2
+    - deseq2
+amplicon_illumina_da_repeated:
+  name: Downstream · repeated-measures / longitudinal DA
+  description: Differential abundance for repeated measurements or longitudinal data. ANCOM-BC2 is prioritized because it
+    directly implements repeated-measures models. ALDEx2 and DESeq2 are retained only as conditional alternatives for limited
+    paired/fixed-effect designs, not as drop-in mixed-model equivalents.
+  context:
+    sample_type: Amplicon
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: Differential abundance
+    downstream_stage: feature_table
+    analysis_design_type: repeated_measures
+  external_inputs:
+  - amplicon_feature_table
+  - sample_metadata
+  - analysis_design
+  steps:
+  - operation: differential_abundance
+    name: Differential abundance analysis
+    description: Analyze the existing microbial feature-count table without rerunning primer trimming, denoising or OTU clustering.
+      Preserve the original integer count structure unless the selected method explicitly specifies a transformation internally.
+    candidates:
+    - ancombc2
+    - aldex2
+    - deseq2
+bacterial_illumina_species_identification_gtdbtk:
+  name: Bacterial isolate — genome taxonomy with GTDB-Tk
+  description: Assemble the bacterial isolate and assign genome taxonomy with GTDB-Tk. This route provides database-driven
+    bacterial/archaeal genome classification and is distinct from direct ANI comparison against a user-selected reference
+    set.
+  context:
+    sample_type: Bacterial isolate
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: Species identification
+  steps:
+  - operation: raw_read_qc
+    name: Raw read quality control
+    description: 'Evaluate Illumina read quality before genome reconstruction and taxonomic identification.
+
+      '
+    candidates:
+    - fastqc
+  - operation: read_preprocessing
+    name: Read preprocessing
+    description: 'Remove adapters and low-quality sequences when indicated by raw-read quality assessment.
+
+      '
+    candidates:
+    - fastp
+    - cutadapt
+  - operation: genome_assembly
+    name: Genome assembly
+    description: 'Produce a bacterial draft genome suitable for genome-based taxonomic identification.
+
+      '
+    candidates:
+    - spades
+    - shovill
+  - operation: assembly_qc
+    name: Assembly quality control
+    description: 'Assess assembly quality before interpreting genome-based taxonomic results.
+
+      '
+    candidates:
+    - quast
+  - operation: species_identification
+    name: Genome taxonomy
+    description: Classify the assembled genome with GTDB-Tk using the Genome Taxonomy Database and its reference-tree/ANI
+      framework.
+    candidates:
+    - gtdbtk
+bacterial_illumina_species_identification_fastani:
+  name: Bacterial isolate — reference ANI confirmation with FastANI
+  description: Assemble the bacterial isolate and compare it against one or more explicit reference genomes with FastANI.
+    This route is useful for reference-driven species confirmation/comparison; it does not independently discover a taxonomy
+    without an appropriate reference collection.
+  context:
+    sample_type: Bacterial isolate
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: Species identification
+  external_inputs:
+  - reference_genome_collection
+  steps:
+  - operation: raw_read_qc
+    name: Raw read quality control
+    description: 'Evaluate Illumina read quality before genome reconstruction and taxonomic identification.
+
+      '
+    candidates:
+    - fastqc
+  - operation: read_preprocessing
+    name: Read preprocessing
+    description: 'Remove adapters and low-quality sequences when indicated by raw-read quality assessment.
+
+      '
+    candidates:
+    - fastp
+    - cutadapt
+  - operation: genome_assembly
+    name: Genome assembly
+    description: 'Produce a bacterial draft genome suitable for genome-based taxonomic identification.
+
+      '
+    candidates:
+    - spades
+    - shovill
+  - operation: assembly_qc
+    name: Assembly quality control
+    description: 'Assess assembly quality before interpreting genome-based taxonomic results.
+
+      '
+    candidates:
+    - quast
+  - operation: species_identification
+    name: Reference ANI comparison
+    description: Compute ANI between the query assembly and the supplied reference genome collection. Interpret ANI together
+      with alignment fraction and reference identity/quality.
+    candidates:
+    - fastani
+bacterial_illumina_plasmid_mobsuite:
+  name: Bacterial isolate — plasmid reconstruction and typing (MOB-suite)
+  description: Assembly-based plasmid reconstruction/typing route. MOB-suite attempts to reconstruct plasmid sequence groups
+    from bacterial draft assemblies and reports plasmid typing information; short-read assembly fragmentation still limits
+    certainty about complete plasmid structure.
+  context:
+    sample_type: Bacterial isolate
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: Plasmid detection
+  steps:
+  - operation: raw_read_qc
+    name: Raw read quality control
+    description: 'Evaluate Illumina sequencing quality before plasmid reconstruction and detection.
+
+      '
+    candidates:
+    - fastqc
+  - operation: read_preprocessing
+    name: Read preprocessing
+    description: 'Remove adapters and low-quality sequence when required by read-quality assessment.
+
+      '
+    candidates:
+    - fastp
+    - cutadapt
+  - operation: genome_assembly
+    name: Genome assembly
+    description: 'Assemble the bacterial isolate genome. Short-read assemblies may fragment plasmids, so reconstructed plasmid
+      structure should be interpreted cautiously.
+
+      '
+    candidates:
+    - spades
+    - shovill
+  - operation: assembly_qc
+    name: Assembly quality control
+    description: 'Evaluate assembly characteristics before interpreting plasmid predictions.
+
+      '
+    candidates:
+    - quast
+  - operation: plasmid_detection
+    name: Plasmid reconstruction and typing
+    description: Use MOB-suite/MOB-recon to identify plasmid-associated contigs, reconstruct candidate plasmids and generate
+      plasmid typing/cluster information.
+    candidates:
+    - mobsuite
+bacterial_illumina_plasmid_replicon:
+  name: Bacterial isolate — plasmid replicon screening (PlasmidFinder)
+  description: Reference-based plasmid replicon screening. This route answers whether known plasmid replicon sequences are
+    detected; it should not be interpreted as de novo reconstruction of complete plasmids.
+  context:
+    sample_type: Bacterial isolate
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: Plasmid detection
+  steps:
+  - operation: raw_read_qc
+    name: Raw read quality control
+    description: 'Evaluate Illumina sequencing quality before plasmid reconstruction and detection.
+
+      '
+    candidates:
+    - fastqc
+  - operation: read_preprocessing
+    name: Read preprocessing
+    description: 'Remove adapters and low-quality sequence when required by read-quality assessment.
+
+      '
+    candidates:
+    - fastp
+    - cutadapt
+  - operation: genome_assembly
+    name: Genome assembly
+    description: 'Assemble the bacterial isolate genome. Short-read assemblies may fragment plasmids, so reconstructed plasmid
+      structure should be interpreted cautiously.
+
+      '
+    candidates:
+    - spades
+    - shovill
+  - operation: assembly_qc
+    name: Assembly quality control
+    description: 'Evaluate assembly characteristics before interpreting plasmid predictions.
+
+      '
+    candidates:
+    - quast
+  - operation: plasmid_detection
+    name: Plasmid replicon screening
+    description: Screen the assembled genome for known plasmid replicons using the PlasmidFinder database.
+    candidates:
+    - plasmidfinder
+bacterial_illumina_plasmid_genomad:
+  name: Bacterial isolate — plasmid sequence prediction (geNomad)
+  description: Sequence-classification route using geNomad to distinguish plasmid-associated sequence from chromosomal/viral
+    sequence in the bacterial assembly. It is not equivalent to replicon typing or MOB-suite plasmid reconstruction.
+  context:
+    sample_type: Bacterial isolate
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: Plasmid detection
+  steps:
+  - operation: raw_read_qc
+    name: Raw read quality control
+    description: 'Evaluate Illumina sequencing quality before plasmid reconstruction and detection.
+
+      '
+    candidates:
+    - fastqc
+  - operation: read_preprocessing
+    name: Read preprocessing
+    description: 'Remove adapters and low-quality sequence when required by read-quality assessment.
+
+      '
+    candidates:
+    - fastp
+    - cutadapt
+  - operation: genome_assembly
+    name: Genome assembly
+    description: 'Assemble the bacterial isolate genome. Short-read assemblies may fragment plasmids, so reconstructed plasmid
+      structure should be interpreted cautiously.
+
+      '
+    candidates:
+    - spades
+    - shovill
+  - operation: assembly_qc
+    name: Assembly quality control
+    description: 'Evaluate assembly characteristics before interpreting plasmid predictions.
+
+      '
+    candidates:
+    - quast
+  - operation: plasmid_detection
+    name: Plasmid sequence prediction
+    description: Classify plasmid-associated sequences in the bacterial assembly with geNomad.
+    candidates:
+    - genomad
+metagenome_illumina_resistome_deeparg:
+  name: Metagenome — DeepARG-SS resistome profiling
+  description: Read-level resistome profiling with the modern DeepARG short-read model after explicit BioFlow QC/preprocessing.
+    This route uses DeepARG's own deep-learning ARG model/database.
+  context:
+    sample_type: Metagenome
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: Antibiotic resistance profiling
+  steps:
+  - operation: raw_read_qc
+    name: Raw read quality control
+    description: 'Assess shotgun metagenomic read quality before resistome profiling.
+
+      '
+    candidates:
+    - fastqc
+  - operation: read_preprocessing
+    name: Read preprocessing
+    description: 'Remove adapters and low-quality sequence before antimicrobial resistance analysis.
+
+      '
+    candidates:
+    - fastp
+    - cutadapt
+  - operation: resistome_profiling
+    name: DeepARG-SS resistome profiling
+    description: Predict/quantify ARG-like short reads with the DeepARG-SS short-read workflow.
+    candidates:
+    - deeparg
+metagenome_illumina_resistome_rgi:
+  name: Metagenome — CARD RGI BWT resistome profiling
+  description: Read-level CARD resistome route. Quality-controlled paired FASTQ reads are aligned to CARD/WildCARD references
+    with RGI BWT and summarized at allele/gene level.
+  context:
+    sample_type: Metagenome
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: Antibiotic resistance profiling
+  steps:
+  - operation: raw_read_qc
+    name: Raw read quality control
+    description: 'Assess shotgun metagenomic read quality before resistome profiling.
+
+      '
+    candidates:
+    - fastqc
+  - operation: read_preprocessing
+    name: Read preprocessing
+    description: 'Remove adapters and low-quality sequence before antimicrobial resistance analysis.
+
+      '
+    candidates:
+    - fastp
+    - cutadapt
+  - operation: resistome_profiling
+    name: CARD RGI BWT resistome profiling
+    description: Run RGI BWT on quality-controlled reads against a prepared CARD reference; optional WildCARD/model expansion
+      changes interpretation and should be documented.
+    candidates:
+    - rgi
+metagenome_illumina_resistome_amrplusplus:
+  name: Metagenome — AMR++ turnkey resistome pipeline
+  description: End-to-end AMR++ route from raw metagenomic reads through its own QC/trimming, optional host removal, MEGARes
+    alignment and resistome reporting. BioFlow therefore does not prepend a duplicate fastp/Cutadapt preprocessing stage.
+  context:
+    sample_type: Metagenome
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: Antibiotic resistance profiling
+  external_inputs:
+  - raw_paired_fastq
+  steps:
+  - operation: resistome_profiling
+    name: AMR++ end-to-end resistome pipeline
+    description: Run the AMR++ standard/appropriate pipeline directly from the raw paired-end reads.
+    candidates:
+    - amrplusplus
+metagenome_illumina_plasmid_genomad:
+  name: Metagenome — plasmid sequence prediction with geNomad
+  description: Assemble metagenomic reads and classify plasmid-associated contigs with geNomad. geNomad can directly output
+    predicted plasmid sequence from nucleotide contigs.
+  context:
+    sample_type: Metagenome
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: Plasmid analysis
+  steps:
+  - operation: raw_read_qc
+    name: Raw read quality control
+    description: 'Assess shotgun metagenomic reads before plasmid sequence analysis.
+
+      '
+    candidates:
+    - fastqc
+  - operation: read_preprocessing
+    name: Read preprocessing
+    description: 'Remove adapters and low-quality sequence when required.
+
+      '
+    candidates:
+    - fastp
+    - cutadapt
+  - operation: metagenome_assembly
+    name: Metagenome assembly
+    description: 'Assemble metagenomic reads into contigs. Short-read assemblies may fragment plasmids, so predicted plasmid
+      sequences should be interpreted cautiously.
+
+      '
+    candidates:
+    - megahit
+    - metaspades
+  - operation: plasmid_detection
+    name: Plasmid sequence prediction
+    description: Identify plasmid-associated metagenomic contigs with geNomad.
+    candidates:
+    - genomad
+metagenome_illumina_plasmid_plasx:
+  name: Metagenome — PlasX gene-architecture plasmid workflow
+  description: 'Assemble metagenomic reads, then run the documented multi-stage PlasX workflow: anvi''o gene/COG/Pfam annotation,
+    de novo gene-family annotation and PlasX contig classification. This route is intentionally not represented as a bare
+    PlasX-on-FASTA step.'
+  context:
+    sample_type: Metagenome
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: Plasmid analysis
+  steps:
+  - operation: raw_read_qc
+    name: Raw read quality control
+    description: 'Assess shotgun metagenomic reads before plasmid sequence analysis.
+
+      '
+    candidates:
+    - fastqc
+  - operation: read_preprocessing
+    name: Read preprocessing
+    description: 'Remove adapters and low-quality sequence when required.
+
+      '
+    candidates:
+    - fastp
+    - cutadapt
+  - operation: metagenome_assembly
+    name: Metagenome assembly
+    description: 'Assemble metagenomic reads into contigs. Short-read assemblies may fragment plasmids, so predicted plasmid
+      sequences should be interpreted cautiously.
+
+      '
+    candidates:
+    - megahit
+    - metaspades
+  - operation: plasmid_detection
+    name: PlasX prerequisite workflow and classification
+    description: Generate the gene-content annotations required by PlasX and then classify contigs with the pretrained PlasX
+      model.
+    candidates:
+    - plasx_workflow
+virome_illumina_viral_abundance_contig:
+  name: Virome — viral-sequence abundance (contig/genome level)
+  description: Estimate abundance for the CheckV-processed viral sequence set without prior species-level dereplication. This
+    is useful when sequence-level abundance is desired, but multiple closely related contigs may represent the same biological
+    vOTU.
+  context:
+    sample_type: Virome
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: Viral abundance profiling
+  external_inputs:
+  - raw_paired_fastq
+  steps:
+  - operation: read_preprocessing
+    name: Read preprocessing
+    description: 'Quality-filter paired-end virome reads before assembly and abundance estimation.
+
+      '
+    candidates:
+    - fastp
+  - operation: metagenome_assembly
+    name: Virome assembly
+    description: 'Assemble quality-controlled reads into contigs.
+
+      '
+    candidates:
+    - megahit
+  - operation: viral_sequence_detection
+    name: Viral sequence detection
+    description: 'Identify candidate viral sequences in the assembled contigs.
+
+      '
+    candidates:
+    - genomad
+    - virsorter2
+  - operation: viral_genome_quality
+    name: Viral genome quality assessment
+    description: Assess viral quality/contamination and obtain CheckV-extracted viral/proviral sequences.
+    candidates:
+    - checkv
+  - operation: read_mapping
+    name: Viral read mapping
+    description: Map reads back to the CheckV-processed viral sequence set.
+    candidates:
+    - bowtie2
+  - operation: alignment_processing
+    name: Viral alignment processing
+    description: 'Convert read mappings to coordinate-sorted BAM format for abundance estimation.
+
+      '
+    candidates:
+    - samtools
+  - operation: viral_abundance_profiling
+    name: Viral abundance estimation
+    description: Estimate abundance/coverage for the individual viral sequences with CoverM.
+    candidates:
+    - coverm
+virome_illumina_viral_abundance_votu:
+  name: Virome — vOTU-level community abundance
+  description: Define species-level viral OTUs, select one representative viral genome/contig per vOTU, then map reads to
+    the dereplicated representative set and estimate abundance with CoverM. This is BioFlow's preferred interpretation when
+    the aim is community abundance at a vOTU-like level.
+  context:
+    sample_type: Virome
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: Viral abundance profiling
+  external_inputs:
+  - raw_paired_fastq
+  steps:
+  - operation: read_preprocessing
+    name: Read preprocessing
+    description: 'Quality-filter paired-end virome reads before assembly and abundance estimation.
+
+      '
+    candidates:
+    - fastp
+  - operation: metagenome_assembly
+    name: Virome assembly
+    description: 'Assemble quality-controlled reads into contigs.
+
+      '
+    candidates:
+    - megahit
+  - operation: viral_sequence_detection
+    name: Viral sequence detection
+    description: 'Identify candidate viral sequences in the assembled contigs.
+
+      '
+    candidates:
+    - genomad
+    - virsorter2
+  - operation: viral_genome_quality
+    name: Viral genome quality assessment
+    description: Assess viral quality/contamination and obtain CheckV-extracted viral/proviral sequences.
+    candidates:
+    - checkv
+  - operation: viral_votu_clustering
+    name: vOTU clustering and representative selection
+    description: Cluster CheckV-processed viral sequences with Vclust using an explicitly reported ANI/aligned-fraction criterion
+      and obtain a representative identifier for each vOTU.
+    candidates:
+    - vclust
+  - operation: sequence_selection
+    name: Extract vOTU representative sequences
+    description: Extract the representative viral sequences identified by Vclust to create the dereplicated vOTU reference
+      FASTA.
+    candidates:
+    - seqkit
+  - operation: read_mapping
+    name: Map reads to vOTU representatives
+    description: Map virome reads to the representative vOTU FASTA.
+    candidates:
+    - bowtie2
+  - operation: alignment_processing
+    name: Viral alignment processing
+    description: Sort and index the viral read alignments.
+    candidates:
+    - samtools
+  - operation: viral_abundance_profiling
+    name: vOTU abundance estimation
+    description: Estimate coverage/abundance for the dereplicated vOTU representative set with CoverM.
+    candidates:
+    - coverm
+metatranscriptome_illumina_functional_isolated:
+  name: Metatranscriptome — HUMAnN functional profiling (RNA-only)
+  description: HUMAnN functional profiling for an isolated metatranscriptome without matched metagenomic DNA. RNA reads can
+    be analyzed directly, but inferred transcript-family abundance remains confounded with underlying gene copy number and
+    community composition.
+  context:
+    sample_type: Metatranscriptome
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: Functional profiling
+  external_inputs:
+  - raw_paired_fastq
+  - host_reference_genome_fasta
+  - rrna_reference_database
+  steps:
+  - operation: host_read_removal
+    name: Host read removal
+    description: 'Remove reads derived from the host genome.
+
+      '
+    candidates:
+    - bowtie2
+  - operation: rrna_depletion_assessment
+    name: rRNA filtering
+    description: 'Remove residual ribosomal RNA reads and retain the non-rRNA fraction.
+
+      '
+    candidates:
+    - sortmerna
+  - operation: functional_profiling
+    name: RNA-only HUMAnN gene-family profiling
+    description: Profile microbial transcript/gene-family signal with HUMAnN. Interpret abundance as RNA-level signal, not
+      DNA-normalized expression per gene copy.
+    candidates:
+    - humann
+metatranscriptome_illumina_functional_dna_informed:
+  name: Metatranscriptome — HUMAnN functional profiling (paired-DNA informed)
+  description: Preferred HUMAnN route when a matched metagenome is available. Supply the corresponding DNA-derived taxonomic
+    profile to the RNA HUMAnN run via --taxonomic-profile so species pangenome recruitment is guided by the metagenome. If
+    matching DNA HUMAnN gene-family outputs are also available, downstream RNA/DNA normalization can estimate expression less
+    confounded by gene copy number.
+  context:
+    sample_type: Metatranscriptome
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: Functional profiling
+  external_inputs:
+  - raw_paired_fastq
+  - host_reference_genome_fasta
+  - rrna_reference_database
+  - matched_metagenome_taxonomic_profile
+  steps:
+  - operation: host_read_removal
+    name: Host read removal
+    description: 'Remove reads derived from the host genome.
+
+      '
+    candidates:
+    - bowtie2
+  - operation: rrna_depletion_assessment
+    name: rRNA filtering
+    description: 'Remove residual ribosomal RNA reads and retain the non-rRNA fraction.
+
+      '
+    candidates:
+    - sortmerna
+  - operation: functional_profiling
+    name: DNA-informed HUMAnN gene-family profiling
+    description: Run HUMAnN on RNA reads while supplying the matched metagenome-derived taxonomic profile.
+    candidates:
+    - humann
+metatranscriptome_illumina_pathways_isolated:
+  name: Metatranscriptome — HUMAnN pathway profiling (RNA-only)
+  description: HUMAnN pathway profiling from an isolated metatranscriptome. Pathway/transcript signal can be estimated directly
+    from RNA, but differences may reflect both transcriptional regulation and differences in underlying organism/gene abundance.
+  context:
+    sample_type: Metatranscriptome
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: Pathway analysis
+  external_inputs:
+  - raw_paired_fastq
+  - host_reference_genome_fasta
+  - rrna_reference_database
+  steps:
+  - operation: host_read_removal
+    name: Host read removal
+    description: 'Remove reads derived from the supplied host reference genome.
+
+      '
+    candidates:
+    - bowtie2
+  - operation: rrna_depletion_assessment
+    name: rRNA filtering
+    description: 'Remove residual rRNA reads before functional interpretation.
+
+      '
+    candidates:
+    - sortmerna
+  - operation: pathway_analysis
+    name: RNA-only HUMAnN pathway profiling
+    description: Estimate microbial pathway abundance/coverage from the metatranscriptomic RNA signal.
+    candidates:
+    - humann
+metatranscriptome_illumina_pathways_dna_informed:
+  name: Metatranscriptome — HUMAnN pathway profiling (paired-DNA informed)
+  description: HUMAnN pathway profiling with the matched matched metagenome-derived taxonomic profile supplied to the RNA
+    run. This improves taxonomic guidance of pangenome recruitment; matching DNA functional profiles can additionally support
+    RNA/DNA normalization outside this core route.
+  context:
+    sample_type: Metatranscriptome
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: Pathway analysis
+  external_inputs:
+  - raw_paired_fastq
+  - host_reference_genome_fasta
+  - rrna_reference_database
+  - matched_metagenome_taxonomic_profile
+  steps:
+  - operation: host_read_removal
+    name: Host read removal
+    description: 'Remove reads derived from the supplied host reference genome.
+
+      '
+    candidates:
+    - bowtie2
+  - operation: rrna_depletion_assessment
+    name: rRNA filtering
+    description: 'Remove residual rRNA reads before functional interpretation.
+
+      '
+    candidates:
+    - sortmerna
+  - operation: pathway_analysis
+    name: DNA-informed HUMAnN pathway profiling
+    description: Run HUMAnN pathway profiling on RNA while supplying the corresponding DNA-derived taxonomy.
+    candidates:
+    - humann
+metagenome_illumina_mag_single:
+  name: Metagenome — single-sample MAG reconstruction
+  context:
+    sample_type: Metagenome
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: MAG reconstruction
+    mag_strategy: single_sample
+  steps:
+  - operation: raw_read_qc
+    name: Raw read quality control
+    description: 'Inspect raw shotgun metagenomic reads for sequencing quality and possible technical artefacts.
+
+      '
+    candidates:
+    - fastqc
+  - operation: read_preprocessing
+    name: Read preprocessing
+    description: 'Perform adapter removal and quality filtering when indicated by raw-read quality assessment.
+
+      '
+    candidates:
+    - fastp
+    - cutadapt
+  - operation: metagenome_assembly
+    name: Metagenome assembly
+    description: 'Assemble short metagenomic reads into contigs. Multiple assemblers can be compared because performance may
+      depend on dataset complexity.
+
+      '
+    candidates:
+    - megahit
+    - metaspades
+  - operation: assembly_qc
+    name: Assembly quality control
+    description: 'Assess assembly statistics before abundance estimation and genome binning.
+
+      '
+    candidates:
+    - quast
+  - operation: read_mapping
+    name: Map the sample back to its assembly
+    candidates:
+    - bowtie2
+    description: Map the same sample's preprocessed reads back to the sample assembly for abundance/depth-aware binning.
+  - operation: alignment_processing
+    name: Alignment sorting and indexing
+    description: 'Convert the alignment into a coordinate-sorted BAM file and generate its BAM index.
+
+      '
+    candidates:
+    - samtools
+  - operation: coverage_estimation
+    name: Contig coverage estimation
+    description: Summarize contig depth from the coordinate-sorted BAM for abundance-aware binners.
+    candidates:
+    - jgi_depth
+  - operation: genome_binning
+    name: Independent MAG binning
+    description: 'Run multiple independent genome-binning algorithms. At least two successful binning methods are required
+      before consensus refinement with DAS Tool.
+
+      '
+    mode: parallel
+    min_successful_candidates: 2
+    aggregate_produces:
+    - multiple_mag_bin_sets
+    candidates:
+    - semibin2
+    - metabat2
+    - maxbin2
+    - concoct
+  - operation: bin_refinement
+    name: Consensus bin refinement
+    description: 'Integrate multiple independent binning results and select a refined consensus MAG collection.
+
+      '
+    candidates:
+    - dastool
+  - operation: mag_quality
+    name: MAG quality assessment
+    description: 'Estimate genome completeness and contamination for the refined MAG collection.
+
+      '
+    candidates:
+    - checkm2
+  - operation: mag_taxonomy
+    name: MAG taxonomic classification
+    description: Assign standardized genome taxonomy to quality-controlled MAGs. GTDB-Tk is the preferred standardized bacterial/archaeal
+      route. CAT/BAT and sourmash tax genome are curated methodological fallbacks when their own reference requirements are
+      satisfied. A non-bacterial/non-archaeal input is a workflow-scope mismatch and should not be solved by simply switching
+      tools.
+    candidates:
+    - gtdbtk
+    - catbat
+    - sourmash
+  description: Assemble one metagenomic sample, map that sample back to its assembly, derive depth information, run multiple
+    independent binners and refine the bin sets with DAS Tool before CheckM2 and GTDB-Tk.
+metagenome_illumina_mag_coassembly:
+  name: Metagenome — multi-sample coassembly MAG reconstruction
+  context:
+    sample_type: Metagenome
+    sequencing: Illumina
+    read_type: Paired-end
+    goal: MAG reconstruction
+    mag_strategy: coassembly
+  steps:
+  - operation: raw_read_qc
+    name: Raw read quality control
+    description: Assess read quality across all samples that will contribute to the coassembly.
+    candidates:
+    - fastqc
+  - operation: read_preprocessing
+    name: Read preprocessing
+    description: Preprocess the sample collection consistently before coassembly.
+    candidates:
+    - fastp
+    - cutadapt
+  - operation: metagenome_assembly
+    name: Metagenome coassembly
+    description: Run one coassembly across the selected sample collection. Only combine samples when that biological strategy
+      is justified; BioFlow does not assume all available samples should be coassembled.
+    candidates:
+    - megahit
+    - metaspades
+  - operation: assembly_qc
+    name: Assembly quality control
+    description: 'Assess assembly statistics before abundance estimation and genome binning.
+
+      '
+    candidates:
+    - quast
+  - operation: read_mapping
+    name: Map each sample back to the coassembly
+    candidates:
+    - bowtie2
+    description: Map each contributing sample separately to the same coassembly so sample-specific co-abundance information
+      is retained.
+  - operation: alignment_processing
+    name: Sort the per-sample alignments
+    description: Sort the mapping result for every sample, preserving one BAM per contributing sample.
+    candidates:
+    - samtools
+  - operation: coverage_estimation
+    name: Cross-sample contig depth
+    description: Run jgi_summarize_bam_contig_depths across the per-sample BAM collection to build a multi-sample coverage
+      matrix for the shared coassembly.
+    candidates:
+    - jgi_depth
+  - operation: genome_binning
+    name: Independent MAG binning
+    description: Run multiple independent binners on the same coassembly using the cross-sample abundance information where
+      supported. SemiBin2 can consume multiple BAMs directly; MetaBAT2/CONCOCT use the summarized coverage table; MaxBin2
+      can consume multiple read/abundance inputs.
+    mode: parallel
+    min_successful_candidates: 2
+    aggregate_produces:
+    - multiple_mag_bin_sets
+    candidates:
+    - semibin2
+    - metabat2
+    - maxbin2
+    - concoct
+  - operation: bin_refinement
+    name: Consensus bin refinement
+    description: 'Integrate multiple independent binning results and select a refined consensus MAG collection.
+
+      '
+    candidates:
+    - dastool
+  - operation: mag_quality
+    name: MAG quality assessment
+    description: 'Estimate genome completeness and contamination for the refined MAG collection.
+
+      '
+    candidates:
+    - checkm2
+  - operation: mag_taxonomy
+    name: MAG taxonomic classification
+    description: Assign standardized genome taxonomy to quality-controlled MAGs. GTDB-Tk is the preferred standardized bacterial/archaeal
+      route. CAT/BAT and sourmash tax genome are curated methodological fallbacks when their own reference requirements are
+      satisfied. A non-bacterial/non-archaeal input is a workflow-scope mismatch and should not be solved by simply switching
+      tools.
+    candidates:
+    - gtdbtk
+    - catbat
+    - sourmash
+  description: Coassemble two or more biologically compatible metagenomic samples, map every contributing sample back to the
+    shared coassembly, preserve sample-specific coverage across multiple BAMs, run multiple independent binners and refine
+    the resulting bin sets before quality assessment and taxonomy.
+  external_inputs:
+  - raw_paired_fastq_collection

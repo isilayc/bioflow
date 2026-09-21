@@ -1,0 +1,323 @@
+bacterial_isolate:
+
+  sample_type: Bacterial isolate
+
+  label: Bacterial isolate
+
+  description: >
+    Genome-scale characterization of cultured
+    bacterial isolates using short-read,
+    long-read or hybrid sequencing data.
+
+  goals:
+
+    - id: whole_genome_characterization
+      label: Whole genome characterization
+      priority: core
+
+    - id: hybrid_genome_assembly
+      label: Hybrid genome assembly
+      priority: core
+
+    - id: variant_analysis
+      label: Variant analysis
+      priority: core
+
+    - id: species_identification
+      label: Species identification
+      priority: core
+
+    - id: mlst
+      label: MLST / strain typing
+      priority: core
+
+    - id: amr_detection
+      label: Antimicrobial resistance detection
+      priority: core
+
+    - id: virulence_profiling
+      label: Virulence profiling
+      priority: core
+
+    - id: plasmid_detection
+      label: Plasmid detection
+      priority: core
+
+    - id: prophage_detection
+      label: Prophage detection
+      priority: extended
+
+    - id: pangenome_analysis
+      label: Pangenome analysis
+      priority: extended
+
+    - id: phylogenomics
+      label: Phylogenomics
+      priority: extended
+
+
+eukaryotic_genome:
+
+  sample_type: Eukaryotic genome
+
+  label: Eukaryotic genome
+
+  description: >
+    Assembly, annotation and variant analysis
+    of eukaryotic genomes.
+
+  goals:
+
+    - id: genome_assembly
+      label: Genome assembly
+      priority: core
+
+    - id: hybrid_genome_assembly
+      label: Hybrid genome assembly
+      priority: core
+
+    - id: genome_quality_assessment
+      label: Genome quality assessment
+      priority: core
+
+    - id: repeat_annotation
+      label: Repeat annotation
+      priority: core
+
+    - id: gene_prediction
+      label: Gene prediction
+      priority: core
+
+    - id: functional_annotation
+      label: Functional annotation
+      priority: core
+
+    - id: variant_analysis
+      label: Variant analysis
+      priority: core
+
+    - id: genome_comparison
+      label: Comparative genomics
+      priority: extended
+
+
+metagenome:
+
+  sample_type: Metagenome
+
+  label: Shotgun metagenome
+
+  description: >
+    Taxonomic, functional and genome-resolved
+    analysis of mixed-community shotgun sequencing.
+
+  goals:
+
+    - id: taxonomic_profiling
+      label: Taxonomic profiling
+      priority: core
+
+    - id: mag_reconstruction
+      label: MAG reconstruction
+      priority: core
+
+    - id: functional_profiling
+      label: Functional profiling
+      priority: core
+
+    - id: pathway_analysis
+      label: Pathway analysis
+      priority: core
+
+    - id: resistome
+      label: Antibiotic resistance profiling
+      priority: core
+
+    - id: virulome
+      label: Virulence profiling
+      priority: core
+
+    - id: viral_analysis
+      label: Viral analysis
+      priority: core
+
+    - id: plasmid_analysis
+      label: Plasmid analysis
+      priority: extended
+
+    - id: strain_phylogenomics
+      label: Strain-level phylogenomics
+      priority: extended
+
+    - id: microdiversity_profiling
+      label: Microdiversity profiling
+      priority: extended
+
+
+virome:
+
+  sample_type: Virome
+
+  label: Virome / viral metagenome
+
+  description: >
+    Detection, characterization and ecological
+    interpretation of viruses in metagenomic data.
+
+  goals:
+
+    - id: viral_detection
+      label: Viral sequence detection
+      priority: core
+
+    - id: viral_quality
+      label: Viral genome quality assessment
+      priority: core
+
+    - id: viral_taxonomy
+      label: Viral taxonomy
+      priority: core
+
+    - id: viral_abundance
+      label: Viral abundance profiling
+      priority: core
+
+    - id: viral_host_prediction
+      label: Viral host prediction
+      priority: core
+
+    - id: viral_clustering
+      label: Viral clustering / vOTU analysis
+      priority: core
+
+    - id: viral_function
+      label: Viral functional annotation
+      priority: core
+
+    - id: auxiliary_metabolic_genes
+      label: Auxiliary metabolic gene analysis
+      priority: extended
+
+
+amplicon:
+
+  sample_type: Amplicon
+
+  label: Amplicon sequencing
+
+  description: >
+    Marker-gene analysis including bacterial,
+    eukaryotic and fungal community profiling.
+
+  goals:
+
+    - id: 16s_analysis
+      label: 16S rRNA analysis
+      priority: core
+
+    - id: 18s_analysis
+      label: 18S rRNA analysis
+      priority: core
+
+    - id: its_analysis
+      label: ITS analysis
+      priority: core
+
+    - id: asv_inference
+      label: ASV inference
+      priority: core
+
+    - id: taxonomy
+      label: Taxonomic assignment
+      priority: core
+
+    - id: alpha_diversity
+      label: Alpha diversity
+      priority: core
+
+    - id: beta_diversity
+      label: Beta diversity
+      priority: core
+
+    - id: differential_abundance
+      label: Differential abundance
+      priority: extended
+
+
+bulk_transcriptome:
+
+  sample_type: Bulk transcriptome
+
+  label: Bulk transcriptome
+
+  description: >
+    RNA-seq analysis for transcript abundance,
+    differential expression and functional
+    interpretation.
+
+  goals:
+
+    - id: differential_expression
+      label: Differential expression
+      priority: core
+
+    - id: alignment_based_rnaseq
+      label: Alignment-based RNA-seq
+      priority: core
+
+    - id: pseudoalignment
+      label: Pseudoalignment / lightweight quantification
+      priority: core
+
+    - id: transcript_assembly
+      label: Transcript assembly
+      priority: core
+
+    - id: functional_enrichment
+      label: Functional enrichment
+      priority: core
+
+    - id: pathway_analysis
+      label: Pathway analysis
+      priority: core
+
+    - id: alternative_splicing
+      label: Alternative splicing
+      priority: extended
+
+
+metatranscriptome:
+
+  sample_type: Metatranscriptome
+
+  label: Metatranscriptome
+
+  description: >
+    Taxonomic and functional analysis of RNA
+    expression in mixed microbial communities.
+
+  goals:
+
+    - id: host_removal
+      label: Host read removal
+      priority: core
+
+    - id: rrna_assessment
+      label: rRNA depletion assessment
+      priority: core
+
+    - id: taxonomic_profiling
+      label: Taxonomic profiling
+      priority: core
+
+    - id: functional_profiling
+      label: Functional profiling
+      priority: core
+
+    - id: pathway_analysis
+      label: Pathway analysis
+      priority: core
+
+    - id: differential_expression
+      label: Differential expression
+      priority: core

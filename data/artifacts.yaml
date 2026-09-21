@@ -1,0 +1,435 @@
+paired_fastq:
+  label: Paired-end FASTQ
+single_fastq:
+  label: Single-end FASTQ
+long_fastq:
+  label: Long-read FASTQ
+raw_paired_fastq:
+  label: Raw paired-end FASTQ
+  provides:
+  - paired_fastq
+raw_single_fastq:
+  label: Raw single-end FASTQ
+  provides:
+  - single_fastq
+raw_long_fastq:
+  label: Raw long-read FASTQ
+  provides:
+  - long_fastq
+cleaned_paired_fastq:
+  label: Preprocessed paired-end FASTQ
+  provides:
+  - paired_fastq
+cleaned_single_fastq:
+  label: Preprocessed single-end FASTQ
+  provides:
+  - single_fastq
+cleaned_long_fastq:
+  label: Preprocessed long-read FASTQ
+  provides:
+  - long_fastq
+qc_report:
+  label: Read quality-control report
+fasta_sequence:
+  label: FASTA sequence
+genome_fasta:
+  label: Genome assembly FASTA
+  provides:
+  - fasta_sequence
+reference_genome_fasta:
+  label: Reference genome FASTA
+  provides:
+  - fasta_sequence
+metagenome_contigs_fasta:
+  label: Metagenome contig FASTA
+  provides:
+  - fasta_sequence
+viral_fasta:
+  label: Viral sequence FASTA
+  provides:
+  - fasta_sequence
+plasmid_fasta:
+  label: Plasmid sequence FASTA
+  provides:
+  - fasta_sequence
+protein_fasta:
+  label: Protein FASTA
+annotated_genome_gff:
+  label: Annotated genome GFF/GFF3
+annotated_genome_genbank:
+  label: Annotated genome GenBank
+assembly_qc_report:
+  label: Assembly quality report
+mapped_reads_bam:
+  label: Mapped reads BAM
+coverage_table:
+  label: Contig coverage/depth table
+vcf:
+  label: Variant call VCF
+taxonomic_profile:
+  label: Taxonomic profile
+functional_profile:
+  label: Functional profile
+pathway_profile:
+  label: Pathway abundance profile
+arg_profile:
+  label: Antimicrobial resistance profile
+virulence_profile:
+  label: Virulence profile
+mlst_profile:
+  label: MLST allele / sequence-type profile
+mag_bins:
+  label: MAG bins
+multiple_mag_bin_sets:
+  label: Multiple independent MAG bin sets
+refined_mag_bins:
+  label: Refined MAG collection
+  provides:
+  - mag_bins
+mag_quality_report:
+  label: MAG quality report
+genome_taxonomy:
+  label: Genome taxonomy
+viral_quality_report:
+  label: Viral genome quality report
+strain_profile:
+  label: Strain-level profile
+metaphlan_sam:
+  label: MetaPhlAn marker mapping SAM
+strainphlan_consensus_markers:
+  label: StrainPhlAn reconstructed consensus markers
+strainphlan_result:
+  label: StrainPhlAn strain-level phylogenomic result
+core_genome_alignment:
+  label: Core-genome alignment
+phylogenetic_tree:
+  label: Phylogenetic tree
+pangenome_result:
+  label: Pangenome result
+plasmid_prediction:
+  label: Plasmid prediction
+prophage_prediction:
+  label: Prophage prediction
+mapped_reads_sam:
+  label: Mapped reads SAM
+sorted_mapped_reads_bam:
+  label: Sorted mapped reads BAM
+  provides:
+  - mapped_reads_bam
+bam_index:
+  label: BAM index
+amplicon_fastq:
+  label: Amplicon sequencing FASTQ
+  provides:
+  - paired_fastq
+primer_trimmed_fastq:
+  label: Primer-trimmed amplicon FASTQ
+  provides:
+  - paired_fastq
+asv_table:
+  label: ASV feature table
+  provides:
+  - amplicon_feature_table
+otu_table:
+  label: OTU feature table
+  provides:
+  - amplicon_feature_table
+representative_sequences:
+  label: Representative amplicon sequences
+  provides:
+  - fasta_sequence
+amplicon_taxonomy:
+  label: Amplicon taxonomic assignments
+sample_metadata:
+  label: Sample metadata table
+phylogenetic_tree_amplicon:
+  label: Amplicon phylogenetic tree
+alpha_diversity_results:
+  label: Alpha diversity results
+beta_diversity_results:
+  label: Beta diversity results
+ordination_results:
+  label: Ordination results
+differential_abundance_results:
+  label: Differential abundance results
+taxonomy_reference_database:
+  label: Taxonomic reference database
+trained_taxonomy_classifier:
+  label: Trained amplicon taxonomy classifier
+analysis_design:
+  label: Statistical analysis design
+rna_fastq:
+  label: RNA-seq FASTQ
+  provides:
+  - paired_fastq
+gene_annotation_gtf:
+  label: Gene annotation GTF/GFF
+transcriptome_fasta:
+  label: Reference transcriptome FASTA
+  provides:
+  - fasta_sequence
+rna_alignment_sam:
+  label: RNA-seq alignment SAM
+sorted_rna_bam:
+  label: Sorted RNA-seq BAM
+  provides:
+  - mapped_reads_bam
+gene_count_matrix:
+  label: Gene-level count matrix
+transcript_count_matrix:
+  label: Transcript-level count matrix
+transcript_abundance:
+  label: Transcript abundance estimates
+gene_abundance:
+  label: Gene abundance estimates
+differential_expression_results:
+  label: Differential expression results
+significant_gene_list:
+  label: Significant gene list
+transcript_assembly_gtf:
+  label: Reconstructed transcript annotation GTF
+splice_event_results:
+  label: Alternative splicing results
+functional_enrichment_results:
+  label: Functional enrichment results
+pathway_enrichment_results:
+  label: Pathway enrichment results
+gene_identifier_mapping:
+  label: Gene identifier mapping
+star_genome_index:
+  label: STAR genome index
+hisat2_genome_index:
+  label: HISAT2 genome index
+salmon_transcriptome_index:
+  label: Salmon transcriptome index
+kallisto_transcriptome_index:
+  label: kallisto transcriptome index
+transcript_to_gene_mapping:
+  label: Transcript-to-gene mapping table
+rna_fastq_collection:
+  label: RNA-seq FASTQ sample collection
+rna_alignment_sam_collection:
+  label: RNA-seq SAM alignment collection
+sorted_rna_bam_collection:
+  label: Sorted RNA-seq BAM sample collection
+ranked_gene_list:
+  label: Ranked gene list
+gene_set_database:
+  label: Functional gene-set database
+pathway_gene_sets:
+  label: Pathway gene-set collection
+paired_fastq_collection:
+  label: Paired-end FASTQ sample collection
+raw_paired_fastq_collection:
+  label: Raw paired-end FASTQ sample collection
+  provides:
+  - paired_fastq_collection
+cleaned_paired_fastq_collection:
+  label: Preprocessed paired-end FASTQ sample collection
+  provides:
+  - paired_fastq_collection
+qc_report_collection:
+  label: QC report collection
+genome_fasta_collection:
+  label: Genome FASTA collection
+annotated_genome_gff_collection:
+  label: Annotated genome GFF collection
+assembly_qc_report_collection:
+  label: Assembly QC report collection
+viral_contigs_fasta:
+  label: Predicted viral contigs FASTA
+  provides:
+  - viral_fasta
+  - fasta_sequence
+viral_taxonomy:
+  label: Viral taxonomic assignments
+viral_abundance_table:
+  label: Viral abundance table
+viral_host_predictions:
+  label: Virus-host prediction results
+viral_cluster_membership:
+  label: Viral cluster / vOTU membership table
+viral_protein_fasta:
+  label: Viral protein FASTA
+  provides:
+  - protein_fasta
+viral_functional_annotation:
+  label: Viral functional annotation
+auxiliary_metabolic_gene_results:
+  label: Auxiliary metabolic gene predictions
+viral_reference_database:
+  label: Viral reference database
+host_genome_collection:
+  label: Candidate host genome collection
+viral_read_mapping_bam:
+  label: Viral read-mapping BAM
+viral_coverage_table:
+  label: Viral contig coverage table
+iphop_database:
+  label: iPHoP host prediction database
+viral_ani_table:
+  label: Viral pairwise ANI table
+eggnog_database:
+  label: eggNOG functional annotation database
+dramv_database:
+  label: DRAM-v annotation database
+dramv_prepared_viral_fasta:
+  label: DRAM-v prepared viral sequences
+  provides:
+  - viral_fasta
+virsorter2_dramv_metadata:
+  label: VirSorter2 DRAM-v preparation metadata
+viral_gene_annotation_gff:
+  label: Viral gene prediction GFF
+eukaryotic_genome_fasta:
+  label: Eukaryotic genome assembly FASTA
+  provides:
+  - genome_fasta
+  - fasta_sequence
+masked_eukaryotic_genome_fasta:
+  label: Repeat-masked eukaryotic genome FASTA
+  provides:
+  - fasta_sequence
+repeat_library:
+  label: Species-specific repeat library
+repeat_annotation_gff:
+  label: Repeat annotation GFF
+busco_lineage_database:
+  label: BUSCO lineage dataset
+genome_completeness_report:
+  label: Genome completeness assessment report
+eukaryotic_gene_annotation_gff:
+  label: Predicted eukaryotic gene annotation GFF
+eukaryotic_protein_fasta:
+  label: Predicted eukaryotic proteins FASTA
+  provides:
+  - protein_fasta
+protein_evidence_fasta:
+  label: Protein evidence FASTA
+  provides:
+  - protein_fasta
+functional_annotation_table:
+  label: Functional annotation table
+orthology_database:
+  label: Orthology reference database
+whole_genome_alignment:
+  label: Whole-genome alignment
+synteny_results:
+  label: Comparative synteny results
+comparative_genomics_results:
+  label: Comparative genomics results
+eukaryotic_genome_collection:
+  label: Eukaryotic genome FASTA collection
+augustus_species_model:
+  label: AUGUSTUS species model
+host_reference_genome_fasta:
+  label: Host reference genome FASTA
+  provides:
+  - reference_genome_fasta
+  - fasta_sequence
+host_depleted_paired_fastq:
+  label: Host-depleted paired-end FASTQ
+  provides:
+  - paired_fastq
+rrna_content_report:
+  label: rRNA content assessment report
+non_rrna_paired_fastq:
+  label: Non-rRNA paired-end FASTQ
+  provides:
+  - paired_fastq
+metatranscriptome_feature_table:
+  label: Metatranscriptome feature count table
+metatranscriptome_gene_family_table:
+  label: Metatranscriptome gene-family abundance table
+metatranscriptome_pathway_table:
+  label: Metatranscriptome pathway abundance table
+rrna_reference_database:
+  label: rRNA reference database
+host_depleted_paired_fastq_collection:
+  label: Host-depleted paired-end FASTQ sample collection
+  provides:
+  - paired_fastq_collection
+non_rrna_paired_fastq_collection:
+  label: Non-rRNA paired-end FASTQ sample collection
+  provides:
+  - paired_fastq_collection
+metatranscriptome_reference_fasta:
+  label: Metatranscriptome reference sequence catalogue FASTA
+  provides:
+  - fasta_sequence
+metatranscriptome_gene_annotation_gff:
+  label: Metatranscriptome reference gene annotation GFF
+metatranscriptome_alignment_sam_collection:
+  label: Metatranscriptome SAM alignment collection
+sorted_metatranscriptome_bam_collection:
+  label: Sorted metatranscriptome BAM collection
+metatranscriptome_count_matrix:
+  label: Metatranscriptome raw gene count matrix
+amplicon_feature_table:
+  label: Amplicon feature abundance table
+motu_table:
+  label: MOTU / denoised sequence feature table
+  provides:
+  - amplicon_feature_table
+amplicon_multifasta_collection:
+  label: Per-sample amplicon Multi-FASTA collection
+amplicon_analysis_report:
+  label: Amplicon analysis report
+reference_genome_collection:
+  label: Reference genome FASTA collection
+ani_comparison_results:
+  label: ANI comparison results
+plasmid_replicon_report:
+  label: Plasmid replicon screening report
+plasmid_typing_report:
+  label: Plasmid reconstruction / typing report
+representative_genome_database_fasta:
+  label: Competitive representative-genome database FASTA
+  provides:
+  - fasta_sequence
+metaphlan_mapout_collection:
+  label: MetaPhlAn marker-mapping output collection
+taxonomic_profile_collection:
+  label: Taxonomic profile collection
+strainphlan_consensus_markers_collection:
+  label: StrainPhlAn consensus-marker collection
+plasx_gene_annotations:
+  label: PlasX-required gene/COG/Pfam annotations
+plasx_denovo_gene_families:
+  label: PlasX de novo gene-family annotations
+checkv_processed_viral_fasta:
+  label: CheckV-extracted viral/proviral sequences
+  provides:
+  - viral_fasta
+  - fasta_sequence
+votu_representative_ids:
+  label: Representative vOTU sequence identifiers
+votu_representative_fasta:
+  label: Representative vOTU genome FASTA
+  provides:
+  - viral_fasta
+  - fasta_sequence
+reference_eukaryotic_genome_fasta:
+  label: Reference chromosome-level eukaryotic assembly
+  provides:
+  - eukaryotic_genome_fasta
+  - genome_fasta
+  - fasta_sequence
+query_eukaryotic_genome_fasta:
+  label: Query chromosome-level eukaryotic assembly
+  provides:
+  - eukaryotic_genome_fasta
+  - genome_fasta
+  - fasta_sequence
+mapped_reads_sam_collection:
+  label: Mapped-read SAM collection
+sorted_mapped_reads_bam_collection:
+  label: Sorted mapped-read BAM collection
+coassembly_coverage_table:
+  label: Cross-sample contig coverage/depth table
+  provides:
+  - coverage_table
+matched_metagenome_taxonomic_profile:
+  label: Matched metagenome-derived taxonomic profile
+  provides:
+  - taxonomic_profile

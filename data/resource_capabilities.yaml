@@ -1,0 +1,741 @@
+dada2:
+  name: DADA2
+  aliases:
+  - DADA2
+  - dada2
+  - DADA2 assignTaxonomy
+  - DADA2 taxonomy
+  - DADA2 taxonomy assignment
+  resource_type: package
+  scope: step_and_workflow
+  feature_strategies:
+  - asv
+  markers:
+  - 16S
+  - 18S
+  - ITS
+  - any
+  operations:
+  - asv_inference
+  - taxonomy_assignment
+  sequencing:
+  - Illumina
+  read_types:
+  - Paired-end
+  - Single-end
+  components:
+    asv_inference: DADA2 denoising/inference
+    taxonomy_assignment: assignTaxonomy / assignSpecies
+  notes:
+  - DADA2 is an ASV method, not an OTU-clustering method.
+  - Taxonomic assignment can be performed directly with DADA2 using an appropriately formatted training reference.
+  evidence_urls:
+  - https://benjjneb.github.io/dada2/
+  - https://benjjneb.github.io/dada2/training.html
+  operation_profiles:
+    asv_inference:
+      feature_strategies:
+      - asv
+      scope: step
+    taxonomy_assignment:
+      feature_strategies:
+      - asv
+      - otu
+      - motu
+      scope: step
+      display_name: DADA2 assignTaxonomy
+qiime2:
+  name: QIIME 2
+  aliases:
+  - QIIME 2
+  - QIIME2
+  - QIIME
+  - QIIME 2 feature-classifier
+  - q2-feature-classifier
+  resource_type: framework
+  scope: framework
+  feature_strategies:
+  - asv
+  - otu
+  markers:
+  - 16S
+  - 18S
+  - ITS
+  - any
+  operations:
+  - primer_trimming
+  - asv_inference
+  - otu_clustering
+  - taxonomy_assignment
+  - alpha_diversity
+  - beta_diversity
+  - differential_abundance
+  - amplicon_end_to_end
+  sequencing:
+  - Illumina
+  - any
+  read_types:
+  - Paired-end
+  - Single-end
+  - any
+  components:
+    asv_inference: q2-dada2 or q2-deblur
+    otu_clustering: q2-vsearch (dereplication followed by clustering)
+    taxonomy_assignment: q2-feature-classifier
+  notes:
+  - QIIME 2 is a framework, not one algorithm.
+  - OTU clustering is supported through q2-vsearch.
+  - Generic QIIME 2 should not be presented as a drop-in replacement for a specific workflow step; the relevant plugin should
+    be named.
+  evidence_urls:
+  - https://amplicon-docs.qiime2.org/en/stable/how-to-guides/cluster-reads-into-otus/
+  - https://library.qiime2.org/plugins/qiime2/q2-feature-classifier/overview
+  operation_profiles:
+    primer_trimming:
+      feature_strategies:
+      - asv
+      - otu
+      scope: framework
+    asv_inference:
+      feature_strategies:
+      - asv
+      scope: framework
+    otu_clustering:
+      feature_strategies:
+      - asv
+      - otu
+      scope: framework
+    taxonomy_assignment:
+      feature_strategies:
+      - asv
+      - otu
+      scope: framework
+    alpha_diversity:
+      feature_strategies:
+      - asv
+      - otu
+      scope: framework
+    beta_diversity:
+      feature_strategies:
+      - asv
+      - otu
+      scope: framework
+    differential_abundance:
+      feature_strategies:
+      - asv
+      - otu
+      scope: framework
+    amplicon_end_to_end:
+      feature_strategies:
+      - asv
+      - otu
+      scope: framework
+qiime2_vsearch:
+  name: QIIME 2 q2-vsearch OTU workflow
+  aliases:
+  - q2-vsearch
+  - QIIME 2 vsearch
+  - QIIME2 vsearch
+  resource_type: framework_component
+  scope: multi_step
+  feature_strategies:
+  - otu
+  markers:
+  - 16S
+  - 18S
+  - ITS
+  - any
+  operations:
+  - otu_clustering
+  sequencing:
+  - Illumina
+  - any
+  read_types:
+  - Paired-end
+  - Single-end
+  - any
+  requirements:
+  - QIIME 2 OTU clustering requires a feature table plus representative sequences; paired reads must be prepared/merged
+    and sequences dereplicated before clustering.
+  notes:
+  - This is a valid OTU route, but it is a multi-step q2-vsearch workflow rather than a single raw-read clustering command.
+  evidence_urls:
+  - https://library.qiime2.org/plugins/qiime2/q2-vsearch/overview
+  - https://amplicon-docs.qiime2.org/en/stable/how-to-guides/cluster-reads-into-otus/
+  operation_profiles:
+    otu_clustering:
+      feature_strategies:
+      - otu
+      scope: multi_step
+silvangs:
+  name: SILVAngs
+  aliases:
+  - SILVAngs
+  - SILVA NGS
+  - SILVA-NGS
+  resource_type: web_service
+  scope: end_to_end
+  feature_strategies:
+  - otu
+  markers:
+  - 16S
+  - 18S
+  operations:
+  - otu_clustering
+  - taxonomy_assignment
+  - amplicon_end_to_end
+  sequencing:
+  - Illumina
+  - any
+  read_types:
+  - preprocessed_fasta
+  input_formats:
+  - FASTA
+  requirements:
+  - Input is Multi-FASTA; paired-end assembly/demultiplexing must be handled before upload.
+  - The SILVAngs workflow dereplicates, clusters at a user-defined OTU threshold and classifies OTUs/reads.
+  notes:
+  - SILVAngs is an OTU-based end-to-end rDNA analysis service.
+  - It must not be recommended as an ASV taxonomy-assignment step after DADA2.
+  - It is best represented as an alternative whole OTU workflow/service.
+  evidence_urls:
+  - https://www.arb-silva.de/fileadmin/silva_databases/sngs/SILVAngs_User_Guide.pdf
+  - https://www.arb-silva.de/documentation/silvangs/userfaq/
+  operation_profiles:
+    otu_clustering:
+      feature_strategies:
+      - otu
+      scope: end_to_end
+    taxonomy_assignment:
+      feature_strategies:
+      - otu
+      scope: end_to_end
+    amplicon_end_to_end:
+      feature_strategies:
+      - otu
+      scope: end_to_end
+obitools4:
+  name: OBITools4
+  aliases:
+  - OBITools4
+  - OBITools
+  - OBItools
+  resource_type: toolkit
+  scope: composable_workflow
+  feature_strategies:
+  - motu
+  markers:
+  - 16S
+  - 18S
+  - ITS
+  - COI
+  - any
+  operations:
+  - paired_read_merging
+  - dereplication
+  - pcr_aware_denoising
+  - taxonomy_assignment
+  - amplicon_end_to_end
+  sequencing:
+  - Illumina
+  - any
+  read_types:
+  - Paired-end
+  - Single-end
+  - any
+  components:
+    paired_read_merging: obipairing
+    dereplication: obiuniq
+    pcr_aware_denoising: obiclean
+    taxonomy_assignment: obitag
+  notes:
+  - OBITools4 is a toolkit for composing DNA metabarcoding workflows, not a fixed ASV or classical percent-identity OTU
+    pipeline.
+  - obiclean performs PCR-aware denoising/clustering and reports MOTU-like sequence groups.
+  - obitag performs reference-based taxonomic assignment.
+  evidence_urls:
+  - https://obitools4.metabarcoding.org/
+  - https://obitools4.metabarcoding.org/obitools/obiclean/
+  - https://obitools4.metabarcoding.org/obitools/obitag/
+  operation_profiles:
+    paired_read_merging:
+      feature_strategies:
+      - motu
+      scope: composable_workflow
+    dereplication:
+      feature_strategies:
+      - motu
+      scope: composable_workflow
+    pcr_aware_denoising:
+      feature_strategies:
+      - motu
+      scope: composable_workflow
+    taxonomy_assignment:
+      feature_strategies:
+      - motu
+      scope: composable_workflow
+    amplicon_end_to_end:
+      feature_strategies:
+      - motu
+      scope: composable_workflow
+mothur:
+  name: mothur
+  aliases:
+  - mothur
+  - Mothur
+  - mothur classify.seqs
+  - mothur taxonomy
+  resource_type: framework
+  scope: step_and_workflow
+  feature_strategies:
+  - otu
+  markers:
+  - 16S
+  - 18S
+  - ITS
+  operations:
+  - otu_clustering
+  - taxonomy_assignment
+  - amplicon_end_to_end
+  sequencing:
+  - Illumina
+  - any
+  read_types:
+  - Paired-end
+  - Single-end
+  - any
+  components:
+    otu_clustering: cluster / cluster.split / OptiClust
+    taxonomy_assignment: classify.seqs / classify.otu
+  notes:
+  - mothur provides an integrated OTU-oriented amplicon workflow and taxonomy classification.
+  evidence_urls:
+  - https://mothur.org/wiki/miseq_sop/
+  - https://mothur.org/wiki/classify.seqs/
+  operation_profiles:
+    otu_clustering:
+      feature_strategies:
+      - otu
+      scope: step_and_workflow
+    taxonomy_assignment:
+      feature_strategies:
+      - asv
+      - otu
+      scope: step_and_workflow
+      display_name: mothur classify.seqs
+    amplicon_end_to_end:
+      feature_strategies:
+      - otu
+      scope: step_and_workflow
+vsearch:
+  name: VSEARCH
+  aliases:
+  - VSEARCH
+  - vsearch
+  - VSEARCH SINTAX
+  - VSEARCH taxonomy
+  resource_type: software_tool
+  scope: step_and_workflow
+  feature_strategies:
+  - otu
+  markers:
+  - 16S
+  - 18S
+  - ITS
+  operations:
+  - otu_clustering
+  - taxonomy_assignment
+  - amplicon_end_to_end
+  sequencing:
+  - Illumina
+  - any
+  read_types:
+  - Paired-end
+  - Single-end
+  - any
+  components:
+    otu_clustering: dereplication/clustering commands
+    taxonomy_assignment: SINTAX / global search
+  notes:
+  - VSEARCH supports dereplication, clustering, chimera detection and amplicon taxonomic classification.
+  evidence_urls:
+  - https://github.com/torognes/vsearch
+  - https://github.com/torognes/vsearch/blob/master/man/vsearch.1
+  operation_profiles:
+    otu_clustering:
+      feature_strategies:
+      - otu
+      scope: step_and_workflow
+    taxonomy_assignment:
+      feature_strategies:
+      - asv
+      - otu
+      scope: step_and_workflow
+      display_name: VSEARCH SINTAX
+    amplicon_end_to_end:
+      feature_strategies:
+      - otu
+      scope: step_and_workflow
+swarm:
+  name: Swarm
+  aliases:
+  - Swarm
+  - swarm
+  resource_type: software_tool
+  scope: step
+  feature_strategies:
+  - otu
+  markers:
+  - 16S
+  - 18S
+  - ITS
+  - any
+  operations:
+  - otu_clustering
+  sequencing:
+  - Illumina
+  - any
+  read_types:
+  - dereplicated_fasta
+  requirements:
+  - Swarm expects dereplicated amplicon sequences with abundance information.
+  notes:
+  - Swarm is an OTU/MOTU clustering method based on a local linking threshold rather than one arbitrary global percent-identity
+    threshold.
+  evidence_urls:
+  - https://github.com/torognes/swarm
+  operation_profiles:
+    otu_clustering:
+      feature_strategies:
+      - otu
+      scope: step
+deblur:
+  name: Deblur
+  aliases:
+  - Deblur
+  - deblur
+  - q2-deblur
+  resource_type: software_tool
+  scope: step
+  feature_strategies:
+  - asv
+  markers:
+  - 16S
+  - 18S
+  - any
+  operations:
+  - asv_inference
+  sequencing:
+  - Illumina
+  read_types:
+  - Single-end
+  - Joined
+  requirements:
+  - Deblur is effectively single-end; paired-end reads must be joined first if both reads are to be used.
+  notes:
+  - Deblur is a valid ASV-like denoising alternative, but not a direct replacement for DADA2 on unmerged paired-end reads.
+  evidence_urls:
+  - https://library.qiime2.org/plugins/qiime2/q2-deblur/overview
+  operation_profiles:
+    asv_inference:
+      feature_strategies:
+      - asv
+      scope: step
+nfcore_ampliseq:
+  name: nf-core/ampliseq
+  aliases:
+  - nf-core/ampliseq
+  - ampliseq
+  resource_type: workflow
+  scope: end_to_end
+  feature_strategies:
+  - asv
+  markers:
+  - 16S
+  - 18S
+  - ITS
+  - COI
+  - any
+  operations:
+  - primer_trimming
+  - asv_inference
+  - taxonomy_assignment
+  - alpha_diversity
+  - beta_diversity
+  - differential_abundance
+  - amplicon_end_to_end
+  sequencing:
+  - Illumina
+  - PacBio
+  - IonTorrent
+  - Nanopore
+  read_types:
+  - Paired-end
+  - Single-end
+  - any
+  notes:
+  - nf-core/ampliseq is an end-to-end amplicon workflow using DADA2 for ASV inference and supports multiple taxonomy methods.
+  evidence_urls:
+  - https://nf-co.re/ampliseq/latest/
+  - https://nf-co.re/ampliseq/latest/docs/output/
+  operation_profiles:
+    primer_trimming:
+      feature_strategies:
+      - asv
+      scope: end_to_end
+    asv_inference:
+      feature_strategies:
+      - asv
+      scope: end_to_end
+    taxonomy_assignment:
+      feature_strategies:
+      - asv
+      scope: end_to_end
+    alpha_diversity:
+      feature_strategies:
+      - asv
+      scope: end_to_end
+    beta_diversity:
+      feature_strategies:
+      - asv
+      scope: end_to_end
+    differential_abundance:
+      feature_strategies:
+      - asv
+      scope: end_to_end
+    amplicon_end_to_end:
+      feature_strategies:
+      - asv
+      scope: end_to_end
+decipher_idtaxa:
+  name: DECIPHER IdTaxa
+  aliases:
+  - DECIPHER
+  - IdTaxa
+  - DECIPHER IdTaxa
+  resource_type: package_component
+  scope: step
+  feature_strategies:
+  - asv
+  - otu
+  - motu
+  markers:
+  - 16S
+  - 18S
+  - ITS
+  - any
+  operations:
+  - taxonomy_assignment
+  sequencing:
+  - any
+  read_types:
+  - Any
+  notes:
+  - IdTaxa classifies unaligned nucleotide sequences against a trained reference set and is feature-generation-strategy
+    agnostic.
+  evidence_urls:
+  - https://bioconductor.org/packages/release/bioc/manuals/DECIPHER/man/DECIPHER.pdf
+  operation_profiles:
+    taxonomy_assignment:
+      feature_strategies:
+      - asv
+      - otu
+      - motu
+      scope: step
+      display_name: DECIPHER IdTaxa
+frogs:
+  name: FROGS
+  aliases:
+  - FROGS
+  - Find Rapidly OTUs with Galaxy Solution
+  resource_type: workflow
+  scope: end_to_end
+  feature_strategies:
+  - flexible
+  markers:
+  - 16S
+  - 18S
+  - ITS
+  - COI
+  - any
+  operations:
+  - amplicon_end_to_end
+  sequencing:
+  - Illumina
+  - any
+  read_types:
+  - Paired-end
+  - Single-end
+  - Long-read
+  - any
+  operation_profiles:
+    amplicon_end_to_end:
+      feature_strategies:
+      - asv
+      - flexible
+      scope: end_to_end
+  notes:
+  - FROGS processes raw amplicon reads through primer-aware preprocessing, Swarm or DADA2 feature generation, chimera handling
+    and taxonomic affiliation.
+  - Current FROGS documentation supports 16S, 18S, ITS, COI and other amplicons and offers Galaxy/CLI execution.
+  evidence_urls:
+  - https://frogs.toulouse.inrae.fr/
+  - https://frogs.toulouse.inrae.fr/faq
+lotus2:
+  name: LotuS2
+  aliases:
+  - LotuS2
+  - Lotus2
+  - Less OTU Scripts 2
+  resource_type: workflow
+  scope: end_to_end
+  feature_strategies:
+  - flexible
+  markers:
+  - 16S
+  - 18S
+  - ITS
+  - 23S
+  - 28S
+  operations:
+  - amplicon_end_to_end
+  sequencing:
+  - Illumina
+  - any
+  read_types:
+  - Paired-end
+  - Single-end
+  - any
+  operation_profiles:
+    amplicon_end_to_end:
+      feature_strategies:
+      - asv
+      - otu
+      - flexible
+      scope: end_to_end
+  notes:
+  - LotuS2 is a complete amplicon pipeline supporting 16S/18S/23S/28S/ITS, multiple OTU/ASV clustering options, taxonomy,
+    abundance tables and phylogenetic outputs.
+  evidence_urls:
+  - https://lotus2.earlham.ac.uk/
+phyloseq:
+  name: phyloseq
+  aliases:
+  - phyloseq
+  resource_type: package
+  scope: step
+  feature_strategies:
+  - asv
+  - otu
+  - motu
+  - any
+  markers:
+  - any
+  operations:
+  - alpha_diversity
+  - beta_diversity
+  sequencing:
+  - any
+  read_types:
+  - any
+  notes:
+  - Microbiome data-object and analysis framework supporting alpha diversity, ecological distances, UniFrac and ordination.
+  evidence_urls:
+  - https://bioconductor.org/packages/phyloseq/
+vegan:
+  name: vegan
+  aliases:
+  - vegan
+  resource_type: package
+  scope: step
+  feature_strategies:
+  - asv
+  - otu
+  - motu
+  - any
+  markers:
+  - any
+  operations:
+  - alpha_diversity
+  - beta_diversity
+  sequencing:
+  - any
+  read_types:
+  - any
+  notes:
+  - Community-ecology package with diversity indices, dissimilarities, ordination, PERMANOVA and dispersion diagnostics.
+  evidence_urls:
+  - https://vegandevs.github.io/vegan/
+ancombc2:
+  name: ANCOM-BC2
+  aliases:
+  - ANCOM-BC2
+  - ancombc2
+  - ANCOMBC2
+  resource_type: package
+  scope: step
+  feature_strategies:
+  - asv
+  - otu
+  - motu
+  - any
+  markers:
+  - any
+  operations:
+  - differential_abundance
+  sequencing:
+  - any
+  read_types:
+  - any
+  notes:
+  - Microbiome-specific bias-corrected differential-abundance method supporting covariates, multi-group comparisons and
+    repeated measures.
+  evidence_urls:
+  - https://bioconductor.org/packages/ANCOMBC/
+  - https://www.nature.com/articles/s41592-023-02092-7
+aldex2:
+  name: ALDEx2
+  aliases:
+  - ALDEx2
+  resource_type: package
+  scope: step
+  feature_strategies:
+  - asv
+  - otu
+  - motu
+  - any
+  markers:
+  - any
+  operations:
+  - differential_abundance
+  sequencing:
+  - any
+  read_types:
+  - any
+  notes:
+  - Dirichlet Monte Carlo plus log-ratio differential-abundance framework for replicated count data.
+  evidence_urls:
+  - https://bioconductor.org/packages/ALDEx2/
+deseq2:
+  name: DESeq2
+  aliases:
+  - DESeq2
+  resource_type: package
+  scope: step
+  feature_strategies:
+  - asv
+  - otu
+  - motu
+  - any
+  markers:
+  - any
+  operations:
+  - differential_abundance
+  sequencing:
+  - any
+  read_types:
+  - any
+  notes:
+  - Negative-binomial count-model method originally designed for RNA-seq; conditional for microbiome DA.
+  evidence_urls:
+  - https://bioconductor.org/packages/DESeq2/

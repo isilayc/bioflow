@@ -1,0 +1,23 @@
+# BioFlow local/development artifacts
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+build/
+release/
+backups/
+logs/
+desktop_app/
+launcher/
+*.spec
+.DS_Store
+Thumbs.db
+install_bioflow_*.py
+build_bioflow_exe.py
+apply_*.py
+
+payload/
+updates/
+WEB_DEPLOYMENT_SMOKE_TEST.log
+data/constraints.backup_before_coverage_v1_20260910_162154.yaml

@@ -1,0 +1,1931 @@
+{
+  "summary": {
+    "benchmark": "BioFlow Scientific Recommendation Benchmark v1",
+    "timestamp": "2026-09-21T13:59:42+03:00",
+    "cases": 17,
+    "hard_checks": 252,
+    "hard_passes": 252,
+    "hard_failures": 0,
+    "warnings": 0,
+    "score_percent": 100.0,
+    "regression_validator_failures": 0,
+    "overall_status": "PASS"
+  },
+  "checks": [
+    {
+      "case_id": "bacterial_illumina_wgs",
+      "check_id": "workflow_exists",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Workflow 'bacterial_illumina_wgs' exists."
+    },
+    {
+      "case_id": "bacterial_illumina_wgs",
+      "check_id": "context_match",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Workflow context matches the benchmark scenario."
+    },
+    {
+      "case_id": "bacterial_illumina_wgs",
+      "check_id": "context_resolves_target",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Selected context resolves to benchmark workflow bacterial_illumina_wgs."
+    },
+    {
+      "case_id": "bacterial_illumina_wgs",
+      "check_id": "strategy_coverage",
+      "status": "PASS",
+      "severity": "soft",
+      "message": "Context exposes 1 workflow strategy/strategies (minimum 1)."
+    },
+    {
+      "case_id": "bacterial_illumina_wgs",
+      "check_id": "required_operation:raw_read_qc",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'raw_read_qc' is present."
+    },
+    {
+      "case_id": "bacterial_illumina_wgs",
+      "check_id": "required_operation:read_preprocessing",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'read_preprocessing' is present."
+    },
+    {
+      "case_id": "bacterial_illumina_wgs",
+      "check_id": "required_operation:genome_assembly",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'genome_assembly' is present."
+    },
+    {
+      "case_id": "bacterial_illumina_wgs",
+      "check_id": "required_operation:assembly_qc",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'assembly_qc' is present."
+    },
+    {
+      "case_id": "bacterial_illumina_wgs",
+      "check_id": "required_operation:genome_annotation",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'genome_annotation' is present."
+    },
+    {
+      "case_id": "bacterial_illumina_wgs",
+      "check_id": "forbidden_operation:metagenome_assembly",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Unrelated stage 'metagenome_assembly' is absent."
+    },
+    {
+      "case_id": "bacterial_illumina_wgs",
+      "check_id": "forbidden_operation:genome_binning",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Unrelated stage 'genome_binning' is absent."
+    },
+    {
+      "case_id": "bacterial_illumina_wgs",
+      "check_id": "forbidden_operation:viral_sequence_detection",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Unrelated stage 'viral_sequence_detection' is absent."
+    },
+    {
+      "case_id": "bacterial_illumina_wgs",
+      "check_id": "accepted_tool:genome_assembly",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'genome_assembly' contains accepted candidate(s): spades, shovill."
+    },
+    {
+      "case_id": "bacterial_illumina_wgs",
+      "check_id": "candidate_redundancy:genome_assembly",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'genome_assembly' has 2 candidate(s), meeting minimum 1."
+    },
+    {
+      "case_id": "bacterial_illumina_wgs",
+      "check_id": "accepted_tool:assembly_qc",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'assembly_qc' contains accepted candidate(s): quast."
+    },
+    {
+      "case_id": "bacterial_illumina_wgs",
+      "check_id": "candidate_redundancy:assembly_qc",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'assembly_qc' has 1 candidate(s), meeting minimum 1."
+    },
+    {
+      "case_id": "bacterial_illumina_wgs",
+      "check_id": "accepted_tool:genome_annotation",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'genome_annotation' contains accepted candidate(s): bakta, prokka."
+    },
+    {
+      "case_id": "bacterial_illumina_wgs",
+      "check_id": "candidate_redundancy:genome_annotation",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'genome_annotation' has 2 candidate(s), meeting minimum 2."
+    },
+    {
+      "case_id": "bacterial_nanopore_wgs",
+      "check_id": "workflow_exists",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Workflow 'bacterial_nanopore_wgs' exists."
+    },
+    {
+      "case_id": "bacterial_nanopore_wgs",
+      "check_id": "context_match",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Workflow context matches the benchmark scenario."
+    },
+    {
+      "case_id": "bacterial_nanopore_wgs",
+      "check_id": "context_resolves_target",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Selected context resolves to benchmark workflow bacterial_nanopore_wgs."
+    },
+    {
+      "case_id": "bacterial_nanopore_wgs",
+      "check_id": "strategy_coverage",
+      "status": "PASS",
+      "severity": "soft",
+      "message": "Context exposes 1 workflow strategy/strategies (minimum 1)."
+    },
+    {
+      "case_id": "bacterial_nanopore_wgs",
+      "check_id": "required_operation:raw_read_qc",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'raw_read_qc' is present."
+    },
+    {
+      "case_id": "bacterial_nanopore_wgs",
+      "check_id": "required_operation:read_preprocessing",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'read_preprocessing' is present."
+    },
+    {
+      "case_id": "bacterial_nanopore_wgs",
+      "check_id": "required_operation:genome_assembly",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'genome_assembly' is present."
+    },
+    {
+      "case_id": "bacterial_nanopore_wgs",
+      "check_id": "required_operation:assembly_qc",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'assembly_qc' is present."
+    },
+    {
+      "case_id": "bacterial_nanopore_wgs",
+      "check_id": "required_operation:genome_annotation",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'genome_annotation' is present."
+    },
+    {
+      "case_id": "bacterial_nanopore_wgs",
+      "check_id": "forbidden_operation:asv_inference",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Unrelated stage 'asv_inference' is absent."
+    },
+    {
+      "case_id": "bacterial_nanopore_wgs",
+      "check_id": "forbidden_operation:genome_binning",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Unrelated stage 'genome_binning' is absent."
+    },
+    {
+      "case_id": "bacterial_nanopore_wgs",
+      "check_id": "accepted_tool:raw_read_qc",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'raw_read_qc' contains accepted candidate(s): nanoplot."
+    },
+    {
+      "case_id": "bacterial_nanopore_wgs",
+      "check_id": "candidate_redundancy:raw_read_qc",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'raw_read_qc' has 1 candidate(s), meeting minimum 1."
+    },
+    {
+      "case_id": "bacterial_nanopore_wgs",
+      "check_id": "accepted_tool:genome_assembly",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'genome_assembly' contains accepted candidate(s): flye, raven."
+    },
+    {
+      "case_id": "bacterial_nanopore_wgs",
+      "check_id": "candidate_redundancy:genome_assembly",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'genome_assembly' has 2 candidate(s), meeting minimum 2."
+    },
+    {
+      "case_id": "bacterial_nanopore_wgs",
+      "check_id": "accepted_tool:genome_annotation",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'genome_annotation' contains accepted candidate(s): bakta, prokka."
+    },
+    {
+      "case_id": "bacterial_nanopore_wgs",
+      "check_id": "candidate_redundancy:genome_annotation",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'genome_annotation' has 2 candidate(s), meeting minimum 1."
+    },
+    {
+      "case_id": "bacterial_amr",
+      "check_id": "workflow_exists",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Workflow 'bacterial_illumina_amr' exists."
+    },
+    {
+      "case_id": "bacterial_amr",
+      "check_id": "context_match",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Workflow context matches the benchmark scenario."
+    },
+    {
+      "case_id": "bacterial_amr",
+      "check_id": "context_resolves_target",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Selected context resolves to benchmark workflow bacterial_illumina_amr."
+    },
+    {
+      "case_id": "bacterial_amr",
+      "check_id": "strategy_coverage",
+      "status": "PASS",
+      "severity": "soft",
+      "message": "Context exposes 1 workflow strategy/strategies (minimum 1)."
+    },
+    {
+      "case_id": "bacterial_amr",
+      "check_id": "required_operation:raw_read_qc",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'raw_read_qc' is present."
+    },
+    {
+      "case_id": "bacterial_amr",
+      "check_id": "required_operation:read_preprocessing",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'read_preprocessing' is present."
+    },
+    {
+      "case_id": "bacterial_amr",
+      "check_id": "required_operation:genome_assembly",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'genome_assembly' is present."
+    },
+    {
+      "case_id": "bacterial_amr",
+      "check_id": "required_operation:assembly_qc",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'assembly_qc' is present."
+    },
+    {
+      "case_id": "bacterial_amr",
+      "check_id": "required_operation:amr_detection",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'amr_detection' is present."
+    },
+    {
+      "case_id": "bacterial_amr",
+      "check_id": "forbidden_operation:differential_expression",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Unrelated stage 'differential_expression' is absent."
+    },
+    {
+      "case_id": "bacterial_amr",
+      "check_id": "forbidden_operation:viral_host_prediction",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Unrelated stage 'viral_host_prediction' is absent."
+    },
+    {
+      "case_id": "bacterial_amr",
+      "check_id": "accepted_tool:amr_detection",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'amr_detection' contains accepted candidate(s): amrfinderplus, resfinder, abricate."
+    },
+    {
+      "case_id": "bacterial_amr",
+      "check_id": "candidate_redundancy:amr_detection",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'amr_detection' has 3 candidate(s), meeting minimum 2."
+    },
+    {
+      "case_id": "mag_single",
+      "check_id": "workflow_exists",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Workflow 'metagenome_illumina_mag_single' exists."
+    },
+    {
+      "case_id": "mag_single",
+      "check_id": "context_match",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Workflow context matches the benchmark scenario."
+    },
+    {
+      "case_id": "mag_single",
+      "check_id": "context_resolves_target",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Selected context resolves to benchmark workflow metagenome_illumina_mag_single."
+    },
+    {
+      "case_id": "mag_single",
+      "check_id": "strategy_coverage",
+      "status": "PASS",
+      "severity": "soft",
+      "message": "Context exposes 2 workflow strategy/strategies (minimum 1)."
+    },
+    {
+      "case_id": "mag_single",
+      "check_id": "required_operation:raw_read_qc",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'raw_read_qc' is present."
+    },
+    {
+      "case_id": "mag_single",
+      "check_id": "required_operation:read_preprocessing",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'read_preprocessing' is present."
+    },
+    {
+      "case_id": "mag_single",
+      "check_id": "required_operation:metagenome_assembly",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'metagenome_assembly' is present."
+    },
+    {
+      "case_id": "mag_single",
+      "check_id": "required_operation:assembly_qc",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'assembly_qc' is present."
+    },
+    {
+      "case_id": "mag_single",
+      "check_id": "required_operation:read_mapping",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'read_mapping' is present."
+    },
+    {
+      "case_id": "mag_single",
+      "check_id": "required_operation:alignment_processing",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'alignment_processing' is present."
+    },
+    {
+      "case_id": "mag_single",
+      "check_id": "required_operation:coverage_estimation",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'coverage_estimation' is present."
+    },
+    {
+      "case_id": "mag_single",
+      "check_id": "required_operation:genome_binning",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'genome_binning' is present."
+    },
+    {
+      "case_id": "mag_single",
+      "check_id": "required_operation:bin_refinement",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'bin_refinement' is present."
+    },
+    {
+      "case_id": "mag_single",
+      "check_id": "required_operation:mag_quality",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'mag_quality' is present."
+    },
+    {
+      "case_id": "mag_single",
+      "check_id": "required_operation:mag_taxonomy",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'mag_taxonomy' is present."
+    },
+    {
+      "case_id": "mag_single",
+      "check_id": "forbidden_operation:asv_inference",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Unrelated stage 'asv_inference' is absent."
+    },
+    {
+      "case_id": "mag_single",
+      "check_id": "forbidden_operation:differential_expression",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Unrelated stage 'differential_expression' is absent."
+    },
+    {
+      "case_id": "mag_single",
+      "check_id": "accepted_tool:metagenome_assembly",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'metagenome_assembly' contains accepted candidate(s): megahit, metaspades."
+    },
+    {
+      "case_id": "mag_single",
+      "check_id": "candidate_redundancy:metagenome_assembly",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'metagenome_assembly' has 2 candidate(s), meeting minimum 2."
+    },
+    {
+      "case_id": "mag_single",
+      "check_id": "accepted_tool:genome_binning",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'genome_binning' contains accepted candidate(s): semibin2, metabat2, maxbin2, concoct."
+    },
+    {
+      "case_id": "mag_single",
+      "check_id": "candidate_redundancy:genome_binning",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'genome_binning' has 4 candidate(s), meeting minimum 3."
+    },
+    {
+      "case_id": "mag_single",
+      "check_id": "step_mode:genome_binning",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'genome_binning' uses expected mode 'parallel'."
+    },
+    {
+      "case_id": "mag_single",
+      "check_id": "accepted_tool:bin_refinement",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'bin_refinement' contains accepted candidate(s): dastool."
+    },
+    {
+      "case_id": "mag_single",
+      "check_id": "candidate_redundancy:bin_refinement",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'bin_refinement' has 1 candidate(s), meeting minimum 1."
+    },
+    {
+      "case_id": "mag_single",
+      "check_id": "accepted_tool:mag_quality",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'mag_quality' contains accepted candidate(s): checkm2."
+    },
+    {
+      "case_id": "mag_single",
+      "check_id": "candidate_redundancy:mag_quality",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'mag_quality' has 1 candidate(s), meeting minimum 1."
+    },
+    {
+      "case_id": "mag_single",
+      "check_id": "accepted_tool:mag_taxonomy",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'mag_taxonomy' contains accepted candidate(s): gtdbtk, catbat, sourmash."
+    },
+    {
+      "case_id": "mag_single",
+      "check_id": "candidate_redundancy:mag_taxonomy",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'mag_taxonomy' has 3 candidate(s), meeting minimum 2."
+    },
+    {
+      "case_id": "mag_single",
+      "check_id": "fallback:mag_taxonomy",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'mag_taxonomy' has fallback candidate(s): catbat, sourmash."
+    },
+    {
+      "case_id": "mag_coassembly",
+      "check_id": "workflow_exists",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Workflow 'metagenome_illumina_mag_coassembly' exists."
+    },
+    {
+      "case_id": "mag_coassembly",
+      "check_id": "context_match",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Workflow context matches the benchmark scenario."
+    },
+    {
+      "case_id": "mag_coassembly",
+      "check_id": "context_resolves_target",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Selected context resolves to benchmark workflow metagenome_illumina_mag_coassembly."
+    },
+    {
+      "case_id": "mag_coassembly",
+      "check_id": "strategy_coverage",
+      "status": "PASS",
+      "severity": "soft",
+      "message": "Context exposes 2 workflow strategy/strategies (minimum 1)."
+    },
+    {
+      "case_id": "mag_coassembly",
+      "check_id": "required_operation:metagenome_assembly",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'metagenome_assembly' is present."
+    },
+    {
+      "case_id": "mag_coassembly",
+      "check_id": "required_operation:read_mapping",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'read_mapping' is present."
+    },
+    {
+      "case_id": "mag_coassembly",
+      "check_id": "required_operation:coverage_estimation",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'coverage_estimation' is present."
+    },
+    {
+      "case_id": "mag_coassembly",
+      "check_id": "required_operation:genome_binning",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'genome_binning' is present."
+    },
+    {
+      "case_id": "mag_coassembly",
+      "check_id": "required_operation:bin_refinement",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'bin_refinement' is present."
+    },
+    {
+      "case_id": "mag_coassembly",
+      "check_id": "required_operation:mag_quality",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'mag_quality' is present."
+    },
+    {
+      "case_id": "mag_coassembly",
+      "check_id": "required_operation:mag_taxonomy",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'mag_taxonomy' is present."
+    },
+    {
+      "case_id": "mag_coassembly",
+      "check_id": "forbidden_operation:amplicon_denovo_clustering",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Unrelated stage 'amplicon_denovo_clustering' is absent."
+    },
+    {
+      "case_id": "mag_coassembly",
+      "check_id": "accepted_tool:genome_binning",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'genome_binning' contains accepted candidate(s): semibin2, metabat2, maxbin2, concoct."
+    },
+    {
+      "case_id": "mag_coassembly",
+      "check_id": "candidate_redundancy:genome_binning",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'genome_binning' has 4 candidate(s), meeting minimum 3."
+    },
+    {
+      "case_id": "mag_coassembly",
+      "check_id": "step_mode:genome_binning",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'genome_binning' uses expected mode 'parallel'."
+    },
+    {
+      "case_id": "mag_coassembly",
+      "check_id": "accepted_tool:mag_taxonomy",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'mag_taxonomy' contains accepted candidate(s): gtdbtk, catbat, sourmash."
+    },
+    {
+      "case_id": "mag_coassembly",
+      "check_id": "candidate_redundancy:mag_taxonomy",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'mag_taxonomy' has 3 candidate(s), meeting minimum 2."
+    },
+    {
+      "case_id": "metagenome_viral",
+      "check_id": "workflow_exists",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Workflow 'metagenome_illumina_viral' exists."
+    },
+    {
+      "case_id": "metagenome_viral",
+      "check_id": "context_match",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Workflow context matches the benchmark scenario."
+    },
+    {
+      "case_id": "metagenome_viral",
+      "check_id": "context_resolves_target",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Selected context resolves to benchmark workflow metagenome_illumina_viral."
+    },
+    {
+      "case_id": "metagenome_viral",
+      "check_id": "strategy_coverage",
+      "status": "PASS",
+      "severity": "soft",
+      "message": "Context exposes 1 workflow strategy/strategies (minimum 1)."
+    },
+    {
+      "case_id": "metagenome_viral",
+      "check_id": "required_operation:raw_read_qc",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'raw_read_qc' is present."
+    },
+    {
+      "case_id": "metagenome_viral",
+      "check_id": "required_operation:read_preprocessing",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'read_preprocessing' is present."
+    },
+    {
+      "case_id": "metagenome_viral",
+      "check_id": "required_operation:metagenome_assembly",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'metagenome_assembly' is present."
+    },
+    {
+      "case_id": "metagenome_viral",
+      "check_id": "required_operation:viral_sequence_detection",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'viral_sequence_detection' is present."
+    },
+    {
+      "case_id": "metagenome_viral",
+      "check_id": "required_operation:viral_quality",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'viral_quality' is present."
+    },
+    {
+      "case_id": "metagenome_viral",
+      "check_id": "required_operation:viral_taxonomy",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'viral_taxonomy' is present."
+    },
+    {
+      "case_id": "metagenome_viral",
+      "check_id": "forbidden_operation:genome_binning",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Unrelated stage 'genome_binning' is absent."
+    },
+    {
+      "case_id": "metagenome_viral",
+      "check_id": "forbidden_operation:differential_expression",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Unrelated stage 'differential_expression' is absent."
+    },
+    {
+      "case_id": "metagenome_viral",
+      "check_id": "accepted_tool:viral_sequence_detection",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'viral_sequence_detection' contains accepted candidate(s): genomad, virsorter2."
+    },
+    {
+      "case_id": "metagenome_viral",
+      "check_id": "candidate_redundancy:viral_sequence_detection",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'viral_sequence_detection' has 2 candidate(s), meeting minimum 2."
+    },
+    {
+      "case_id": "metagenome_viral",
+      "check_id": "accepted_tool:viral_quality",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'viral_quality' contains accepted candidate(s): checkv."
+    },
+    {
+      "case_id": "metagenome_viral",
+      "check_id": "candidate_redundancy:viral_quality",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'viral_quality' has 1 candidate(s), meeting minimum 1."
+    },
+    {
+      "case_id": "metagenome_viral",
+      "check_id": "accepted_tool:viral_taxonomy",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'viral_taxonomy' contains accepted candidate(s): genomad."
+    },
+    {
+      "case_id": "metagenome_viral",
+      "check_id": "candidate_redundancy:viral_taxonomy",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'viral_taxonomy' has 1 candidate(s), meeting minimum 1."
+    },
+    {
+      "case_id": "virome_host_prediction",
+      "check_id": "workflow_exists",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Workflow 'virome_illumina_host_prediction' exists."
+    },
+    {
+      "case_id": "virome_host_prediction",
+      "check_id": "context_match",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Workflow context matches the benchmark scenario."
+    },
+    {
+      "case_id": "virome_host_prediction",
+      "check_id": "context_resolves_target",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Selected context resolves to benchmark workflow virome_illumina_host_prediction."
+    },
+    {
+      "case_id": "virome_host_prediction",
+      "check_id": "strategy_coverage",
+      "status": "PASS",
+      "severity": "soft",
+      "message": "Context exposes 1 workflow strategy/strategies (minimum 1)."
+    },
+    {
+      "case_id": "virome_host_prediction",
+      "check_id": "required_operation:read_preprocessing",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'read_preprocessing' is present."
+    },
+    {
+      "case_id": "virome_host_prediction",
+      "check_id": "required_operation:metagenome_assembly",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'metagenome_assembly' is present."
+    },
+    {
+      "case_id": "virome_host_prediction",
+      "check_id": "required_operation:viral_sequence_detection",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'viral_sequence_detection' is present."
+    },
+    {
+      "case_id": "virome_host_prediction",
+      "check_id": "required_operation:viral_genome_quality",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'viral_genome_quality' is present."
+    },
+    {
+      "case_id": "virome_host_prediction",
+      "check_id": "required_operation:viral_host_prediction",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'viral_host_prediction' is present."
+    },
+    {
+      "case_id": "virome_host_prediction",
+      "check_id": "forbidden_operation:genome_annotation",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Unrelated stage 'genome_annotation' is absent."
+    },
+    {
+      "case_id": "virome_host_prediction",
+      "check_id": "forbidden_operation:asv_inference",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Unrelated stage 'asv_inference' is absent."
+    },
+    {
+      "case_id": "virome_host_prediction",
+      "check_id": "accepted_tool:viral_sequence_detection",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'viral_sequence_detection' contains accepted candidate(s): genomad, virsorter2."
+    },
+    {
+      "case_id": "virome_host_prediction",
+      "check_id": "candidate_redundancy:viral_sequence_detection",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'viral_sequence_detection' has 2 candidate(s), meeting minimum 1."
+    },
+    {
+      "case_id": "virome_host_prediction",
+      "check_id": "accepted_tool:viral_genome_quality",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'viral_genome_quality' contains accepted candidate(s): checkv."
+    },
+    {
+      "case_id": "virome_host_prediction",
+      "check_id": "candidate_redundancy:viral_genome_quality",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'viral_genome_quality' has 1 candidate(s), meeting minimum 1."
+    },
+    {
+      "case_id": "virome_host_prediction",
+      "check_id": "accepted_tool:viral_host_prediction",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'viral_host_prediction' contains accepted candidate(s): iphop."
+    },
+    {
+      "case_id": "virome_host_prediction",
+      "check_id": "candidate_redundancy:viral_host_prediction",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'viral_host_prediction' has 1 candidate(s), meeting minimum 1."
+    },
+    {
+      "case_id": "virome_votu",
+      "check_id": "workflow_exists",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Workflow 'virome_illumina_votu_clustering' exists."
+    },
+    {
+      "case_id": "virome_votu",
+      "check_id": "context_match",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Workflow context matches the benchmark scenario."
+    },
+    {
+      "case_id": "virome_votu",
+      "check_id": "context_resolves_target",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Selected context resolves to benchmark workflow virome_illumina_votu_clustering."
+    },
+    {
+      "case_id": "virome_votu",
+      "check_id": "strategy_coverage",
+      "status": "PASS",
+      "severity": "soft",
+      "message": "Context exposes 1 workflow strategy/strategies (minimum 1)."
+    },
+    {
+      "case_id": "virome_votu",
+      "check_id": "required_operation:read_preprocessing",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'read_preprocessing' is present."
+    },
+    {
+      "case_id": "virome_votu",
+      "check_id": "required_operation:metagenome_assembly",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'metagenome_assembly' is present."
+    },
+    {
+      "case_id": "virome_votu",
+      "check_id": "required_operation:viral_sequence_detection",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'viral_sequence_detection' is present."
+    },
+    {
+      "case_id": "virome_votu",
+      "check_id": "required_operation:viral_genome_quality",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'viral_genome_quality' is present."
+    },
+    {
+      "case_id": "virome_votu",
+      "check_id": "required_operation:viral_votu_clustering",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'viral_votu_clustering' is present."
+    },
+    {
+      "case_id": "virome_votu",
+      "check_id": "forbidden_operation:mag_taxonomy",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Unrelated stage 'mag_taxonomy' is absent."
+    },
+    {
+      "case_id": "virome_votu",
+      "check_id": "forbidden_operation:differential_expression",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Unrelated stage 'differential_expression' is absent."
+    },
+    {
+      "case_id": "virome_votu",
+      "check_id": "accepted_tool:viral_genome_quality",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'viral_genome_quality' contains accepted candidate(s): checkv."
+    },
+    {
+      "case_id": "virome_votu",
+      "check_id": "candidate_redundancy:viral_genome_quality",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'viral_genome_quality' has 1 candidate(s), meeting minimum 1."
+    },
+    {
+      "case_id": "virome_votu",
+      "check_id": "accepted_tool:viral_votu_clustering",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'viral_votu_clustering' contains accepted candidate(s): vclust."
+    },
+    {
+      "case_id": "virome_votu",
+      "check_id": "candidate_redundancy:viral_votu_clustering",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'viral_votu_clustering' has 1 candidate(s), meeting minimum 1."
+    },
+    {
+      "case_id": "amplicon_16s_modular",
+      "check_id": "workflow_exists",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Workflow 'amplicon_illumina_16s' exists."
+    },
+    {
+      "case_id": "amplicon_16s_modular",
+      "check_id": "context_match",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Workflow context matches the benchmark scenario."
+    },
+    {
+      "case_id": "amplicon_16s_modular",
+      "check_id": "context_resolves_target",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Selected context resolves to benchmark workflow amplicon_illumina_16s."
+    },
+    {
+      "case_id": "amplicon_16s_modular",
+      "check_id": "strategy_coverage",
+      "status": "PASS",
+      "severity": "soft",
+      "message": "Context exposes 10 workflow strategy/strategies (minimum 3)."
+    },
+    {
+      "case_id": "amplicon_16s_modular",
+      "check_id": "required_operation:primer_trimming",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'primer_trimming' is present."
+    },
+    {
+      "case_id": "amplicon_16s_modular",
+      "check_id": "required_operation:asv_inference",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'asv_inference' is present."
+    },
+    {
+      "case_id": "amplicon_16s_modular",
+      "check_id": "required_operation:taxonomy_assignment",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'taxonomy_assignment' is present."
+    },
+    {
+      "case_id": "amplicon_16s_modular",
+      "check_id": "forbidden_operation:genome_assembly",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Unrelated stage 'genome_assembly' is absent."
+    },
+    {
+      "case_id": "amplicon_16s_modular",
+      "check_id": "forbidden_operation:metagenome_assembly",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Unrelated stage 'metagenome_assembly' is absent."
+    },
+    {
+      "case_id": "amplicon_16s_modular",
+      "check_id": "forbidden_operation:gene_quantification",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Unrelated stage 'gene_quantification' is absent."
+    },
+    {
+      "case_id": "amplicon_16s_modular",
+      "check_id": "accepted_tool:primer_trimming",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'primer_trimming' contains accepted candidate(s): cutadapt."
+    },
+    {
+      "case_id": "amplicon_16s_modular",
+      "check_id": "candidate_redundancy:primer_trimming",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'primer_trimming' has 1 candidate(s), meeting minimum 1."
+    },
+    {
+      "case_id": "amplicon_16s_modular",
+      "check_id": "accepted_tool:asv_inference",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'asv_inference' contains accepted candidate(s): dada2."
+    },
+    {
+      "case_id": "amplicon_16s_modular",
+      "check_id": "candidate_redundancy:asv_inference",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'asv_inference' has 1 candidate(s), meeting minimum 1."
+    },
+    {
+      "case_id": "amplicon_16s_modular",
+      "check_id": "accepted_tool:taxonomy_assignment",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'taxonomy_assignment' contains accepted candidate(s): dada2_taxonomy, decipher_idtaxa, qiime2_feature_classifier."
+    },
+    {
+      "case_id": "amplicon_16s_modular",
+      "check_id": "candidate_redundancy:taxonomy_assignment",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'taxonomy_assignment' has 3 candidate(s), meeting minimum 2."
+    },
+    {
+      "case_id": "amplicon_asv",
+      "check_id": "workflow_exists",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Workflow 'amplicon_illumina_asv_inference' exists."
+    },
+    {
+      "case_id": "amplicon_asv",
+      "check_id": "context_match",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Workflow context matches the benchmark scenario."
+    },
+    {
+      "case_id": "amplicon_asv",
+      "check_id": "context_resolves_target",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Selected context resolves to benchmark workflow amplicon_illumina_asv_inference."
+    },
+    {
+      "case_id": "amplicon_asv",
+      "check_id": "strategy_coverage",
+      "status": "PASS",
+      "severity": "soft",
+      "message": "Context exposes 1 workflow strategy/strategies (minimum 1)."
+    },
+    {
+      "case_id": "amplicon_asv",
+      "check_id": "required_operation:primer_trimming",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'primer_trimming' is present."
+    },
+    {
+      "case_id": "amplicon_asv",
+      "check_id": "required_operation:asv_inference",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'asv_inference' is present."
+    },
+    {
+      "case_id": "amplicon_asv",
+      "check_id": "forbidden_operation:genome_binning",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Unrelated stage 'genome_binning' is absent."
+    },
+    {
+      "case_id": "amplicon_asv",
+      "check_id": "forbidden_operation:rna_alignment",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Unrelated stage 'rna_alignment' is absent."
+    },
+    {
+      "case_id": "amplicon_asv",
+      "check_id": "accepted_tool:asv_inference",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'asv_inference' contains accepted candidate(s): dada2."
+    },
+    {
+      "case_id": "amplicon_asv",
+      "check_id": "candidate_redundancy:asv_inference",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'asv_inference' has 1 candidate(s), meeting minimum 1."
+    },
+    {
+      "case_id": "amplicon_da_repeated",
+      "check_id": "workflow_exists",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Workflow 'amplicon_illumina_da_repeated' exists."
+    },
+    {
+      "case_id": "amplicon_da_repeated",
+      "check_id": "context_match",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Workflow context matches the benchmark scenario."
+    },
+    {
+      "case_id": "amplicon_da_repeated",
+      "check_id": "context_resolves_target",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Selected context resolves to benchmark workflow amplicon_illumina_da_repeated."
+    },
+    {
+      "case_id": "amplicon_da_repeated",
+      "check_id": "strategy_coverage",
+      "status": "PASS",
+      "severity": "soft",
+      "message": "Context exposes 3 workflow strategy/strategies (minimum 1)."
+    },
+    {
+      "case_id": "amplicon_da_repeated",
+      "check_id": "required_operation:differential_abundance",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'differential_abundance' is present."
+    },
+    {
+      "case_id": "amplicon_da_repeated",
+      "check_id": "forbidden_operation:genome_assembly",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Unrelated stage 'genome_assembly' is absent."
+    },
+    {
+      "case_id": "amplicon_da_repeated",
+      "check_id": "forbidden_operation:viral_sequence_detection",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Unrelated stage 'viral_sequence_detection' is absent."
+    },
+    {
+      "case_id": "amplicon_da_repeated",
+      "check_id": "accepted_tool:differential_abundance",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'differential_abundance' contains accepted candidate(s): ancombc2, aldex2, deseq2."
+    },
+    {
+      "case_id": "amplicon_da_repeated",
+      "check_id": "candidate_redundancy:differential_abundance",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'differential_abundance' has 3 candidate(s), meeting minimum 2."
+    },
+    {
+      "case_id": "bulk_rna_de_alignment",
+      "check_id": "workflow_exists",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Workflow 'bulk_transcriptome_illumina_differential_expression_alignment' exists."
+    },
+    {
+      "case_id": "bulk_rna_de_alignment",
+      "check_id": "context_match",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Workflow context matches the benchmark scenario."
+    },
+    {
+      "case_id": "bulk_rna_de_alignment",
+      "check_id": "context_resolves_target",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Selected context resolves to benchmark workflow bulk_transcriptome_illumina_differential_expression_alignment."
+    },
+    {
+      "case_id": "bulk_rna_de_alignment",
+      "check_id": "strategy_coverage",
+      "status": "PASS",
+      "severity": "soft",
+      "message": "Context exposes 2 workflow strategy/strategies (minimum 2)."
+    },
+    {
+      "case_id": "bulk_rna_de_alignment",
+      "check_id": "required_operation:transcriptome_indexing",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'transcriptome_indexing' is present."
+    },
+    {
+      "case_id": "bulk_rna_de_alignment",
+      "check_id": "required_operation:rna_alignment",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'rna_alignment' is present."
+    },
+    {
+      "case_id": "bulk_rna_de_alignment",
+      "check_id": "required_operation:alignment_processing",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'alignment_processing' is present."
+    },
+    {
+      "case_id": "bulk_rna_de_alignment",
+      "check_id": "required_operation:gene_quantification",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'gene_quantification' is present."
+    },
+    {
+      "case_id": "bulk_rna_de_alignment",
+      "check_id": "required_operation:differential_expression",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'differential_expression' is present."
+    },
+    {
+      "case_id": "bulk_rna_de_alignment",
+      "check_id": "forbidden_operation:genome_binning",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Unrelated stage 'genome_binning' is absent."
+    },
+    {
+      "case_id": "bulk_rna_de_alignment",
+      "check_id": "forbidden_operation:viral_quality",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Unrelated stage 'viral_quality' is absent."
+    },
+    {
+      "case_id": "bulk_rna_de_alignment",
+      "check_id": "accepted_tool:rna_alignment",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'rna_alignment' contains accepted candidate(s): star, hisat2."
+    },
+    {
+      "case_id": "bulk_rna_de_alignment",
+      "check_id": "candidate_redundancy:rna_alignment",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'rna_alignment' has 2 candidate(s), meeting minimum 2."
+    },
+    {
+      "case_id": "bulk_rna_de_alignment",
+      "check_id": "accepted_tool:gene_quantification",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'gene_quantification' contains accepted candidate(s): featurecounts."
+    },
+    {
+      "case_id": "bulk_rna_de_alignment",
+      "check_id": "candidate_redundancy:gene_quantification",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'gene_quantification' has 1 candidate(s), meeting minimum 1."
+    },
+    {
+      "case_id": "bulk_rna_de_alignment",
+      "check_id": "accepted_tool:differential_expression",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'differential_expression' contains accepted candidate(s): deseq2, edger."
+    },
+    {
+      "case_id": "bulk_rna_de_alignment",
+      "check_id": "candidate_redundancy:differential_expression",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'differential_expression' has 2 candidate(s), meeting minimum 2."
+    },
+    {
+      "case_id": "bulk_rna_de_lightweight",
+      "check_id": "workflow_exists",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Workflow 'bulk_transcriptome_illumina_differential_expression_lightweight' exists."
+    },
+    {
+      "case_id": "bulk_rna_de_lightweight",
+      "check_id": "context_match",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Workflow context matches the benchmark scenario."
+    },
+    {
+      "case_id": "bulk_rna_de_lightweight",
+      "check_id": "context_resolves_target",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Selected context resolves to benchmark workflow bulk_transcriptome_illumina_differential_expression_lightweight."
+    },
+    {
+      "case_id": "bulk_rna_de_lightweight",
+      "check_id": "strategy_coverage",
+      "status": "PASS",
+      "severity": "soft",
+      "message": "Context exposes 2 workflow strategy/strategies (minimum 1)."
+    },
+    {
+      "case_id": "bulk_rna_de_lightweight",
+      "check_id": "required_operation:transcriptome_indexing",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'transcriptome_indexing' is present."
+    },
+    {
+      "case_id": "bulk_rna_de_lightweight",
+      "check_id": "required_operation:lightweight_quantification",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'lightweight_quantification' is present."
+    },
+    {
+      "case_id": "bulk_rna_de_lightweight",
+      "check_id": "required_operation:transcript_to_gene_summarization",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'transcript_to_gene_summarization' is present."
+    },
+    {
+      "case_id": "bulk_rna_de_lightweight",
+      "check_id": "required_operation:differential_expression",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'differential_expression' is present."
+    },
+    {
+      "case_id": "bulk_rna_de_lightweight",
+      "check_id": "forbidden_operation:rna_alignment",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Unrelated stage 'rna_alignment' is absent."
+    },
+    {
+      "case_id": "bulk_rna_de_lightweight",
+      "check_id": "forbidden_operation:genome_binning",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Unrelated stage 'genome_binning' is absent."
+    },
+    {
+      "case_id": "bulk_rna_de_lightweight",
+      "check_id": "accepted_tool:lightweight_quantification",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'lightweight_quantification' contains accepted candidate(s): salmon, kallisto."
+    },
+    {
+      "case_id": "bulk_rna_de_lightweight",
+      "check_id": "candidate_redundancy:lightweight_quantification",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'lightweight_quantification' has 2 candidate(s), meeting minimum 2."
+    },
+    {
+      "case_id": "bulk_rna_de_lightweight",
+      "check_id": "accepted_tool:transcript_to_gene_summarization",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'transcript_to_gene_summarization' contains accepted candidate(s): tximport."
+    },
+    {
+      "case_id": "bulk_rna_de_lightweight",
+      "check_id": "candidate_redundancy:transcript_to_gene_summarization",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'transcript_to_gene_summarization' has 1 candidate(s), meeting minimum 1."
+    },
+    {
+      "case_id": "bulk_rna_de_lightweight",
+      "check_id": "accepted_tool:differential_expression",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'differential_expression' contains accepted candidate(s): deseq2, edger."
+    },
+    {
+      "case_id": "bulk_rna_de_lightweight",
+      "check_id": "candidate_redundancy:differential_expression",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'differential_expression' has 2 candidate(s), meeting minimum 2."
+    },
+    {
+      "case_id": "eukaryotic_ont_assembly",
+      "check_id": "workflow_exists",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Workflow 'eukaryotic_genome_ont_assembly' exists."
+    },
+    {
+      "case_id": "eukaryotic_ont_assembly",
+      "check_id": "context_match",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Workflow context matches the benchmark scenario."
+    },
+    {
+      "case_id": "eukaryotic_ont_assembly",
+      "check_id": "context_resolves_target",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Selected context resolves to benchmark workflow eukaryotic_genome_ont_assembly."
+    },
+    {
+      "case_id": "eukaryotic_ont_assembly",
+      "check_id": "strategy_coverage",
+      "status": "PASS",
+      "severity": "soft",
+      "message": "Context exposes 1 workflow strategy/strategies (minimum 1)."
+    },
+    {
+      "case_id": "eukaryotic_ont_assembly",
+      "check_id": "required_operation:genome_assembly",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'genome_assembly' is present."
+    },
+    {
+      "case_id": "eukaryotic_ont_assembly",
+      "check_id": "forbidden_operation:asv_inference",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Unrelated stage 'asv_inference' is absent."
+    },
+    {
+      "case_id": "eukaryotic_ont_assembly",
+      "check_id": "forbidden_operation:differential_abundance",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Unrelated stage 'differential_abundance' is absent."
+    },
+    {
+      "case_id": "eukaryotic_ont_assembly",
+      "check_id": "accepted_tool:genome_assembly",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'genome_assembly' contains accepted candidate(s): flye."
+    },
+    {
+      "case_id": "eukaryotic_ont_assembly",
+      "check_id": "candidate_redundancy:genome_assembly",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'genome_assembly' has 1 candidate(s), meeting minimum 1."
+    },
+    {
+      "case_id": "eukaryotic_gene_prediction",
+      "check_id": "workflow_exists",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Workflow 'eukaryotic_genome_gene_prediction_braker' exists."
+    },
+    {
+      "case_id": "eukaryotic_gene_prediction",
+      "check_id": "context_match",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Workflow context matches the benchmark scenario."
+    },
+    {
+      "case_id": "eukaryotic_gene_prediction",
+      "check_id": "context_resolves_target",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Selected context resolves to benchmark workflow eukaryotic_genome_gene_prediction_braker."
+    },
+    {
+      "case_id": "eukaryotic_gene_prediction",
+      "check_id": "strategy_coverage",
+      "status": "PASS",
+      "severity": "soft",
+      "message": "Context exposes 2 workflow strategy/strategies (minimum 1)."
+    },
+    {
+      "case_id": "eukaryotic_gene_prediction",
+      "check_id": "required_operation:repeat_discovery",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'repeat_discovery' is present."
+    },
+    {
+      "case_id": "eukaryotic_gene_prediction",
+      "check_id": "required_operation:repeat_annotation",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'repeat_annotation' is present."
+    },
+    {
+      "case_id": "eukaryotic_gene_prediction",
+      "check_id": "required_operation:gene_prediction",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'gene_prediction' is present."
+    },
+    {
+      "case_id": "eukaryotic_gene_prediction",
+      "check_id": "forbidden_operation:genome_binning",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Unrelated stage 'genome_binning' is absent."
+    },
+    {
+      "case_id": "eukaryotic_gene_prediction",
+      "check_id": "forbidden_operation:viral_host_prediction",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Unrelated stage 'viral_host_prediction' is absent."
+    },
+    {
+      "case_id": "eukaryotic_gene_prediction",
+      "check_id": "accepted_tool:repeat_discovery",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'repeat_discovery' contains accepted candidate(s): repeatmodeler."
+    },
+    {
+      "case_id": "eukaryotic_gene_prediction",
+      "check_id": "candidate_redundancy:repeat_discovery",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'repeat_discovery' has 1 candidate(s), meeting minimum 1."
+    },
+    {
+      "case_id": "eukaryotic_gene_prediction",
+      "check_id": "accepted_tool:repeat_annotation",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'repeat_annotation' contains accepted candidate(s): repeatmasker."
+    },
+    {
+      "case_id": "eukaryotic_gene_prediction",
+      "check_id": "candidate_redundancy:repeat_annotation",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'repeat_annotation' has 1 candidate(s), meeting minimum 1."
+    },
+    {
+      "case_id": "eukaryotic_gene_prediction",
+      "check_id": "accepted_tool:gene_prediction",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'gene_prediction' contains accepted candidate(s): braker4."
+    },
+    {
+      "case_id": "eukaryotic_gene_prediction",
+      "check_id": "candidate_redundancy:gene_prediction",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'gene_prediction' has 1 candidate(s), meeting minimum 1."
+    },
+    {
+      "case_id": "metatranscriptome_de",
+      "check_id": "workflow_exists",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Workflow 'metatranscriptome_illumina_differential_expression' exists."
+    },
+    {
+      "case_id": "metatranscriptome_de",
+      "check_id": "context_match",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Workflow context matches the benchmark scenario."
+    },
+    {
+      "case_id": "metatranscriptome_de",
+      "check_id": "context_resolves_target",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Selected context resolves to benchmark workflow metatranscriptome_illumina_differential_expression."
+    },
+    {
+      "case_id": "metatranscriptome_de",
+      "check_id": "strategy_coverage",
+      "status": "PASS",
+      "severity": "soft",
+      "message": "Context exposes 1 workflow strategy/strategies (minimum 1)."
+    },
+    {
+      "case_id": "metatranscriptome_de",
+      "check_id": "required_operation:host_read_removal",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'host_read_removal' is present."
+    },
+    {
+      "case_id": "metatranscriptome_de",
+      "check_id": "required_operation:rrna_depletion_assessment",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'rrna_depletion_assessment' is present."
+    },
+    {
+      "case_id": "metatranscriptome_de",
+      "check_id": "required_operation:read_mapping",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'read_mapping' is present."
+    },
+    {
+      "case_id": "metatranscriptome_de",
+      "check_id": "required_operation:alignment_processing",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'alignment_processing' is present."
+    },
+    {
+      "case_id": "metatranscriptome_de",
+      "check_id": "required_operation:gene_quantification",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'gene_quantification' is present."
+    },
+    {
+      "case_id": "metatranscriptome_de",
+      "check_id": "required_operation:differential_expression",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'differential_expression' is present."
+    },
+    {
+      "case_id": "metatranscriptome_de",
+      "check_id": "forbidden_operation:asv_inference",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Unrelated stage 'asv_inference' is absent."
+    },
+    {
+      "case_id": "metatranscriptome_de",
+      "check_id": "forbidden_operation:mag_taxonomy",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Unrelated stage 'mag_taxonomy' is absent."
+    },
+    {
+      "case_id": "metatranscriptome_de",
+      "check_id": "accepted_tool:rrna_depletion_assessment",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'rrna_depletion_assessment' contains accepted candidate(s): sortmerna."
+    },
+    {
+      "case_id": "metatranscriptome_de",
+      "check_id": "candidate_redundancy:rrna_depletion_assessment",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'rrna_depletion_assessment' has 1 candidate(s), meeting minimum 1."
+    },
+    {
+      "case_id": "metatranscriptome_de",
+      "check_id": "accepted_tool:gene_quantification",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'gene_quantification' contains accepted candidate(s): featurecounts."
+    },
+    {
+      "case_id": "metatranscriptome_de",
+      "check_id": "candidate_redundancy:gene_quantification",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'gene_quantification' has 1 candidate(s), meeting minimum 1."
+    },
+    {
+      "case_id": "metatranscriptome_de",
+      "check_id": "accepted_tool:differential_expression",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'differential_expression' contains accepted candidate(s): deseq2, edger."
+    },
+    {
+      "case_id": "metatranscriptome_de",
+      "check_id": "candidate_redundancy:differential_expression",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'differential_expression' has 2 candidate(s), meeting minimum 2."
+    },
+    {
+      "case_id": "metagenome_broad_taxonomy",
+      "check_id": "workflow_exists",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Workflow 'metagenome_illumina_taxonomy_broad' exists."
+    },
+    {
+      "case_id": "metagenome_broad_taxonomy",
+      "check_id": "context_match",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Workflow context matches the benchmark scenario."
+    },
+    {
+      "case_id": "metagenome_broad_taxonomy",
+      "check_id": "context_resolves_target",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Selected context resolves to benchmark workflow metagenome_illumina_taxonomy_broad."
+    },
+    {
+      "case_id": "metagenome_broad_taxonomy",
+      "check_id": "strategy_coverage",
+      "status": "PASS",
+      "severity": "soft",
+      "message": "Context exposes 3 workflow strategy/strategies (minimum 3)."
+    },
+    {
+      "case_id": "metagenome_broad_taxonomy",
+      "check_id": "required_operation:raw_read_qc",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'raw_read_qc' is present."
+    },
+    {
+      "case_id": "metagenome_broad_taxonomy",
+      "check_id": "required_operation:read_preprocessing",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'read_preprocessing' is present."
+    },
+    {
+      "case_id": "metagenome_broad_taxonomy",
+      "check_id": "required_operation:taxonomic_profiling",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Required stage 'taxonomic_profiling' is present."
+    },
+    {
+      "case_id": "metagenome_broad_taxonomy",
+      "check_id": "forbidden_operation:genome_binning",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Unrelated stage 'genome_binning' is absent."
+    },
+    {
+      "case_id": "metagenome_broad_taxonomy",
+      "check_id": "forbidden_operation:differential_expression",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Unrelated stage 'differential_expression' is absent."
+    },
+    {
+      "case_id": "metagenome_broad_taxonomy",
+      "check_id": "accepted_tool:taxonomic_profiling",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'taxonomic_profiling' contains accepted candidate(s): kaiju, metaphlan, kraken2."
+    },
+    {
+      "case_id": "metagenome_broad_taxonomy",
+      "check_id": "candidate_redundancy:taxonomic_profiling",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "Stage 'taxonomic_profiling' has 3 candidate(s), meeting minimum 3."
+    },
+    {
+      "case_id": "GLOBAL",
+      "check_id": "global:tool_registry",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "No workflow candidate(s) missing from tools.yaml. Audited 459 workflow candidate references."
+    },
+    {
+      "case_id": "GLOBAL",
+      "check_id": "global:operation_contract",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "No workflow candidate(s) do not declare their workflow operation. Audited 459 workflow candidate references."
+    },
+    {
+      "case_id": "GLOBAL",
+      "check_id": "global:tool_io",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "No workflow candidate(s) missing from tool_io.yaml. Audited 459 workflow candidate references."
+    },
+    {
+      "case_id": "GLOBAL",
+      "check_id": "global:duplicate_candidates",
+      "status": "PASS",
+      "severity": "hard",
+      "message": "No workflow step(s) contain duplicate candidate IDs. Audited 459 workflow candidate references."
+    }
+  ],
+  "regression_validators": [
+    {
+      "name": "validate_scoring_v2.py",
+      "status": "PASS",
+      "returncode": 0,
+      "tail": "Score range: 61 to 100\nUnique score values: 23\n100/100 appearances: 12\nFit labels: {'curated': 411, 'strong': 34, 'supported': 9, 'conditional': 5}\nCompatibility gate: PASS\nOperation gate: PASS\nScientific-fit priority: PASS\nRESULT: PASS"
+    },
+    {
+      "name": "validate_constraints.py",
+      "status": "PASS",
+      "returncode": 0,
+      "tail": "BioFlow constraints structural validation\n========================================================================\nTool constraints:     11\nWorkflow constraints: 10\nErrors:               0\nWarnings:             0\n\nRESULT: PASS"
+    },
+    {
+      "name": "validate_constraint_coverage_v1.py",
+      "status": "PASS",
+      "returncode": 0,
+      "tail": "[PASS] DADA2 overlap warning: warning\n[PASS] DADA2 missing overlap inputs: needs_input\n[PASS] Pangenome workflow 2 genomes: pass\n[PASS] Pangenome workflow 1 genome: block\n\n========================================================================\nRESULT: PASS\nConstraint coverage v1 is structurally valid and functional tests passed."
+    },
+    {
+      "name": "validate_constraint_aware_ranking_v3.py",
+      "status": "PASS",
+      "returncode": 0,
+      "tail": "[PASS] app.py marker: Constraint-aware ranking v3 is active.\n[PASS] app.py marker: dataset-specific constraint blocks this branch\n[PASS] Sequential ranking gate order is correct\n[PASS] Old advisory-only constraint caption removed\n\n========================================================================\nRESULT: PASS\nConstraint-aware ranking v3 is structurally valid and behavior tests passed."
+    },
+    {
+      "name": "validate_mag_taxonomy_fallback_v1.py",
+      "status": "PASS",
+      "returncode": 0,
+      "tail": "MAG taxonomy workflows: metagenome_illumina_mag_coassembly, metagenome_illumina_mag_single\nGTDB-Tk database unavailable -> BLOCK: PASS\nCAT/BAT database available -> PASS: PASS\nsourmash database+taxonomy available -> PASS: PASS\nNon-bacterial/non-archaeal domain mismatch blocks curated MAG fallbacks: PASS\nRanking hard-gate fallback behavior: PASS\nRESULT: PASS"
+    }
+  ]
+}
