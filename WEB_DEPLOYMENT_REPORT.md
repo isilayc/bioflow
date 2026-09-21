@@ -1,4 +1,4 @@
-# BioFlow Web Deployment Report
+# OmicsRoute Web Deployment Report
 
 - Reachable Python source files: 20
 - External import names detected: 3
@@ -15,7 +15,7 @@ streamlit==1.63.0
 
 ## Portability warnings
 
-- None detected in reachable BioFlow source files.
+- None detected in reachable OmicsRoute source files.
 
 ## Smoke-test log
 

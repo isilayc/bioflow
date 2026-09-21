@@ -1,4 +1,4 @@
-from pathlib import Path
+﻿from pathlib import Path
 import os
 import platform
 
@@ -114,13 +114,13 @@ def show_reference_guidance(
     )
 
     status_labels = {
-        "preferred": "✅ Preferred fit",
-        "supported": "✓ Supported",
-        "conditional": "⚠️ Conditional"
+        "preferred": "âœ… Preferred fit",
+        "supported": "âœ“ Supported",
+        "conditional": "âš ï¸ Conditional"
     }
 
     with st.expander(
-        "🧬 Reference / database guidance",
+        "ğŸ§¬ Reference / database guidance",
         expanded=True
     ):
 
@@ -291,15 +291,15 @@ def show_step_recovery_guidance(
             for tool in ready_tools
         )
         st.success(
-            f"✅ **Recommended next action:** continue with **{names}**. "
+            f"âœ… **Recommended next action:** continue with **{names}**. "
             "The blocked candidate remains visible for transparency but is not "
             "treated as runnable."
         )
         return
 
     st.error(
-        "⛔ **No ready candidate remains for this step.** "
-        "BioFlow will not substitute an unrelated method."
+        "â›” **No ready candidate remains for this step.** "
+        "OmicsRoute will not substitute an unrelated method."
     )
 
     recovery = (
@@ -317,7 +317,7 @@ def show_step_recovery_guidance(
 
     if strategies:
         st.warning(
-            "➡️ **Recommended next action:** switch to another validated workflow "
+            "â¡ï¸ **Recommended next action:** switch to another validated workflow "
             "strategy for the same analysis goal."
         )
 
@@ -329,7 +329,7 @@ def show_step_recovery_guidance(
 
         st.caption(
             "Select the alternative from the Workflow strategy control above and "
-            "click Build workflow again. BioFlow does not change scientific methods silently."
+            "click Build workflow again. OmicsRoute does not change scientific methods silently."
         )
 
     if remediations or technical_blocked or operational_blocked:
@@ -359,7 +359,7 @@ def show_step_recovery_guidance(
     if not strategies and not remediations and not technical_blocked and not operational_blocked:
         st.info(
             "**Recommended next action:** no equivalent curated fallback is represented "
-            "in the current BioFlow catalog. Resolve the blocked requirement before continuing."
+            "in the current OmicsRoute catalog. Resolve the blocked requirement before continuing."
         )
 
 
@@ -465,7 +465,7 @@ def show_workflow_overview_and_export(
             context_parts.append(str(value))
 
     if context_parts:
-        st.caption(" → ".join(context_parts))
+        st.caption(" â†’ ".join(context_parts))
 
 
 def show_workflow_export(
@@ -477,7 +477,7 @@ def show_workflow_export(
     st.markdown("## Review & export")
     st.caption(
         "You have reached the end of the recommended workflow. "
-        "Review the route above, then export the current BioFlow recommendation "
+        "Review the route above, then export the current OmicsRoute recommendation "
         "for methods notes, sharing, or later reuse."
     )
 
@@ -490,7 +490,7 @@ def show_workflow_export(
             context_parts.append(str(value))
 
     if context_parts:
-        st.info("Selected route: " + " → ".join(context_parts))
+        st.info("Selected route: " + " â†’ ".join(context_parts))
 
     markdown_data = workflow_to_markdown(workflow)
     json_data = workflow_to_json(workflow)
@@ -528,8 +528,8 @@ def show_workflow_export(
 # ==================================================
 
 st.set_page_config(
-    page_title="BioFlow | Workflow Builder",
-    page_icon="🧬",
+    page_title="OmicsRoute | Workflow Builder",
+    page_icon="ğŸ§¬",
     layout="wide",
     initial_sidebar_state="collapsed"
 )
@@ -543,7 +543,7 @@ st.markdown(
         max-width: 1450px;
     }
 
-    .bioflow-hero {
+    .omicsroute-hero {
         border: 1px solid rgba(128, 128, 128, 0.24);
         border-radius: 18px;
         padding: 1.25rem 1.5rem 1.15rem 1.5rem;
@@ -556,7 +556,7 @@ st.markdown(
             );
     }
 
-    .bioflow-eyebrow {
+    .omicsroute-eyebrow {
         font-size: 0.76rem;
         font-weight: 700;
         letter-spacing: 0.09em;
@@ -564,14 +564,14 @@ st.markdown(
         margin-bottom: 0.45rem;
     }
 
-    .bioflow-hero h1 {
+    .omicsroute-hero h1 {
         font-size: clamp(1.75rem, 3.2vw, 2.65rem);
         line-height: 1.04;
         margin: 0 0 0.7rem 0;
         padding: 0;
     }
 
-    .bioflow-hero p {
+    .omicsroute-hero p {
         font-size: 1.04rem;
         line-height: 1.58;
         max-width: 900px;
@@ -579,14 +579,14 @@ st.markdown(
         margin: 0;
     }
 
-    .bioflow-chips {
+    .omicsroute-chips {
         display: flex;
         flex-wrap: wrap;
         gap: 0.48rem;
         margin-top: 1rem;
     }
 
-    .bioflow-chip {
+    .omicsroute-chip {
         border: 1px solid rgba(128, 128, 128, 0.28);
         border-radius: 999px;
         padding: 0.28rem 0.68rem;
@@ -595,27 +595,27 @@ st.markdown(
         background: rgba(255, 255, 255, 0.04);
     }
 
-    .bioflow-step {
+    .omicsroute-step {
         border: 1px solid rgba(128, 128, 128, 0.20);
         border-radius: 13px;
         padding: 0.8rem 0.9rem;
         min-height: 92px;
     }
 
-    .bioflow-step-number {
+    .omicsroute-step-number {
         font-size: 0.72rem;
         font-weight: 700;
         opacity: 0.60;
         margin-bottom: 0.18rem;
     }
 
-    .bioflow-step-title {
+    .omicsroute-step-title {
         font-size: 0.92rem;
         font-weight: 700;
         margin-bottom: 0.12rem;
     }
 
-    .bioflow-step-text {
+    .omicsroute-step-text {
         font-size: 0.79rem;
         line-height: 1.35;
         opacity: 0.70;
@@ -658,7 +658,7 @@ DATA_DIR = (
 
 def get_file_signature(filenames):
     """
-    Return a stable signature for a group of BioFlow YAML files.
+    Return a stable signature for a group of OmicsRoute YAML files.
 
     Cached calculations automatically refresh when any relevant YAML
     file is edited, while ordinary Streamlit reruns reuse prior results.
@@ -854,7 +854,7 @@ def format_dependency_context_value(
 ):
     """
     Convert workflow context values into the same
-    human-readable form used by the BioFlow UI.
+    human-readable form used by the OmicsRoute UI.
     """
 
     if isinstance(
@@ -1157,18 +1157,15 @@ def build_dependency_coverage(
 
     reports = {}
 
-    dependency_signature = (
-        get_dependency_signature()
-    )
-
+    # The complete audit is already cached by cached_dependency_coverage().
+    # Avoid creating a separate Streamlit cache entry for every workflow.
     for workflow_id in workflows:
 
         reports[
             workflow_id
         ] = (
-            cached_validate_workflow(
-                workflow_id,
-                dependency_signature
+            validate_workflow(
+                workflow_id
             )
         )
 
@@ -1354,12 +1351,13 @@ def cached_dependency_coverage(
 def show_analysis_coverage():
 
     with st.expander(
-        "🗺️ BioFlow analysis coverage"
+        "ğŸ—ºï¸ OmicsRoute analysis coverage"
     ):
 
         st.caption(
             "The full dependency audit is calculated only when requested "
-            "and then cached. This keeps normal workflow selection fast."
+            "and then cached. The first run validates the complete workflow "
+            "catalogue; later loads are reused until catalogue files change."
         )
 
         if st.button(
@@ -1456,10 +1454,10 @@ def show_analysis_coverage():
             )
 
         st.caption(
-            "✅ Dependency-valid = an executable artifact path exists. "
-            "⚠️ Broken / incomplete = a workflow exists but required "
+            "âœ… Dependency-valid = an executable artifact path exists. "
+            "âš ï¸ Broken / incomplete = a workflow exists but required "
             "artifacts cannot be reached or I/O metadata is incomplete. "
-            "⏳ Planned = no workflow exists yet."
+            "â³ Planned = no workflow exists yet."
         )
 
         st.divider()
@@ -1496,14 +1494,14 @@ def show_analysis_coverage():
 
             family_heading = (
                 f"{family_label} "
-                f"— {validated_count}/{total_count} "
+                f"â€” {validated_count}/{total_count} "
                 f"dependency-valid"
             )
 
             if broken_count:
 
                 family_heading += (
-                    f" • {broken_count} incomplete"
+                    f" â€¢ {broken_count} incomplete"
                 )
 
             with st.expander(
@@ -1534,13 +1532,13 @@ def show_analysis_coverage():
                     if status == "valid":
 
                         st.write(
-                            f"✅ **{goal['label']}**"
+                            f"âœ… **{goal['label']}**"
                         )
 
                     elif status == "broken":
 
                         st.write(
-                            f"⚠️ **{goal['label']}**"
+                            f"âš ï¸ **{goal['label']}**"
                         )
 
                     else:
@@ -1553,7 +1551,7 @@ def show_analysis_coverage():
                         )
 
                         st.write(
-                            f"⏳ {goal['label']} "
+                            f"â³ {goal['label']} "
                             f"_{priority}_"
                         )
 
@@ -1569,7 +1567,7 @@ def show_analysis_coverage():
                     if not workflow_reports:
 
                         st.caption(
-                            "↳ Workflow exists in the catalogue, but "
+                            "â†³ Workflow exists in the catalogue, but "
                             "dependency validation could not map it to "
                             "a workflow ID."
                         )
@@ -1579,17 +1577,17 @@ def show_analysis_coverage():
                     for report in workflow_reports:
 
                         workflow_status = (
-                            "✅"
+                            "âœ…"
                             if report.get(
                                 "valid",
                                 False
                             )
                             else
-                            "⚠️"
+                            "âš ï¸"
                         )
 
                         st.caption(
-                            f"↳ {workflow_status} "
+                            f"â†³ {workflow_status} "
                             f"{report.get('workflow_name', report.get('workflow_id'))}"
                         )
 
@@ -1751,7 +1749,7 @@ def show_workflow_input_requirements(
         return
 
     with st.expander(
-        "📥 Required user inputs",
+        "ğŸ“¥ Required user inputs",
         expanded=False
     ):
 
@@ -1772,7 +1770,7 @@ def show_workflow_input_requirements(
                 collection_found = True
 
                 st.write(
-                    f"- 🧺 **{label}** — sample collection"
+                    f"- ğŸ§º **{label}** â€” sample collection"
                 )
 
             else:
@@ -1785,7 +1783,7 @@ def show_workflow_input_requirements(
 
             st.info(
                 "A collection input represents multiple "
-                "biological/sample-level files. BioFlow does "
+                "biological/sample-level files. OmicsRoute does "
                 "not treat it as one ordinary sample artifact."
             )
 
@@ -1821,18 +1819,18 @@ def show_workflow_dependency_validation(
     ):
 
         st.success(
-            "✅ Workflow path is technically complete."
+            "âœ… Workflow path is technically complete."
         )
 
     else:
 
         st.error(
-            "❌ Workflow path is incomplete. One or more required artifacts "
+            "âŒ Workflow path is incomplete. One or more required artifacts "
             "cannot currently reach a downstream step."
         )
 
     with st.expander(
-        "🔗 Technical details"
+        "ğŸ”— Technical details"
     ):
 
         initial_artifacts = (
@@ -1861,7 +1859,7 @@ def show_workflow_dependency_validation(
                 ):
 
                     st.write(
-                        f"- 🧺 {label} (collection)"
+                        f"- ğŸ§º {label} (collection)"
                     )
 
                 else:
@@ -1885,15 +1883,15 @@ def show_workflow_dependency_validation(
 
             if status == "ok":
 
-                symbol = "✅"
+                symbol = "âœ…"
 
             elif status == "unknown":
 
-                symbol = "⚠️"
+                symbol = "âš ï¸"
 
             else:
 
-                symbol = "❌"
+                symbol = "âŒ"
 
             mode = (
                 step_report.get(
@@ -2650,14 +2648,14 @@ def _constraint_status_label(
     """
 
     return {
-        "pass": "✅ PASS",
-        "warning": "⚠️ WARNING",
-        "block": "⛔ BLOCK",
-        "needs_input": "ℹ️ MORE INPUT NEEDED",
-        "not_defined": "➖ NOT DEFINED"
+        "pass": "âœ… PASS",
+        "warning": "âš ï¸ WARNING",
+        "block": "â›” BLOCK",
+        "needs_input": "â„¹ï¸ MORE INPUT NEEDED",
+        "not_defined": "â– NOT DEFINED"
     }.get(
         status,
-        f"⚠️ {str(status).upper()}"
+        f"âš ï¸ {str(status).upper()}"
     )
 
 
@@ -2673,16 +2671,16 @@ def _constraint_status_message(
             "All configured dataset-specific checks passed."
         ),
         "warning": (
-            "The tool remains usable, but BioFlow detected "
+            "The tool remains usable, but OmicsRoute detected "
             "a dataset-specific warning."
         ),
         "block": (
-            "BioFlow detected a dataset-specific condition "
+            "OmicsRoute detected a dataset-specific condition "
             "that blocks or invalidates this configuration."
         ),
         "needs_input": (
             "More dataset information is needed before "
-            "BioFlow can finish the suitability check."
+            "OmicsRoute can finish the suitability check."
         ),
         "not_defined": (
             "No dataset-specific constraints are defined "
@@ -2802,13 +2800,13 @@ def show_workflow_dataset_profile(
     )
 
     with st.expander(
-        "🧪 Dataset profile & suitability",
+        "ğŸ§ª Dataset profile & suitability",
         expanded=True
     ):
 
         st.write(
             "Enter dataset-specific information once here. "
-            "BioFlow will reuse the same profile for every "
+            "OmicsRoute will reuse the same profile for every "
             "relevant tool in this workflow."
         )
 
@@ -2842,7 +2840,7 @@ def show_workflow_dataset_profile(
 
             st.warning(
                 "Some tools define the same dataset field "
-                "differently. BioFlow is using the first "
+                "differently. OmicsRoute is using the first "
                 "definition and reporting this metadata "
                 "conflict for review."
             )
@@ -2970,31 +2968,31 @@ def show_workflow_dataset_profile(
             if workflow_status == "pass":
 
                 st.success(
-                    f"{workflow_label} — {workflow_message}"
+                    f"{workflow_label} â€” {workflow_message}"
                 )
 
             elif workflow_status == "warning":
 
                 st.warning(
-                    f"{workflow_label} — {workflow_message}"
+                    f"{workflow_label} â€” {workflow_message}"
                 )
 
             elif workflow_status == "block":
 
                 st.error(
-                    f"{workflow_label} — {workflow_message}"
+                    f"{workflow_label} â€” {workflow_message}"
                 )
 
             elif workflow_status == "needs_input":
 
                 st.info(
-                    f"{workflow_label} — {workflow_message}"
+                    f"{workflow_label} â€” {workflow_message}"
                 )
 
             else:
 
                 st.warning(
-                    f"{workflow_label} — {workflow_message}"
+                    f"{workflow_label} â€” {workflow_message}"
                 )
 
             for check in workflow_report.get(
@@ -3114,7 +3112,7 @@ def show_workflow_dataset_profile(
             )
 
             st.write(
-                f"{label} — "
+                f"{label} â€” "
                 f"**{entry['tool_name']}** "
                 f"(step {entry['step_number']}: "
                 f"{entry['step_name']})"
@@ -3145,7 +3143,7 @@ def evaluate_step_tool_constraints(
     Evaluate one tool against the shared workflow dataset profile.
 
     This single helper is reused by both the ranking layer and the
-    tool-detail display so BioFlow cannot rank with one profile while
+    tool-detail display so OmicsRoute cannot rank with one profile while
     displaying another.
     """
 
@@ -3274,7 +3272,7 @@ def show_dataset_constraint_checks(
     )
 
     st.markdown(
-        "#### 🧪 Dataset suitability"
+        "#### ğŸ§ª Dataset suitability"
     )
 
     label = (
@@ -3292,31 +3290,31 @@ def show_dataset_constraint_checks(
     if status == "pass":
 
         st.success(
-            f"{label} — {message}"
+            f"{label} â€” {message}"
         )
 
     elif status == "warning":
 
         st.warning(
-            f"{label} — {message}"
+            f"{label} â€” {message}"
         )
 
     elif status == "block":
 
         st.error(
-            f"{label} — {message}"
+            f"{label} â€” {message}"
         )
 
     elif status == "needs_input":
 
         st.info(
-            f"{label} — {message}"
+            f"{label} â€” {message}"
         )
 
     else:
 
         st.info(
-            f"{label} — {message}"
+            f"{label} â€” {message}"
         )
 
     checks = (
@@ -3425,14 +3423,14 @@ def _strategy_fit_badge(fit):
     )
 
     return {
-        "strong": "🟢 Strong strategy fit",
-        "supported": "🔵 Supported strategy fit",
-        "conditional": "🟠 Conditional strategy fit",
-        "weak": "🟡 Weak strategy fit",
-        "incompatible": "🔴 Incompatible strategy fit"
+        "strong": "ğŸŸ¢ Strong strategy fit",
+        "supported": "ğŸ”µ Supported strategy fit",
+        "conditional": "ğŸŸ  Conditional strategy fit",
+        "weak": "ğŸŸ¡ Weak strategy fit",
+        "incompatible": "ğŸ”´ Incompatible strategy fit"
     }.get(
         normalized,
-        "⚪ Strategy fit not classified"
+        "âšª Strategy fit not classified"
     )
 
 
@@ -3471,7 +3469,7 @@ def show_strategy_fit(tool):
         return
 
     st.markdown(
-        "#### 🎯 Strategy-specific fit"
+        "#### ğŸ¯ Strategy-specific fit"
     )
 
     badge = (
@@ -3566,7 +3564,7 @@ def show_strategy_fit(tool):
 
         st.caption(
             "This explicit workflow-strategy classification controls "
-            "the scientific-suitability component of the BioFlow "
+            "the scientific-suitability component of the OmicsRoute "
             f"recommendation score ({scientific_points}/60)."
         )
 
@@ -3586,7 +3584,7 @@ def show_live_biotools_metadata(
     )
 
     if st.button(
-        "🌐 Load live bio.tools metadata",
+        "ğŸŒ Load live bio.tools metadata",
         key=(
             f"load_biotools_"
             f"{unique_key}"
@@ -3690,7 +3688,7 @@ def show_score_details(
     tool
 ):
     """
-    Display BioFlow scoring v2.
+    Display OmicsRoute scoring v2.
 
     Compatibility and operation matching are gates, not points.
     Literature evidence and operational feasibility remain separate
@@ -3704,7 +3702,7 @@ def show_score_details(
     )
 
     st.metric(
-        "BioFlow recommendation score",
+        "OmicsRoute recommendation score",
         f"{score['total']}/100"
     )
 
@@ -3723,7 +3721,7 @@ def show_score_details(
 
     st.write(
         "**Scientific suitability:**",
-        f"{fit_label} — "
+        f"{fit_label} â€” "
         f"{score.get('scientific_fit', 0)}/"
         f"{score.get('scientific_fit_max', 60)}"
     )
@@ -3766,13 +3764,13 @@ def show_score_details(
         ):
 
             st.success(
-                "✓ Dataset compatibility gate"
+                "âœ“ Dataset compatibility gate"
             )
 
         else:
 
             st.error(
-                "✗ Dataset compatibility gate"
+                "âœ— Dataset compatibility gate"
             )
 
     with gate_col2:
@@ -3783,13 +3781,13 @@ def show_score_details(
         ):
 
             st.success(
-                "✓ Operation-support gate"
+                "âœ“ Operation-support gate"
             )
 
         else:
 
             st.error(
-                "✗ Operation-support gate"
+                "âœ— Operation-support gate"
             )
 
     st.caption(
@@ -3833,7 +3831,7 @@ def show_recent_literature(
     )
 
     if st.button(
-        "📚 Search literature evidence",
+        "ğŸ“š Search literature evidence",
         key=(
             f"literature_button_"
             f"{unique_key}"
@@ -3917,7 +3915,7 @@ def show_recent_literature(
     )
 
     st.markdown(
-        "#### 📚 Scientific evidence"
+        "#### ğŸ“š Scientific evidence"
     )
 
     providers = (
@@ -3934,7 +3932,7 @@ def show_recent_literature(
         st.caption(
             "Sources searched: "
             +
-            " • ".join(
+            " â€¢ ".join(
                 providers
             )
             +
@@ -3953,7 +3951,7 @@ def show_recent_literature(
     if partial_errors:
 
         with st.expander(
-            "⚠️ Partial literature-source warnings"
+            "âš ï¸ Partial literature-source warnings"
         ):
 
             for error in partial_errors:
@@ -4023,7 +4021,7 @@ def show_recent_literature(
         "provider confirmation and citation signal. It measures "
         "how well the named tool is represented in the retrieved "
         "literature; it is not treated as a direct measure of "
-        "scientific superiority and does not change the BioFlow "
+        "scientific superiority and does not change the OmicsRoute "
         "recommendation score."
     )
 
@@ -4174,7 +4172,7 @@ def show_recent_literature(
             if abstract:
 
                 with st.expander(
-                    f"Abstract — paper {index}"
+                    f"Abstract â€” paper {index}"
                 ):
 
                     st.write(
@@ -4244,7 +4242,7 @@ def evaluate_step_tools(
     Evaluate literature support for every candidate tool.
 
     Scoring v2 deliberately does NOT blend this signal into the
-    BioFlow recommendation score. A failed external search is stored
+    OmicsRoute recommendation score. A failed external search is stored
     as "not evaluated", not as zero evidence.
     """
 
@@ -4255,7 +4253,7 @@ def evaluate_step_tools(
     )
 
     if st.button(
-        "📚 Evaluate literature evidence for all tools",
+        "ğŸ“š Evaluate literature evidence for all tools",
         key=(
             f"evaluate_all_v2_"
             f"{workflow_id}_"
@@ -4376,7 +4374,7 @@ def evaluate_step_tools(
                 "evidence": evidence_summary,
 
                 # Backward-compatible field. In scoring v2 literature
-                # no longer rewrites the BioFlow recommendation score.
+                # no longer rewrites the OmicsRoute recommendation score.
                 "final_score": base_score
             }
 
@@ -4423,11 +4421,11 @@ def show_compute_environment_profile():
     Operational feasibility is kept separate from scientific
     suitability. When enabled, it can influence display ranking
     after technical dependency status, but it never silently
-    changes the scientific BioFlow score.
+    changes the scientific OmicsRoute score.
     """
 
     with st.expander(
-        "💻 Compute environment & operational feasibility",
+        "ğŸ’» Compute environment & operational feasibility",
         expanded=False
     ):
 
@@ -4447,7 +4445,7 @@ def show_compute_environment_profile():
         if not enabled:
 
             st.info(
-                "Operational re-ranking is off. BioFlow will keep the "
+                "Operational re-ranking is off. OmicsRoute will keep the "
                 "current scientific/technical ranking."
             )
 
@@ -4645,7 +4643,7 @@ def show_compute_environment_profile():
 
         st.caption(
             "Resource warnings based on qualitative demand labels are "
-            "heuristics, not universal vendor minimums. BioFlow only "
+            "heuristics, not universal vendor minimums. OmicsRoute only "
             "uses hard blocking when a requirement is explicit."
         )
 
@@ -4692,25 +4690,25 @@ def show_operational_feasibility(
         return
 
     st.markdown(
-        "#### 💻 Operational feasibility"
+        "#### ğŸ’» Operational feasibility"
     )
 
     if status == "good":
 
         st.success(
-            "✓ Good operational fit for the selected compute profile."
+            "âœ“ Good operational fit for the selected compute profile."
         )
 
     elif status == "warning":
 
         st.warning(
-            "⚠ Potential operational friction for the selected compute profile."
+            "âš  Potential operational friction for the selected compute profile."
         )
 
     elif status == "blocked":
 
         st.error(
-            "⛔ Operationally blocked for the selected compute profile."
+            "â›” Operationally blocked for the selected compute profile."
         )
 
     else:
@@ -4726,7 +4724,7 @@ def show_operational_feasibility(
     ):
 
         st.write(
-            f"- ⛔ {blocker}"
+            f"- â›” {blocker}"
         )
 
     for warning in result.get(
@@ -4735,7 +4733,7 @@ def show_operational_feasibility(
     ):
 
         st.write(
-            f"- ⚠️ {warning}"
+            f"- âš ï¸ {warning}"
         )
 
     for reason in result.get(
@@ -4823,7 +4821,7 @@ def show_operational_feasibility(
     if labels:
 
         st.caption(
-            " • ".join(
+            " â€¢ ".join(
                 labels
             )
         )
@@ -4924,7 +4922,7 @@ def show_tool_discovery(
     )
 
     if st.button(
-        "🔎 Research additional alternatives",
+        "ğŸ” Research additional alternatives",
         key=(
             f"discover_tools_v4_"
             f"{workflow_id}_"
@@ -4933,7 +4931,7 @@ def show_tool_discovery(
     ):
 
         with st.spinner(
-            "Checking BioFlow capability records and bio.tools..."
+            "Checking OmicsRoute capability records and bio.tools..."
         ):
 
             result = (
@@ -5014,7 +5012,7 @@ def show_tool_discovery(
 
     st.caption(
         f"Selected feature strategy: {str(selected_strategy).upper()} "
-        f"• marker: {marker} • operation: {operation}"
+        f"â€¢ marker: {marker} â€¢ operation: {operation}"
     )
 
     c1, c2, c3, c4 = st.columns(4)
@@ -5081,7 +5079,7 @@ def show_tool_discovery(
     if partial_errors:
 
         with st.expander(
-            "⚠️ Registry warnings"
+            "âš ï¸ Registry warnings"
         ):
 
             for error in partial_errors:
@@ -5150,12 +5148,12 @@ def show_tool_discovery(
     )
 
     st.markdown(
-        "#### ✅ Verified direct alternatives"
+        "#### âœ… Verified direct alternatives"
     )
 
     st.caption(
         "These match the selected operation, ASV/OTU strategy, "
-        "marker/context and step scope according to BioFlow's curated "
+        "marker/context and step scope according to OmicsRoute's curated "
         "capability records."
     )
 
@@ -5178,7 +5176,7 @@ def show_tool_discovery(
         )
 
         with st.expander(
-            f"✅ {candidate.get('name', 'Unnamed resource')}"
+            f"âœ… {candidate.get('name', 'Unnamed resource')}"
         ):
 
             for reason in evaluation.get(
@@ -5271,13 +5269,13 @@ def show_tool_discovery(
     )
 
     st.markdown(
-        "#### 🧭 Related, but not a drop-in replacement"
+        "#### ğŸ§­ Related, but not a drop-in replacement"
     )
 
     st.caption(
         "These are scientifically relevant alternatives, but they use "
         "another feature strategy, represent an end-to-end service/framework, "
-        "or need a different input route. BioFlow does not mix them into the "
+        "or need a different input route. OmicsRoute does not mix them into the "
         "direct tool ranking."
     )
 
@@ -5320,8 +5318,8 @@ def show_tool_discovery(
         )
 
         with st.expander(
-            f"🧭 {candidate.get('name', 'Unnamed resource')} "
-            f"— {resource_type}"
+            f"ğŸ§­ {candidate.get('name', 'Unnamed resource')} "
+            f"â€” {resource_type}"
         ):
 
             st.write(
@@ -5423,11 +5421,11 @@ def show_tool_discovery(
     )
 
     st.markdown(
-        "#### 🗂️ Unverified bio.tools leads"
+        "#### ğŸ—‚ï¸ Unverified bio.tools leads"
     )
 
     st.caption(
-        "These were found in the structured registry, but BioFlow has "
+        "These were found in the structured registry, but OmicsRoute has "
         "not yet curated their ASV/OTU/marker capability. They are leads "
         "for review, not recommendations."
     )
@@ -5541,8 +5539,8 @@ def show_tool_discovery(
             )
 
             with st.expander(
-                f"🗂️ {candidate.get('name', 'Unnamed resource')} "
-                f"— registry screening {score}/100"
+                f"ğŸ—‚ï¸ {candidate.get('name', 'Unnamed resource')} "
+                f"â€” registry screening {score}/100"
             ):
 
                 st.warning(
@@ -5602,20 +5600,20 @@ def show_tool_discovery(
 
 st.markdown(
     """
-    <div class="bioflow-hero">
-        <div class="bioflow-eyebrow">BIOFLOW • WEB RELEASE CANDIDATE</div>
+    <div class="omicsroute-hero">
+        <div class="omicsroute-eyebrow">BIOFLOW â€¢ WEB RELEASE CANDIDATE</div>
         <h1>Build evidence-aware bioinformatics workflows</h1>
         <p>
             Build a context-specific analysis route from sample type,
             sequencing setup, biological objective, dataset constraints,
             technical dependencies, and operational feasibility.
         </p>
-        <div class="bioflow-chips">
-            <span class="bioflow-chip">Scientific fit</span>
-            <span class="bioflow-chip">Constraint-aware</span>
-            <span class="bioflow-chip">Dependency-validated</span>
-            <span class="bioflow-chip">Fallback-aware</span>
-            <span class="bioflow-chip">Exportable</span>
+        <div class="omicsroute-chips">
+            <span class="omicsroute-chip">Scientific fit</span>
+            <span class="omicsroute-chip">Constraint-aware</span>
+            <span class="omicsroute-chip">Dependency-validated</span>
+            <span class="omicsroute-chip">Fallback-aware</span>
+            <span class="omicsroute-chip">Exportable</span>
         </div>
     </div>
     """,
@@ -5629,27 +5627,27 @@ link_col, note_col = st.columns(
 
 with link_col:
     st.link_button(
-        "View source on GitHub ↗",
-        "https://github.com/isilayc/bioflow"
+        "View source on GitHub â†—",
+        "https://github.com/isilayc/omicsroute"
     )
 
 with note_col:
     st.caption(
-        "BioFlow recommends analysis workflows and tools; it does not execute "
+        "OmicsRoute recommends analysis workflows and tools; it does not execute "
         "the underlying bioinformatics software."
     )
 
-st.markdown("#### How BioFlow works")
+st.markdown("#### How OmicsRoute works")
 
 quick_1, quick_2, quick_3, quick_4 = st.columns(4)
 
 with quick_1:
     st.markdown(
         """
-        <div class="bioflow-step">
-            <div class="bioflow-step-number">STEP 1</div>
-            <div class="bioflow-step-title">Describe the analysis</div>
-            <div class="bioflow-step-text">
+        <div class="omicsroute-step">
+            <div class="omicsroute-step-number">STEP 1</div>
+            <div class="omicsroute-step-title">Describe the analysis</div>
+            <div class="omicsroute-step-text">
                 Select sample type, sequencing setup and analysis goal.
             </div>
         </div>
@@ -5660,10 +5658,10 @@ with quick_1:
 with quick_2:
     st.markdown(
         """
-        <div class="bioflow-step">
-            <div class="bioflow-step-number">STEP 2</div>
-            <div class="bioflow-step-title">Choose the route</div>
-            <div class="bioflow-step-text">
+        <div class="omicsroute-step">
+            <div class="omicsroute-step-number">STEP 2</div>
+            <div class="omicsroute-step-title">Choose the route</div>
+            <div class="omicsroute-step-text">
                 Compare curated workflow strategies for the selected context.
             </div>
         </div>
@@ -5674,10 +5672,10 @@ with quick_2:
 with quick_3:
     st.markdown(
         """
-        <div class="bioflow-step">
-            <div class="bioflow-step-number">STEP 3</div>
-            <div class="bioflow-step-title">Check suitability</div>
-            <div class="bioflow-step-text">
+        <div class="omicsroute-step">
+            <div class="omicsroute-step-number">STEP 3</div>
+            <div class="omicsroute-step-title">Check suitability</div>
+            <div class="omicsroute-step-text">
                 Evaluate dataset constraints, dependencies and compute fit.
             </div>
         </div>
@@ -5688,10 +5686,10 @@ with quick_3:
 with quick_4:
     st.markdown(
         """
-        <div class="bioflow-step">
-            <div class="bioflow-step-number">STEP 4</div>
-            <div class="bioflow-step-title">Review &amp; export</div>
-            <div class="bioflow-step-text">
+        <div class="omicsroute-step">
+            <div class="omicsroute-step-number">STEP 4</div>
+            <div class="omicsroute-step-title">Review &amp; export</div>
+            <div class="omicsroute-step-text">
                 Review the recommended route, then download it as Markdown or JSON.
             </div>
         </div>
@@ -5700,13 +5698,13 @@ with quick_4:
     )
 
 with st.expander(
-    "📚 Catalogue coverage & validation",
+    "ğŸ“š Catalogue coverage & validation",
     expanded=False
 ):
     show_analysis_coverage()
 
 with st.expander(
-    "ℹ️ About BioFlow & methodology",
+    "â„¹ï¸ About OmicsRoute & methodology",
     expanded=False
 ):
     about_tab, method_tab, limits_tab = st.tabs(
@@ -5718,20 +5716,20 @@ with st.expander(
     )
 
     with about_tab:
-        st.markdown("### BioFlow v1.0.0")
+        st.markdown("### OmicsRoute v1.1.0")
         st.write(
-            "BioFlow is a bioinformatics workflow planning and decision-support "
+            "OmicsRoute is a bioinformatics workflow planning and decision-support "
             "system. It builds context-specific analysis routes from the sample "
             "type, sequencing setup, biological objective, technical dependencies, "
             "dataset constraints, and operational context."
         )
         st.write(
-            "BioFlow recommends workflows and candidate tools; it does not execute "
+            "OmicsRoute recommends workflows and candidate tools; it does not execute "
             "the underlying bioinformatics software."
         )
         st.caption(
-            "Public web release: v1.0.0 • "
-            "Source: https://github.com/isilayc/bioflow"
+            "Public web release: v1.1.0 â€¢ "
+            "Source: https://github.com/isilayc/omicsroute"
         )
 
     with method_tab:
@@ -5739,7 +5737,7 @@ with st.expander(
         st.markdown(
             """
             **1. Workflow context**  
-            BioFlow first narrows the catalogue using sample type, sequencing
+            OmicsRoute first narrows the catalogue using sample type, sequencing
             technology, read type, analysis goal, and route-specific context.
 
             **2. Scientific fit**  
@@ -5760,21 +5758,21 @@ with st.expander(
             **5. Evidence and fallback logic**  
             Literature and registry evidence can refine otherwise comparable
             candidates, but it does not override hard technical or dataset
-            blocks. If a route is blocked, BioFlow distinguishes direct
+            blocks. If a route is blocked, OmicsRoute distinguishes direct
             alternatives, alternative workflow strategies, and remediation
             when no equivalent substitute is represented.
             """
         )
 
     with limits_tab:
-        st.markdown("### How to interpret BioFlow")
+        st.markdown("### How to interpret OmicsRoute")
         st.write(
-            "BioFlow is research software and should be used as decision support, "
+            "OmicsRoute is research software and should be used as decision support, "
             "not as a substitute for the documentation and assumptions of the "
             "underlying bioinformatics tools."
         )
         st.write(
-            "Recommendation scores are BioFlow support scores within the curated "
+            "Recommendation scores are OmicsRoute support scores within the curated "
             "catalogue; they are not universal measures of tool quality."
         )
         st.write(
@@ -5792,7 +5790,7 @@ st.divider()
 
 st.markdown("## Build a workflow")
 st.caption(
-    "Start with the biological and sequencing context. BioFlow will narrow "
+    "Start with the biological and sequencing context. OmicsRoute will narrow "
     "the available strategies as you go."
 )
 
@@ -6016,7 +6014,7 @@ if len(strategy_ids) > 1:
 
             st.caption(
                 "Differential abundance starts from an existing microbial feature-count "
-                "table plus sample metadata. Choose the study-design class so BioFlow can "
+                "table plus sample metadata. Choose the study-design class so OmicsRoute can "
                 "rank statistical methods by their actual modelling capabilities. There is "
                 "no universal gold-standard microbiome DA method, so method assumptions and "
                 "robustness across alternatives remain important."
@@ -6030,7 +6028,7 @@ if len(strategy_ids) > 1:
 
             st.caption(
                 "Amplicon analysis is not a single ASV-vs-OTU switch. "
-                "BioFlow treats complete ecosystems and workflows as separate "
+                "OmicsRoute treats complete ecosystems and workflows as separate "
                 "routes when their preprocessing, feature-generation and taxonomy "
                 "logic differ. Choose the route you actually want to run."
             )
@@ -6099,9 +6097,9 @@ compute_profile = (
 
 st.caption(
     f"Selected context: "
-    f"{sample} → "
-    f"{sequencing} → "
-    f"{read_type} → "
+    f"{sample} â†’ "
+    f"{sequencing} â†’ "
+    f"{read_type} â†’ "
     f"{goal}"
 )
 
@@ -6348,9 +6346,9 @@ else:
             ]
 
             st.info(
-                "🔀 **Run multiple tools here — do not choose only one.** "
+                "ğŸ”€ **Run multiple tools here â€” do not choose only one.** "
                 "Each tool receives the same upstream data and produces "
-                "an independent result. BioFlow needs at least "
+                "an independent result. OmicsRoute needs at least "
                 f"**{min_required}** successful tool results before the "
                 "workflow can continue."
             )
@@ -6360,7 +6358,7 @@ else:
                 st.write(
                     "**Run independently:** "
                     +
-                    " • ".join(
+                    " â€¢ ".join(
                         tool_names
                     )
                 )
@@ -6409,7 +6407,7 @@ else:
         #
         # Research discovery used to render in a side column before
         # the curated ranking. Once discovery returned many results,
-        # Streamlit pushed the actual BioFlow recommendations below
+        # Streamlit pushed the actual OmicsRoute recommendations below
         # the discovery panel, making it look as if no tool had been
         # recommended. Curated recommendations now always render first.
         #
@@ -6572,37 +6570,37 @@ else:
                 if technical_status == "blocked":
 
                     st.error(
-                        f"⛔ {tool['name']} — cannot run because an input is missing"
+                        f"â›” {tool['name']} â€” cannot run because an input is missing"
                     )
 
                 elif constraint_status == "block":
 
                     st.error(
-                        f"⛔ {tool['name']} — dataset-specific constraint blocks this branch"
+                        f"â›” {tool['name']} â€” dataset-specific constraint blocks this branch"
                     )
 
                 elif technical_status == "unknown":
 
                     st.warning(
-                        f"⚠️ {tool['name']} — I/O metadata is incomplete"
+                        f"âš ï¸ {tool['name']} â€” I/O metadata is incomplete"
                     )
 
                 elif constraint_status == "warning":
 
                     st.warning(
-                        f"⚠️ {tool['name']} — ready with a dataset-specific warning"
+                        f"âš ï¸ {tool['name']} â€” ready with a dataset-specific warning"
                     )
 
                 elif technical_status == "runnable":
 
                     st.success(
-                        f"✅ {tool['name']} — ready to run"
+                        f"âœ… {tool['name']} â€” ready to run"
                     )
 
                 else:
 
                     st.write(
-                        f"**➖ {tool['name']} — not evaluated**"
+                        f"**â– {tool['name']} â€” not evaluated**"
                     )
 
         else:
@@ -6642,21 +6640,21 @@ else:
 
                 st.caption(
                     "Eligible tools are ordered by scientific fit, dataset warnings, "
-                    "BioFlow support score and literature evidence tie-breakers."
+                    "OmicsRoute support score and literature evidence tie-breakers."
                 )
 
             elif has_strategy_fit:
 
                 st.caption(
                     "Blocked tools stay visible for transparency; eligible tools are "
-                    "ordered by scientific fit, dataset warnings and BioFlow support score."
+                    "ordered by scientific fit, dataset warnings and OmicsRoute support score."
                 )
 
             else:
 
                 st.caption(
                     "Blocked tools stay visible for transparency; eligible tools are "
-                    "ordered by scientific suitability, warnings and BioFlow support score."
+                    "ordered by scientific suitability, warnings and OmicsRoute support score."
                 )
 
             def _ranking_signature(
@@ -6757,7 +6755,7 @@ else:
             )
 
             # Equal rank signatures receive the same displayed rank.
-            # BioFlow therefore does not invent a winner by alphabetical
+            # OmicsRoute therefore does not invent a winner by alphabetical
             # order when the available evidence cannot distinguish tools.
             rank_lookup = {}
 
@@ -6854,19 +6852,19 @@ else:
 
                 if technical_status == "runnable":
 
-                    status_symbol = "✅"
+                    status_symbol = "âœ…"
 
                 elif technical_status == "blocked":
 
-                    status_symbol = "⛔"
+                    status_symbol = "â›”"
 
                 elif technical_status == "unknown":
 
-                    status_symbol = "⚠️"
+                    status_symbol = "âš ï¸"
 
                 else:
 
-                    status_symbol = "➖"
+                    status_symbol = "â–"
 
                 fit_display = (
                     tool.get(
@@ -6879,7 +6877,7 @@ else:
                 )
 
                 fit_suffix = (
-                    f" • {fit_display}"
+                    f" â€¢ {fit_display}"
                 )
 
                 constraint_suffix = ""
@@ -6887,19 +6885,19 @@ else:
                 if constraint_status == "block":
 
                     constraint_suffix = (
-                        " • dataset constraint: BLOCK"
+                        " â€¢ dataset constraint: BLOCK"
                     )
 
                 elif constraint_status == "warning":
 
                     constraint_suffix = (
-                        " • dataset constraint: warning"
+                        " â€¢ dataset constraint: warning"
                     )
 
                 elif constraint_status == "needs_input":
 
                     constraint_suffix = (
-                        " • dataset constraint: needs input"
+                        " â€¢ dataset constraint: needs input"
                     )
 
                 operational_suffix = ""
@@ -6912,25 +6910,25 @@ else:
                     if operational_status == "good":
 
                         operational_suffix = (
-                            " • operational fit: good"
+                            " â€¢ operational fit: good"
                         )
 
                     elif operational_status == "warning":
 
                         operational_suffix = (
-                            " • operational warning"
+                            " â€¢ operational warning"
                         )
 
                     elif operational_status == "blocked":
 
                         operational_suffix = (
-                            " • operationally blocked"
+                            " â€¢ operationally blocked"
                         )
 
                     elif operational_status == "unknown":
 
                         operational_suffix = (
-                            " • operational data incomplete"
+                            " â€¢ operational data incomplete"
                         )
 
                 if technical_status == "blocked":
@@ -6938,7 +6936,7 @@ else:
                     st.error(
                         f"{status_symbol} {rank}. "
                         f"{tool['name']} "
-                        f"— {displayed_score}/100 "
+                        f"â€” {displayed_score}/100 "
                         f"(missing prerequisite artifact)"
                         f"{fit_suffix}"
                         f"{constraint_suffix}"
@@ -6957,9 +6955,9 @@ else:
                 ):
 
                     st.error(
-                        f"⛔ {rank}. "
+                        f"â›” {rank}. "
                         f"{tool['name']} "
-                        f"— {displayed_score}/100"
+                        f"â€” {displayed_score}/100"
                         f"{fit_suffix}"
                         f"{constraint_suffix}"
                         f"{operational_suffix}"
@@ -6968,9 +6966,9 @@ else:
                 elif constraint_status == "block":
 
                     st.error(
-                        f"⛔ {rank}. "
+                        f"â›” {rank}. "
                         f"{tool['name']} "
-                        f"— {displayed_score}/100"
+                        f"â€” {displayed_score}/100"
                         f"{fit_suffix}"
                         f"{constraint_suffix}"
                         f"{operational_suffix}"
@@ -6981,7 +6979,7 @@ else:
                     st.warning(
                         f"{status_symbol} {rank}. "
                         f"{tool['name']} "
-                        f"— {displayed_score}/100 "
+                        f"â€” {displayed_score}/100 "
                         f"(I/O metadata incomplete)"
                         f"{fit_suffix}"
                         f"{constraint_suffix}"
@@ -6991,10 +6989,10 @@ else:
                 elif constraint_status == "warning":
 
                     st.warning(
-                        f"{'🥇 ' if rank == 1 else ''}"
+                        f"{'ğŸ¥‡ ' if rank == 1 else ''}"
                         f"{status_symbol} {rank}. "
                         f"{tool['name']} "
-                        f"— {displayed_score}/100"
+                        f"â€” {displayed_score}/100"
                         f"{fit_suffix}"
                         f"{constraint_suffix}"
                         f"{operational_suffix}"
@@ -7014,10 +7012,10 @@ else:
                 ):
 
                     st.warning(
-                        f"{'🥇 ' if rank == 1 else ''}"
+                        f"{'ğŸ¥‡ ' if rank == 1 else ''}"
                         f"{status_symbol} {rank}. "
                         f"{tool['name']} "
-                        f"— {displayed_score}/100"
+                        f"â€” {displayed_score}/100"
                         f"{fit_suffix}"
                         f"{constraint_suffix}"
                         f"{operational_suffix}"
@@ -7032,9 +7030,9 @@ else:
                 ):
 
                     st.success(
-                        f"🥇 {status_symbol} {rank}. "
+                        f"ğŸ¥‡ {status_symbol} {rank}. "
                         f"{tool['name']} "
-                        f"— {displayed_score}/100"
+                        f"â€” {displayed_score}/100"
                         f"{fit_suffix}"
                         f"{constraint_suffix}"
                         f"{operational_suffix}"
@@ -7045,7 +7043,7 @@ else:
                     st.write(
                         f"**{status_symbol} {rank}. "
                         f"{tool['name']} "
-                        f"— {displayed_score}/100"
+                        f"â€” {displayed_score}/100"
                         f"{fit_suffix}"
                         f"{constraint_suffix}"
                         f"{operational_suffix}**"
@@ -7075,7 +7073,7 @@ else:
             if step_mode == "parallel":
 
                 expander_label = (
-                    f"Parallel tool {position} — "
+                    f"Parallel tool {position} â€” "
                     f"{tool['name']}"
                 )
 
@@ -7093,13 +7091,13 @@ else:
                 if step_mode == "parallel":
 
                     st.metric(
-                        "BioFlow support score",
+                        "OmicsRoute support score",
                         f"{score_lookup[tool['id']]}/100"
                     )
 
                     st.caption(
                         "This score describes support for the tool; it does not "
-                        "mean BioFlow is choosing this tool instead of the other "
+                        "mean OmicsRoute is choosing this tool instead of the other "
                         "parallel tools."
                     )
 
@@ -7123,21 +7121,21 @@ else:
                     if step_mode == "parallel":
 
                         st.success(
-                            "✓ This parallel branch has all "
+                            "âœ“ This parallel branch has all "
                             "technical prerequisites available"
                         )
 
                     else:
 
                         st.success(
-                            "✓ Technical prerequisites are "
+                            "âœ“ Technical prerequisites are "
                             "available at this workflow step"
                         )
 
                 elif technical_status == "blocked":
 
                     st.error(
-                        "✗ Technical prerequisite artifact is missing"
+                        "âœ— Technical prerequisite artifact is missing"
                     )
 
                     for artifact_id in technical.get(
@@ -7153,7 +7151,7 @@ else:
                 elif technical_status == "unknown":
 
                     st.warning(
-                        "⚠ Tool I/O dependency metadata is not defined "
+                        "âš  Tool I/O dependency metadata is not defined "
                         "yet, so technical executability cannot be confirmed."
                     )
 
@@ -7169,13 +7167,13 @@ else:
                 ]:
 
                     st.success(
-                        "✓ Compatible with the current dataset"
+                        "âœ“ Compatible with the current dataset"
                     )
 
                 else:
 
                     st.error(
-                        "⚠ Compatibility problem"
+                        "âš  Compatibility problem"
                     )
 
                     for problem in tool.get(
@@ -7256,7 +7254,7 @@ else:
 
                         st.caption(
                             "The literature-support signal is shown separately "
-                            "and does not numerically rewrite the BioFlow "
+                            "and does not numerically rewrite the OmicsRoute "
                             "recommendation score."
                         )
 
@@ -7350,7 +7348,7 @@ else:
         ):
 
             st.markdown(
-                "## ↓"
+                "## â†“"
             )
 
 
@@ -7365,12 +7363,12 @@ else:
     st.divider()
 
     with st.expander(
-        "🔎 Advanced registry search for uncurated alternatives (optional)",
+        "ğŸ” Advanced registry search for uncurated alternatives (optional)",
         expanded=False
     ):
 
         st.caption(
-            "Core amplicon routes are curated above. Use this only when you want BioFlow to search beyond the "
+            "Core amplicon routes are curated above. Use this only when you want OmicsRoute to search beyond the "
             "curated recommendations above. Select one workflow step; "
             "discovery results do not automatically enter the official ranking."
         )
@@ -7482,14 +7480,15 @@ footer_left, footer_right = st.columns(
 
 with footer_left:
     st.caption(
-        "BioFlow • Research software release candidate. "
+        "OmicsRoute â€¢ Research software release candidate. "
         "Use recommendations together with dataset requirements, reference "
         "database requirements, and the documentation of the underlying tools."
     )
 
 with footer_right:
     st.caption(
-        "[GitHub](https://github.com/isilayc/bioflow) · "
+        "[GitHub](https://github.com/isilayc/omicsroute) Â· "
         "[Live app](https://bioflow1.streamlit.app)"
     )
+
 

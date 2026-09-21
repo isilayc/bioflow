@@ -1,4 +1,5 @@
 from pathlib import Path
+from functools import lru_cache
 
 import yaml
 
@@ -24,27 +25,26 @@ DATA_DIR = (
 # YAML
 # ==================================================
 
-def load_yaml(filename):
+# DEPENDENCY_PERFORMANCE_V1
+def _data_file_signature(filename):
+    filepath = DATA_DIR / filename
+    stat = filepath.stat()
+    return (stat.st_mtime_ns, stat.st_size)
 
-    filepath = (
-        DATA_DIR
-        / filename
-    )
 
-    with open(
-        filepath,
-        "r",
-        encoding="utf-8"
-    ) as file:
-
-        data = yaml.safe_load(
-            file
-        )
-
+@lru_cache(maxsize=32)
+def _load_yaml_cached(filename, modified_ns, file_size):
+    filepath = DATA_DIR / filename
+    with open(filepath, "r", encoding="utf-8") as file:
+        data = yaml.safe_load(file)
     if data is None:
         return {}
-
     return data
+
+
+def load_yaml(filename):
+    modified_ns, file_size = _data_file_signature(filename)
+    return _load_yaml_cached(filename, modified_ns, file_size)
 
 
 def load_artifacts():
@@ -147,66 +147,32 @@ def get_artifact_label(
     )
 
 
-def expand_artifacts(
-    artifact_ids
-):
-    """
-    Expand specific artifacts into the more general
-    artifact types they satisfy.
-
-    Example:
-
-    raw_paired_fastq
-        -> paired_fastq
-
-    sorted_mapped_reads_bam
-        -> mapped_reads_bam
-
-    genome_fasta
-        -> fasta_sequence
-    """
-
-    artifacts = (
-        load_artifacts()
-    )
-
-    expanded = set(
-        artifact_ids
-    )
-
+@lru_cache(maxsize=4096)
+def _expand_artifacts_cached(artifact_key, modified_ns, file_size):
+    artifacts = load_artifacts()
+    expanded = set(artifact_key)
     changed = True
-
     while changed:
-
         changed = False
-
-        current = list(
-            expanded
-        )
-
-        for artifact_id in current:
-
-            record = (
-                artifacts.get(
-                    artifact_id,
-                    {}
-                )
-            )
-
-            for provided in record.get(
-                "provides",
-                []
-            ):
-
+        for artifact_id in list(expanded):
+            record = artifacts.get(artifact_id, {})
+            for provided in record.get("provides", []):
                 if provided not in expanded:
-
-                    expanded.add(
-                        provided
-                    )
-
+                    expanded.add(provided)
                     changed = True
+    return frozenset(expanded)
 
-    return expanded
+
+def expand_artifacts(artifact_ids):
+    artifact_key = tuple(sorted(str(item) for item in artifact_ids))
+    modified_ns, file_size = _data_file_signature("artifacts.yaml")
+    return set(
+        _expand_artifacts_cached(
+            artifact_key,
+            modified_ns,
+            file_size
+        )
+    )
 
 
 # ==================================================
@@ -457,23 +423,32 @@ def state_key(
     )
 
 
-def deduplicate_states(
-    states
-):
+def deduplicate_states(states):
+    """
+    Deduplicate and dominance-prune artifact states.
 
+    The current dependency model has positive requirements only and tools
+    only add artifacts. If state A is a subset of state B, B can satisfy
+    every downstream route that A can satisfy, so A is redundant.
+    """
     unique = {}
-
     for state in states:
+        normalized = set(state)
+        unique[state_key(normalized)] = normalized
 
-        unique[
-            state_key(
-                state
-            )
-        ] = state
-
-    return list(
-        unique.values()
+    ordered = sorted(
+        unique.values(),
+        key=len,
+        reverse=True
     )
+
+    maximal = []
+    for state in ordered:
+        if any(state.issubset(kept) for kept in maximal):
+            continue
+        maximal.append(state)
+
+    return maximal
 
 
 # ==================================================

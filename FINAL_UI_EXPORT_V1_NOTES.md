@@ -1,6 +1,6 @@
-# BioFlow Final UI/UX + Workflow Export v1
+# OmicsRoute Final UI/UX + Workflow Export v1
 
-This patch is intentionally product-facing. It does not change BioFlow's scientific scoring or constraint logic.
+This patch is intentionally product-facing. It does not change OmicsRoute's scientific scoring or constraint logic.
 
 It adds:
 
@@ -11,7 +11,7 @@ It adds:
 - shorter ranking explanations while preserving transparency,
 - regression validation for the exporter and UI integration.
 
-Run from the BioFlow project root:
+Run from the OmicsRoute project root:
 
 ```powershell
 python apply_final_ui_export_v1.py

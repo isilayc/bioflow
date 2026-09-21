@@ -1,6 +1,6 @@
-# BioFlow Web Deployment
+# OmicsRoute Web Deployment
 
-BioFlow is prepared for deployment on Streamlit Community Cloud.
+OmicsRoute is prepared for deployment on Streamlit Community Cloud.
 
 ## Repository contents that must be on GitHub
 
@@ -22,10 +22,10 @@ Do not upload:
 
 ## Deploy
 
-1. Push the BioFlow project to a GitHub repository.
+1. Push the OmicsRoute project to a GitHub repository.
 2. Open https://share.streamlit.io
 3. Click **Create app**.
-4. Select the BioFlow GitHub repository.
+4. Select the OmicsRoute GitHub repository.
 5. Branch: normally `main`.
 6. Entrypoint: `app.py`.
 7. In Advanced settings, choose the same Python major/minor version you use

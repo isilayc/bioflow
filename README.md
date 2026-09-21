@@ -1,12 +1,14 @@
-# BioFlow
+# OmicsRoute
 
-**BioFlow** is an evidence-aware bioinformatics workflow recommendation system that helps users choose analysis strategies and tools based on sample type, sequencing technology, analysis goal, dataset constraints, and operational feasibility.
+**OmicsRoute** is an evidence-aware bioinformatics workflow recommendation system that helps users choose analysis strategies and tools based on sample type, sequencing technology, analysis goal, dataset constraints, and operational feasibility.
 
 🌐 **Live web app:** https://bioflow1.streamlit.app
 
-## What BioFlow does
+> **Project naming:** OmicsRoute was developed initially under the working name BioFlow. The project was renamed before manuscript submission to avoid ambiguity with existing bioinformatics software.
 
-BioFlow builds context-specific bioinformatics workflows rather than returning a generic list of tools. The recommendation engine separates:
+## What OmicsRoute does
+
+OmicsRoute builds context-specific bioinformatics workflows rather than returning a generic list of tools. The recommendation engine separates:
 
 - scientific fit,
 - dataset-specific constraints,
@@ -15,7 +17,7 @@ BioFlow builds context-specific bioinformatics workflows rather than returning a
 - fallback and recovery strategies,
 - literature and registry evidence.
 
-BioFlow does **not** execute the underlying bioinformatics tools. It is a workflow planning and decision-support interface.
+OmicsRoute does **not** execute the underlying bioinformatics tools. It is a workflow planning and decision-support interface.
 
 ## Current scope
 
@@ -34,7 +36,7 @@ Supported workflow decisions can depend on sequencing platform, read type, analy
 
 ## Recommendation logic
 
-BioFlow keeps different decision layers separate:
+OmicsRoute keeps different decision layers separate:
 
 1. **Scientific fit** — whether a tool or strategy is appropriate for the requested biological analysis.
 2. **Technical dependency validation** — whether the required input artifacts can be produced by the upstream workflow.
@@ -46,7 +48,7 @@ A blocked tool is not silently replaced with an unrelated method.
 
 ## Evidence
 
-BioFlow can query external scientific resources and literature services through its research layer, including bio.tools, OpenAlex, Europe PMC, and PubMed-oriented services.
+OmicsRoute can query external scientific resources and literature services through its research layer, including bio.tools, OpenAlex, Europe PMC, and PubMed-oriented services.
 
 The curated catalogue and evidence layer are kept separate so literature support does not override hard technical or dataset constraints.
 
@@ -74,7 +76,7 @@ The current scientific benchmark is an **internal curated benchmark**, not an in
 
 ## Run locally
 
-BioFlow requires Python and Streamlit.
+OmicsRoute requires Python and Streamlit.
 
 ```bash
 pip install -r requirements.txt
@@ -100,8 +102,8 @@ The public web version is deployed with Streamlit Community Cloud from the `main
 
 ## Project status
 
-BioFlow is under active development. The current public deployment should be treated as a research software release candidate while catalogue coverage, external validation, documentation, and manuscript preparation continue.
+OmicsRoute is under active development. The current public deployment should be treated as a research software release candidate while catalogue coverage, external validation, documentation, and manuscript preparation continue.
 
 ## Disclaimer
 
-BioFlow provides bioinformatics workflow decision support. Recommendations should be interpreted together with the requirements of the user's dataset, computational environment, reference databases, and the documentation of the underlying bioinformatics tools.
+OmicsRoute provides bioinformatics workflow decision support. Recommendations should be interpreted together with the requirements of the user's dataset, computational environment, reference databases, and the documentation of the underlying bioinformatics tools.

@@ -52,16 +52,16 @@ def fail(message: str) -> None:
 def ensure_venv_python() -> None:
     """
     If the user runs the script outside .venv, transparently rerun it with the
-    BioFlow virtual environment so dependency versions come from the real app.
+    OmicsRoute virtual environment so dependency versions come from the real app.
     """
     if not VENV_PY.exists():
-        fail(f"BioFlow virtual environment was not found: {VENV_PY}")
+        fail(f"OmicsRoute virtual environment was not found: {VENV_PY}")
 
     current = Path(sys.executable).resolve()
     expected = VENV_PY.resolve()
 
     if current != expected:
-        print("Re-running deployment prep with BioFlow .venv Python...")
+        print("Re-running deployment prep with OmicsRoute .venv Python...")
         result = subprocess.run(
             [str(expected), str(Path(__file__).resolve())],
             cwd=ROOT,
@@ -184,7 +184,7 @@ def installed_distribution_versions(external_imports: set[str]) -> tuple[list[st
     try:
         requirements["streamlit"] = metadata.version("streamlit")
     except metadata.PackageNotFoundError:
-        fail("Streamlit is not installed in the BioFlow virtual environment.")
+        fail("Streamlit is not installed in the OmicsRoute virtual environment.")
 
     lines = [
         f"{name}=={version}"
@@ -200,7 +200,7 @@ def installed_distribution_versions(external_imports: set[str]) -> tuple[list[st
 def merge_gitignore() -> None:
     managed = [
         "",
-        "# BioFlow local/development artifacts",
+        "# OmicsRoute local/development artifacts",
         ".venv/",
         "__pycache__/",
         "*.py[cod]",
@@ -237,8 +237,8 @@ def merge_gitignore() -> None:
         if content:
             content += "\n\n"
         content += "\n".join([
-            "# BioFlow local/development artifacts",
-            *[line for line in additions if line != "# BioFlow local/development artifacts"],
+            "# OmicsRoute local/development artifacts",
+            *[line for line in additions if line != "# OmicsRoute local/development artifacts"],
         ])
 
     GITIGNORE.write_text(content.rstrip() + "\n", encoding="utf-8")
@@ -333,11 +333,11 @@ def run_web_smoke_test() -> tuple[bool, str]:
 
 def main() -> None:
     print("=" * 72)
-    print("BioFlow Web Deployment Prep v1")
+    print("OmicsRoute Web Deployment Prep v1")
     print("=" * 72)
 
     if not APP.exists():
-        fail("Run this script from the BioFlow project root. app.py was not found.")
+        fail("Run this script from the OmicsRoute project root. app.py was not found.")
 
     ensure_venv_python()
 
@@ -365,9 +365,9 @@ gatherUsageStats = false
     merge_gitignore()
 
     GUIDE.write_text(
-        """# BioFlow Web Deployment
+        """# OmicsRoute Web Deployment
 
-BioFlow is prepared for deployment on Streamlit Community Cloud.
+OmicsRoute is prepared for deployment on Streamlit Community Cloud.
 
 ## Repository contents that must be on GitHub
 
@@ -389,10 +389,10 @@ Do not upload:
 
 ## Deploy
 
-1. Push the BioFlow project to a GitHub repository.
+1. Push the OmicsRoute project to a GitHub repository.
 2. Open https://share.streamlit.io
 3. Click **Create app**.
-4. Select the BioFlow GitHub repository.
+4. Select the OmicsRoute GitHub repository.
 5. Branch: normally `main`.
 6. Entrypoint: `app.py`.
 7. In Advanced settings, choose the same Python major/minor version you use
@@ -408,7 +408,7 @@ Windows, macOS, Linux, phones, and tablets through a browser.
     smoke_ok, smoke_log = run_web_smoke_test()
 
     report_lines = [
-        "# BioFlow Web Deployment Report",
+        "# OmicsRoute Web Deployment Report",
         "",
         f"- Reachable Python source files: {len(sources)}",
         f"- External import names detected: {len(external_imports)}",
@@ -442,7 +442,7 @@ Windows, macOS, Linux, phones, and tablets through a browser.
         report_lines += [
             "## Portability warnings",
             "",
-            "- None detected in reachable BioFlow source files.",
+            "- None detected in reachable OmicsRoute source files.",
             "",
         ]
 
@@ -480,7 +480,7 @@ Windows, macOS, Linux, phones, and tablets through a browser.
 
     print("=" * 72)
     print("RESULT: PASS")
-    print("BioFlow is prepared for GitHub + Streamlit Community Cloud deployment.")
+    print("OmicsRoute is prepared for GitHub + Streamlit Community Cloud deployment.")
     print("Next: push the project to GitHub, then deploy app.py on Streamlit Cloud.")
 
 
