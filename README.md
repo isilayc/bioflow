@@ -1,52 +1,107 @@
-# BioFlow Windows EXE Builder v4
+# BioFlow
 
-v4 fixes a false-negative self-test from v3.
+**BioFlow** is an evidence-aware bioinformatics workflow recommendation system that helps users choose analysis strategies and tools based on sample type, sequencing technology, analysis goal, dataset constraints, and operational feasibility.
 
-The v3 `SELF_TEST.txt` could show:
+🌐 **Live web app:** https://bioflow1.streamlit.app
 
-- `streamlit developmentMode=True`
-- `internal Streamlit server=PASS`
-- `RESULT: FAIL`
+## What BioFlow does
 
-That combination means the EXE's frozen Streamlit package *inferred* development
-mode from its temporary PyInstaller path, but BioFlow's actual internal server
-still started successfully because BioFlow launches it with:
+BioFlow builds context-specific bioinformatics workflows rather than returning a generic list of tools. The recommendation engine separates:
 
-`--global.developmentMode=false`
+- scientific fit,
+- dataset-specific constraints,
+- technical input/output compatibility,
+- operational feasibility,
+- fallback and recovery strategies,
+- literature and registry evidence.
 
-So the direct config inspection was testing the wrong thing.
+BioFlow does **not** execute the underlying bioinformatics tools. It is a workflow planning and decision-support interface.
 
-v4 keeps the runtime override and changes the self-test so the authoritative
-check is the real packaged child server startup. If that child starts, the EXE
-passes this part of validation.
+## Current scope
 
-The Python 3.10 / PyInstaller bytecode compatibility fix from v2 and the
-Streamlit release-mode runtime override from v3 are both retained.
+The catalogue currently covers multiple analysis families including:
 
-## Run
+- bacterial isolate genomics,
+- eukaryotic genome analysis,
+- environmental shotgun metagenomics,
+- amplicon workflows,
+- transcriptomics,
+- viral and phage analysis,
+- MAG-oriented workflows,
+- taxonomy, quality assessment, host prediction, and related downstream analyses.
 
-Extract this ZIP into:
+Supported workflow decisions can depend on sequencing platform, read type, analysis objective, reference/database availability, dataset characteristics, and compute profile.
 
-`C:\Users\Işılay\Documents\bioflow`
+## Recommendation logic
 
-Overwrite the older builder files and run:
+BioFlow keeps different decision layers separate:
 
-```powershell
-python build_bioflow_exe.py
+1. **Scientific fit** — whether a tool or strategy is appropriate for the requested biological analysis.
+2. **Technical dependency validation** — whether the required input artifacts can be produced by the upstream workflow.
+3. **Dataset constraints** — explicit PASS / WARNING / BLOCK logic for tools with known applicability requirements.
+4. **Operational feasibility** — compute and runtime requirements where relevant.
+5. **Fallback semantics** — direct alternatives, workflow-strategy changes, or remediation guidance when no equivalent replacement exists.
+
+A blocked tool is not silently replaced with an unrelated method.
+
+## Evidence
+
+BioFlow can query external scientific resources and literature services through its research layer, including bio.tools, OpenAlex, Europe PMC, and PubMed-oriented services.
+
+The curated catalogue and evidence layer are kept separate so literature support does not override hard technical or dataset constraints.
+
+## Workflow export
+
+Generated workflows can be exported as:
+
+- Markdown
+- JSON
+
+Exports are intended for methods planning, sharing, and reproducibility notes.
+
+## Validation
+
+The repository contains internal validation and audit suites for:
+
+- scientific recommendation scenarios,
+- workflow dependency structure,
+- constraint-aware ranking,
+- fallback semantics,
+- UI/export integration,
+- catalogue coverage.
+
+The current scientific benchmark is an **internal curated benchmark**, not an independent external gold-standard validation.
+
+## Run locally
+
+BioFlow requires Python and Streamlit.
+
+```bash
+pip install -r requirements.txt
+streamlit run app.py
 ```
 
-Expected success lines in `SELF_TEST.txt`:
+The app then opens in a local web browser.
+
+## Repository structure
 
 ```text
-BioFlow runtime override=--global.developmentMode=false
-internal Streamlit server with release-mode override=PASS
-RESULT: PASS
+app.py                 Streamlit user interface
+data/                  Workflow, tool, constraint, and capability catalogues
+engine/                Recommendation and validation logic
+services/              External registry and literature integrations
+tests/                 Benchmark and regression validation
+.streamlit/            Web application configuration
 ```
 
-Output:
+## Web deployment
 
-```text
-release\BioFlow_v1.0\BioFlow.exe
-release\BioFlow_v1.0\SELF_TEST.txt
-release\BioFlow_v1.0\BUILD_INFO.txt
-```
+The public web version is deployed with Streamlit Community Cloud from the `main` branch of this repository.
+
+## Project status
+
+BioFlow is under active development. The current public deployment should be treated as a research software release candidate while catalogue coverage, external validation, documentation, and manuscript preparation continue.
+
+## Disclaimer
+
+BioFlow provides bioinformatics workflow decision support. Recommendations should be interpreted together with the requirements of the user's dataset, computational environment, reference databases, and the documentation of the underlying bioinformatics tools.
