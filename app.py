@@ -1,4 +1,4 @@
-﻿from pathlib import Path
+from pathlib import Path
 import os
 import platform
 
@@ -114,13 +114,13 @@ def show_reference_guidance(
     )
 
     status_labels = {
-        "preferred": "âœ… Preferred fit",
-        "supported": "âœ“ Supported",
-        "conditional": "âš ï¸ Conditional"
+        "preferred": "✅ Preferred fit",
+        "supported": "✓ Supported",
+        "conditional": "⚠️ Conditional"
     }
 
     with st.expander(
-        "ğŸ§¬ Reference / database guidance",
+        "🧬 Reference / database guidance",
         expanded=True
     ):
 
@@ -291,14 +291,14 @@ def show_step_recovery_guidance(
             for tool in ready_tools
         )
         st.success(
-            f"âœ… **Recommended next action:** continue with **{names}**. "
+            f"✅ **Recommended next action:** continue with **{names}**. "
             "The blocked candidate remains visible for transparency but is not "
             "treated as runnable."
         )
         return
 
     st.error(
-        "â›” **No ready candidate remains for this step.** "
+        "⛔ **No ready candidate remains for this step.** "
         "OmicsRoute will not substitute an unrelated method."
     )
 
@@ -317,7 +317,7 @@ def show_step_recovery_guidance(
 
     if strategies:
         st.warning(
-            "â¡ï¸ **Recommended next action:** switch to another validated workflow "
+            "➡️ **Recommended next action:** switch to another validated workflow "
             "strategy for the same analysis goal."
         )
 
@@ -465,7 +465,7 @@ def show_workflow_overview_and_export(
             context_parts.append(str(value))
 
     if context_parts:
-        st.caption(" â†’ ".join(context_parts))
+        st.caption(" → ".join(context_parts))
 
 
 def show_workflow_export(
@@ -490,7 +490,7 @@ def show_workflow_export(
             context_parts.append(str(value))
 
     if context_parts:
-        st.info("Selected route: " + " â†’ ".join(context_parts))
+        st.info("Selected route: " + " → ".join(context_parts))
 
     markdown_data = workflow_to_markdown(workflow)
     json_data = workflow_to_json(workflow)
@@ -529,7 +529,7 @@ def show_workflow_export(
 
 st.set_page_config(
     page_title="OmicsRoute | Workflow Builder",
-    page_icon="ğŸ§¬",
+    page_icon="🧬",
     layout="wide",
     initial_sidebar_state="collapsed"
 )
@@ -1351,7 +1351,7 @@ def cached_dependency_coverage(
 def show_analysis_coverage():
 
     with st.expander(
-        "ğŸ—ºï¸ OmicsRoute analysis coverage"
+        "🗺️ OmicsRoute analysis coverage"
     ):
 
         st.caption(
@@ -1454,10 +1454,10 @@ def show_analysis_coverage():
             )
 
         st.caption(
-            "âœ… Dependency-valid = an executable artifact path exists. "
-            "âš ï¸ Broken / incomplete = a workflow exists but required "
+            "✅ Dependency-valid = an executable artifact path exists. "
+            "⚠️ Broken / incomplete = a workflow exists but required "
             "artifacts cannot be reached or I/O metadata is incomplete. "
-            "â³ Planned = no workflow exists yet."
+            "⏳ Planned = no workflow exists yet."
         )
 
         st.divider()
@@ -1494,14 +1494,14 @@ def show_analysis_coverage():
 
             family_heading = (
                 f"{family_label} "
-                f"â€” {validated_count}/{total_count} "
+                f"— {validated_count}/{total_count} "
                 f"dependency-valid"
             )
 
             if broken_count:
 
                 family_heading += (
-                    f" â€¢ {broken_count} incomplete"
+                    f" • {broken_count} incomplete"
                 )
 
             with st.expander(
@@ -1532,13 +1532,13 @@ def show_analysis_coverage():
                     if status == "valid":
 
                         st.write(
-                            f"âœ… **{goal['label']}**"
+                            f"✅ **{goal['label']}**"
                         )
 
                     elif status == "broken":
 
                         st.write(
-                            f"âš ï¸ **{goal['label']}**"
+                            f"⚠️ **{goal['label']}**"
                         )
 
                     else:
@@ -1551,7 +1551,7 @@ def show_analysis_coverage():
                         )
 
                         st.write(
-                            f"â³ {goal['label']} "
+                            f"⏳ {goal['label']} "
                             f"_{priority}_"
                         )
 
@@ -1567,7 +1567,7 @@ def show_analysis_coverage():
                     if not workflow_reports:
 
                         st.caption(
-                            "â†³ Workflow exists in the catalogue, but "
+                            "↳ Workflow exists in the catalogue, but "
                             "dependency validation could not map it to "
                             "a workflow ID."
                         )
@@ -1577,17 +1577,17 @@ def show_analysis_coverage():
                     for report in workflow_reports:
 
                         workflow_status = (
-                            "âœ…"
+                            "✅"
                             if report.get(
                                 "valid",
                                 False
                             )
                             else
-                            "âš ï¸"
+                            "⚠️"
                         )
 
                         st.caption(
-                            f"â†³ {workflow_status} "
+                            f"↳ {workflow_status} "
                             f"{report.get('workflow_name', report.get('workflow_id'))}"
                         )
 
@@ -1749,7 +1749,7 @@ def show_workflow_input_requirements(
         return
 
     with st.expander(
-        "ğŸ“¥ Required user inputs",
+        "📥 Required user inputs",
         expanded=False
     ):
 
@@ -1770,7 +1770,7 @@ def show_workflow_input_requirements(
                 collection_found = True
 
                 st.write(
-                    f"- ğŸ§º **{label}** â€” sample collection"
+                    f"- 🧺 **{label}** — sample collection"
                 )
 
             else:
@@ -1819,18 +1819,18 @@ def show_workflow_dependency_validation(
     ):
 
         st.success(
-            "âœ… Workflow path is technically complete."
+            "✅ Workflow path is technically complete."
         )
 
     else:
 
         st.error(
-            "âŒ Workflow path is incomplete. One or more required artifacts "
+            "❌ Workflow path is incomplete. One or more required artifacts "
             "cannot currently reach a downstream step."
         )
 
     with st.expander(
-        "ğŸ”— Technical details"
+        "🔗 Technical details"
     ):
 
         initial_artifacts = (
@@ -1859,7 +1859,7 @@ def show_workflow_dependency_validation(
                 ):
 
                     st.write(
-                        f"- ğŸ§º {label} (collection)"
+                        f"- 🧺 {label} (collection)"
                     )
 
                 else:
@@ -1883,15 +1883,15 @@ def show_workflow_dependency_validation(
 
             if status == "ok":
 
-                symbol = "âœ…"
+                symbol = "✅"
 
             elif status == "unknown":
 
-                symbol = "âš ï¸"
+                symbol = "⚠️"
 
             else:
 
-                symbol = "âŒ"
+                symbol = "❌"
 
             mode = (
                 step_report.get(
@@ -2648,14 +2648,14 @@ def _constraint_status_label(
     """
 
     return {
-        "pass": "âœ… PASS",
-        "warning": "âš ï¸ WARNING",
-        "block": "â›” BLOCK",
-        "needs_input": "â„¹ï¸ MORE INPUT NEEDED",
-        "not_defined": "â– NOT DEFINED"
+        "pass": "✅ PASS",
+        "warning": "⚠️ WARNING",
+        "block": "⛔ BLOCK",
+        "needs_input": "ℹ️ MORE INPUT NEEDED",
+        "not_defined": "➖ NOT DEFINED"
     }.get(
         status,
-        f"âš ï¸ {str(status).upper()}"
+        f"⚠️ {str(status).upper()}"
     )
 
 
@@ -2800,7 +2800,7 @@ def show_workflow_dataset_profile(
     )
 
     with st.expander(
-        "ğŸ§ª Dataset profile & suitability",
+        "🧪 Dataset profile & suitability",
         expanded=True
     ):
 
@@ -2968,31 +2968,31 @@ def show_workflow_dataset_profile(
             if workflow_status == "pass":
 
                 st.success(
-                    f"{workflow_label} â€” {workflow_message}"
+                    f"{workflow_label} — {workflow_message}"
                 )
 
             elif workflow_status == "warning":
 
                 st.warning(
-                    f"{workflow_label} â€” {workflow_message}"
+                    f"{workflow_label} — {workflow_message}"
                 )
 
             elif workflow_status == "block":
 
                 st.error(
-                    f"{workflow_label} â€” {workflow_message}"
+                    f"{workflow_label} — {workflow_message}"
                 )
 
             elif workflow_status == "needs_input":
 
                 st.info(
-                    f"{workflow_label} â€” {workflow_message}"
+                    f"{workflow_label} — {workflow_message}"
                 )
 
             else:
 
                 st.warning(
-                    f"{workflow_label} â€” {workflow_message}"
+                    f"{workflow_label} — {workflow_message}"
                 )
 
             for check in workflow_report.get(
@@ -3112,7 +3112,7 @@ def show_workflow_dataset_profile(
             )
 
             st.write(
-                f"{label} â€” "
+                f"{label} — "
                 f"**{entry['tool_name']}** "
                 f"(step {entry['step_number']}: "
                 f"{entry['step_name']})"
@@ -3272,7 +3272,7 @@ def show_dataset_constraint_checks(
     )
 
     st.markdown(
-        "#### ğŸ§ª Dataset suitability"
+        "#### 🧪 Dataset suitability"
     )
 
     label = (
@@ -3290,31 +3290,31 @@ def show_dataset_constraint_checks(
     if status == "pass":
 
         st.success(
-            f"{label} â€” {message}"
+            f"{label} — {message}"
         )
 
     elif status == "warning":
 
         st.warning(
-            f"{label} â€” {message}"
+            f"{label} — {message}"
         )
 
     elif status == "block":
 
         st.error(
-            f"{label} â€” {message}"
+            f"{label} — {message}"
         )
 
     elif status == "needs_input":
 
         st.info(
-            f"{label} â€” {message}"
+            f"{label} — {message}"
         )
 
     else:
 
         st.info(
-            f"{label} â€” {message}"
+            f"{label} — {message}"
         )
 
     checks = (
@@ -3423,14 +3423,14 @@ def _strategy_fit_badge(fit):
     )
 
     return {
-        "strong": "ğŸŸ¢ Strong strategy fit",
-        "supported": "ğŸ”µ Supported strategy fit",
-        "conditional": "ğŸŸ  Conditional strategy fit",
-        "weak": "ğŸŸ¡ Weak strategy fit",
-        "incompatible": "ğŸ”´ Incompatible strategy fit"
+        "strong": "🟢 Strong strategy fit",
+        "supported": "🔵 Supported strategy fit",
+        "conditional": "🟠 Conditional strategy fit",
+        "weak": "🟡 Weak strategy fit",
+        "incompatible": "🔴 Incompatible strategy fit"
     }.get(
         normalized,
-        "âšª Strategy fit not classified"
+        "⚪ Strategy fit not classified"
     )
 
 
@@ -3469,7 +3469,7 @@ def show_strategy_fit(tool):
         return
 
     st.markdown(
-        "#### ğŸ¯ Strategy-specific fit"
+        "#### 🎯 Strategy-specific fit"
     )
 
     badge = (
@@ -3584,7 +3584,7 @@ def show_live_biotools_metadata(
     )
 
     if st.button(
-        "ğŸŒ Load live bio.tools metadata",
+        "🌐 Load live bio.tools metadata",
         key=(
             f"load_biotools_"
             f"{unique_key}"
@@ -3721,7 +3721,7 @@ def show_score_details(
 
     st.write(
         "**Scientific suitability:**",
-        f"{fit_label} â€” "
+        f"{fit_label} — "
         f"{score.get('scientific_fit', 0)}/"
         f"{score.get('scientific_fit_max', 60)}"
     )
@@ -3764,13 +3764,13 @@ def show_score_details(
         ):
 
             st.success(
-                "âœ“ Dataset compatibility gate"
+                "✓ Dataset compatibility gate"
             )
 
         else:
 
             st.error(
-                "âœ— Dataset compatibility gate"
+                "✗ Dataset compatibility gate"
             )
 
     with gate_col2:
@@ -3781,13 +3781,13 @@ def show_score_details(
         ):
 
             st.success(
-                "âœ“ Operation-support gate"
+                "✓ Operation-support gate"
             )
 
         else:
 
             st.error(
-                "âœ— Operation-support gate"
+                "✗ Operation-support gate"
             )
 
     st.caption(
@@ -3831,7 +3831,7 @@ def show_recent_literature(
     )
 
     if st.button(
-        "ğŸ“š Search literature evidence",
+        "📚 Search literature evidence",
         key=(
             f"literature_button_"
             f"{unique_key}"
@@ -3915,7 +3915,7 @@ def show_recent_literature(
     )
 
     st.markdown(
-        "#### ğŸ“š Scientific evidence"
+        "#### 📚 Scientific evidence"
     )
 
     providers = (
@@ -3932,7 +3932,7 @@ def show_recent_literature(
         st.caption(
             "Sources searched: "
             +
-            " â€¢ ".join(
+            " • ".join(
                 providers
             )
             +
@@ -3951,7 +3951,7 @@ def show_recent_literature(
     if partial_errors:
 
         with st.expander(
-            "âš ï¸ Partial literature-source warnings"
+            "⚠️ Partial literature-source warnings"
         ):
 
             for error in partial_errors:
@@ -4172,7 +4172,7 @@ def show_recent_literature(
             if abstract:
 
                 with st.expander(
-                    f"Abstract â€” paper {index}"
+                    f"Abstract — paper {index}"
                 ):
 
                     st.write(
@@ -4253,7 +4253,7 @@ def evaluate_step_tools(
     )
 
     if st.button(
-        "ğŸ“š Evaluate literature evidence for all tools",
+        "📚 Evaluate literature evidence for all tools",
         key=(
             f"evaluate_all_v2_"
             f"{workflow_id}_"
@@ -4425,7 +4425,7 @@ def show_compute_environment_profile():
     """
 
     with st.expander(
-        "ğŸ’» Compute environment & operational feasibility",
+        "💻 Compute environment & operational feasibility",
         expanded=False
     ):
 
@@ -4690,25 +4690,25 @@ def show_operational_feasibility(
         return
 
     st.markdown(
-        "#### ğŸ’» Operational feasibility"
+        "#### 💻 Operational feasibility"
     )
 
     if status == "good":
 
         st.success(
-            "âœ“ Good operational fit for the selected compute profile."
+            "✓ Good operational fit for the selected compute profile."
         )
 
     elif status == "warning":
 
         st.warning(
-            "âš  Potential operational friction for the selected compute profile."
+            "⚠ Potential operational friction for the selected compute profile."
         )
 
     elif status == "blocked":
 
         st.error(
-            "â›” Operationally blocked for the selected compute profile."
+            "⛔ Operationally blocked for the selected compute profile."
         )
 
     else:
@@ -4724,7 +4724,7 @@ def show_operational_feasibility(
     ):
 
         st.write(
-            f"- â›” {blocker}"
+            f"- ⛔ {blocker}"
         )
 
     for warning in result.get(
@@ -4733,7 +4733,7 @@ def show_operational_feasibility(
     ):
 
         st.write(
-            f"- âš ï¸ {warning}"
+            f"- ⚠️ {warning}"
         )
 
     for reason in result.get(
@@ -4821,7 +4821,7 @@ def show_operational_feasibility(
     if labels:
 
         st.caption(
-            " â€¢ ".join(
+            " • ".join(
                 labels
             )
         )
@@ -4922,7 +4922,7 @@ def show_tool_discovery(
     )
 
     if st.button(
-        "ğŸ” Research additional alternatives",
+        "🔎 Research additional alternatives",
         key=(
             f"discover_tools_v4_"
             f"{workflow_id}_"
@@ -5012,7 +5012,7 @@ def show_tool_discovery(
 
     st.caption(
         f"Selected feature strategy: {str(selected_strategy).upper()} "
-        f"â€¢ marker: {marker} â€¢ operation: {operation}"
+        f"• marker: {marker} • operation: {operation}"
     )
 
     c1, c2, c3, c4 = st.columns(4)
@@ -5079,7 +5079,7 @@ def show_tool_discovery(
     if partial_errors:
 
         with st.expander(
-            "âš ï¸ Registry warnings"
+            "⚠️ Registry warnings"
         ):
 
             for error in partial_errors:
@@ -5148,7 +5148,7 @@ def show_tool_discovery(
     )
 
     st.markdown(
-        "#### âœ… Verified direct alternatives"
+        "#### ✅ Verified direct alternatives"
     )
 
     st.caption(
@@ -5176,7 +5176,7 @@ def show_tool_discovery(
         )
 
         with st.expander(
-            f"âœ… {candidate.get('name', 'Unnamed resource')}"
+            f"✅ {candidate.get('name', 'Unnamed resource')}"
         ):
 
             for reason in evaluation.get(
@@ -5269,7 +5269,7 @@ def show_tool_discovery(
     )
 
     st.markdown(
-        "#### ğŸ§­ Related, but not a drop-in replacement"
+        "#### 🧭 Related, but not a drop-in replacement"
     )
 
     st.caption(
@@ -5318,8 +5318,8 @@ def show_tool_discovery(
         )
 
         with st.expander(
-            f"ğŸ§­ {candidate.get('name', 'Unnamed resource')} "
-            f"â€” {resource_type}"
+            f"🧭 {candidate.get('name', 'Unnamed resource')} "
+            f"— {resource_type}"
         ):
 
             st.write(
@@ -5421,7 +5421,7 @@ def show_tool_discovery(
     )
 
     st.markdown(
-        "#### ğŸ—‚ï¸ Unverified bio.tools leads"
+        "#### 🗂️ Unverified bio.tools leads"
     )
 
     st.caption(
@@ -5539,8 +5539,8 @@ def show_tool_discovery(
             )
 
             with st.expander(
-                f"ğŸ—‚ï¸ {candidate.get('name', 'Unnamed resource')} "
-                f"â€” registry screening {score}/100"
+                f"🗂️ {candidate.get('name', 'Unnamed resource')} "
+                f"— registry screening {score}/100"
             ):
 
                 st.warning(
@@ -5601,7 +5601,7 @@ def show_tool_discovery(
 st.markdown(
     """
     <div class="omicsroute-hero">
-        <div class="omicsroute-eyebrow">BIOFLOW â€¢ WEB RELEASE CANDIDATE</div>
+        <div class="omicsroute-eyebrow">OMICSROUTE • WEB RELEASE CANDIDATE</div>
         <h1>Build evidence-aware bioinformatics workflows</h1>
         <p>
             Build a context-specific analysis route from sample type,
@@ -5627,7 +5627,7 @@ link_col, note_col = st.columns(
 
 with link_col:
     st.link_button(
-        "View source on GitHub â†—",
+        "View source on GitHub ↗",
         "https://github.com/isilayc/omicsroute"
     )
 
@@ -5698,13 +5698,13 @@ with quick_4:
     )
 
 with st.expander(
-    "ğŸ“š Catalogue coverage & validation",
+    "📚 Catalogue coverage & validation",
     expanded=False
 ):
     show_analysis_coverage()
 
 with st.expander(
-    "â„¹ï¸ About OmicsRoute & methodology",
+    "ℹ️ About OmicsRoute & methodology",
     expanded=False
 ):
     about_tab, method_tab, limits_tab = st.tabs(
@@ -5728,7 +5728,7 @@ with st.expander(
             "the underlying bioinformatics software."
         )
         st.caption(
-            "Public web release: v1.1.0 â€¢ "
+            "Public web release: v1.1.0 • "
             "Source: https://github.com/isilayc/omicsroute"
         )
 
@@ -6097,9 +6097,9 @@ compute_profile = (
 
 st.caption(
     f"Selected context: "
-    f"{sample} â†’ "
-    f"{sequencing} â†’ "
-    f"{read_type} â†’ "
+    f"{sample} → "
+    f"{sequencing} → "
+    f"{read_type} → "
     f"{goal}"
 )
 
@@ -6346,7 +6346,7 @@ else:
             ]
 
             st.info(
-                "ğŸ”€ **Run multiple tools here â€” do not choose only one.** "
+                "🔀 **Run multiple tools here — do not choose only one.** "
                 "Each tool receives the same upstream data and produces "
                 "an independent result. OmicsRoute needs at least "
                 f"**{min_required}** successful tool results before the "
@@ -6358,7 +6358,7 @@ else:
                 st.write(
                     "**Run independently:** "
                     +
-                    " â€¢ ".join(
+                    " • ".join(
                         tool_names
                     )
                 )
@@ -6570,37 +6570,37 @@ else:
                 if technical_status == "blocked":
 
                     st.error(
-                        f"â›” {tool['name']} â€” cannot run because an input is missing"
+                        f"⛔ {tool['name']} — cannot run because an input is missing"
                     )
 
                 elif constraint_status == "block":
 
                     st.error(
-                        f"â›” {tool['name']} â€” dataset-specific constraint blocks this branch"
+                        f"⛔ {tool['name']} — dataset-specific constraint blocks this branch"
                     )
 
                 elif technical_status == "unknown":
 
                     st.warning(
-                        f"âš ï¸ {tool['name']} â€” I/O metadata is incomplete"
+                        f"⚠️ {tool['name']} — I/O metadata is incomplete"
                     )
 
                 elif constraint_status == "warning":
 
                     st.warning(
-                        f"âš ï¸ {tool['name']} â€” ready with a dataset-specific warning"
+                        f"⚠️ {tool['name']} — ready with a dataset-specific warning"
                     )
 
                 elif technical_status == "runnable":
 
                     st.success(
-                        f"âœ… {tool['name']} â€” ready to run"
+                        f"✅ {tool['name']} — ready to run"
                     )
 
                 else:
 
                     st.write(
-                        f"**â– {tool['name']} â€” not evaluated**"
+                        f"**➖ {tool['name']} — not evaluated**"
                     )
 
         else:
@@ -6852,19 +6852,19 @@ else:
 
                 if technical_status == "runnable":
 
-                    status_symbol = "âœ…"
+                    status_symbol = "✅"
 
                 elif technical_status == "blocked":
 
-                    status_symbol = "â›”"
+                    status_symbol = "⛔"
 
                 elif technical_status == "unknown":
 
-                    status_symbol = "âš ï¸"
+                    status_symbol = "⚠️"
 
                 else:
 
-                    status_symbol = "â–"
+                    status_symbol = "➖"
 
                 fit_display = (
                     tool.get(
@@ -6877,7 +6877,7 @@ else:
                 )
 
                 fit_suffix = (
-                    f" â€¢ {fit_display}"
+                    f" • {fit_display}"
                 )
 
                 constraint_suffix = ""
@@ -6885,19 +6885,19 @@ else:
                 if constraint_status == "block":
 
                     constraint_suffix = (
-                        " â€¢ dataset constraint: BLOCK"
+                        " • dataset constraint: BLOCK"
                     )
 
                 elif constraint_status == "warning":
 
                     constraint_suffix = (
-                        " â€¢ dataset constraint: warning"
+                        " • dataset constraint: warning"
                     )
 
                 elif constraint_status == "needs_input":
 
                     constraint_suffix = (
-                        " â€¢ dataset constraint: needs input"
+                        " • dataset constraint: needs input"
                     )
 
                 operational_suffix = ""
@@ -6910,25 +6910,25 @@ else:
                     if operational_status == "good":
 
                         operational_suffix = (
-                            " â€¢ operational fit: good"
+                            " • operational fit: good"
                         )
 
                     elif operational_status == "warning":
 
                         operational_suffix = (
-                            " â€¢ operational warning"
+                            " • operational warning"
                         )
 
                     elif operational_status == "blocked":
 
                         operational_suffix = (
-                            " â€¢ operationally blocked"
+                            " • operationally blocked"
                         )
 
                     elif operational_status == "unknown":
 
                         operational_suffix = (
-                            " â€¢ operational data incomplete"
+                            " • operational data incomplete"
                         )
 
                 if technical_status == "blocked":
@@ -6936,7 +6936,7 @@ else:
                     st.error(
                         f"{status_symbol} {rank}. "
                         f"{tool['name']} "
-                        f"â€” {displayed_score}/100 "
+                        f"— {displayed_score}/100 "
                         f"(missing prerequisite artifact)"
                         f"{fit_suffix}"
                         f"{constraint_suffix}"
@@ -6955,9 +6955,9 @@ else:
                 ):
 
                     st.error(
-                        f"â›” {rank}. "
+                        f"⛔ {rank}. "
                         f"{tool['name']} "
-                        f"â€” {displayed_score}/100"
+                        f"— {displayed_score}/100"
                         f"{fit_suffix}"
                         f"{constraint_suffix}"
                         f"{operational_suffix}"
@@ -6966,9 +6966,9 @@ else:
                 elif constraint_status == "block":
 
                     st.error(
-                        f"â›” {rank}. "
+                        f"⛔ {rank}. "
                         f"{tool['name']} "
-                        f"â€” {displayed_score}/100"
+                        f"— {displayed_score}/100"
                         f"{fit_suffix}"
                         f"{constraint_suffix}"
                         f"{operational_suffix}"
@@ -6979,7 +6979,7 @@ else:
                     st.warning(
                         f"{status_symbol} {rank}. "
                         f"{tool['name']} "
-                        f"â€” {displayed_score}/100 "
+                        f"— {displayed_score}/100 "
                         f"(I/O metadata incomplete)"
                         f"{fit_suffix}"
                         f"{constraint_suffix}"
@@ -6989,10 +6989,10 @@ else:
                 elif constraint_status == "warning":
 
                     st.warning(
-                        f"{'ğŸ¥‡ ' if rank == 1 else ''}"
+                        f"{'🥇 ' if rank == 1 else ''}"
                         f"{status_symbol} {rank}. "
                         f"{tool['name']} "
-                        f"â€” {displayed_score}/100"
+                        f"— {displayed_score}/100"
                         f"{fit_suffix}"
                         f"{constraint_suffix}"
                         f"{operational_suffix}"
@@ -7012,10 +7012,10 @@ else:
                 ):
 
                     st.warning(
-                        f"{'ğŸ¥‡ ' if rank == 1 else ''}"
+                        f"{'🥇 ' if rank == 1 else ''}"
                         f"{status_symbol} {rank}. "
                         f"{tool['name']} "
-                        f"â€” {displayed_score}/100"
+                        f"— {displayed_score}/100"
                         f"{fit_suffix}"
                         f"{constraint_suffix}"
                         f"{operational_suffix}"
@@ -7030,9 +7030,9 @@ else:
                 ):
 
                     st.success(
-                        f"ğŸ¥‡ {status_symbol} {rank}. "
+                        f"🥇 {status_symbol} {rank}. "
                         f"{tool['name']} "
-                        f"â€” {displayed_score}/100"
+                        f"— {displayed_score}/100"
                         f"{fit_suffix}"
                         f"{constraint_suffix}"
                         f"{operational_suffix}"
@@ -7043,7 +7043,7 @@ else:
                     st.write(
                         f"**{status_symbol} {rank}. "
                         f"{tool['name']} "
-                        f"â€” {displayed_score}/100"
+                        f"— {displayed_score}/100"
                         f"{fit_suffix}"
                         f"{constraint_suffix}"
                         f"{operational_suffix}**"
@@ -7073,7 +7073,7 @@ else:
             if step_mode == "parallel":
 
                 expander_label = (
-                    f"Parallel tool {position} â€” "
+                    f"Parallel tool {position} — "
                     f"{tool['name']}"
                 )
 
@@ -7121,21 +7121,21 @@ else:
                     if step_mode == "parallel":
 
                         st.success(
-                            "âœ“ This parallel branch has all "
+                            "✓ This parallel branch has all "
                             "technical prerequisites available"
                         )
 
                     else:
 
                         st.success(
-                            "âœ“ Technical prerequisites are "
+                            "✓ Technical prerequisites are "
                             "available at this workflow step"
                         )
 
                 elif technical_status == "blocked":
 
                     st.error(
-                        "âœ— Technical prerequisite artifact is missing"
+                        "✗ Technical prerequisite artifact is missing"
                     )
 
                     for artifact_id in technical.get(
@@ -7151,7 +7151,7 @@ else:
                 elif technical_status == "unknown":
 
                     st.warning(
-                        "âš  Tool I/O dependency metadata is not defined "
+                        "⚠ Tool I/O dependency metadata is not defined "
                         "yet, so technical executability cannot be confirmed."
                     )
 
@@ -7167,13 +7167,13 @@ else:
                 ]:
 
                     st.success(
-                        "âœ“ Compatible with the current dataset"
+                        "✓ Compatible with the current dataset"
                     )
 
                 else:
 
                     st.error(
-                        "âš  Compatibility problem"
+                        "⚠ Compatibility problem"
                     )
 
                     for problem in tool.get(
@@ -7348,7 +7348,7 @@ else:
         ):
 
             st.markdown(
-                "## â†“"
+                "## ↓"
             )
 
 
@@ -7363,7 +7363,7 @@ else:
     st.divider()
 
     with st.expander(
-        "ğŸ” Advanced registry search for uncurated alternatives (optional)",
+        "🔎 Advanced registry search for uncurated alternatives (optional)",
         expanded=False
     ):
 
@@ -7480,15 +7480,14 @@ footer_left, footer_right = st.columns(
 
 with footer_left:
     st.caption(
-        "OmicsRoute â€¢ Research software release candidate. "
+        "OmicsRoute • Research software release candidate. "
         "Use recommendations together with dataset requirements, reference "
         "database requirements, and the documentation of the underlying tools."
     )
 
 with footer_right:
     st.caption(
-        "[GitHub](https://github.com/isilayc/omicsroute) Â· "
+        "[GitHub](https://github.com/isilayc/omicsroute) · "
         "[Live app](https://bioflow1.streamlit.app)"
     )
-
 
