@@ -5705,6 +5705,89 @@ with st.expander(
 ):
     show_analysis_coverage()
 
+with st.expander(
+    "ℹ️ About BioFlow & methodology",
+    expanded=False
+):
+    about_tab, method_tab, limits_tab = st.tabs(
+        [
+            "About",
+            "Methodology",
+            "Interpretation"
+        ]
+    )
+
+    with about_tab:
+        st.markdown("### BioFlow v1.0.0")
+        st.write(
+            "BioFlow is a bioinformatics workflow planning and decision-support "
+            "system. It builds context-specific analysis routes from the sample "
+            "type, sequencing setup, biological objective, technical dependencies, "
+            "dataset constraints, and operational context."
+        )
+        st.write(
+            "BioFlow recommends workflows and candidate tools; it does not execute "
+            "the underlying bioinformatics software."
+        )
+        st.caption(
+            "Public web release: v1.0.0 • "
+            "Source: https://github.com/isilayc/bioflow"
+        )
+
+    with method_tab:
+        st.markdown("### How recommendations are formed")
+        st.markdown(
+            """
+            **1. Workflow context**  
+            BioFlow first narrows the catalogue using sample type, sequencing
+            technology, read type, analysis goal, and route-specific context.
+
+            **2. Scientific fit**  
+            Candidate tools are evaluated within the selected workflow step and
+            biological strategy. Scientific suitability is kept separate from
+            implementation constraints.
+
+            **3. Technical dependency validation**  
+            The engine checks whether the artifacts required by a downstream
+            step can be produced by the upstream workflow. Tools with missing
+            prerequisite artifacts remain visible but are not treated as ready.
+
+            **4. Dataset and operational constraints**  
+            Dataset-specific rules can return PASS, WARNING, BLOCK, or request
+            additional input. Compute feasibility is evaluated separately when
+            a compute profile is supplied.
+
+            **5. Evidence and fallback logic**  
+            Literature and registry evidence can refine otherwise comparable
+            candidates, but it does not override hard technical or dataset
+            blocks. If a route is blocked, BioFlow distinguishes direct
+            alternatives, alternative workflow strategies, and remediation
+            when no equivalent substitute is represented.
+            """
+        )
+
+    with limits_tab:
+        st.markdown("### How to interpret BioFlow")
+        st.write(
+            "BioFlow is research software and should be used as decision support, "
+            "not as a substitute for the documentation and assumptions of the "
+            "underlying bioinformatics tools."
+        )
+        st.write(
+            "Recommendation scores are BioFlow support scores within the curated "
+            "catalogue; they are not universal measures of tool quality."
+        )
+        st.write(
+            "The current benchmark is an internal curated benchmark used for "
+            "regression and recommendation validation. It is not an independent "
+            "external gold-standard benchmark."
+        )
+        st.write(
+            "Users should interpret each recommendation together with dataset "
+            "characteristics, reference-database requirements, compute resources, "
+            "and the intended biological question."
+        )
+
 st.divider()
 
 st.markdown("## Build a workflow")
