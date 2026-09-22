@@ -13,11 +13,35 @@ from engine.recommender import (
     get_workflow_strategies
 )
 
+from engine.context_intake import (
+    GENOME_SAMPLE_TYPES,
+    RAW_READS,
+    GENOME_ASSEMBLY,
+    PREDICTED_PROTEINS,
+    data_state_requires_reads,
+    get_data_state_label,
+    get_data_state_options,
+    reference_is_usable,
+    supports_reference_finder
+)
+
+from services.ncbi_reference import (
+    lookup_assembly_accession,
+    reference_context_from_assembly,
+    search_genome_assemblies,
+    search_taxa
+)
+
 from engine.exporter import (
     workflow_to_json,
     workflow_to_markdown,
     export_filename
 )
+
+from engine.dynamic_routes import (
+    get_dynamic_goal_availability
+)
+
 
 from engine.evidence import (
     classify_papers,
@@ -750,6 +774,607 @@ def cached_global_coverage(
 # ==================================================
 # EXTERNAL SERVICE CACHE
 # ==================================================
+
+@st.cache_data(
+    ttl=21600,
+    show_spinner=False
+)
+def cached_ncbi_taxon_search(
+    query
+):
+    return search_taxa(
+        query
+    )
+
+
+@st.cache_data(
+    ttl=21600,
+    show_spinner=False
+)
+def cached_ncbi_genome_search(
+    tax_id
+):
+    return search_genome_assemblies(
+        tax_id
+    )
+
+
+@st.cache_data(
+    ttl=21600,
+    show_spinner=False
+)
+def cached_ncbi_accession_lookup(
+    accession
+):
+    return lookup_assembly_accession(
+        accession
+    )
+
+
+def _reference_default(
+    status="unresolved"
+):
+    return {
+        "status": status,
+        "usable_reference": False
+    }
+
+
+def _assembly_label(
+    assembly
+):
+    category = (
+        assembly.get(
+            "refseq_category"
+        )
+        or
+        (
+            "Reference genome"
+            if assembly.get(
+                "is_reference"
+            )
+            else
+            "Representative genome"
+            if assembly.get(
+                "is_representative"
+            )
+            else
+            assembly.get(
+                "source",
+                "Assembly"
+            )
+        )
+    )
+
+    level = (
+        assembly.get(
+            "assembly_level"
+        )
+        or
+        "level not reported"
+    )
+
+    return (
+        f"{assembly.get('accession')} • "
+        f"{category} • "
+        f"{level}"
+    )
+
+
+def show_reference_finder(
+    sample_type,
+    data_state
+):
+    if not supports_reference_finder(
+        sample_type,
+        data_state
+    ):
+        return _reference_default(
+            "not_applicable"
+        )
+
+    with st.expander(
+        "🧬 Organism & reference genome",
+        expanded=True
+    ):
+
+        mode = st.radio(
+            "Reference setup",
+            [
+                "Find it for me (NCBI)",
+                "I already have an assembly accession",
+                "No suitable reference / de novo",
+                "Skip for now"
+            ],
+            horizontal=True,
+            key=(
+                f"reference_mode_"
+                f"{sample_type}_"
+                f"{data_state}"
+            )
+        )
+
+        if mode == "No suitable reference / de novo":
+
+            st.info(
+                "Reference-based goals will stay hidden; "
+                "de novo and assembly-oriented routes remain available."
+            )
+
+            return _reference_default(
+                "no_reference"
+            )
+
+        if mode == "Skip for now":
+
+            st.caption(
+                "Reference-dependent goals will stay hidden for now."
+            )
+
+            return _reference_default(
+                "unresolved"
+            )
+
+        if mode == "I already have an assembly accession":
+
+            accession = (
+                st.text_input(
+                    "NCBI Assembly accession",
+                    placeholder="GCF_... or GCA_...",
+                    key=(
+                        f"reference_accession_"
+                        f"{sample_type}_"
+                        f"{data_state}"
+                    )
+                )
+                .strip()
+                .upper()
+            )
+
+            if st.button(
+                "Verify accession",
+                key=(
+                    f"verify_reference_accession_"
+                    f"{sample_type}_"
+                    f"{data_state}"
+                )
+            ):
+
+                if accession:
+
+                    result = (
+                        cached_ncbi_accession_lookup(
+                            accession
+                        )
+                    )
+
+                    st.session_state[
+                        "omicsroute_verified_reference"
+                    ] = result
+
+            result = (
+                st.session_state.get(
+                    "omicsroute_verified_reference"
+                )
+            )
+
+            if (
+                isinstance(
+                    result,
+                    dict
+                )
+                and
+                result.get(
+                    "ok"
+                )
+            ):
+
+                assembly = (
+                    result.get(
+                        "assembly"
+                    )
+                    or
+                    {}
+                )
+
+                if (
+                    accession
+                    and
+                    assembly.get(
+                        "accession"
+                    )
+                    !=
+                    accession
+                ):
+
+                    return _reference_default(
+                        "unresolved"
+                    )
+
+                st.success(
+                    f"{assembly.get('organism_name') or 'Organism resolved'} • "
+                    f"{_assembly_label(assembly)}"
+                )
+
+                return (
+                    reference_context_from_assembly(
+                        assembly,
+                        source_mode="manual_accession"
+                    )
+                )
+
+            if (
+                isinstance(
+                    result,
+                    dict
+                )
+                and
+                result.get(
+                    "error"
+                )
+            ):
+
+                st.error(
+                    result[
+                        "error"
+                    ]
+                )
+
+            return _reference_default(
+                "unresolved"
+            )
+
+        query = st.text_input(
+            "Organism",
+            placeholder="Scientific/common name or Taxonomy ID",
+            help=(
+                "Examples: Salmo trutta, zebrafish, "
+                "Arabidopsis thaliana, 9606"
+            ),
+            key=(
+                f"organism_query_"
+                f"{sample_type}_"
+                f"{data_state}"
+            )
+        )
+
+        if st.button(
+            "Search NCBI",
+            key=(
+                f"search_ncbi_taxon_"
+                f"{sample_type}_"
+                f"{data_state}"
+            )
+        ):
+
+            if query.strip():
+
+                with st.spinner(
+                    "Searching NCBI Taxonomy..."
+                ):
+
+                    result = (
+                        cached_ncbi_taxon_search(
+                            query.strip()
+                        )
+                    )
+
+                st.session_state[
+                    "omicsroute_taxon_search"
+                ] = result
+
+        result = (
+            st.session_state.get(
+                "omicsroute_taxon_search"
+            )
+        )
+
+        if not isinstance(
+            result,
+            dict
+        ):
+
+            return _reference_default(
+                "unresolved"
+            )
+
+        if not result.get(
+            "ok",
+            False
+        ):
+
+            if result.get(
+                "error"
+            ):
+
+                st.error(
+                    result[
+                        "error"
+                    ]
+                )
+
+            return _reference_default(
+                "unresolved"
+            )
+
+        taxa = (
+            result.get(
+                "results",
+                []
+            )
+            or
+            []
+        )
+
+        if not taxa:
+
+            st.warning(
+                "No matching NCBI taxon was found."
+            )
+
+            return _reference_default(
+                "no_taxon"
+            )
+
+        taxon_lookup = {
+            str(
+                item[
+                    "tax_id"
+                ]
+            ): item
+            for item
+            in taxa
+        }
+
+        selected_tax_id = st.selectbox(
+            "Matched organism",
+            list(
+                taxon_lookup.keys()
+            ),
+            format_func=lambda tax_id: (
+                (
+                    taxon_lookup[
+                        tax_id
+                    ].get(
+                        "scientific_name"
+                    )
+                    or
+                    tax_id
+                )
+                +
+                (
+                    f" ({taxon_lookup[tax_id].get('common_name')})"
+                    if taxon_lookup[
+                        tax_id
+                    ].get(
+                        "common_name"
+                    )
+                    else
+                    ""
+                )
+                +
+                (
+                    f" • {taxon_lookup[tax_id].get('rank')}"
+                    if taxon_lookup[
+                        tax_id
+                    ].get(
+                        "rank"
+                    )
+                    else
+                    ""
+                )
+            ),
+            key=(
+                f"matched_taxon_"
+                f"{sample_type}_"
+                f"{data_state}"
+            )
+        )
+
+        selected_taxon = (
+            taxon_lookup[
+                selected_tax_id
+            ]
+        )
+
+        rank = str(
+            selected_taxon.get(
+                "rank"
+            )
+            or
+            ""
+        ).lower()
+
+        species_like = rank in {
+            "species",
+            "subspecies",
+            "strain",
+            "varietas",
+            "forma"
+        }
+
+        if not species_like:
+
+            st.warning(
+                "This match is above species level. "
+                "Choose a species/subspecies/strain before treating "
+                "an assembly as a same-organism reference."
+            )
+
+            return {
+                "status": "higher_taxon",
+                "usable_reference": False,
+                "organism_name": (
+                    selected_taxon.get(
+                        "scientific_name"
+                    )
+                ),
+                "tax_id": (
+                    selected_taxon.get(
+                        "tax_id"
+                    )
+                ),
+                "taxon_rank": (
+                    selected_taxon.get(
+                        "rank"
+                    )
+                )
+            }
+
+        with st.spinner(
+            "Checking NCBI genome assemblies..."
+        ):
+
+            genome_result = (
+                cached_ncbi_genome_search(
+                    selected_tax_id
+                )
+            )
+
+        if not genome_result.get(
+            "ok",
+            False
+        ):
+
+            st.error(
+                genome_result.get(
+                    "error",
+                    "NCBI genome search failed."
+                )
+            )
+
+            return _reference_default(
+                "unresolved"
+            )
+
+        assemblies = (
+            genome_result.get(
+                "assemblies",
+                []
+            )
+            or
+            []
+        )
+
+        if not assemblies:
+
+            st.warning(
+                "No current genome assembly was found for this taxon."
+            )
+
+            return {
+                "status": "no_assembly",
+                "usable_reference": False,
+                "organism_name": (
+                    selected_taxon.get(
+                        "scientific_name"
+                    )
+                ),
+                "tax_id": (
+                    selected_taxon.get(
+                        "tax_id"
+                    )
+                ),
+                "taxon_rank": (
+                    selected_taxon.get(
+                        "rank"
+                    )
+                )
+            }
+
+        if genome_result.get(
+            "status"
+        ) == "reference_available":
+
+            st.success(
+                "NCBI-designated reference genome found."
+            )
+
+        elif genome_result.get(
+            "status"
+        ) == "representative_available":
+
+            st.info(
+                "No designated reference was identified; "
+                "a representative genome is available."
+            )
+
+        else:
+
+            st.info(
+                "Genome assemblies are available, but none is marked as "
+                "an NCBI-designated reference in this result set."
+            )
+
+        assembly_lookup = {
+            item[
+                "accession"
+            ]: item
+            for item
+            in assemblies
+            if item.get(
+                "accession"
+            )
+        }
+
+        accessions = list(
+            assembly_lookup.keys()
+        )
+
+        selected_accession = st.selectbox(
+            "Reference / assembly candidate",
+            accessions,
+            format_func=lambda accession: (
+                _assembly_label(
+                    assembly_lookup[
+                        accession
+                    ]
+                )
+            ),
+            key=(
+                f"selected_reference_"
+                f"{sample_type}_"
+                f"{data_state}_"
+                f"{selected_tax_id}"
+            )
+        )
+
+        assembly = (
+            assembly_lookup[
+                selected_accession
+            ]
+        )
+
+        if assembly.get(
+            "is_reference"
+        ):
+
+            st.caption(
+                "Selected assembly is designated as an NCBI reference genome."
+            )
+
+        else:
+
+            st.caption(
+                "Selected assembly is not labelled as an NCBI reference genome; "
+                "suitability still depends on assembly quality and the analysis."
+            )
+
+        st.markdown(
+            f"[Open assembly in NCBI]"
+            f"(https://www.ncbi.nlm.nih.gov/datasets/genome/"
+            f"{selected_accession}/)"
+        )
+
+        return (
+            reference_context_from_assembly(
+                assembly,
+                taxon=selected_taxon,
+                source_mode="ncbi_search"
+            )
+        )
+
+
 
 @st.cache_data(
     ttl=86400,
@@ -5648,7 +6273,7 @@ with quick_1:
             <div class="omicsroute-step-number">STEP 1</div>
             <div class="omicsroute-step-title">Describe the analysis</div>
             <div class="omicsroute-step-text">
-                Select sample type, sequencing setup and analysis goal.
+                Describe your data, organism, reference status and analysis goal.
             </div>
         </div>
         """,
@@ -5818,48 +6443,99 @@ sample = st.selectbox(
 )
 
 
-sequencing_options = (
-    get_sequencing_options(
+data_state_options = (
+    get_data_state_options(
         sample
     )
 )
 
-if not sequencing_options:
+data_state_lookup = {
+    item[
+        "id"
+    ]: item[
+        "label"
+    ]
+    for item
+    in data_state_options
+}
 
-    st.error(
-        "No sequencing technologies "
-        "are available for this sample type."
+data_state_ids = list(
+    data_state_lookup.keys()
+)
+
+data_state = st.selectbox(
+    "What data do you currently have?",
+    data_state_ids,
+    format_func=lambda state_id: (
+        data_state_lookup[
+            state_id
+        ]
     )
-
-    st.stop()
-
-
-sequencing = st.selectbox(
-    "Sequencing technology",
-    sequencing_options
 )
 
 
-read_type_options = (
-    get_read_type_options(
+if data_state_requires_reads(
+    data_state
+):
+
+    sequencing_options = (
+        get_sequencing_options(
+            sample
+        )
+    )
+
+    if not sequencing_options:
+
+        st.error(
+            "No sequencing technologies are available "
+            "for this sample type."
+        )
+
+        st.stop()
+
+    sequencing = st.selectbox(
+        "Sequencing technology",
+        sequencing_options
+    )
+
+    read_type_options = (
+        get_read_type_options(
+            sample,
+            sequencing
+        )
+    )
+
+    if not read_type_options:
+
+        st.error(
+            "No read types are available "
+            "for this combination."
+        )
+
+        st.stop()
+
+    read_type = st.selectbox(
+        "Read type",
+        read_type_options
+    )
+
+else:
+
+    if data_state == GENOME_ASSEMBLY:
+        sequencing = "Existing assembly"
+    elif data_state == PREDICTED_PROTEINS:
+        sequencing = "Existing proteins"
+    else:
+        sequencing = "Existing data"
+
+    read_type = "Not applicable"
+
+
+reference_context = (
+    show_reference_finder(
         sample,
-        sequencing
+        data_state
     )
-)
-
-if not read_type_options:
-
-    st.error(
-        "No read types are available "
-        "for this combination."
-    )
-
-    st.stop()
-
-
-read_type = st.selectbox(
-    "Read type",
-    read_type_options
 )
 
 
@@ -5867,15 +6543,38 @@ goal_options = (
     get_goal_options(
         sample,
         sequencing,
-        read_type
+        read_type,
+        data_state=data_state,
+        reference_context=reference_context
     )
 )
+
+
+if (
+    sample
+    in
+    GENOME_SAMPLE_TYPES
+    and
+    data_state
+    ==
+    RAW_READS
+    and
+    not reference_is_usable(
+        reference_context
+    )
+):
+
+    st.caption(
+        "Reference-based goals are hidden until a suitable reference "
+        "assembly is selected."
+    )
+
 
 if not goal_options:
 
     st.error(
-        "No analysis goals are available "
-        "for this combination."
+        "No analysis goals are currently available "
+        "for this data state and context."
     )
 
     st.stop()
@@ -5952,7 +6651,9 @@ workflow_strategies = (
         sample,
         sequencing,
         read_type,
-        goal
+        goal,
+        data_state=data_state,
+        reference_context=reference_context
     )
 )
 
@@ -6095,12 +6796,49 @@ compute_profile = (
 )
 
 
+selected_context_parts = [
+    sample,
+    get_data_state_label(
+        sample,
+        data_state
+    )
+]
+
+if data_state_requires_reads(
+    data_state
+):
+
+    selected_context_parts.extend(
+        [
+            sequencing,
+            read_type
+        ]
+    )
+
+if reference_context.get(
+    "reference_accession"
+):
+
+    selected_context_parts.append(
+        "Reference "
+        +
+        str(
+            reference_context[
+                "reference_accession"
+            ]
+        )
+    )
+
+selected_context_parts.append(
+    goal
+)
+
 st.caption(
-    f"Selected context: "
-    f"{sample} → "
-    f"{sequencing} → "
-    f"{read_type} → "
-    f"{goal}"
+    "Selected context: "
+    +
+    " → ".join(
+        selected_context_parts
+    )
 )
 
 
@@ -6120,7 +6858,9 @@ if st.button(
             read_type,
             goal,
             workflow_id=selected_strategy_id,
-            compute_profile=compute_profile
+            compute_profile=compute_profile,
+            data_state=data_state,
+            reference_context=reference_context
         )
     )
 
@@ -6172,8 +6912,21 @@ else:
         "sample_type": sample,
         "sequencing": sequencing,
         "read_type": read_type,
-        "goal": goal
+        "goal": goal,
+        "data_state": data_state
     }
+
+    if reference_context.get(
+        "reference_accession"
+    ):
+
+        selected_context[
+            "reference_accession"
+        ] = (
+            reference_context[
+                "reference_accession"
+            ]
+        )
 
     if reference_scope_id:
 
@@ -6234,14 +6987,30 @@ else:
             ]
         )
 
-    dependency_validation = (
-        cached_validate_workflow(
-            workflow[
-                "id"
-            ],
-            get_dependency_signature()
+    if workflow.get(
+        "dynamic_route",
+        False
+    ):
+
+        dependency_validation = (
+            validate_workflow(
+                workflow[
+                    "id"
+                ],
+                workflow_override=workflow
+            )
         )
-    )
+
+    else:
+
+        dependency_validation = (
+            cached_validate_workflow(
+                workflow[
+                    "id"
+                ],
+                get_dependency_signature()
+            )
+        )
 
     show_workflow_overview_and_export(
         workflow,

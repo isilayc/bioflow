@@ -200,6 +200,13 @@ def infer_initial_artifacts(
     )
 
     read_types = (
+        []
+        if workflow.get(
+            "infer_read_inputs",
+            True
+        )
+        is False
+        else
         as_list(
             context.get(
                 "read_type"
@@ -899,7 +906,8 @@ def evaluate_parallel_step(
 # ==================================================
 
 def validate_workflow(
-    workflow_id
+    workflow_id,
+    workflow_override=None
 ):
     """
     Validate whether an end-to-end executable artifact
@@ -917,6 +925,12 @@ def validate_workflow(
     """
 
     workflow = (
+        workflow_override
+        if isinstance(
+            workflow_override,
+            dict
+        )
+        else
         get_workflow(
             workflow_id
         )

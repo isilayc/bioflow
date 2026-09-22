@@ -280,6 +280,11 @@ bwa_mem2:
     - reference_genome_fasta
     produces:
     - mapped_reads_sam
+  - requires:
+    - single_fastq
+    - reference_genome_fasta
+    produces:
+    - mapped_reads_sam
 bcftools:
   routes:
   - requires:

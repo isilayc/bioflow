@@ -18,6 +18,24 @@ from engine.feasibility import (
 )
 
 
+from engine.dynamic_routes import (
+    get_dynamic_read_types,
+    get_dynamic_goal_options,
+    get_dynamic_workflow_strategies,
+    materialize_dynamic_workflow,
+)
+
+
+from engine.context_intake import (
+    RAW_READS,
+    compact_reference_context,
+    filter_goal_options,
+    get_context_goal_options,
+    get_context_workflow_strategies,
+    materialize_context_workflow,
+)
+
+
 # ==================================================
 # PATHS
 # ==================================================
@@ -486,6 +504,13 @@ def get_read_type_options(
                     value
                 )
 
+    values.extend(
+        get_dynamic_read_types(
+            sample_type,
+            sequencing
+        )
+    )
+
     return unique_preserve_order(
         values
     )
@@ -494,7 +519,9 @@ def get_read_type_options(
 def get_goal_options(
     sample_type,
     sequencing,
-    read_type
+    read_type,
+    data_state=None,
+    reference_context=None
 ):
     """
     Return analysis goals available for the exact
@@ -569,9 +596,37 @@ def get_goal_options(
                     value
                 )
 
-    return unique_preserve_order(
+    values.extend(
+        get_dynamic_goal_options(
+            sample_type,
+            sequencing,
+            read_type
+        )
+    )
+
+    values.extend(
+        get_context_goal_options(
+            sample_type,
+            data_state
+            or
+            RAW_READS
+        )
+    )
+
+    values = unique_preserve_order(
         values
     )
+
+    values = filter_goal_options(
+        values,
+        sample_type,
+        data_state
+        or
+        RAW_READS,
+        reference_context
+    )
+
+    return values
 
 
 # ==================================================
@@ -681,7 +736,9 @@ def get_workflow_strategies(
     sample_type,
     sequencing,
     read_type,
-    goal
+    goal,
+    data_state=None,
+    reference_context=None
 ):
     """
     Return workflow strategy records for the selected
@@ -718,6 +775,57 @@ def get_workflow_strategies(
                 )
             }
         )
+
+    dynamic_strategies = (
+        get_dynamic_workflow_strategies(
+            sample_type,
+            sequencing,
+            read_type,
+            goal,
+            workflows=load_workflows()
+        )
+    )
+
+    existing_strategy_ids = {
+        item.get("id")
+        for item in strategies
+    }
+
+    strategies.extend(
+        item
+        for item in dynamic_strategies
+        if item.get("id") not in existing_strategy_ids
+    )
+
+    context_strategies = (
+        get_context_workflow_strategies(
+            sample_type,
+            data_state
+            or
+            RAW_READS,
+            goal,
+            workflows=load_workflows()
+        )
+    )
+
+    existing_strategy_ids = {
+        item.get(
+            "id"
+        )
+        for item
+        in strategies
+    }
+
+    strategies.extend(
+        item
+        for item
+        in context_strategies
+        if item.get(
+            "id"
+        )
+        not in
+        existing_strategy_ids
+    )
 
     return strategies
 
@@ -1112,7 +1220,9 @@ def build_workflow(
     read_type,
     goal,
     workflow_id=None,
-    compute_profile=None
+    compute_profile=None,
+    data_state=None,
+    reference_context=None
 ):
     """
     Build one complete BioFlow workflow.
@@ -1132,7 +1242,50 @@ def build_workflow(
         load_workflows()
     )
 
-    if workflow_id is not None:
+    context_workflow = (
+        materialize_context_workflow(
+            sample_type,
+            sequencing,
+            read_type,
+            goal,
+            workflow_id,
+            data_state
+            or
+            RAW_READS,
+            workflows
+        )
+        if workflow_id is not None
+        else None
+    )
+
+    dynamic_workflow = (
+        materialize_dynamic_workflow(
+            sample_type,
+            sequencing,
+            read_type,
+            goal,
+            workflow_id,
+            workflows
+        )
+        if (
+            workflow_id is not None
+            and
+            context_workflow is None
+        )
+        else None
+    )
+
+    if context_workflow is not None:
+
+        workflow = context_workflow
+        workflow_id = context_workflow["id"]
+
+    elif dynamic_workflow is not None:
+
+        workflow = dynamic_workflow
+        workflow_id = dynamic_workflow["id"]
+
+    elif workflow_id is not None:
 
         workflow = (
             workflows.get(
@@ -1232,6 +1385,66 @@ def build_workflow(
 
         "steps": []
     }
+
+    for metadata_key in (
+        "dynamic_route",
+        "route_class",
+        "route_origin",
+        "infer_read_inputs",
+        "data_state"
+    ):
+
+        if metadata_key in workflow:
+
+            result[
+                metadata_key
+            ] = workflow[
+                metadata_key
+            ]
+
+    result[
+        "context"
+    ][
+        "data_state"
+    ] = (
+        data_state
+        or
+        RAW_READS
+    )
+
+    compact_reference = (
+        compact_reference_context(
+            reference_context
+        )
+    )
+
+    if compact_reference:
+
+        result[
+            "context"
+        ][
+            "reference"
+        ] = compact_reference
+
+        for field_name in (
+            "reference_accession",
+            "organism_name",
+            "tax_id"
+        ):
+
+            field_value = (
+                compact_reference.get(
+                    field_name
+                )
+            )
+
+            if field_value:
+
+                result[
+                    "context"
+                ][
+                    field_name
+                ] = field_value
 
     for step in workflow.get(
         "steps",
@@ -1515,6 +1728,10 @@ def build_workflow(
                     unique_preserve_order(
                         aggregate_produces
                     )
+                ),
+
+                "candidates": (
+                    candidate_ids
                 ),
 
                 "candidate_ids": (
