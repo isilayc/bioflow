@@ -14,6 +14,7 @@ VIRAL_FASTA = "viral_fasta"
 GENE_COUNT_MATRIX = "gene_count_matrix"
 SIGNIFICANT_GENE_LIST = "significant_gene_list"
 RANKED_GENE_LIST = "ranked_gene_list"
+METATRANSCRIPTOME_COUNT_MATRIX = "metatranscriptome_count_matrix"
 
 
 GENOME_SAMPLE_TYPES = {
@@ -45,6 +46,10 @@ _DATA_STATE_OPTIONS = {
         {"id": GENE_COUNT_MATRIX, "label": "Gene count matrix"},
         {"id": SIGNIFICANT_GENE_LIST, "label": "Significant gene list"},
         {"id": RANKED_GENE_LIST, "label": "Ranked gene list"},
+    ],
+    "Metatranscriptome": [
+        {"id": RAW_READS, "label": "Raw metatranscriptome reads"},
+        {"id": METATRANSCRIPTOME_COUNT_MATRIX, "label": "Microbial gene count matrix"},
     ],
 }
 
@@ -369,6 +374,26 @@ _ROUTE_SPECS = {
             },
         ],
     },
+    ("Metatranscriptome", METATRANSCRIPTOME_COUNT_MATRIX): {
+        "Differential expression": [
+            {
+                "template_id": "metatranscriptome_illumina_differential_expression",
+                "external_inputs": [
+                    "metatranscriptome_count_matrix",
+                    "sample_metadata",
+                    "analysis_design",
+                ],
+                "remove_operations": [
+                    "host_read_removal",
+                    "rrna_depletion_assessment",
+                    "read_mapping",
+                    "alignment_processing",
+                    "gene_quantification",
+                ],
+            },
+        ],
+    },
+
 }
 
 
@@ -383,6 +408,37 @@ _METAGENOME_ALL_GOALS = [
     "Plasmid analysis",
     "Strain-level phylogenomics",
     "Microdiversity profiling",
+]
+
+
+_VIROME_ALL_GOALS = [
+    "Viral sequence detection",
+    "Viral genome quality assessment",
+    "Viral taxonomy",
+    "Viral abundance profiling",
+    "Viral host prediction",
+    "Viral clustering / vOTU analysis",
+    "Viral functional annotation",
+    "Auxiliary metabolic gene analysis",
+]
+
+_BULK_TRANSCRIPTOME_ALL_GOALS = [
+    "Differential expression",
+    "Alignment-based RNA-seq",
+    "Pseudoalignment / lightweight quantification",
+    "Transcript assembly",
+    "Functional enrichment",
+    "Pathway analysis",
+    "Alternative splicing",
+]
+
+_METATRANSCRIPTOME_ALL_GOALS = [
+    "Host read removal",
+    "rRNA depletion assessment",
+    "Taxonomic profiling",
+    "Functional profiling",
+    "Pathway analysis",
+    "Differential expression",
 ]
 
 
@@ -472,25 +528,34 @@ def get_context_goal_options(
     if data_state == RAW_READS:
         return []
 
+    if sample_type == "Metagenome" and data_state == METAGENOME_CONTIGS:
+        return list(_METAGENOME_ALL_GOALS)
+
+    if sample_type == "Virome" and data_state == VIRAL_FASTA:
+        return list(_VIROME_ALL_GOALS)
+
     if (
-        sample_type == "Metagenome"
-        and data_state == METAGENOME_CONTIGS
+        sample_type == "Bulk transcriptome"
+        and data_state in {
+            GENE_COUNT_MATRIX,
+            SIGNIFICANT_GENE_LIST,
+            RANKED_GENE_LIST,
+        }
     ):
-        return list(
-            _METAGENOME_ALL_GOALS
-        )
+        return list(_BULK_TRANSCRIPTOME_ALL_GOALS)
+
+    if (
+        sample_type == "Metatranscriptome"
+        and data_state == METATRANSCRIPTOME_COUNT_MATRIX
+    ):
+        return list(_METATRANSCRIPTOME_ALL_GOALS)
 
     route_map = _ROUTE_SPECS.get(
-        (
-            sample_type,
-            data_state,
-        ),
+        (sample_type, data_state),
         {},
     )
 
-    return list(
-        route_map.keys()
-    )
+    return list(route_map.keys())
 
 
 def get_goal_availability(
@@ -498,53 +563,34 @@ def get_goal_availability(
     data_state: str,
     goal: str,
 ) -> dict:
-    """
-    Return concise route availability for the selected starting data.
-    """
-
-    if (
-        sample_type != "Metagenome"
-        or data_state != METAGENOME_CONTIGS
-    ):
-        return {
-            "status": "ready",
-            "selectable": True,
-            "note": "",
-        }
-
-    direct = {
-        "Virulence profiling",
-        "Viral analysis",
-        "Plasmid analysis",
+    ready = {
+        "status": "ready",
+        "selectable": True,
+        "note": "",
     }
 
-    if goal in direct:
-        return {
-            "status": "ready",
-            "selectable": True,
-            "note": "Ready from assembled metagenome contigs.",
-        }
+    if sample_type == "Metagenome" and data_state == METAGENOME_CONTIGS:
+        if goal in {
+            "Virulence profiling",
+            "Viral analysis",
+            "Plasmid analysis",
+        }:
+            return {
+                "status": "ready",
+                "selectable": True,
+                "note": "Ready from assembled metagenome contigs.",
+            }
 
-    if goal == "MAG reconstruction":
-        return {
-            "status": "needs_input",
-            "selectable": False,
-            "note": (
-                "Contigs are available, but the curated MAG route also needs "
-                "the original reads to estimate coverage for binning."
-            ),
-        }
+        if goal == "MAG reconstruction":
+            return {
+                "status": "needs_input",
+                "selectable": False,
+                "note": (
+                    "Contigs are available, but the curated MAG route also needs "
+                    "the original reads to estimate coverage for binning."
+                ),
+            }
 
-    read_dependent = {
-        "Taxonomic profiling",
-        "Functional profiling",
-        "Pathway analysis",
-        "Antibiotic resistance profiling",
-        "Strain-level phylogenomics",
-        "Microdiversity profiling",
-    }
-
-    if goal in read_dependent:
         return {
             "status": "needs_input",
             "selectable": False,
@@ -554,11 +600,163 @@ def get_goal_availability(
             ),
         }
 
-    return {
-        "status": "unavailable",
-        "selectable": False,
-        "note": "No compatible route is curated for this starting data yet.",
-    }
+    if sample_type == "Virome" and data_state == VIRAL_FASTA:
+        if goal in {
+            "Viral genome quality assessment",
+            "Viral taxonomy",
+            "Viral host prediction",
+            "Viral clustering / vOTU analysis",
+            "Viral functional annotation",
+        }:
+            return {
+                "status": "ready",
+                "selectable": True,
+                "note": "Ready from the supplied viral sequence FASTA.",
+            }
+
+        if goal == "Viral sequence detection":
+            return {
+                "status": "already_satisfied",
+                "selectable": False,
+                "note": (
+                    "Your starting input is already a viral sequence FASTA. "
+                    "Sequence detection is an upstream step; choose raw reads "
+                    "when you want OmicsRoute to plan viral detection."
+                ),
+            }
+
+        if goal == "Viral abundance profiling":
+            return {
+                "status": "needs_input",
+                "selectable": False,
+                "note": (
+                    "Viral abundance requires the original sequencing reads "
+                    "for read mapping in addition to the viral sequence set."
+                ),
+            }
+
+        if goal == "Auxiliary metabolic gene analysis":
+            return {
+                "status": "needs_input",
+                "selectable": False,
+                "note": (
+                    "The curated DRAM-v route requires VirSorter2 --prep-for-dramv "
+                    "outputs and matching metadata. A viral FASTA alone is not equivalent."
+                ),
+            }
+
+    if sample_type == "Bulk transcriptome":
+        upstream_read_goals = {
+            "Alignment-based RNA-seq",
+            "Pseudoalignment / lightweight quantification",
+            "Transcript assembly",
+            "Alternative splicing",
+        }
+
+        if data_state == GENE_COUNT_MATRIX:
+            if goal == "Differential expression":
+                return ready
+            if goal == "Functional enrichment":
+                return {
+                    "status": "needs_input",
+                    "selectable": False,
+                    "note": (
+                        "Functional enrichment needs a significant-gene list "
+                        "plus compatible identifier/background data."
+                    ),
+                }
+            if goal == "Pathway analysis":
+                return {
+                    "status": "needs_input",
+                    "selectable": False,
+                    "note": (
+                        "Ranked pathway analysis needs a ranked gene list, "
+                        "usually derived from differential expression."
+                    ),
+                }
+            if goal in upstream_read_goals:
+                return {
+                    "status": "needs_input",
+                    "selectable": False,
+                    "note": (
+                        "This analysis starts upstream from RNA-seq reads. "
+                        "Choose Raw RNA-seq reads if those files are available."
+                    ),
+                }
+
+        if data_state == SIGNIFICANT_GENE_LIST:
+            if goal == "Functional enrichment":
+                return ready
+            if goal == "Differential expression":
+                return {
+                    "status": "already_satisfied",
+                    "selectable": False,
+                    "note": (
+                        "A significant-gene list is normally produced after "
+                        "differential-expression analysis."
+                    ),
+                }
+            if goal == "Pathway analysis":
+                return {
+                    "status": "needs_input",
+                    "selectable": False,
+                    "note": (
+                        "The curated ranked pathway route needs a ranked gene list "
+                        "rather than only the significance-filtered subset."
+                    ),
+                }
+            if goal in upstream_read_goals:
+                return {
+                    "status": "needs_input",
+                    "selectable": False,
+                    "note": "This upstream RNA-seq analysis requires sequencing reads.",
+                }
+
+        if data_state == RANKED_GENE_LIST:
+            if goal == "Pathway analysis":
+                return ready
+            if goal == "Differential expression":
+                return {
+                    "status": "already_satisfied",
+                    "selectable": False,
+                    "note": (
+                        "A ranked gene list is normally derived from a completed "
+                        "differential-expression analysis."
+                    ),
+                }
+            if goal == "Functional enrichment":
+                return {
+                    "status": "needs_input",
+                    "selectable": False,
+                    "note": (
+                        "The curated over-representation route needs a significant-gene "
+                        "list and compatible identifier/background data."
+                    ),
+                }
+            if goal in upstream_read_goals:
+                return {
+                    "status": "needs_input",
+                    "selectable": False,
+                    "note": "This upstream RNA-seq analysis requires sequencing reads.",
+                }
+
+    if (
+        sample_type == "Metatranscriptome"
+        and data_state == METATRANSCRIPTOME_COUNT_MATRIX
+    ):
+        if goal == "Differential expression":
+            return ready
+
+        return {
+            "status": "needs_input",
+            "selectable": False,
+            "note": (
+                "This metatranscriptome analysis requires read-level data. "
+                "Choose Raw metatranscriptome reads to plan the upstream route."
+            ),
+        }
+
+    return ready
 
 
 def filter_goal_options(

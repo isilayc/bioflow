@@ -6613,21 +6613,15 @@ def _goal_option_label(
     if status == "ready":
         return (
             f"✅ {option}"
-            if (
-                sample
-                ==
-                "Metagenome"
-                and
-                data_state
-                ==
-                METAGENOME_CONTIGS
-            )
-            else
-            option
+            if data_state != RAW_READS
+            else option
         )
 
     if status == "needs_input":
         return f"➕ {option}"
+
+    if status == "already_satisfied":
+        return f"✓ {option}"
 
     return f"⏳ {option}"
 
@@ -6656,12 +6650,24 @@ if not goal_availability.get(
     True
 ):
 
-    st.warning(
-        goal_availability.get(
-            "note",
-            "Additional input is required for this analysis."
-        )
+    message = goal_availability.get(
+        "note",
+        "Additional input is required for this analysis."
     )
+
+    if goal_availability.get(
+        "status"
+    ) == "already_satisfied":
+
+        st.info(
+            message
+        )
+
+    else:
+
+        st.warning(
+            message
+        )
 
     st.stop()
 
