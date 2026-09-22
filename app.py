@@ -8343,6 +8343,6 @@ with footer_left:
 with footer_right:
     st.caption(
         "[GitHub](https://github.com/isilayc/omicsroute) · "
-        "[Live app](https://bioflow1.streamlit.app)"
+        "[Live app](https://omicsroute.streamlit.app)"
     )
 
