@@ -15,6 +15,10 @@ GENE_COUNT_MATRIX = "gene_count_matrix"
 SIGNIFICANT_GENE_LIST = "significant_gene_list"
 RANKED_GENE_LIST = "ranked_gene_list"
 METATRANSCRIPTOME_COUNT_MATRIX = "metatranscriptome_count_matrix"
+AMPLICON_ASV_TABLE = "amplicon_asv_table"
+AMPLICON_OTU_TABLE = "amplicon_otu_table"
+AMPLICON_FEATURE_TABLE = "amplicon_feature_table"
+AMPLICON_TAXONOMY_TABLE = "amplicon_taxonomy_table"
 
 
 GENOME_SAMPLE_TYPES = {
@@ -50,6 +54,13 @@ _DATA_STATE_OPTIONS = {
     "Metatranscriptome": [
         {"id": RAW_READS, "label": "Raw metatranscriptome reads"},
         {"id": METATRANSCRIPTOME_COUNT_MATRIX, "label": "Microbial gene count matrix"},
+    ],
+    "Amplicon": [
+        {"id": RAW_READS, "label": "Raw amplicon reads"},
+        {"id": AMPLICON_ASV_TABLE, "label": "ASV table"},
+        {"id": AMPLICON_OTU_TABLE, "label": "OTU table"},
+        {"id": AMPLICON_FEATURE_TABLE, "label": "Feature table"},
+        {"id": AMPLICON_TAXONOMY_TABLE, "label": "Taxonomy table"},
     ],
 }
 
@@ -394,6 +405,54 @@ _ROUTE_SPECS = {
         ],
     },
 
+
+    ("Amplicon", AMPLICON_ASV_TABLE): {
+        "Alpha diversity": [
+            {"template_id": "amplicon_illumina_alpha_nonphylogenetic", "external_inputs": ["asv_table"], "remove_operations": []},
+            {"template_id": "amplicon_illumina_alpha_phylogenetic", "external_inputs": ["asv_table", "phylogenetic_tree_amplicon"], "remove_operations": []},
+        ],
+        "Beta diversity": [
+            {"template_id": "amplicon_illumina_beta_nonphylogenetic", "external_inputs": ["asv_table", "sample_metadata"], "remove_operations": []},
+            {"template_id": "amplicon_illumina_beta_phylogenetic", "external_inputs": ["asv_table", "sample_metadata", "phylogenetic_tree_amplicon"], "remove_operations": []},
+        ],
+        "Differential abundance": [
+            {"template_id": "amplicon_illumina_da_simple", "external_inputs": ["asv_table", "sample_metadata", "analysis_design"], "remove_operations": []},
+            {"template_id": "amplicon_illumina_da_multivariable", "external_inputs": ["asv_table", "sample_metadata", "analysis_design"], "remove_operations": []},
+            {"template_id": "amplicon_illumina_da_repeated", "external_inputs": ["asv_table", "sample_metadata", "analysis_design"], "remove_operations": []},
+        ],
+    },
+
+    ("Amplicon", AMPLICON_OTU_TABLE): {
+        "Alpha diversity": [
+            {"template_id": "amplicon_illumina_alpha_nonphylogenetic", "external_inputs": ["otu_table"], "remove_operations": []},
+            {"template_id": "amplicon_illumina_alpha_phylogenetic", "external_inputs": ["otu_table", "phylogenetic_tree_amplicon"], "remove_operations": []},
+        ],
+        "Beta diversity": [
+            {"template_id": "amplicon_illumina_beta_nonphylogenetic", "external_inputs": ["otu_table", "sample_metadata"], "remove_operations": []},
+            {"template_id": "amplicon_illumina_beta_phylogenetic", "external_inputs": ["otu_table", "sample_metadata", "phylogenetic_tree_amplicon"], "remove_operations": []},
+        ],
+        "Differential abundance": [
+            {"template_id": "amplicon_illumina_da_simple", "external_inputs": ["otu_table", "sample_metadata", "analysis_design"], "remove_operations": []},
+            {"template_id": "amplicon_illumina_da_multivariable", "external_inputs": ["otu_table", "sample_metadata", "analysis_design"], "remove_operations": []},
+            {"template_id": "amplicon_illumina_da_repeated", "external_inputs": ["otu_table", "sample_metadata", "analysis_design"], "remove_operations": []},
+        ],
+    },
+
+    ("Amplicon", AMPLICON_FEATURE_TABLE): {
+        "Alpha diversity": [
+            {"template_id": "amplicon_illumina_alpha_nonphylogenetic", "external_inputs": ["amplicon_feature_table"], "remove_operations": []},
+            {"template_id": "amplicon_illumina_alpha_phylogenetic", "external_inputs": ["amplicon_feature_table", "phylogenetic_tree_amplicon"], "remove_operations": []},
+        ],
+        "Beta diversity": [
+            {"template_id": "amplicon_illumina_beta_nonphylogenetic", "external_inputs": ["amplicon_feature_table", "sample_metadata"], "remove_operations": []},
+            {"template_id": "amplicon_illumina_beta_phylogenetic", "external_inputs": ["amplicon_feature_table", "sample_metadata", "phylogenetic_tree_amplicon"], "remove_operations": []},
+        ],
+        "Differential abundance": [
+            {"template_id": "amplicon_illumina_da_simple", "external_inputs": ["amplicon_feature_table", "sample_metadata", "analysis_design"], "remove_operations": []},
+            {"template_id": "amplicon_illumina_da_multivariable", "external_inputs": ["amplicon_feature_table", "sample_metadata", "analysis_design"], "remove_operations": []},
+            {"template_id": "amplicon_illumina_da_repeated", "external_inputs": ["amplicon_feature_table", "sample_metadata", "analysis_design"], "remove_operations": []},
+        ],
+    },
 }
 
 
@@ -439,6 +498,18 @@ _METATRANSCRIPTOME_ALL_GOALS = [
     "Functional profiling",
     "Pathway analysis",
     "Differential expression",
+]
+
+
+_AMPLICON_ALL_GOALS = [
+    "16S rRNA analysis",
+    "18S rRNA analysis",
+    "ITS analysis",
+    "ASV inference",
+    "Taxonomic assignment",
+    "Alpha diversity",
+    "Beta diversity",
+    "Differential abundance",
 ]
 
 
@@ -550,6 +621,19 @@ def get_context_goal_options(
     ):
         return list(_METATRANSCRIPTOME_ALL_GOALS)
 
+    if (
+        sample_type == "Amplicon"
+        and data_state in {
+            AMPLICON_ASV_TABLE,
+            AMPLICON_OTU_TABLE,
+            AMPLICON_FEATURE_TABLE,
+            AMPLICON_TAXONOMY_TABLE,
+        }
+    ):
+        return list(
+            _AMPLICON_ALL_GOALS
+        )
+
     route_map = _ROUTE_SPECS.get(
         (sample_type, data_state),
         {},
@@ -568,6 +652,92 @@ def get_goal_availability(
         "selectable": True,
         "note": "",
     }
+
+    if (
+        sample_type == "Amplicon"
+        and data_state in {
+            AMPLICON_ASV_TABLE,
+            AMPLICON_OTU_TABLE,
+            AMPLICON_FEATURE_TABLE,
+            AMPLICON_TAXONOMY_TABLE,
+        }
+    ):
+        table_states = {
+            AMPLICON_ASV_TABLE,
+            AMPLICON_OTU_TABLE,
+            AMPLICON_FEATURE_TABLE,
+        }
+
+        if data_state in table_states:
+            if goal in {
+                "Alpha diversity",
+                "Beta diversity",
+                "Differential abundance",
+            }:
+                return ready
+
+            if data_state == AMPLICON_ASV_TABLE and goal == "ASV inference":
+                return {
+                    "status": "already_satisfied",
+                    "selectable": False,
+                    "note": (
+                        "Your starting input is already an ASV table, so ASV "
+                        "inference is upstream of the current data state."
+                    ),
+                }
+
+            if goal == "Taxonomic assignment":
+                return {
+                    "status": "needs_input",
+                    "selectable": False,
+                    "note": (
+                        "Taxonomic assignment needs representative feature sequences "
+                        "plus a compatible taxonomy reference/database."
+                    ),
+                }
+
+            return {
+                "status": "needs_input",
+                "selectable": False,
+                "note": (
+                    "This upstream amplicon route starts from sequencing reads. "
+                    "Choose Raw amplicon reads if those files are available."
+                ),
+            }
+
+        if data_state == AMPLICON_TAXONOMY_TABLE:
+            if goal == "Taxonomic assignment":
+                return {
+                    "status": "already_satisfied",
+                    "selectable": False,
+                    "note": (
+                        "Your starting input already contains amplicon "
+                        "taxonomic assignments."
+                    ),
+                }
+
+            if goal in {
+                "Alpha diversity",
+                "Beta diversity",
+                "Differential abundance",
+            }:
+                return {
+                    "status": "needs_input",
+                    "selectable": False,
+                    "note": (
+                        "This analysis needs the corresponding ASV/OTU/feature "
+                        "count table; taxonomy assignments alone are not sufficient."
+                    ),
+                }
+
+            return {
+                "status": "needs_input",
+                "selectable": False,
+                "note": (
+                    "This upstream amplicon route requires the original sequencing "
+                    "reads or an earlier feature-generation artifact."
+                ),
+            }
 
     if sample_type == "Metagenome" and data_state == METAGENOME_CONTIGS:
         if goal in {
