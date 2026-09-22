@@ -89,6 +89,7 @@ spades:
   - PacBio
   read_types:
   - Paired-end
+  - Single-end
   - Long reads
   input:
   - FASTQ

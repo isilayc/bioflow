@@ -76,6 +76,10 @@ spades:
     produces:
     - genome_fasta
   - requires:
+    - single_fastq
+    produces:
+    - genome_fasta
+  - requires:
     - paired_fastq
     - long_fastq
     produces:
