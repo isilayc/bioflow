@@ -372,6 +372,20 @@ _ROUTE_SPECS = {
 }
 
 
+_METAGENOME_ALL_GOALS = [
+    "Taxonomic profiling",
+    "MAG reconstruction",
+    "Functional profiling",
+    "Pathway analysis",
+    "Antibiotic resistance profiling",
+    "Virulence profiling",
+    "Viral analysis",
+    "Plasmid analysis",
+    "Strain-level phylogenomics",
+    "Microdiversity profiling",
+]
+
+
 _REFERENCE_REQUIRED_GOALS = {
     "Variant analysis",
 }
@@ -458,6 +472,14 @@ def get_context_goal_options(
     if data_state == RAW_READS:
         return []
 
+    if (
+        sample_type == "Metagenome"
+        and data_state == METAGENOME_CONTIGS
+    ):
+        return list(
+            _METAGENOME_ALL_GOALS
+        )
+
     route_map = _ROUTE_SPECS.get(
         (
             sample_type,
@@ -469,6 +491,74 @@ def get_context_goal_options(
     return list(
         route_map.keys()
     )
+
+
+def get_goal_availability(
+    sample_type: str,
+    data_state: str,
+    goal: str,
+) -> dict:
+    """
+    Return concise route availability for the selected starting data.
+    """
+
+    if (
+        sample_type != "Metagenome"
+        or data_state != METAGENOME_CONTIGS
+    ):
+        return {
+            "status": "ready",
+            "selectable": True,
+            "note": "",
+        }
+
+    direct = {
+        "Virulence profiling",
+        "Viral analysis",
+        "Plasmid analysis",
+    }
+
+    if goal in direct:
+        return {
+            "status": "ready",
+            "selectable": True,
+            "note": "Ready from assembled metagenome contigs.",
+        }
+
+    if goal == "MAG reconstruction":
+        return {
+            "status": "needs_input",
+            "selectable": False,
+            "note": (
+                "Contigs are available, but the curated MAG route also needs "
+                "the original reads to estimate coverage for binning."
+            ),
+        }
+
+    read_dependent = {
+        "Taxonomic profiling",
+        "Functional profiling",
+        "Pathway analysis",
+        "Antibiotic resistance profiling",
+        "Strain-level phylogenomics",
+        "Microdiversity profiling",
+    }
+
+    if goal in read_dependent:
+        return {
+            "status": "needs_input",
+            "selectable": False,
+            "note": (
+                "The current curated route starts from sequencing reads. "
+                "Choose Raw sequencing reads if those files are available."
+            ),
+        }
+
+    return {
+        "status": "unavailable",
+        "selectable": False,
+        "note": "No compatible route is curated for this starting data yet.",
+    }
 
 
 def filter_goal_options(

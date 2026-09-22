@@ -21,6 +21,7 @@ from engine.context_intake import (
     data_state_requires_reads,
     get_data_state_label,
     get_data_state_options,
+    get_goal_availability,
     reference_is_usable,
     supports_reference_finder
 )
@@ -6580,10 +6581,89 @@ if not goal_options:
     st.stop()
 
 
+goal_availability_lookup = {
+    option: (
+        get_goal_availability(
+            sample,
+            data_state,
+            option
+        )
+    )
+    for option
+    in goal_options
+}
+
+
+def _goal_option_label(
+    option
+):
+
+    availability = (
+        goal_availability_lookup.get(
+            option,
+            {}
+        )
+    )
+
+    status = availability.get(
+        "status",
+        "ready"
+    )
+
+    if status == "ready":
+        return (
+            f"✅ {option}"
+            if (
+                sample
+                ==
+                "Metagenome"
+                and
+                data_state
+                ==
+                METAGENOME_CONTIGS
+            )
+            else
+            option
+        )
+
+    if status == "needs_input":
+        return f"➕ {option}"
+
+    return f"⏳ {option}"
+
+
 goal = st.selectbox(
     "Analysis goal",
-    goal_options
+    goal_options,
+    format_func=_goal_option_label
 )
+
+
+goal_availability = (
+    goal_availability_lookup.get(
+        goal,
+        {
+            "status": "ready",
+            "selectable": True,
+            "note": ""
+        }
+    )
+)
+
+
+if not goal_availability.get(
+    "selectable",
+    True
+):
+
+    st.warning(
+        goal_availability.get(
+            "note",
+            "Additional input is required for this analysis."
+        )
+    )
+
+    st.stop()
 
 
 reference_scope_id = None
