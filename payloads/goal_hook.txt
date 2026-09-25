@@ -1,0 +1,13 @@
+if (
+    sample_type == "Amplicon"
+    and data_state in {
+        AMPLICON_ASV_TABLE,
+        AMPLICON_OTU_TABLE,
+        AMPLICON_FEATURE_TABLE,
+        AMPLICON_TAXONOMY_TABLE,
+    }
+):
+    return list(
+        _AMPLICON_ALL_GOALS
+    )
+

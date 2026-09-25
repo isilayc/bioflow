@@ -1,0 +1,14 @@
+if (
+    sample_type == "Amplicon"
+    and data_state in {
+        AMPLICON_ASV_TABLE,
+        AMPLICON_OTU_TABLE,
+        AMPLICON_FEATURE_TABLE,
+        AMPLICON_TAXONOMY_TABLE,
+    }
+):
+    return _amplicon_goal_availability(
+        data_state,
+        goal,
+    )
+

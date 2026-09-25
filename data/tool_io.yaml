@@ -57,18 +57,30 @@ nanoplot:
     - long_fastq
     produces:
     - qc_report
+  - requires:
+    - long_fastq_collection
+    produces:
+    - qc_report_collection
 chopper:
   routes:
   - requires:
     - long_fastq
     produces:
     - cleaned_long_fastq
+  - requires:
+    - long_fastq_collection
+    produces:
+    - cleaned_long_fastq_collection
 filtlong:
   routes:
   - requires:
     - long_fastq
     produces:
     - cleaned_long_fastq
+  - requires:
+    - long_fastq_collection
+    produces:
+    - cleaned_long_fastq_collection
 spades:
   routes:
   - requires:
@@ -108,6 +120,10 @@ flye:
     - long_fastq
     produces:
     - eukaryotic_genome_fasta
+  - requires:
+    - long_fastq
+    produces:
+    - metagenome_contigs_fasta
 raven:
   routes:
   - requires:
@@ -136,6 +152,10 @@ megahit:
     - metagenome_contigs_fasta
   - requires:
     - paired_fastq_collection
+    produces:
+    - metagenome_contigs_fasta
+  - requires:
+    - single_fastq
     produces:
     - metagenome_contigs_fasta
 metaspades:
@@ -192,10 +212,18 @@ kraken2:
     - paired_fastq
     produces:
     - taxonomic_profile
+  - requires:
+    - single_fastq
+    produces:
+    - taxonomic_profile
 kaiju:
   routes:
   - requires:
     - paired_fastq
+    produces:
+    - taxonomic_profile
+  - requires:
+    - single_fastq
     produces:
     - taxonomic_profile
 metaphlan:
@@ -220,6 +248,14 @@ metaphlan:
     produces:
     - taxonomic_profile_collection
     - metaphlan_mapout_collection
+  - requires:
+    - host_depleted_long_fastq
+    produces:
+    - taxonomic_profile
+  - requires:
+    - non_rrna_long_fastq
+    produces:
+    - taxonomic_profile
 gtdbtk:
   routes:
   - requires:
@@ -277,6 +313,16 @@ bowtie2:
     - metagenome_contigs_fasta
     produces:
     - mapped_reads_sam_collection
+  - requires:
+    - single_fastq
+    - metagenome_contigs_fasta
+    produces:
+    - mapped_reads_sam
+  - requires:
+    - single_fastq
+    - representative_genome_database_fasta
+    produces:
+    - mapped_reads_sam
 bwa_mem2:
   routes:
   - requires:
@@ -338,6 +384,11 @@ maxbin2:
   - requires:
     - metagenome_contigs_fasta
     - paired_fastq_collection
+    produces:
+    - mag_bins
+  - requires:
+    - metagenome_contigs_fasta
+    - single_fastq
     produces:
     - mag_bins
 concoct:
@@ -557,6 +608,14 @@ samtools:
     - mapped_reads_sam_collection
     produces:
     - sorted_mapped_reads_bam_collection
+  - requires:
+    - host_mapped_long_sam
+    produces:
+    - host_depleted_long_fastq
+  - requires:
+    - host_mapped_long_sam_collection
+    produces:
+    - host_depleted_long_fastq_collection
 sample2markers:
   routes:
   - requires:
@@ -591,10 +650,23 @@ humann:
     produces:
     - metatranscriptome_gene_family_table
     - metatranscriptome_pathway_table
+  - requires:
+    - single_fastq
+    produces:
+    - functional_profile
+    - pathway_profile
 deeparg:
   routes:
   - requires:
     - paired_fastq
+    produces:
+    - arg_profile
+  - requires:
+    - single_fastq
+    produces:
+    - arg_profile
+  - requires:
+    - long_fastq
     produces:
     - arg_profile
 amrplusplus:
@@ -607,10 +679,22 @@ amrplusplus:
     - paired_fastq
     produces:
     - arg_profile
+  - requires:
+    - raw_single_fastq
+    produces:
+    - arg_profile
+  - requires:
+    - single_fastq
+    produces:
+    - arg_profile
 rgi:
   routes:
   - requires:
     - paired_fastq
+    produces:
+    - arg_profile
+  - requires:
+    - single_fastq
     produces:
     - arg_profile
 pathofact2:
@@ -635,6 +719,11 @@ dada2:
   routes:
   - requires:
     - primer_trimmed_fastq
+    produces:
+    - asv_table
+    - representative_sequences
+  - requires:
+    - long_fastq
     produces:
     - asv_table
     - representative_sequences
@@ -831,6 +920,11 @@ featurecounts:
     - metatranscriptome_gene_annotation_gff
     produces:
     - metatranscriptome_count_matrix
+  - requires:
+    - sorted_rna_bam_collection
+    - gene_annotation_gtf
+    produces:
+    - gene_count_matrix
 salmon:
   routes:
   - requires:
@@ -1052,6 +1146,18 @@ sortmerna:
     produces:
     - rrna_content_report
     - non_rrna_paired_fastq_collection
+  - requires:
+    - host_depleted_long_fastq
+    - rrna_reference_database
+    produces:
+    - rrna_content_report
+    - non_rrna_long_fastq
+  - requires:
+    - host_depleted_long_fastq_collection
+    - rrna_reference_database
+    produces:
+    - qc_report_collection
+    - non_rrna_long_fastq_collection
 vsearch:
   routes:
   - requires:
@@ -1284,3 +1390,80 @@ sourmash:
     - genome_fasta
     produces:
     - genome_taxonomy
+minimap2:
+  routes:
+  - requires:
+    - long_fastq
+    - metagenome_contigs_fasta
+    produces:
+    - mapped_reads_sam
+  - requires:
+    - long_fastq
+    - checkv_processed_viral_fasta
+    produces:
+    - mapped_reads_sam
+  - requires:
+    - long_fastq
+    - votu_representative_fasta
+    produces:
+    - mapped_reads_sam
+  - requires:
+    - long_fastq
+    - reference_genome_fasta
+    produces:
+    - rna_alignment_sam
+  - requires:
+    - long_fastq_collection
+    - reference_genome_fasta
+    produces:
+    - rna_alignment_sam_collection
+  - requires:
+    - long_fastq
+    - host_reference_genome_fasta
+    produces:
+    - host_mapped_long_sam
+  - requires:
+    - long_fastq_collection
+    - host_reference_genome_fasta
+    produces:
+    - host_mapped_long_sam_collection
+  - requires:
+    - host_depleted_long_fastq_collection
+    - metatranscriptome_reference_fasta
+    produces:
+    - metatranscriptome_alignment_sam_collection
+  - requires:
+    - non_rrna_long_fastq_collection
+    - metatranscriptome_reference_fasta
+    produces:
+    - metatranscriptome_alignment_sam_collection
+opera_ms:
+  routes:
+  - requires:
+    - paired_fastq
+    - long_fastq
+    produces:
+    - metagenome_contigs_fasta
+emu:
+  routes:
+  - requires:
+    - long_fastq
+    produces:
+    - amplicon_taxonomy
+    - amplicon_taxonomic_abundance
+flair:
+  routes:
+  - requires:
+    - sorted_rna_bam
+    - reference_genome_fasta
+    - gene_annotation_gtf
+    produces:
+    - transcript_assembly_gtf
+  - requires:
+    - sorted_rna_bam_collection
+    - reference_genome_fasta
+    - gene_annotation_gtf
+    - sample_metadata
+    - analysis_design
+    produces:
+    - splice_event_results

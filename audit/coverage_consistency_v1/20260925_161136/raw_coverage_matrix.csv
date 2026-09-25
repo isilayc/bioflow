@@ -1,0 +1,29 @@
+﻿sample_type,sequencing,read_type,goals_visible_without_reference,goals_with_reference_context,reference_gated_goals,strategies,goals_without_strategy_or_build,dependency_failures,compatibility_failures,goals
+Bacterial isolate,Illumina,Paired-end,9,10,1,13,0,0,0,Whole genome characterization | Antimicrobial resistance detection | Virulence profiling | MLST / strain typing | Prophage detection | Pangenome analysis | Phylogenomics | Species identification | Plasmid detection | Variant analysis
+Bacterial isolate,Illumina,Single-end,7,8,1,11,0,0,0,Whole genome characterization | Antimicrobial resistance detection | Virulence profiling | MLST / strain typing | Prophage detection | Species identification | Plasmid detection | Variant analysis
+Bacterial isolate,Oxford Nanopore,Long reads,1,1,0,1,0,0,0,Whole genome characterization
+Bacterial isolate,Illumina + Oxford Nanopore,Paired-end + Long reads,1,1,0,1,0,0,0,Hybrid genome assembly
+Bacterial isolate,Illumina + PacBio,Paired-end + Long reads,1,1,0,1,0,0,0,Hybrid genome assembly
+Metagenome,Illumina,Paired-end,10,10,0,16,0,0,0,Strain-level phylogenomics | Microdiversity profiling | Functional profiling | Pathway analysis | Virulence profiling | Viral analysis | Taxonomic profiling | Antibiotic resistance profiling | Plasmid analysis | MAG reconstruction
+Metagenome,Illumina,Single-end,9,9,0,14,0,0,0,Taxonomic profiling | Functional profiling | Pathway analysis | Antibiotic resistance profiling | Virulence profiling | Viral analysis | Plasmid analysis | MAG reconstruction | Microdiversity profiling
+Metagenome,Illumina + Oxford Nanopore,Paired-end + Long reads,4,4,0,4,0,0,0,MAG reconstruction | Viral analysis | Virulence profiling | Plasmid analysis
+Metagenome,Illumina + PacBio,Paired-end + Long reads,4,4,0,4,0,0,0,MAG reconstruction | Viral analysis | Virulence profiling | Plasmid analysis
+Metagenome,Oxford Nanopore,Long reads,6,6,0,6,0,0,0,Taxonomic profiling | MAG reconstruction | Antibiotic resistance profiling | Virulence profiling | Viral analysis | Plasmid analysis
+Metagenome,PacBio,Long reads,6,6,0,6,0,0,0,Taxonomic profiling | MAG reconstruction | Antibiotic resistance profiling | Virulence profiling | Viral analysis | Plasmid analysis
+Amplicon,Illumina,Paired-end,8,8,0,39,0,0,0,16S rRNA analysis | 18S rRNA analysis | ITS analysis | ASV inference | Taxonomic assignment | Alpha diversity | Beta diversity | Differential abundance
+Amplicon,Oxford Nanopore,Long reads,1,1,0,1,0,0,0,16S rRNA analysis
+Amplicon,PacBio,Long reads,4,4,0,4,0,0,0,16S rRNA analysis | 18S rRNA analysis | ITS analysis | ASV inference
+Bulk transcriptome,Illumina,Paired-end,7,7,0,9,0,0,0,Alignment-based RNA-seq | Pseudoalignment / lightweight quantification | Differential expression | Transcript assembly | Alternative splicing | Functional enrichment | Pathway analysis
+Bulk transcriptome,Oxford Nanopore,Long reads,4,4,0,4,0,0,0,Alignment-based RNA-seq | Differential expression | Transcript assembly | Alternative splicing
+Bulk transcriptome,PacBio,Long reads,4,4,0,4,0,0,0,Alignment-based RNA-seq | Differential expression | Transcript assembly | Alternative splicing
+Virome,Illumina,Paired-end,8,8,0,9,0,0,0,Viral sequence detection | Viral genome quality assessment | Viral taxonomy | Viral host prediction | Viral clustering / vOTU analysis | Viral functional annotation | Auxiliary metabolic gene analysis | Viral abundance profiling
+Virome,Oxford Nanopore,Long reads,8,8,0,9,0,0,0,Viral sequence detection | Viral genome quality assessment | Viral taxonomy | Viral host prediction | Viral clustering / vOTU analysis | Viral functional annotation | Auxiliary metabolic gene analysis | Viral abundance profiling
+Virome,PacBio,Long reads,8,8,0,9,0,0,0,Viral sequence detection | Viral genome quality assessment | Viral taxonomy | Viral host prediction | Viral clustering / vOTU analysis | Viral functional annotation | Auxiliary metabolic gene analysis | Viral abundance profiling
+Eukaryotic genome,Oxford Nanopore,Long reads,6,6,0,7,0,0,0,Genome assembly | Genome quality assessment | Repeat annotation | Gene prediction | Functional annotation | Comparative genomics
+Eukaryotic genome,PacBio,Long reads,1,1,0,1,0,0,0,Genome assembly
+Eukaryotic genome,Illumina + Oxford Nanopore,Paired-end + Long reads,1,1,0,1,0,0,0,Hybrid genome assembly
+Eukaryotic genome,Illumina,Paired-end,5,6,1,7,0,0,0,Genome quality assessment | Repeat annotation | Gene prediction | Functional annotation | Comparative genomics | Variant analysis
+Eukaryotic genome,Illumina,Single-end,5,6,1,7,0,0,0,Genome quality assessment | Repeat annotation | Gene prediction | Functional annotation | Comparative genomics | Variant analysis
+Metatranscriptome,Illumina,Paired-end,6,6,0,8,0,0,0,Host read removal | rRNA depletion assessment | Taxonomic profiling | Differential expression | Functional profiling | Pathway analysis
+Metatranscriptome,Oxford Nanopore,Long reads,3,3,0,3,0,0,0,Host read removal | Taxonomic profiling | Differential expression
+Metatranscriptome,PacBio,Long reads,4,4,0,4,0,0,0,Host read removal | rRNA depletion assessment | Taxonomic profiling | Differential expression

@@ -1,0 +1,12 @@
+_AMPLICON_ALL_GOALS = [
+    "16S rRNA analysis",
+    "18S rRNA analysis",
+    "ITS analysis",
+    "ASV inference",
+    "Taxonomic assignment",
+    "Alpha diversity",
+    "Beta diversity",
+    "Differential abundance",
+]
+
+

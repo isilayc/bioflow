@@ -1,0 +1,204 @@
+﻿sample_type,sequencing,read_type,goal,strategy_id,strategy_name,inspect_http,inspect_ok,exports_present,dependency_present,tool_assessment_present,status
+Bacterial isolate,Illumina,Paired-end,Whole genome characterization,bacterial_illumina_wgs,Bacterial isolate — Illumina WGS,200,True,True,True,True,PASS
+Bacterial isolate,Illumina,Paired-end,Antimicrobial resistance detection,bacterial_illumina_amr,Bacterial isolate — Illumina antimicrobial resistance analysis,200,True,True,True,True,PASS
+Bacterial isolate,Illumina,Paired-end,Virulence profiling,bacterial_illumina_virulence,Bacterial isolate — Illumina virulence profiling,200,True,True,True,True,PASS
+Bacterial isolate,Illumina,Paired-end,MLST / strain typing,bacterial_illumina_mlst,Bacterial isolate — Illumina MLST and strain typing,200,True,True,True,True,PASS
+Bacterial isolate,Illumina,Paired-end,Prophage detection,bacterial_illumina_prophage,Bacterial isolate — Illumina prophage detection,200,True,True,True,True,PASS
+Bacterial isolate,Illumina,Paired-end,Variant analysis,bacterial_illumina_variant_analysis,Bacterial isolate — Illumina variant analysis,200,True,True,True,True,PASS
+Bacterial isolate,Illumina,Paired-end,Pangenome analysis,bacterial_illumina_pangenome,Bacterial isolates — Illumina pangenome analysis,200,True,True,True,True,PASS
+Bacterial isolate,Illumina,Paired-end,Phylogenomics,bacterial_illumina_phylogenomics,Bacterial isolates — Illumina phylogenomics,200,True,True,True,True,PASS
+Bacterial isolate,Illumina,Paired-end,Species identification,bacterial_illumina_species_identification_gtdbtk,Bacterial isolate — genome taxonomy with GTDB-Tk,200,True,True,True,True,PASS
+Bacterial isolate,Illumina,Paired-end,Species identification,bacterial_illumina_species_identification_fastani,Bacterial isolate — reference ANI confirmation with FastANI,200,True,True,True,True,PASS
+Bacterial isolate,Illumina,Paired-end,Plasmid detection,bacterial_illumina_plasmid_mobsuite,Bacterial isolate — plasmid reconstruction and typing (MOB-suite),200,True,True,True,True,PASS
+Bacterial isolate,Illumina,Paired-end,Plasmid detection,bacterial_illumina_plasmid_replicon,Bacterial isolate — plasmid replicon screening (PlasmidFinder),200,True,True,True,True,PASS
+Bacterial isolate,Illumina,Paired-end,Plasmid detection,bacterial_illumina_plasmid_genomad,Bacterial isolate — plasmid sequence prediction (geNomad),200,True,True,True,True,PASS
+Bacterial isolate,Illumina,Single-end,Whole genome characterization,dynamic__bacterial_isolate__illumina__single_end__bacterial_illumina_wgs,Bacterial isolate — Illumina WGS — single-end,200,True,True,True,True,PASS
+Bacterial isolate,Illumina,Single-end,Antimicrobial resistance detection,dynamic__bacterial_isolate__illumina__single_end__bacterial_illumina_amr,Bacterial isolate — Illumina antimicrobial resistance analysis — single-end,200,True,True,True,True,PASS
+Bacterial isolate,Illumina,Single-end,Virulence profiling,dynamic__bacterial_isolate__illumina__single_end__bacterial_illumina_virulence,Bacterial isolate — Illumina virulence profiling — single-end,200,True,True,True,True,PASS
+Bacterial isolate,Illumina,Single-end,MLST / strain typing,dynamic__bacterial_isolate__illumina__single_end__bacterial_illumina_mlst,Bacterial isolate — Illumina MLST and strain typing — single-end,200,True,True,True,True,PASS
+Bacterial isolate,Illumina,Single-end,Prophage detection,dynamic__bacterial_isolate__illumina__single_end__bacterial_illumina_prophage,Bacterial isolate — Illumina prophage detection — single-end,200,True,True,True,True,PASS
+Bacterial isolate,Illumina,Single-end,Variant analysis,dynamic__bacterial_isolate__illumina__single_end__bacterial_illumina_variant_analysis,Bacterial isolate — Illumina variant analysis — single-end,200,True,True,True,True,PASS
+Bacterial isolate,Illumina,Single-end,Species identification,dynamic__bacterial_isolate__illumina__single_end__bacterial_illumina_species_identification_gtdbtk,Bacterial isolate — genome taxonomy with GTDB-Tk — single-end,200,True,True,True,True,PASS
+Bacterial isolate,Illumina,Single-end,Species identification,dynamic__bacterial_isolate__illumina__single_end__bacterial_illumina_species_identification_fastani,Bacterial isolate — reference ANI confirmation with FastANI — single-end,200,True,True,True,True,PASS
+Bacterial isolate,Illumina,Single-end,Plasmid detection,dynamic__bacterial_isolate__illumina__single_end__bacterial_illumina_plasmid_mobsuite,Bacterial isolate — plasmid reconstruction and typing (MOB-suite) — single-end,200,True,True,True,True,PASS
+Bacterial isolate,Illumina,Single-end,Plasmid detection,dynamic__bacterial_isolate__illumina__single_end__bacterial_illumina_plasmid_replicon,Bacterial isolate — plasmid replicon screening (PlasmidFinder) — single-end,200,True,True,True,True,PASS
+Bacterial isolate,Illumina,Single-end,Plasmid detection,dynamic__bacterial_isolate__illumina__single_end__bacterial_illumina_plasmid_genomad,Bacterial isolate — plasmid sequence prediction (geNomad) — single-end,200,True,True,True,True,PASS
+Bacterial isolate,Oxford Nanopore,Long reads,Whole genome characterization,bacterial_nanopore_wgs,Bacterial isolate — Oxford Nanopore WGS,200,True,True,True,True,PASS
+Bacterial isolate,Illumina + Oxford Nanopore,Paired-end + Long reads,Hybrid genome assembly,bacterial_illumina_ont_hybrid,Bacterial isolate — Illumina + Oxford Nanopore hybrid assembly,200,True,True,True,True,PASS
+Bacterial isolate,Illumina + PacBio,Paired-end + Long reads,Hybrid genome assembly,bacterial_illumina_pacbio_hybrid,Bacterial isolate — Illumina + PacBio hybrid assembly,200,True,True,True,True,PASS
+Metagenome,Illumina,Paired-end,Strain-level phylogenomics,metagenome_illumina_strain_phylogenomics,Metagenome — Illumina strain-level phylogenomics,200,True,True,True,True,PASS
+Metagenome,Illumina,Paired-end,Microdiversity profiling,metagenome_illumina_microdiversity,Metagenome — Illumina microdiversity profiling,200,True,True,True,True,PASS
+Metagenome,Illumina,Paired-end,Functional profiling,metagenome_illumina_functional,Metagenome — Illumina functional profiling,200,True,True,True,True,PASS
+Metagenome,Illumina,Paired-end,Pathway analysis,metagenome_illumina_pathways,Metagenome — Illumina pathway analysis,200,True,True,True,True,PASS
+Metagenome,Illumina,Paired-end,Virulence profiling,metagenome_illumina_virulence,Metagenome — Illumina virulence profiling,200,True,True,True,True,PASS
+Metagenome,Illumina,Paired-end,Viral analysis,metagenome_illumina_viral,Metagenome — Illumina viral analysis,200,True,True,True,True,PASS
+Metagenome,Illumina,Paired-end,Taxonomic profiling,metagenome_illumina_taxonomy_prokaryotic,Metagenome — Illumina prokaryotic taxonomic profiling,200,True,True,True,True,PASS
+Metagenome,Illumina,Paired-end,Taxonomic profiling,metagenome_illumina_taxonomy_eukaryotic,Metagenome — Illumina microbial eukaryotic taxonomic profiling,200,True,True,True,True,PASS
+Metagenome,Illumina,Paired-end,Taxonomic profiling,metagenome_illumina_taxonomy_broad,Metagenome — Illumina broad multi-kingdom taxonomic profiling,200,True,True,True,True,PASS
+Metagenome,Illumina,Paired-end,Antibiotic resistance profiling,metagenome_illumina_resistome_deeparg,Metagenome — DeepARG-SS resistome profiling,200,True,True,True,True,PASS
+Metagenome,Illumina,Paired-end,Antibiotic resistance profiling,metagenome_illumina_resistome_rgi,Metagenome — CARD RGI BWT resistome profiling,200,True,True,True,True,PASS
+Metagenome,Illumina,Paired-end,Antibiotic resistance profiling,metagenome_illumina_resistome_amrplusplus,Metagenome — AMR++ turnkey resistome pipeline,200,True,True,True,True,PASS
+Metagenome,Illumina,Paired-end,Plasmid analysis,metagenome_illumina_plasmid_genomad,Metagenome — plasmid sequence prediction with geNomad,200,True,True,True,True,PASS
+Metagenome,Illumina,Paired-end,Plasmid analysis,metagenome_illumina_plasmid_plasx,Metagenome — PlasX gene-architecture plasmid workflow,200,True,True,True,True,PASS
+Metagenome,Illumina,Paired-end,MAG reconstruction,metagenome_illumina_mag_single,Metagenome — single-sample MAG reconstruction,200,True,True,True,True,PASS
+Metagenome,Illumina,Paired-end,MAG reconstruction,metagenome_illumina_mag_coassembly,Metagenome — multi-sample coassembly MAG reconstruction,200,True,True,True,True,PASS
+Metagenome,Illumina,Single-end,Taxonomic profiling,dynamic__metagenome__illumina__single_end__metagenome_illumina_taxonomy_prokaryotic,Metagenome — Illumina prokaryotic taxonomic profiling — single-end,200,True,True,True,True,PASS
+Metagenome,Illumina,Single-end,Taxonomic profiling,dynamic__metagenome__illumina__single_end__metagenome_illumina_taxonomy_eukaryotic,Metagenome — Illumina microbial eukaryotic taxonomic profiling — single-end,200,True,True,True,True,PASS
+Metagenome,Illumina,Single-end,Taxonomic profiling,dynamic__metagenome__illumina__single_end__metagenome_illumina_taxonomy_broad,Metagenome — Illumina broad multi-kingdom taxonomic profiling — single-end,200,True,True,True,True,PASS
+Metagenome,Illumina,Single-end,Functional profiling,dynamic__metagenome__illumina__single_end__metagenome_illumina_functional,Metagenome — Illumina functional profiling — single-end,200,True,True,True,True,PASS
+Metagenome,Illumina,Single-end,Pathway analysis,dynamic__metagenome__illumina__single_end__metagenome_illumina_pathways,Metagenome — Illumina pathway analysis — single-end,200,True,True,True,True,PASS
+Metagenome,Illumina,Single-end,Antibiotic resistance profiling,dynamic__metagenome__illumina__single_end__metagenome_illumina_resistome_deeparg,Metagenome — DeepARG-SS resistome profiling — single-end,200,True,True,True,True,PASS
+Metagenome,Illumina,Single-end,Antibiotic resistance profiling,dynamic__metagenome__illumina__single_end__metagenome_illumina_resistome_rgi,Metagenome — CARD RGI BWT resistome profiling — single-end,200,True,True,True,True,PASS
+Metagenome,Illumina,Single-end,Antibiotic resistance profiling,dynamic__metagenome__illumina__single_end__metagenome_illumina_resistome_amrplusplus,Metagenome — AMR++ turnkey resistome pipeline — single-end,200,True,True,True,True,PASS
+Metagenome,Illumina,Single-end,Virulence profiling,dynamic__metagenome__illumina__single_end__metagenome_illumina_virulence,Metagenome — Illumina virulence profiling — single-end,200,True,True,True,True,PASS
+Metagenome,Illumina,Single-end,Viral analysis,dynamic__metagenome__illumina__single_end__metagenome_illumina_viral,Metagenome — Illumina viral analysis — single-end,200,True,True,True,True,PASS
+Metagenome,Illumina,Single-end,Plasmid analysis,dynamic__metagenome__illumina__single_end__metagenome_illumina_plasmid_genomad,Metagenome — plasmid sequence prediction with geNomad — single-end,200,True,True,True,True,PASS
+Metagenome,Illumina,Single-end,Plasmid analysis,dynamic__metagenome__illumina__single_end__metagenome_illumina_plasmid_plasx,Metagenome — PlasX gene-architecture plasmid workflow — single-end,200,True,True,True,True,PASS
+Metagenome,Illumina,Single-end,MAG reconstruction,dynamic__metagenome__illumina__single_end__metagenome_illumina_mag_single,Metagenome — single-sample MAG reconstruction — single-end,200,True,True,True,True,PASS
+Metagenome,Illumina,Single-end,Microdiversity profiling,dynamic__metagenome__illumina__single_end__metagenome_illumina_microdiversity,Metagenome — Illumina microdiversity profiling — single-end,200,True,True,True,True,PASS
+Metagenome,Illumina + Oxford Nanopore,Paired-end + Long reads,MAG reconstruction,metagenome_illumina_ont_hybrid_mag,Metagenome — Illumina + Oxford Nanopore hybrid MAG reconstruction,200,True,True,True,True,PASS
+Metagenome,Illumina + Oxford Nanopore,Paired-end + Long reads,Viral analysis,metagenome_illumina_ont_hybrid_viral,Metagenome — Illumina + Oxford Nanopore hybrid viral analysis,200,True,True,True,True,PASS
+Metagenome,Illumina + Oxford Nanopore,Paired-end + Long reads,Virulence profiling,metagenome_illumina_ont_hybrid_virulence,Metagenome — Illumina + Oxford Nanopore hybrid virulence profiling,200,True,True,True,True,PASS
+Metagenome,Illumina + Oxford Nanopore,Paired-end + Long reads,Plasmid analysis,metagenome_illumina_ont_hybrid_plasmid,Metagenome — Illumina + Oxford Nanopore hybrid plasmid analysis,200,True,True,True,True,PASS
+Metagenome,Illumina + PacBio,Paired-end + Long reads,MAG reconstruction,metagenome_illumina_pacbio_hybrid_mag,Metagenome — Illumina + PacBio hybrid MAG reconstruction,200,True,True,True,True,PASS
+Metagenome,Illumina + PacBio,Paired-end + Long reads,Viral analysis,metagenome_illumina_pacbio_hybrid_viral,Metagenome — Illumina + PacBio hybrid viral analysis,200,True,True,True,True,PASS
+Metagenome,Illumina + PacBio,Paired-end + Long reads,Virulence profiling,metagenome_illumina_pacbio_hybrid_virulence,Metagenome — Illumina + PacBio hybrid virulence profiling,200,True,True,True,True,PASS
+Metagenome,Illumina + PacBio,Paired-end + Long reads,Plasmid analysis,metagenome_illumina_pacbio_hybrid_plasmid,Metagenome — Illumina + PacBio hybrid plasmid analysis,200,True,True,True,True,PASS
+Metagenome,Oxford Nanopore,Long reads,Taxonomic profiling,dynamic__metagenome__oxford_nanopore__long_reads__taxonomic_profiling,Metagenome — Oxford Nanopore long-read taxonomic profiling,200,True,True,True,True,PASS
+Metagenome,Oxford Nanopore,Long reads,MAG reconstruction,dynamic__metagenome__oxford_nanopore__long_reads__mag_reconstruction,Metagenome — Oxford Nanopore long-read mag reconstruction,200,True,True,True,True,PASS
+Metagenome,Oxford Nanopore,Long reads,Antibiotic resistance profiling,dynamic__metagenome__oxford_nanopore__long_reads__antibiotic_resistance_profiling,Metagenome — Oxford Nanopore long-read antibiotic resistance profiling,200,True,True,True,True,PASS
+Metagenome,Oxford Nanopore,Long reads,Virulence profiling,dynamic__metagenome__oxford_nanopore__long_reads__virulence_profiling,Metagenome — Oxford Nanopore long-read virulence profiling,200,True,True,True,True,PASS
+Metagenome,Oxford Nanopore,Long reads,Viral analysis,dynamic__metagenome__oxford_nanopore__long_reads__viral_analysis,Metagenome — Oxford Nanopore long-read viral analysis,200,True,True,True,True,PASS
+Metagenome,Oxford Nanopore,Long reads,Plasmid analysis,dynamic__metagenome__oxford_nanopore__long_reads__plasmid_analysis,Metagenome — Oxford Nanopore long-read plasmid analysis,200,True,True,True,True,PASS
+Metagenome,PacBio,Long reads,Taxonomic profiling,dynamic__metagenome__pacbio__long_reads__taxonomic_profiling,Metagenome — PacBio long-read taxonomic profiling,200,True,True,True,True,PASS
+Metagenome,PacBio,Long reads,MAG reconstruction,dynamic__metagenome__pacbio__long_reads__mag_reconstruction,Metagenome — PacBio long-read mag reconstruction,200,True,True,True,True,PASS
+Metagenome,PacBio,Long reads,Antibiotic resistance profiling,dynamic__metagenome__pacbio__long_reads__antibiotic_resistance_profiling,Metagenome — PacBio long-read antibiotic resistance profiling,200,True,True,True,True,PASS
+Metagenome,PacBio,Long reads,Virulence profiling,dynamic__metagenome__pacbio__long_reads__virulence_profiling,Metagenome — PacBio long-read virulence profiling,200,True,True,True,True,PASS
+Metagenome,PacBio,Long reads,Viral analysis,dynamic__metagenome__pacbio__long_reads__viral_analysis,Metagenome — PacBio long-read viral analysis,200,True,True,True,True,PASS
+Metagenome,PacBio,Long reads,Plasmid analysis,dynamic__metagenome__pacbio__long_reads__plasmid_analysis,Metagenome — PacBio long-read plasmid analysis,200,True,True,True,True,PASS
+Amplicon,Illumina,Paired-end,16S rRNA analysis,amplicon_illumina_16s,ASV · DADA2 modular (16S),200,True,True,True,True,PASS
+Amplicon,Illumina,Paired-end,16S rRNA analysis,amplicon_illumina_16s_qiime2_asv,ASV · QIIME 2 q2-dada2 (16S),200,True,True,True,True,PASS
+Amplicon,Illumina,Paired-end,16S rRNA analysis,amplicon_illumina_16s_nfcore,ASV turnkey · nf-core/ampliseq (16S),200,True,True,True,True,PASS
+Amplicon,Illumina,Paired-end,16S rRNA analysis,amplicon_illumina_16s_frogs,Flexible pipeline · FROGS (16S),200,True,True,True,True,PASS
+Amplicon,Illumina,Paired-end,16S rRNA analysis,amplicon_illumina_16s_lotus2,Flexible pipeline · LotuS2 (16S),200,True,True,True,True,PASS
+Amplicon,Illumina,Paired-end,16S rRNA analysis,amplicon_illumina_16s_obitools4,MOTU/metabarcoding · OBITools4-composed workflow (16S),200,True,True,True,True,PASS
+Amplicon,Illumina,Paired-end,16S rRNA analysis,amplicon_illumina_16s_mothur,OTU · mothur (16S),200,True,True,True,True,PASS
+Amplicon,Illumina,Paired-end,16S rRNA analysis,amplicon_illumina_16s_vsearch_otu,OTU · VSEARCH-centered modular workflow (16S),200,True,True,True,True,PASS
+Amplicon,Illumina,Paired-end,16S rRNA analysis,amplicon_illumina_16s_qiime2_otu,OTU · QIIME 2 q2-vsearch (16S),200,True,True,True,True,PASS
+Amplicon,Illumina,Paired-end,16S rRNA analysis,amplicon_illumina_16s_silvangs,OTU web service · SILVAngs (16S),200,True,True,True,True,PASS
+Amplicon,Illumina,Paired-end,18S rRNA analysis,amplicon_illumina_18s,ASV · DADA2 modular (18S),200,True,True,True,True,PASS
+Amplicon,Illumina,Paired-end,18S rRNA analysis,amplicon_illumina_18s_qiime2_asv,ASV · QIIME 2 q2-dada2 (18S),200,True,True,True,True,PASS
+Amplicon,Illumina,Paired-end,18S rRNA analysis,amplicon_illumina_18s_nfcore,ASV turnkey · nf-core/ampliseq (18S),200,True,True,True,True,PASS
+Amplicon,Illumina,Paired-end,18S rRNA analysis,amplicon_illumina_18s_frogs,Flexible pipeline · FROGS (18S),200,True,True,True,True,PASS
+Amplicon,Illumina,Paired-end,18S rRNA analysis,amplicon_illumina_18s_lotus2,Flexible pipeline · LotuS2 (18S),200,True,True,True,True,PASS
+Amplicon,Illumina,Paired-end,18S rRNA analysis,amplicon_illumina_18s_obitools4,MOTU/metabarcoding · OBITools4-composed workflow (18S),200,True,True,True,True,PASS
+Amplicon,Illumina,Paired-end,18S rRNA analysis,amplicon_illumina_18s_mothur,OTU · mothur (18S),200,True,True,True,True,PASS
+Amplicon,Illumina,Paired-end,18S rRNA analysis,amplicon_illumina_18s_vsearch_otu,OTU · VSEARCH-centered modular workflow (18S),200,True,True,True,True,PASS
+Amplicon,Illumina,Paired-end,18S rRNA analysis,amplicon_illumina_18s_qiime2_otu,OTU · QIIME 2 q2-vsearch (18S),200,True,True,True,True,PASS
+Amplicon,Illumina,Paired-end,18S rRNA analysis,amplicon_illumina_18s_silvangs,OTU web service · SILVAngs (18S),200,True,True,True,True,PASS
+Amplicon,Illumina,Paired-end,ITS analysis,amplicon_illumina_its,ASV · DADA2 modular (ITS),200,True,True,True,True,PASS
+Amplicon,Illumina,Paired-end,ITS analysis,amplicon_illumina_its_qiime2_asv,ASV · QIIME 2 q2-dada2 (ITS),200,True,True,True,True,PASS
+Amplicon,Illumina,Paired-end,ITS analysis,amplicon_illumina_its_nfcore,ASV turnkey · nf-core/ampliseq (ITS),200,True,True,True,True,PASS
+Amplicon,Illumina,Paired-end,ITS analysis,amplicon_illumina_its_frogs,Flexible pipeline · FROGS (ITS),200,True,True,True,True,PASS
+Amplicon,Illumina,Paired-end,ITS analysis,amplicon_illumina_its_lotus2,Flexible pipeline · LotuS2 (ITS),200,True,True,True,True,PASS
+Amplicon,Illumina,Paired-end,ITS analysis,amplicon_illumina_its_obitools4,MOTU/metabarcoding · OBITools4-composed workflow (ITS),200,True,True,True,True,PASS
+Amplicon,Illumina,Paired-end,ITS analysis,amplicon_illumina_its_mothur,"OTU · mothur (ITS, conditional)",200,True,True,True,True,PASS
+Amplicon,Illumina,Paired-end,ITS analysis,amplicon_illumina_its_vsearch_otu,OTU · VSEARCH-centered modular workflow (ITS),200,True,True,True,True,PASS
+Amplicon,Illumina,Paired-end,ITS analysis,amplicon_illumina_its_qiime2_otu,OTU · QIIME 2 q2-vsearch (ITS),200,True,True,True,True,PASS
+Amplicon,Illumina,Paired-end,ASV inference,amplicon_illumina_asv_inference,Amplicon — Illumina ASV inference,200,True,True,True,True,PASS
+Amplicon,Illumina,Paired-end,Taxonomic assignment,amplicon_illumina_taxonomic_assignment,Taxonomic assignment — ASV-based,200,True,True,True,True,PASS
+Amplicon,Illumina,Paired-end,Taxonomic assignment,amplicon_illumina_taxonomic_assignment_otu,Taxonomic assignment — OTU-based,200,True,True,True,True,PASS
+Amplicon,Illumina,Paired-end,Alpha diversity,amplicon_illumina_alpha_nonphylogenetic,Downstream · non-phylogenetic alpha diversity,200,True,True,True,True,PASS
+Amplicon,Illumina,Paired-end,Alpha diversity,amplicon_illumina_alpha_phylogenetic,Downstream · phylogenetic alpha diversity (Faith PD),200,True,True,True,True,PASS
+Amplicon,Illumina,Paired-end,Beta diversity,amplicon_illumina_beta_nonphylogenetic,Downstream · non-phylogenetic beta diversity,200,True,True,True,True,PASS
+Amplicon,Illumina,Paired-end,Beta diversity,amplicon_illumina_beta_phylogenetic,Downstream · phylogenetic beta diversity (UniFrac),200,True,True,True,True,PASS
+Amplicon,Illumina,Paired-end,Differential abundance,amplicon_illumina_da_simple,Downstream · simple independent-group DA,200,True,True,True,True,PASS
+Amplicon,Illumina,Paired-end,Differential abundance,amplicon_illumina_da_multivariable,Downstream · multigroup / covariate-adjusted DA,200,True,True,True,True,PASS
+Amplicon,Illumina,Paired-end,Differential abundance,amplicon_illumina_da_repeated,Downstream · repeated-measures / longitudinal DA,200,True,True,True,True,PASS
+Amplicon,Oxford Nanopore,Long reads,16S rRNA analysis,amplicon_ont_full_length_16s_emu,Amplicon — Oxford Nanopore full-length 16S with Emu,200,True,True,True,True,PASS
+Amplicon,PacBio,Long reads,16S rRNA analysis,amplicon_pacbio_16s_dada2,Amplicon — PacBio CCS 16S DADA2 workflow,200,True,True,True,True,PASS
+Amplicon,PacBio,Long reads,18S rRNA analysis,amplicon_pacbio_18s_dada2,Amplicon — PacBio CCS 18S DADA2 workflow,200,True,True,True,True,PASS
+Amplicon,PacBio,Long reads,ITS analysis,amplicon_pacbio_its_dada2,Amplicon — PacBio CCS ITS DADA2 workflow,200,True,True,True,True,PASS
+Amplicon,PacBio,Long reads,ASV inference,amplicon_pacbio_asv_inference,Amplicon — PacBio CCS ASV inference,200,True,True,True,True,PASS
+Bulk transcriptome,Illumina,Paired-end,Alignment-based RNA-seq,bulk_transcriptome_illumina_alignment_based,Bulk transcriptome — Illumina alignment-based RNA-seq,200,True,True,True,True,PASS
+Bulk transcriptome,Illumina,Paired-end,Pseudoalignment / lightweight quantification,bulk_transcriptome_illumina_lightweight_quantification,Bulk transcriptome — Illumina lightweight quantification,200,True,True,True,True,PASS
+Bulk transcriptome,Illumina,Paired-end,Differential expression,bulk_transcriptome_illumina_differential_expression_alignment,Bulk transcriptome — Alignment-based differential expression,200,True,True,True,True,PASS
+Bulk transcriptome,Illumina,Paired-end,Differential expression,bulk_transcriptome_illumina_differential_expression_lightweight,Bulk transcriptome — Lightweight differential expression,200,True,True,True,True,PASS
+Bulk transcriptome,Illumina,Paired-end,Transcript assembly,bulk_transcriptome_illumina_transcript_assembly_guided,Bulk transcriptome — Genome-guided transcript assembly,200,True,True,True,True,PASS
+Bulk transcriptome,Illumina,Paired-end,Transcript assembly,bulk_transcriptome_illumina_transcript_assembly_denovo,Bulk transcriptome — De novo transcript assembly,200,True,True,True,True,PASS
+Bulk transcriptome,Illumina,Paired-end,Alternative splicing,bulk_transcriptome_illumina_alternative_splicing,Bulk transcriptome — Replicate-aware alternative splicing,200,True,True,True,True,PASS
+Bulk transcriptome,Illumina,Paired-end,Functional enrichment,bulk_transcriptome_functional_enrichment,Bulk transcriptome — Functional enrichment,200,True,True,True,True,PASS
+Bulk transcriptome,Illumina,Paired-end,Pathway analysis,bulk_transcriptome_pathway_analysis,Bulk transcriptome — Ranked pathway enrichment,200,True,True,True,True,PASS
+Bulk transcriptome,Oxford Nanopore,Long reads,Alignment-based RNA-seq,bulk_transcriptome_ont_alignment_based,Bulk transcriptome — Oxford Nanopore long-read alignment & gene counts,200,True,True,True,True,PASS
+Bulk transcriptome,Oxford Nanopore,Long reads,Differential expression,bulk_transcriptome_ont_differential_expression,Bulk transcriptome — Oxford Nanopore long-read differential expression,200,True,True,True,True,PASS
+Bulk transcriptome,Oxford Nanopore,Long reads,Transcript assembly,bulk_transcriptome_ont_transcript_assembly,Bulk transcriptome — Oxford Nanopore long-read transcript reconstruction,200,True,True,True,True,PASS
+Bulk transcriptome,Oxford Nanopore,Long reads,Alternative splicing,bulk_transcriptome_ont_alternative_splicing,Bulk transcriptome — Oxford Nanopore long-read alternative splicing,200,True,True,True,True,PASS
+Bulk transcriptome,PacBio,Long reads,Alignment-based RNA-seq,bulk_transcriptome_pacbio_alignment_based,Bulk transcriptome — PacBio long-read alignment & gene counts,200,True,True,True,True,PASS
+Bulk transcriptome,PacBio,Long reads,Differential expression,bulk_transcriptome_pacbio_differential_expression,Bulk transcriptome — PacBio long-read differential expression,200,True,True,True,True,PASS
+Bulk transcriptome,PacBio,Long reads,Transcript assembly,bulk_transcriptome_pacbio_transcript_assembly,Bulk transcriptome — PacBio long-read transcript reconstruction,200,True,True,True,True,PASS
+Bulk transcriptome,PacBio,Long reads,Alternative splicing,bulk_transcriptome_pacbio_alternative_splicing,Bulk transcriptome — PacBio long-read alternative splicing,200,True,True,True,True,PASS
+Virome,Illumina,Paired-end,Viral sequence detection,virome_illumina_viral_detection,Virome — Illumina viral sequence detection,200,True,True,True,True,PASS
+Virome,Illumina,Paired-end,Viral genome quality assessment,virome_illumina_quality_assessment,Virome — Illumina viral genome quality assessment,200,True,True,True,True,PASS
+Virome,Illumina,Paired-end,Viral taxonomy,virome_illumina_viral_taxonomy,Virome — Illumina geNomad viral taxonomy,200,True,True,True,True,PASS
+Virome,Illumina,Paired-end,Viral host prediction,virome_illumina_host_prediction,Virome — prokaryotic virus host prediction,200,True,True,True,True,PASS
+Virome,Illumina,Paired-end,Viral clustering / vOTU analysis,virome_illumina_votu_clustering,Virome — Illumina viral clustering and vOTU definition,200,True,True,True,True,PASS
+Virome,Illumina,Paired-end,Viral functional annotation,virome_illumina_functional_annotation,Virome — Illumina viral functional annotation,200,True,True,True,True,PASS
+Virome,Illumina,Paired-end,Auxiliary metabolic gene analysis,virome_illumina_amg_analysis,Virome — DRAM-v auxiliary metabolic gene analysis,200,True,True,True,True,PASS
+Virome,Illumina,Paired-end,Viral abundance profiling,virome_illumina_viral_abundance_contig,Virome — viral-sequence abundance (contig/genome level),200,True,True,True,True,PASS
+Virome,Illumina,Paired-end,Viral abundance profiling,virome_illumina_viral_abundance_votu,Virome — vOTU-level community abundance,200,True,True,True,True,PASS
+Virome,Oxford Nanopore,Long reads,Viral sequence detection,virome_ont_viral_detection,Virome — Oxford Nanopore viral sequence detection,200,True,True,True,True,PASS
+Virome,Oxford Nanopore,Long reads,Viral genome quality assessment,virome_ont_quality_assessment,Virome — Oxford Nanopore viral genome quality assessment,200,True,True,True,True,PASS
+Virome,Oxford Nanopore,Long reads,Viral taxonomy,virome_ont_viral_taxonomy,Virome — Oxford Nanopore geNomad viral taxonomy,200,True,True,True,True,PASS
+Virome,Oxford Nanopore,Long reads,Viral host prediction,virome_ont_host_prediction,Virome — prokaryotic virus host prediction,200,True,True,True,True,PASS
+Virome,Oxford Nanopore,Long reads,Viral clustering / vOTU analysis,virome_ont_votu_clustering,Virome — Oxford Nanopore viral clustering and vOTU definition,200,True,True,True,True,PASS
+Virome,Oxford Nanopore,Long reads,Viral functional annotation,virome_ont_functional_annotation,Virome — Oxford Nanopore viral functional annotation,200,True,True,True,True,PASS
+Virome,Oxford Nanopore,Long reads,Auxiliary metabolic gene analysis,virome_ont_amg_analysis,Virome — DRAM-v auxiliary metabolic gene analysis,200,True,True,True,True,PASS
+Virome,Oxford Nanopore,Long reads,Viral abundance profiling,virome_ont_viral_abundance_contig,Virome — viral-sequence abundance (contig/genome level),200,True,True,True,True,PASS
+Virome,Oxford Nanopore,Long reads,Viral abundance profiling,virome_ont_viral_abundance_votu,Virome — vOTU-level community abundance,200,True,True,True,True,PASS
+Virome,PacBio,Long reads,Viral sequence detection,virome_pacbio_viral_detection,Virome — PacBio viral sequence detection,200,True,True,True,True,PASS
+Virome,PacBio,Long reads,Viral genome quality assessment,virome_pacbio_quality_assessment,Virome — PacBio viral genome quality assessment,200,True,True,True,True,PASS
+Virome,PacBio,Long reads,Viral taxonomy,virome_pacbio_viral_taxonomy,Virome — PacBio geNomad viral taxonomy,200,True,True,True,True,PASS
+Virome,PacBio,Long reads,Viral host prediction,virome_pacbio_host_prediction,Virome — prokaryotic virus host prediction,200,True,True,True,True,PASS
+Virome,PacBio,Long reads,Viral clustering / vOTU analysis,virome_pacbio_votu_clustering,Virome — PacBio viral clustering and vOTU definition,200,True,True,True,True,PASS
+Virome,PacBio,Long reads,Viral functional annotation,virome_pacbio_functional_annotation,Virome — PacBio viral functional annotation,200,True,True,True,True,PASS
+Virome,PacBio,Long reads,Auxiliary metabolic gene analysis,virome_pacbio_amg_analysis,Virome — DRAM-v auxiliary metabolic gene analysis,200,True,True,True,True,PASS
+Virome,PacBio,Long reads,Viral abundance profiling,virome_pacbio_viral_abundance_contig,Virome — viral-sequence abundance (contig/genome level),200,True,True,True,True,PASS
+Virome,PacBio,Long reads,Viral abundance profiling,virome_pacbio_viral_abundance_votu,Virome — vOTU-level community abundance,200,True,True,True,True,PASS
+Eukaryotic genome,Oxford Nanopore,Long reads,Genome assembly,eukaryotic_genome_ont_assembly,Eukaryotic genome — Oxford Nanopore collapsed/consensus assembly,200,True,True,True,True,PASS
+Eukaryotic genome,Oxford Nanopore,Long reads,Genome quality assessment,eukaryotic_genome_quality,Eukaryotic genome — Assembly quality assessment,200,True,True,True,True,PASS
+Eukaryotic genome,Oxford Nanopore,Long reads,Repeat annotation,eukaryotic_genome_repeat_annotation,Eukaryotic genome — De novo repeat annotation,200,True,True,True,True,PASS
+Eukaryotic genome,Oxford Nanopore,Long reads,Gene prediction,eukaryotic_genome_gene_prediction_braker,Eukaryotic genome — protein-evidence gene prediction (BRAKER4 EP mode),200,True,True,True,True,PASS
+Eukaryotic genome,Oxford Nanopore,Long reads,Gene prediction,eukaryotic_genome_gene_prediction_augustus,Eukaryotic genome — Ab initio gene prediction,200,True,True,True,True,PASS
+Eukaryotic genome,Oxford Nanopore,Long reads,Functional annotation,eukaryotic_genome_functional_annotation,Eukaryotic genome — Protein functional annotation,200,True,True,True,True,PASS
+Eukaryotic genome,Oxford Nanopore,Long reads,Comparative genomics,eukaryotic_genome_comparative_genomics,Eukaryotic genome — pairwise chromosome-level synteny/rearrangements,200,True,True,True,True,PASS
+Eukaryotic genome,PacBio,Long reads,Genome assembly,eukaryotic_genome_pacbio_assembly,Eukaryotic genome — PacBio HiFi assembly,200,True,True,True,True,PASS
+Eukaryotic genome,Illumina + Oxford Nanopore,Paired-end + Long reads,Hybrid genome assembly,eukaryotic_genome_illumina_ont_hybrid,Eukaryotic genome — Illumina + Oxford Nanopore hybrid assembly,200,True,True,True,True,PASS
+Eukaryotic genome,Illumina,Paired-end,Variant analysis,eukaryotic_genome_illumina_variant_analysis,Eukaryotic genome — Illumina variant analysis,200,True,True,True,True,PASS
+Eukaryotic genome,Illumina,Paired-end,Genome quality assessment,dynamic__eukaryotic_genome__illumina__paired_end__genome_quality_from_assembly,Eukaryotic genome — Assembly quality assessment — paired-end project context,200,True,True,True,True,PASS
+Eukaryotic genome,Illumina,Paired-end,Repeat annotation,dynamic__eukaryotic_genome__illumina__paired_end__repeat_annotation_from_assembly,Eukaryotic genome — De novo repeat annotation — paired-end project context,200,True,True,True,True,PASS
+Eukaryotic genome,Illumina,Paired-end,Gene prediction,dynamic__eukaryotic_genome__illumina__paired_end__gene_prediction_braker,Eukaryotic genome — protein-evidence gene prediction (BRAKER4 EP mode) — paired-end project context,200,True,True,True,True,PASS
+Eukaryotic genome,Illumina,Paired-end,Gene prediction,dynamic__eukaryotic_genome__illumina__paired_end__gene_prediction_augustus,Eukaryotic genome — Ab initio gene prediction — paired-end project context,200,True,True,True,True,PASS
+Eukaryotic genome,Illumina,Paired-end,Functional annotation,dynamic__eukaryotic_genome__illumina__paired_end__functional_annotation_from_proteins,Eukaryotic genome — Protein functional annotation — paired-end project context,200,True,True,True,True,PASS
+Eukaryotic genome,Illumina,Paired-end,Comparative genomics,dynamic__eukaryotic_genome__illumina__paired_end__comparative_genomics_from_assemblies,Eukaryotic genome — pairwise chromosome-level synteny/rearrangements — paired-end project context,200,True,True,True,True,PASS
+Eukaryotic genome,Illumina,Single-end,Variant analysis,dynamic__eukaryotic_genome__illumina__single_end__variant_analysis,Eukaryotic genome — Illumina single-end variant analysis,200,True,True,True,True,PASS
+Eukaryotic genome,Illumina,Single-end,Genome quality assessment,dynamic__eukaryotic_genome__illumina__single_end__genome_quality_from_assembly,Eukaryotic genome — Assembly quality assessment — single-end project context,200,True,True,True,True,PASS
+Eukaryotic genome,Illumina,Single-end,Repeat annotation,dynamic__eukaryotic_genome__illumina__single_end__repeat_annotation_from_assembly,Eukaryotic genome — De novo repeat annotation — single-end project context,200,True,True,True,True,PASS
+Eukaryotic genome,Illumina,Single-end,Gene prediction,dynamic__eukaryotic_genome__illumina__single_end__gene_prediction_braker,Eukaryotic genome — protein-evidence gene prediction (BRAKER4 EP mode) — single-end project context,200,True,True,True,True,PASS
+Eukaryotic genome,Illumina,Single-end,Gene prediction,dynamic__eukaryotic_genome__illumina__single_end__gene_prediction_augustus,Eukaryotic genome — Ab initio gene prediction — single-end project context,200,True,True,True,True,PASS
+Eukaryotic genome,Illumina,Single-end,Functional annotation,dynamic__eukaryotic_genome__illumina__single_end__functional_annotation_from_proteins,Eukaryotic genome — Protein functional annotation — single-end project context,200,True,True,True,True,PASS
+Eukaryotic genome,Illumina,Single-end,Comparative genomics,dynamic__eukaryotic_genome__illumina__single_end__comparative_genomics_from_assemblies,Eukaryotic genome — pairwise chromosome-level synteny/rearrangements — single-end project context,200,True,True,True,True,PASS
+Metatranscriptome,Illumina,Paired-end,Host read removal,metatranscriptome_illumina_host_removal,Metatranscriptome — Illumina host read removal,200,True,True,True,True,PASS
+Metatranscriptome,Illumina,Paired-end,rRNA depletion assessment,metatranscriptome_illumina_rrna_assessment,Metatranscriptome — Illumina rRNA depletion assessment,200,True,True,True,True,PASS
+Metatranscriptome,Illumina,Paired-end,Taxonomic profiling,metatranscriptome_illumina_taxonomy,Metatranscriptome — RNA transcript-weighted taxonomic signal,200,True,True,True,True,PASS
+Metatranscriptome,Illumina,Paired-end,Differential expression,metatranscriptome_illumina_differential_expression,Metatranscriptome — microbial gene-catalog differential transcription,200,True,True,True,True,PASS
+Metatranscriptome,Illumina,Paired-end,Functional profiling,metatranscriptome_illumina_functional_isolated,Metatranscriptome — HUMAnN functional profiling (RNA-only),200,True,True,True,True,PASS
+Metatranscriptome,Illumina,Paired-end,Functional profiling,metatranscriptome_illumina_functional_dna_informed,Metatranscriptome — HUMAnN functional profiling (paired-DNA informed),200,True,True,True,True,PASS
+Metatranscriptome,Illumina,Paired-end,Pathway analysis,metatranscriptome_illumina_pathways_isolated,Metatranscriptome — HUMAnN pathway profiling (RNA-only),200,True,True,True,True,PASS
+Metatranscriptome,Illumina,Paired-end,Pathway analysis,metatranscriptome_illumina_pathways_dna_informed,Metatranscriptome — HUMAnN pathway profiling (paired-DNA informed),200,True,True,True,True,PASS
+Metatranscriptome,Oxford Nanopore,Long reads,Host read removal,metatranscriptome_ont_host_removal,Metatranscriptome — Oxford Nanopore long-read host removal,200,True,True,True,True,PASS
+Metatranscriptome,Oxford Nanopore,Long reads,Taxonomic profiling,metatranscriptome_ont_taxonomy,Metatranscriptome — Oxford Nanopore long-read taxonomic profiling,200,True,True,True,True,PASS
+Metatranscriptome,Oxford Nanopore,Long reads,Differential expression,metatranscriptome_ont_differential_expression,Metatranscriptome — Oxford Nanopore long-read differential transcription,200,True,True,True,True,PASS
+Metatranscriptome,PacBio,Long reads,Host read removal,metatranscriptome_pacbio_host_removal,Metatranscriptome — PacBio long-read host removal,200,True,True,True,True,PASS
+Metatranscriptome,PacBio,Long reads,rRNA depletion assessment,metatranscriptome_pacbio_rrna_assessment,Metatranscriptome — PacBio long-read rRNA depletion assessment,200,True,True,True,True,PASS
+Metatranscriptome,PacBio,Long reads,Taxonomic profiling,metatranscriptome_pacbio_taxonomy,Metatranscriptome — PacBio long-read taxonomic profiling,200,True,True,True,True,PASS
+Metatranscriptome,PacBio,Long reads,Differential expression,metatranscriptome_pacbio_differential_expression,Metatranscriptome — PacBio long-read differential transcription,200,True,True,True,True,PASS

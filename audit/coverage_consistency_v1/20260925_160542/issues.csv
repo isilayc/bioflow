@@ -1,0 +1,5 @@
+﻿severity,category,sample_type,sequencing,read_type,goal,strategy_id,detail
+HIGH,tool_compatibility_failure,Virome,Oxford Nanopore,Long reads,Viral abundance profiling,virome_ont_viral_abundance_contig,zero_compatible_steps=Viral abundance estimation | insufficient_parallel=
+HIGH,tool_compatibility_failure,Virome,Oxford Nanopore,Long reads,Viral abundance profiling,virome_ont_viral_abundance_votu,zero_compatible_steps=vOTU abundance estimation | insufficient_parallel=
+HIGH,tool_compatibility_failure,Virome,PacBio,Long reads,Viral abundance profiling,virome_pacbio_viral_abundance_contig,zero_compatible_steps=Viral abundance estimation | insufficient_parallel=
+HIGH,tool_compatibility_failure,Virome,PacBio,Long reads,Viral abundance profiling,virome_pacbio_viral_abundance_votu,zero_compatible_steps=vOTU abundance estimation | insufficient_parallel=

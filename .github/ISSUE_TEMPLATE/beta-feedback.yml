@@ -1,0 +1,44 @@
+name: Beta feedback
+description: Report a usability issue, scientific mismatch, missing route, or suggestion.
+title: "[Beta feedback] "
+labels: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for testing OmicsRoute. Please avoid sharing confidential sample or patient information.
+  - type: dropdown
+    id: feedback_type
+    attributes:
+      label: Feedback type
+      options:
+        - Usability / interface
+        - Missing workflow or sequencing context
+        - Scientific recommendation concern
+        - Tool / dependency issue
+        - Bug / error
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: context
+    attributes:
+      label: Analysis context
+      description: Example: Metagenome → Illumina → Paired-end → MAG reconstruction
+      placeholder: Sample type → platform → read type → goal
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: Tell us what you expected and what OmicsRoute showed instead.
+    validations:
+      required: true
+  - type: textarea
+    id: reproducibility
+    attributes:
+      label: Steps to reproduce
+      description: Optional, but helpful for bugs.
+  - type: textarea
+    id: notes
+    attributes:
+      label: Additional scientific or usability notes

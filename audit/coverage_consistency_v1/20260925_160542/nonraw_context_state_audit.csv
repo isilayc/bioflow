@@ -1,0 +1,58 @@
+﻿sample_type,data_state,data_state_label,goal,availability_status,selectable,note
+Bacterial isolate,genome_assembly,Genome assembly FASTA,Whole genome characterization,ready,True,
+Bacterial isolate,genome_assembly,Genome assembly FASTA,Species identification,ready,True,
+Bacterial isolate,genome_assembly,Genome assembly FASTA,Antimicrobial resistance detection,ready,True,
+Bacterial isolate,genome_assembly,Genome assembly FASTA,Virulence profiling,ready,True,
+Bacterial isolate,genome_assembly,Genome assembly FASTA,MLST / strain typing,ready,True,
+Bacterial isolate,genome_assembly,Genome assembly FASTA,Prophage detection,ready,True,
+Bacterial isolate,genome_assembly,Genome assembly FASTA,Plasmid detection,ready,True,
+Metagenome,metagenome_contigs,Assembled metagenome contigs FASTA,Taxonomic profiling,needs_input,False,The current curated route starts from sequencing reads. Choose Raw sequencing reads if those files are available.
+Metagenome,metagenome_contigs,Assembled metagenome contigs FASTA,MAG reconstruction,needs_input,False,"Contigs are available, but the curated MAG route also needs the original reads to estimate coverage for binning."
+Metagenome,metagenome_contigs,Assembled metagenome contigs FASTA,Functional profiling,needs_input,False,The current curated route starts from sequencing reads. Choose Raw sequencing reads if those files are available.
+Metagenome,metagenome_contigs,Assembled metagenome contigs FASTA,Pathway analysis,needs_input,False,The current curated route starts from sequencing reads. Choose Raw sequencing reads if those files are available.
+Metagenome,metagenome_contigs,Assembled metagenome contigs FASTA,Antibiotic resistance profiling,needs_input,False,The current curated route starts from sequencing reads. Choose Raw sequencing reads if those files are available.
+Metagenome,metagenome_contigs,Assembled metagenome contigs FASTA,Virulence profiling,ready,True,Ready from assembled metagenome contigs.
+Metagenome,metagenome_contigs,Assembled metagenome contigs FASTA,Viral analysis,ready,True,Ready from assembled metagenome contigs.
+Metagenome,metagenome_contigs,Assembled metagenome contigs FASTA,Plasmid analysis,ready,True,Ready from assembled metagenome contigs.
+Metagenome,metagenome_contigs,Assembled metagenome contigs FASTA,Strain-level phylogenomics,needs_input,False,The current curated route starts from sequencing reads. Choose Raw sequencing reads if those files are available.
+Metagenome,metagenome_contigs,Assembled metagenome contigs FASTA,Microdiversity profiling,needs_input,False,The current curated route starts from sequencing reads. Choose Raw sequencing reads if those files are available.
+Bulk transcriptome,gene_count_matrix,Gene count matrix,Differential expression,ready,True,
+Bulk transcriptome,gene_count_matrix,Gene count matrix,Alignment-based RNA-seq,needs_input,False,This analysis starts upstream from RNA-seq reads. Choose Raw RNA-seq reads if those files are available.
+Bulk transcriptome,gene_count_matrix,Gene count matrix,Pseudoalignment / lightweight quantification,needs_input,False,This analysis starts upstream from RNA-seq reads. Choose Raw RNA-seq reads if those files are available.
+Bulk transcriptome,gene_count_matrix,Gene count matrix,Transcript assembly,needs_input,False,This analysis starts upstream from RNA-seq reads. Choose Raw RNA-seq reads if those files are available.
+Bulk transcriptome,gene_count_matrix,Gene count matrix,Functional enrichment,needs_input,False,Functional enrichment needs a significant-gene list plus compatible identifier/background data.
+Bulk transcriptome,gene_count_matrix,Gene count matrix,Pathway analysis,needs_input,False,"Ranked pathway analysis needs a ranked gene list, usually derived from differential expression."
+Bulk transcriptome,gene_count_matrix,Gene count matrix,Alternative splicing,needs_input,False,This analysis starts upstream from RNA-seq reads. Choose Raw RNA-seq reads if those files are available.
+Bulk transcriptome,significant_gene_list,Significant gene list,Differential expression,already_satisfied,False,A significant-gene list is normally produced after differential-expression analysis.
+Bulk transcriptome,significant_gene_list,Significant gene list,Alignment-based RNA-seq,needs_input,False,This upstream RNA-seq analysis requires sequencing reads.
+Bulk transcriptome,significant_gene_list,Significant gene list,Pseudoalignment / lightweight quantification,needs_input,False,This upstream RNA-seq analysis requires sequencing reads.
+Bulk transcriptome,significant_gene_list,Significant gene list,Transcript assembly,needs_input,False,This upstream RNA-seq analysis requires sequencing reads.
+Bulk transcriptome,significant_gene_list,Significant gene list,Functional enrichment,ready,True,
+Bulk transcriptome,significant_gene_list,Significant gene list,Pathway analysis,needs_input,False,The curated ranked pathway route needs a ranked gene list rather than only the significance-filtered subset.
+Bulk transcriptome,significant_gene_list,Significant gene list,Alternative splicing,needs_input,False,This upstream RNA-seq analysis requires sequencing reads.
+Bulk transcriptome,ranked_gene_list,Ranked gene list,Differential expression,already_satisfied,False,A ranked gene list is normally derived from a completed differential-expression analysis.
+Bulk transcriptome,ranked_gene_list,Ranked gene list,Alignment-based RNA-seq,needs_input,False,This upstream RNA-seq analysis requires sequencing reads.
+Bulk transcriptome,ranked_gene_list,Ranked gene list,Pseudoalignment / lightweight quantification,needs_input,False,This upstream RNA-seq analysis requires sequencing reads.
+Bulk transcriptome,ranked_gene_list,Ranked gene list,Transcript assembly,needs_input,False,This upstream RNA-seq analysis requires sequencing reads.
+Bulk transcriptome,ranked_gene_list,Ranked gene list,Functional enrichment,needs_input,False,The curated over-representation route needs a significant-gene list and compatible identifier/background data.
+Bulk transcriptome,ranked_gene_list,Ranked gene list,Pathway analysis,ready,True,
+Bulk transcriptome,ranked_gene_list,Ranked gene list,Alternative splicing,needs_input,False,This upstream RNA-seq analysis requires sequencing reads.
+Virome,viral_fasta,Viral sequences FASTA,Viral sequence detection,already_satisfied,False,Your starting input is already a viral sequence FASTA. Sequence detection is an upstream step; choose raw reads when you want OmicsRoute to plan viral detection.
+Virome,viral_fasta,Viral sequences FASTA,Viral genome quality assessment,ready,True,Ready from the supplied viral sequence FASTA.
+Virome,viral_fasta,Viral sequences FASTA,Viral taxonomy,ready,True,Ready from the supplied viral sequence FASTA.
+Virome,viral_fasta,Viral sequences FASTA,Viral abundance profiling,needs_input,False,Viral abundance requires the original sequencing reads for read mapping in addition to the viral sequence set.
+Virome,viral_fasta,Viral sequences FASTA,Viral host prediction,ready,True,Ready from the supplied viral sequence FASTA.
+Virome,viral_fasta,Viral sequences FASTA,Viral clustering / vOTU analysis,ready,True,Ready from the supplied viral sequence FASTA.
+Virome,viral_fasta,Viral sequences FASTA,Viral functional annotation,ready,True,Ready from the supplied viral sequence FASTA.
+Virome,viral_fasta,Viral sequences FASTA,Auxiliary metabolic gene analysis,needs_input,False,The curated DRAM-v route requires VirSorter2 --prep-for-dramv outputs and matching metadata. A viral FASTA alone is not equivalent.
+Eukaryotic genome,genome_assembly,Genome assembly FASTA,Genome quality assessment,ready,True,
+Eukaryotic genome,genome_assembly,Genome assembly FASTA,Repeat annotation,ready,True,
+Eukaryotic genome,genome_assembly,Genome assembly FASTA,Gene prediction,ready,True,
+Eukaryotic genome,genome_assembly,Genome assembly FASTA,Comparative genomics,ready,True,
+Eukaryotic genome,predicted_proteins,Predicted protein FASTA,Functional annotation,ready,True,
+Metatranscriptome,metatranscriptome_count_matrix,Microbial gene count matrix,Host read removal,needs_input,False,This metatranscriptome analysis requires read-level data. Choose Raw metatranscriptome reads to plan the upstream route.
+Metatranscriptome,metatranscriptome_count_matrix,Microbial gene count matrix,rRNA depletion assessment,needs_input,False,This metatranscriptome analysis requires read-level data. Choose Raw metatranscriptome reads to plan the upstream route.
+Metatranscriptome,metatranscriptome_count_matrix,Microbial gene count matrix,Taxonomic profiling,needs_input,False,This metatranscriptome analysis requires read-level data. Choose Raw metatranscriptome reads to plan the upstream route.
+Metatranscriptome,metatranscriptome_count_matrix,Microbial gene count matrix,Functional profiling,needs_input,False,This metatranscriptome analysis requires read-level data. Choose Raw metatranscriptome reads to plan the upstream route.
+Metatranscriptome,metatranscriptome_count_matrix,Microbial gene count matrix,Pathway analysis,needs_input,False,This metatranscriptome analysis requires read-level data. Choose Raw metatranscriptome reads to plan the upstream route.
+Metatranscriptome,metatranscriptome_count_matrix,Microbial gene count matrix,Differential expression,ready,True,

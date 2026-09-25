@@ -1,0 +1,60 @@
+def _amplicon_goal_availability(
+    data_state: str,
+    goal: str,
+) -> dict:
+    ready = {"status": "ready", "selectable": True, "note": ""}
+
+    table_states = {
+        AMPLICON_ASV_TABLE,
+        AMPLICON_OTU_TABLE,
+        AMPLICON_FEATURE_TABLE,
+    }
+
+    if data_state in table_states:
+        if goal in {"Alpha diversity", "Beta diversity", "Differential abundance"}:
+            return ready
+
+        if data_state == AMPLICON_ASV_TABLE and goal == "ASV inference":
+            return {
+                "status": "already_satisfied",
+                "selectable": False,
+                "note": "Your starting input is already an ASV table, so ASV inference is upstream of the current data state.",
+            }
+
+        if goal == "Taxonomic assignment":
+            return {
+                "status": "needs_input",
+                "selectable": False,
+                "note": "Taxonomic assignment needs representative feature sequences plus a compatible taxonomy reference/database. A count table alone is not enough.",
+            }
+
+        return {
+            "status": "needs_input",
+            "selectable": False,
+            "note": "This upstream amplicon route starts from sequencing reads. Choose Raw amplicon reads if those files are available.",
+        }
+
+    if data_state == AMPLICON_TAXONOMY_TABLE:
+        if goal == "Taxonomic assignment":
+            return {
+                "status": "already_satisfied",
+                "selectable": False,
+                "note": "Your starting input already contains amplicon taxonomic assignments.",
+            }
+
+        if goal in {"Alpha diversity", "Beta diversity", "Differential abundance"}:
+            return {
+                "status": "needs_input",
+                "selectable": False,
+                "note": "This analysis needs the corresponding ASV/OTU/feature count table; taxonomy assignments alone are not sufficient.",
+            }
+
+        return {
+            "status": "needs_input",
+            "selectable": False,
+            "note": "This upstream amplicon route requires the original sequencing reads or an earlier feature-generation artifact.",
+        }
+
+    return ready
+
+

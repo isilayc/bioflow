@@ -131,6 +131,11 @@ nanoplot:
   - raw_read_qc
   sample_types:
   - Bacterial isolate
+  - Metagenome
+  - Virome
+  - Bulk transcriptome
+  - Metatranscriptome
+  - Amplicon
   sequencing:
   - Oxford Nanopore
   - PacBio
@@ -155,6 +160,11 @@ chopper:
   - read_preprocessing
   sample_types:
   - Bacterial isolate
+  - Metagenome
+  - Virome
+  - Bulk transcriptome
+  - Metatranscriptome
+  - Amplicon
   sequencing:
   - Oxford Nanopore
   - PacBio
@@ -179,6 +189,11 @@ filtlong:
   - read_preprocessing
   sample_types:
   - Bacterial isolate
+  - Metagenome
+  - Virome
+  - Bulk transcriptome
+  - Metatranscriptome
+  - Amplicon
   sequencing:
   - Oxford Nanopore
   - PacBio
@@ -198,14 +213,16 @@ filtlong:
   nfcore: true
 flye:
   name: Flye
-  description: De novo long-read assembler for ONT and PacBio reads. For diploid eukaryotic genomes Flye typically
-    produces a collapsed/mosaic assembly rather than a haplotype-resolved diploid assembly; a phased-assembly strategy
-    should be chosen when haplotype resolution is a primary objective.
+  description: De novo long-read assembler for ONT and PacBio reads. For metagenomes/viromes OmicsRoute uses Flye's
+    --meta uneven-coverage mode with the platform-appropriate read preset.
   operations:
   - genome_assembly
+  - metagenome_assembly
   sample_types:
   - Bacterial isolate
   - Eukaryotic genome
+  - Metagenome
+  - Virome
   sequencing:
   - Oxford Nanopore
   - PacBio
@@ -369,9 +386,9 @@ kaiju:
   nfcore: true
 metaphlan:
   name: MetaPhlAn
-  description: Marker-based profiling of microbial community composition from shotgun sequencing data. MetaPhlAn
-    also produces marker-mapping output used by sample2markers/StrainPhlAn. For RNA-only metatranscriptomes, taxonomic
-    proportions describe transcript-weighted signal rather than organism/genome abundance.
+  description: Marker-based microbial community profiling. MetaPhlAn 4.2+ supports long-read Oxford Nanopore and
+    PacBio data using Minimap2. In metatranscriptomes, abundance remains an RNA/transcript-weighted signal rather
+    than direct cell abundance.
   operations:
   - taxonomic_profiling
   sample_types:
@@ -379,9 +396,12 @@ metaphlan:
   - Metatranscriptome
   sequencing:
   - Illumina
+  - Oxford Nanopore
+  - PacBio
   read_types:
   - Paired-end
   - Single-end
+  - Long reads
   input:
   - FASTQ
   output:
@@ -1575,6 +1595,7 @@ samtools:
   - alignment_processing
   - bam_sorting
   - bam_indexing
+  - host_read_removal
   sample_types:
   - Bacterial isolate
   - Metagenome
@@ -1658,19 +1679,20 @@ jgi_depth:
   nfcore: true
 dada2:
   name: DADA2
-  description: 'Amplicon sequence inference method that models sequencing errors to resolve exact amplicon sequence
-    variants. It performs filtering, dereplication, denoising, paired-read merging and chimera removal.
-
-    '
+  description: Amplicon sequence inference method. OmicsRoute uses the standard short-read workflow for Illumina
+    and the dedicated PacBio CCS error model/workflow for high-accuracy long amplicons supported by DADA2 for CCS
+    reads up to about 3 kb.
   operations:
   - asv_inference
   sample_types:
   - Amplicon
   sequencing:
   - Illumina
+  - PacBio
   read_types:
   - Paired-end
   - Single-end
+  - Long reads
   input:
   - Primer-trimmed FASTQ
   output:
@@ -2203,20 +2225,18 @@ fgsea:
   nfcore: false
 coverm:
   name: CoverM
-  description: 'Read-mapping based coverage and abundance estimation tool for contigs and genomes. It can be used
-    to quantify viral sequences across sequencing samples after reads have been mapped to the viral reference set.
-
-    '
+  description: Read-mapping based coverage and abundance estimation for contigs and genomes. In OmicsRoute viral-abundance
+    routes, CoverM consumes a coordinate-sorted BAM plus the viral reference sequence set, so its downstream abundance
+    step is platform-agnostic once a valid alignment has been produced by the appropriate upstream mapper.
   operations:
   - viral_abundance_profiling
   sample_types:
   - Virome
   - Metagenome
   sequencing:
-  - Illumina
+  - Any
   read_types:
-  - Paired-end
-  - Single-end
+  - Any
   input:
   - Sorted BAM
   - Viral genome FASTA
@@ -2551,19 +2571,20 @@ syri:
   nfcore: false
 sortmerna:
   name: SortMeRNA
-  description: 'Sequence filtering tool designed for identifying ribosomal RNA reads in metatranscriptomic datasets.
-    It can separate rRNA-like reads from non-rRNA reads and provide rRNA-content information.
-
-    '
+  description: rRNA filtering/mapping tool for metatranscriptomic data. Its official documentation explicitly lists
+    Illumina, Ion Torrent and PacBio support. OmicsRoute therefore does not claim a curated Nanopore rRNA-filtering
+    route here.
   operations:
   - rrna_depletion_assessment
   sample_types:
   - Metatranscriptome
   sequencing:
   - Illumina
+  - PacBio
   read_types:
   - Paired-end
   - Single-end
+  - Long reads
   input:
   - Metatranscriptomic FASTQ
   - rRNA reference database
@@ -3272,6 +3293,121 @@ sourmash:
   - Genome taxonomy
   official_docs: https://sourmash.readthedocs.io/en/stable/command-line.html
   repository: https://github.com/sourmash-bio/sourmash
+  maintenance: active
+  community: high
+  bioconda: true
+  container: true
+  galaxy: false
+  nfcore: false
+minimap2:
+  name: Minimap2
+  description: Fast pairwise aligner for long DNA reads and assemblies. OmicsRoute uses it to map ONT/PacBio metagenomic
+    reads back to long-read assemblies before coverage-aware binning.
+  operations:
+  - read_mapping
+  - rna_alignment
+  - host_read_mapping
+  sample_types:
+  - Metagenome
+  - Virome
+  - Bulk transcriptome
+  - Metatranscriptome
+  sequencing:
+  - Oxford Nanopore
+  - PacBio
+  read_types:
+  - Long reads
+  input:
+  - FASTQ
+  - FASTA
+  output:
+  - SAM
+  - BAM
+  official_docs: https://github.com/lh3/minimap2
+  repository: https://github.com/lh3/minimap2
+  maintenance: active
+  community: very_high
+  bioconda: true
+  container: true
+  galaxy: true
+  nfcore: true
+opera_ms:
+  name: OPERA-MS
+  description: Hybrid metagenomic assembler combining Illumina paired-end reads with Oxford Nanopore or PacBio long
+    reads.
+  operations:
+  - metagenome_assembly
+  sample_types:
+  - Metagenome
+  sequencing:
+  - Illumina
+  - Oxford Nanopore
+  - PacBio
+  read_types:
+  - Paired-end
+  - Long reads
+  input:
+  - Illumina paired FASTQ
+  - Long-read FASTQ
+  output:
+  - Metagenome contigs FASTA
+  official_docs: https://github.com/CSB5/OPERA-MS
+  repository: https://github.com/CSB5/OPERA-MS
+  maintenance: moderate
+  community: high
+  bioconda: false
+  container: true
+  galaxy: false
+  nfcore: false
+emu:
+  name: Emu
+  description: Species-level taxonomic abundance estimator optimized for error-prone full-length 16S reads, including
+    Oxford Nanopore single-end full-length 16S data.
+  operations:
+  - amplicon_end_to_end
+  - taxonomy_assignment
+  sample_types:
+  - Amplicon
+  sequencing:
+  - Oxford Nanopore
+  read_types:
+  - Long reads
+  input:
+  - Full-length 16S FASTQ/FASTA
+  output:
+  - Taxonomic abundance table
+  official_docs: https://github.com/treangenlab/emu
+  repository: https://github.com/treangenlab/emu
+  maintenance: active
+  community: high
+  bioconda: true
+  container: true
+  galaxy: false
+  nfcore: false
+flair:
+  name: FLAIR
+  description: Full-Length Alternative Isoform analysis of RNA for Nanopore cDNA/direct RNA and PacBio long-read
+    transcript data, including isoform definition and splicing analysis.
+  operations:
+  - transcript_assembly
+  - alternative_splicing
+  sample_types:
+  - Bulk transcriptome
+  sequencing:
+  - Oxford Nanopore
+  - PacBio
+  read_types:
+  - Long reads
+  input:
+  - Long-read RNA alignment
+  - Reference genome
+  - GTF/GFF
+  output:
+  - Transcript models
+  - Isoform counts
+  - Splicing results
+  official_docs: https://flair.readthedocs.io/
+  repository: https://github.com/BrooksLabUCSC/flair
   maintenance: active
   community: high
   bioconda: true

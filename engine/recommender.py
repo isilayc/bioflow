@@ -640,50 +640,24 @@ def workflow_matches_selection(
     read_type,
     goal
 ):
-    """
-    Return True when a workflow matches the exact
-    human-readable UI context.
-    """
+    '''
+    Match one workflow to the human-readable UI selection.
 
-    context = (
-        workflow.get(
-            "context",
-            {}
-        )
-    )
+    Hybrid YAML contexts can be lists. The UI represents those lists as
+    strings such as 'Illumina + Oxford Nanopore', so use
+    format_context_value for exact matching.
+    '''
 
-    formatted_context = (
-        format_context(
-            context
-        )
-    )
+    context = workflow.get("context", {}) or {}
 
     return (
-        formatted_context[
-            "sample_type"
-        ]
-        == sample_type
-
+        format_context_value(context.get("sample_type")) == sample_type
         and
-
-        formatted_context[
-            "sequencing"
-        ]
-        == sequencing
-
+        format_context_value(context.get("sequencing")) == sequencing
         and
-
-        formatted_context[
-            "read_type"
-        ]
-        == read_type
-
+        format_context_value(context.get("read_type")) == read_type
         and
-
-        formatted_context[
-            "goal"
-        ]
-        == goal
+        format_context_value(context.get("goal")) == goal
     )
 
 
@@ -1745,3 +1719,26 @@ def build_workflow(
         )
 
     return result
+
+# ==================================================
+# METAGENOME PLATFORM COVERAGE V1
+# ==================================================
+
+from engine.dynamic_routes import (
+    get_dynamic_sequencing_options as _get_dynamic_sequencing_options_metagenome_v1
+)
+
+_get_sequencing_options_before_metagenome_v1 = get_sequencing_options
+
+
+def get_sequencing_options(sample_type):
+    values = list(
+        _get_sequencing_options_before_metagenome_v1(sample_type)
+        or []
+    )
+
+    for value in _get_dynamic_sequencing_options_metagenome_v1(sample_type) or []:
+        if value not in values:
+            values.append(value)
+
+    return values

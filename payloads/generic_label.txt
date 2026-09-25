@@ -1,0 +1,32 @@
+def _goal_option_label(
+    option
+):
+
+    availability = (
+        goal_availability_lookup.get(
+            option,
+            {}
+        )
+    )
+
+    status = availability.get(
+        "status",
+        "ready"
+    )
+
+    if status == "ready":
+        return (
+            f"✅ {option}"
+            if data_state != RAW_READS
+            else option
+        )
+
+    if status == "needs_input":
+        return f"➕ {option}"
+
+    if status == "already_satisfied":
+        return f"✓ {option}"
+
+    return f"⏳ {option}"
+
+

@@ -21,3 +21,5 @@ payload/
 updates/
 WEB_DEPLOYMENT_SMOKE_TEST.log
 data/constraints.backup_before_coverage_v1_20260910_162154.yaml
+frontend/node_modules/
+frontend/.next/

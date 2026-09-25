@@ -1,0 +1,1 @@
+"""OmicsRoute FastAPI application package."""

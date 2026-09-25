@@ -1,0 +1,27 @@
+if not goal_availability.get(
+    "selectable",
+    True
+):
+
+    message = goal_availability.get(
+        "note",
+        "Additional input is required for this analysis."
+    )
+
+    if goal_availability.get(
+        "status"
+    ) == "already_satisfied":
+
+        st.info(
+            message
+        )
+
+    else:
+
+        st.warning(
+            message
+        )
+
+    st.stop()
+
+

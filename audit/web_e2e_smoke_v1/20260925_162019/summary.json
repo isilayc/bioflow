@@ -1,0 +1,17 @@
+{
+  "generated_at": "2026-09-25T16:20:54",
+  "frontend_ok": true,
+  "api_ok": true,
+  "sample_types": 7,
+  "raw_contexts": 28,
+  "goals": 145,
+  "strategies": 203,
+  "workflow_inspections_passed": 203,
+  "failures": 0,
+  "critical": 0,
+  "high": 0,
+  "compute_profile_tested": true,
+  "compute_profile_accepted": true,
+  "operational_assessment_count": 16,
+  "output_directory": "C:\\Users\\Işılay\\Documents\\bioflow\\audit\\web_e2e_smoke_v1\\20260925_162019"
+}

@@ -756,3 +756,556 @@ def materialize_dynamic_workflow(
         ] = False
 
     return workflow
+
+# ==================================================
+# METAGENOME PLATFORM COVERAGE V1
+# ==================================================
+
+_legacy_get_dynamic_read_types_metagenome_v1 = get_dynamic_read_types
+_legacy_get_dynamic_goal_options_metagenome_v1 = get_dynamic_goal_options
+_legacy_get_dynamic_workflow_strategies_metagenome_v1 = get_dynamic_workflow_strategies
+_legacy_materialize_dynamic_workflow_metagenome_v1 = materialize_dynamic_workflow
+
+METAGENOME_SAMPLE_TYPE = "Metagenome"
+ONT = "Oxford Nanopore"
+PACBIO = "PacBio"
+LONG_READ_PLATFORMS = {ONT, PACBIO}
+
+_METAGENOME_SINGLE_END_SPECS = {
+    "Taxonomic profiling": [
+        "metagenome_illumina_taxonomy_prokaryotic",
+        "metagenome_illumina_taxonomy_eukaryotic",
+        "metagenome_illumina_taxonomy_broad",
+    ],
+    "Functional profiling": ["metagenome_illumina_functional"],
+    "Pathway analysis": ["metagenome_illumina_pathways"],
+    "Antibiotic resistance profiling": [
+        "metagenome_illumina_resistome_deeparg",
+        "metagenome_illumina_resistome_rgi",
+        "metagenome_illumina_resistome_amrplusplus",
+    ],
+    "Virulence profiling": ["metagenome_illumina_virulence"],
+    "Viral analysis": ["metagenome_illumina_viral"],
+    "Plasmid analysis": [
+        "metagenome_illumina_plasmid_genomad",
+        "metagenome_illumina_plasmid_plasx",
+    ],
+    "MAG reconstruction": ["metagenome_illumina_mag_single"],
+    "Microdiversity profiling": ["metagenome_illumina_microdiversity"],
+}
+
+_METAGENOME_LONG_GOALS = (
+    "Taxonomic profiling",
+    "MAG reconstruction",
+    "Antibiotic resistance profiling",
+    "Virulence profiling",
+    "Viral analysis",
+    "Plasmid analysis",
+)
+
+
+def get_dynamic_sequencing_options(sample_type):
+    if sample_type == METAGENOME_SAMPLE_TYPE:
+        return [ILLUMINA, ONT, PACBIO]
+    return []
+
+
+def get_dynamic_read_types(sample_type, sequencing):
+    legacy = list(
+        _legacy_get_dynamic_read_types_metagenome_v1(
+            sample_type,
+            sequencing,
+        )
+        or []
+    )
+
+    if sample_type != METAGENOME_SAMPLE_TYPE:
+        return legacy
+
+    if sequencing == ILLUMINA:
+        for value in ("Paired-end", "Single-end"):
+            if value not in legacy:
+                legacy.append(value)
+        return legacy
+
+    if sequencing in LONG_READ_PLATFORMS:
+        return ["Long reads"]
+
+    return legacy
+
+
+def get_dynamic_goal_options(sample_type, sequencing, read_type):
+    legacy = list(
+        _legacy_get_dynamic_goal_options_metagenome_v1(
+            sample_type,
+            sequencing,
+            read_type,
+        )
+        or []
+    )
+
+    if sample_type != METAGENOME_SAMPLE_TYPE:
+        return legacy
+
+    if sequencing == ILLUMINA and read_type == "Single-end":
+        extra = list(_METAGENOME_SINGLE_END_SPECS.keys())
+    elif sequencing in LONG_READ_PLATFORMS and read_type == "Long reads":
+        extra = list(_METAGENOME_LONG_GOALS)
+    else:
+        extra = []
+
+    for goal in extra:
+        if goal not in legacy:
+            legacy.append(goal)
+
+    return legacy
+
+
+def _metagenome_single_strategy_id(template_id):
+    return (
+        "dynamic__metagenome__illumina__single_end__"
+        f"{_slug(template_id)}"
+    )
+
+
+def _metagenome_long_strategy_id(sequencing, goal):
+    return (
+        "dynamic__metagenome__"
+        f"{_slug(sequencing)}__long_reads__"
+        f"{_slug(goal)}"
+    )
+
+
+def _long_read_platform_note(sequencing):
+    if sequencing == ONT:
+        return (
+            "Oxford Nanopore long-read metagenome route. "
+            "Long-read QC/filtering precedes platform-appropriate "
+            "profiling or Flye --meta assembly."
+        )
+
+    return (
+        "PacBio long-read metagenome route. "
+        "For HiFi data, Flye should use the PacBio HiFi input mode "
+        "together with --meta for uneven metagenomic coverage."
+    )
+
+
+def _long_read_common_steps():
+    return [
+        {
+            "operation": "raw_read_qc",
+            "name": "Long-read quality control",
+            "description": (
+                "Inspect read length and quality distributions before "
+                "downstream metagenomic analysis."
+            ),
+            "candidates": ["nanoplot"],
+        },
+        {
+            "operation": "read_preprocessing",
+            "name": "Long-read filtering",
+            "description": (
+                "Apply quality/length filtering when indicated by QC. "
+                "Chopper and Filtlong are alternatives."
+            ),
+            "candidates": ["chopper", "filtlong"],
+        },
+    ]
+
+
+def _long_read_assembly_step():
+    return {
+        "operation": "metagenome_assembly",
+        "name": "Long-read metagenome assembly",
+        "description": (
+            "Assemble the metagenome with Flye in metagenome/uneven-coverage "
+            "mode (--meta), using the platform-specific Flye read mode."
+        ),
+        "candidates": ["flye"],
+    }
+
+
+def _build_metagenome_long_workflow(sequencing, goal, workflow_id):
+    steps = _long_read_common_steps()
+
+    if goal == "Taxonomic profiling":
+        steps.append(
+            {
+                "operation": "taxonomic_profiling",
+                "name": "Long-read taxonomic profiling",
+                "description": (
+                    "Profile long-read shotgun metagenomes with MetaPhlAn "
+                    "using its dedicated long-read mode."
+                ),
+                "candidates": ["metaphlan"],
+            }
+        )
+
+    elif goal == "Antibiotic resistance profiling":
+        steps.append(
+            {
+                "operation": "resistome_profiling",
+                "name": "Long-read resistome profiling",
+                "description": (
+                    "Profile antimicrobial resistance determinants from "
+                    "quality-controlled long metagenomic reads with DeepARG."
+                ),
+                "candidates": ["deeparg"],
+            }
+        )
+
+    elif goal == "Virulence profiling":
+        steps.extend(
+            [
+                _long_read_assembly_step(),
+                {
+                    "operation": "virulence_profiling",
+                    "name": "Virulence factor profiling",
+                    "description": (
+                        "Detect potential virulence factors and toxins from "
+                        "assembled metagenomic contigs with PathoFact 2.0."
+                    ),
+                    "candidates": ["pathofact2"],
+                },
+            ]
+        )
+
+    elif goal == "Viral analysis":
+        steps.extend(
+            [
+                _long_read_assembly_step(),
+                {
+                    "operation": "viral_sequence_detection",
+                    "name": "Viral sequence detection",
+                    "description": (
+                        "Identify candidate viral contigs from the long-read "
+                        "metagenome assembly."
+                    ),
+                    "candidates": ["genomad", "virsorter2"],
+                },
+                {
+                    "operation": "viral_quality",
+                    "name": "Viral genome quality assessment",
+                    "description": (
+                        "Assess candidate viral sequence completeness and "
+                        "contamination with CheckV."
+                    ),
+                    "candidates": ["checkv"],
+                },
+                {
+                    "operation": "viral_taxonomy",
+                    "name": "Viral taxonomic classification",
+                    "description": (
+                        "Assign viral taxonomy with geNomad's marker/ICTV "
+                        "taxonomy framework."
+                    ),
+                    "candidates": ["genomad"],
+                },
+            ]
+        )
+
+    elif goal == "Plasmid analysis":
+        steps.extend(
+            [
+                _long_read_assembly_step(),
+                {
+                    "operation": "plasmid_detection",
+                    "name": "Plasmid sequence prediction",
+                    "description": (
+                        "Identify plasmid-associated assembled metagenomic "
+                        "contigs with geNomad."
+                    ),
+                    "candidates": ["genomad"],
+                },
+            ]
+        )
+
+    elif goal == "MAG reconstruction":
+        steps.extend(
+            [
+                _long_read_assembly_step(),
+                {
+                    "operation": "assembly_qc",
+                    "name": "Assembly quality control",
+                    "description": (
+                        "Review metagenome assembly statistics before "
+                        "coverage estimation and binning."
+                    ),
+                    "candidates": ["quast"],
+                },
+                {
+                    "operation": "read_mapping",
+                    "name": "Map long reads back to the assembly",
+                    "description": (
+                        "Map original long reads to assembled contigs with "
+                        "Minimap2. Identity filtering should match the actual "
+                        "long-read platform/error profile."
+                    ),
+                    "candidates": ["minimap2"],
+                },
+                {
+                    "operation": "alignment_processing",
+                    "name": "Alignment sorting and indexing",
+                    "description": (
+                        "Convert the long-read mapping into a coordinate-sorted "
+                        "BAM and create its index."
+                    ),
+                    "candidates": ["samtools"],
+                },
+                {
+                    "operation": "coverage_estimation",
+                    "name": "Contig coverage estimation",
+                    "description": (
+                        "Summarize per-contig depth from mapped long reads."
+                    ),
+                    "candidates": ["jgi_depth"],
+                },
+                {
+                    "operation": "genome_binning",
+                    "name": "Independent MAG binning",
+                    "description": (
+                        "Run multiple independent binners and require at least "
+                        "two successful bin sets before consensus refinement."
+                    ),
+                    "mode": "parallel",
+                    "min_successful_candidates": 2,
+                    "aggregate_produces": ["multiple_mag_bin_sets"],
+                    "candidates": ["semibin2", "metabat2", "concoct"],
+                },
+                {
+                    "operation": "bin_refinement",
+                    "name": "Consensus bin refinement",
+                    "description": (
+                        "Integrate independent binning results with DAS Tool."
+                    ),
+                    "candidates": ["dastool"],
+                },
+                {
+                    "operation": "mag_quality",
+                    "name": "MAG quality assessment",
+                    "description": (
+                        "Estimate completeness and contamination of refined MAGs."
+                    ),
+                    "candidates": ["checkm2"],
+                },
+                {
+                    "operation": "mag_taxonomy",
+                    "name": "MAG taxonomic classification",
+                    "description": (
+                        "Assign standardized taxonomy to quality-controlled "
+                        "bacterial/archaeal MAGs."
+                    ),
+                    "candidates": ["gtdbtk", "catbat", "sourmash"],
+                },
+            ]
+        )
+
+    else:
+        return None
+
+    return {
+        "id": workflow_id,
+        "name": f"Metagenome — {sequencing} long-read {goal.lower()}",
+        "description": _long_read_platform_note(sequencing),
+        "dynamic_route": True,
+        "route_class": "long_read_metagenome",
+        "route_origin": "metagenome_platform_coverage_v1",
+        "context": {
+            "sample_type": METAGENOME_SAMPLE_TYPE,
+            "sequencing": sequencing,
+            "read_type": "Long reads",
+            "goal": goal,
+        },
+        "external_inputs": [],
+        "steps": steps,
+    }
+
+
+def get_dynamic_workflow_strategies(
+    sample_type,
+    sequencing,
+    read_type,
+    goal,
+    workflows,
+):
+    legacy = list(
+        _legacy_get_dynamic_workflow_strategies_metagenome_v1(
+            sample_type,
+            sequencing,
+            read_type,
+            goal,
+            workflows,
+        )
+        or []
+    )
+
+    if sample_type != METAGENOME_SAMPLE_TYPE:
+        return legacy
+
+    results = list(legacy)
+
+    if sequencing == ILLUMINA and read_type == "Single-end":
+        for template_id in _METAGENOME_SINGLE_END_SPECS.get(goal, []):
+            template = workflows.get(template_id)
+
+            if not isinstance(template, dict):
+                continue
+
+            results.append(
+                {
+                    "id": _metagenome_single_strategy_id(template_id),
+                    "name": template.get("name", template_id) + " — single-end",
+                    "description": (
+                        "Single-end Illumina adaptation of the curated "
+                        "metagenome route."
+                    ),
+                    "dynamic": True,
+                    "route_class": "read_adaptive",
+                    "template_id": template_id,
+                }
+            )
+
+    elif (
+        sequencing in LONG_READ_PLATFORMS
+        and read_type == "Long reads"
+        and goal in _METAGENOME_LONG_GOALS
+    ):
+        results.append(
+            {
+                "id": _metagenome_long_strategy_id(sequencing, goal),
+                "name": f"Metagenome — {sequencing} long-read {goal.lower()}",
+                "description": _long_read_platform_note(sequencing),
+                "dynamic": True,
+                "route_class": "long_read_metagenome",
+                "template_id": None,
+            }
+        )
+
+    return results
+
+
+def _adapt_metagenome_single_end(workflow, workflow_id, name, goal):
+    workflow = deepcopy(workflow)
+
+    original_template_id = workflow.get("id")
+    workflow["id"] = workflow_id
+    workflow["name"] = name
+    workflow["dynamic_route"] = True
+    workflow["route_class"] = "read_adaptive"
+    workflow["route_origin"] = original_template_id or "curated_metagenome_template"
+
+    workflow["context"] = {
+        **(workflow.get("context", {}) or {}),
+        "sample_type": METAGENOME_SAMPLE_TYPE,
+        "sequencing": ILLUMINA,
+        "read_type": "Single-end",
+        "goal": goal,
+    }
+
+    workflow["infer_read_inputs"] = True
+
+    external_inputs = []
+    for item in workflow.get("external_inputs", []) or []:
+        if item == "raw_paired_fastq":
+            item = "raw_single_fastq"
+        if item == "raw_paired_fastq_collection":
+            continue
+        external_inputs.append(item)
+
+    workflow["external_inputs"] = external_inputs
+
+    for step in workflow.get("steps", []) or []:
+        if not isinstance(step, dict):
+            continue
+
+        if step.get("operation") == "metagenome_assembly":
+            step["candidates"] = [
+                item
+                for item in (step.get("candidates", []) or [])
+                if item != "metaspades"
+            ]
+
+        for field in ("name", "description"):
+            value = step.get(field)
+            if isinstance(value, str):
+                step[field] = (
+                    value
+                    .replace("paired-end", "single-end")
+                    .replace("Paired-end", "Single-end")
+                )
+
+    original_description = workflow.get("description", "")
+    workflow["description"] = (
+        "Single-end Illumina adaptation of a curated metagenome route."
+    )
+
+    if original_description:
+        workflow["description"] += (
+            "\n\nCurated route basis: " + original_description
+        )
+
+    return workflow
+
+
+def materialize_dynamic_workflow(
+    sample_type,
+    sequencing,
+    read_type,
+    goal,
+    workflow_id,
+    workflows,
+):
+    legacy = _legacy_materialize_dynamic_workflow_metagenome_v1(
+        sample_type,
+        sequencing,
+        read_type,
+        goal,
+        workflow_id,
+        workflows,
+    )
+
+    if legacy is not None:
+        return legacy
+
+    if sample_type != METAGENOME_SAMPLE_TYPE:
+        return None
+
+    selected = next(
+        (
+            item
+            for item in get_dynamic_workflow_strategies(
+                sample_type,
+                sequencing,
+                read_type,
+                goal,
+                workflows,
+            )
+            if item.get("id") == workflow_id
+        ),
+        None,
+    )
+
+    if selected is None:
+        return None
+
+    if selected.get("route_class") == "read_adaptive":
+        template = workflows.get(selected.get("template_id"))
+        if not isinstance(template, dict):
+            return None
+
+        return _adapt_metagenome_single_end(
+            template,
+            workflow_id,
+            selected.get("name", workflow_id),
+            goal,
+        )
+
+    if selected.get("route_class") == "long_read_metagenome":
+        return _build_metagenome_long_workflow(
+            sequencing,
+            goal,
+            workflow_id,
+        )
+
+    return None

@@ -1,0 +1,12 @@
+{
+  "generated_at": "2026-09-25T16:11:37",
+  "sample_types": 7,
+  "raw_contexts": 28,
+  "goal_exposures": 145,
+  "strategies": 203,
+  "built_strategies": 203,
+  "issues": 0,
+  "severity_counts": {},
+  "issue_category_counts": {},
+  "output_directory": "C:\\Users\\Işılay\\Documents\\bioflow\\audit\\coverage_consistency_v1\\20260925_161136"
+}

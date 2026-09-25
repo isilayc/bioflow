@@ -433,3 +433,35 @@ matched_metagenome_taxonomic_profile:
   label: Matched metagenome-derived taxonomic profile
   provides:
   - taxonomic_profile
+raw_long_fastq_collection:
+  label: Raw long-read FASTQ collection
+  provides:
+  - long_fastq_collection
+long_fastq_collection:
+  label: Long-read FASTQ collection
+cleaned_long_fastq_collection:
+  label: Preprocessed long-read FASTQ collection
+  provides:
+  - long_fastq_collection
+host_mapped_long_sam:
+  label: Long-read host alignment SAM
+host_mapped_long_sam_collection:
+  label: Long-read host alignment SAM collection
+host_depleted_long_fastq:
+  label: Host-depleted long-read FASTQ
+  provides:
+  - long_fastq
+host_depleted_long_fastq_collection:
+  label: Host-depleted long-read FASTQ collection
+  provides:
+  - long_fastq_collection
+non_rrna_long_fastq:
+  label: Non-rRNA long-read FASTQ
+  provides:
+  - long_fastq
+non_rrna_long_fastq_collection:
+  label: Non-rRNA long-read FASTQ collection
+  provides:
+  - long_fastq_collection
+amplicon_taxonomic_abundance:
+  label: Amplicon taxonomic abundance table

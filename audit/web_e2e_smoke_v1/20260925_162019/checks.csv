@@ -1,0 +1,25 @@
+﻿check,status,detail
+frontend_http,PASS,HTTP 200
+api_health,PASS,"{""status"": ""ok"", ""service"": ""omicsroute-api"", ""version"": ""0.2.0""}"
+openapi:/health,PASS,present
+openapi:/v1/sample-types,PASS,present
+openapi:/v1/data-states,PASS,present
+openapi:/v1/sequencing-options,PASS,present
+openapi:/v1/read-types,PASS,present
+openapi:/v1/goals,PASS,present
+openapi:/v1/strategies,PASS,present
+openapi:/v1/workflow,PASS,present
+openapi:/v1/workflow/inspect,PASS,present
+openapi:/v1/reference-guidance,PASS,present
+openapi:/v1/catalog/coverage,PASS,present
+openapi_optional:/v1/reference/taxa,PASS,present
+openapi_optional:/v1/reference/assemblies,PASS,present
+openapi_optional:/v1/tool-evidence,PASS,present
+openapi_optional:/v1/biotools,PASS,present
+openapi_optional:/v1/discovery,PASS,present
+frontend_marker:brand,PASS,visible in initial HTML
+frontend_marker:analysis_intake,PASS,visible in initial HTML
+frontend_marker:compute_profile,PASS,visible in initial HTML
+catalog_coverage,PASS,HTTP 200
+compute_profile_inspect,PASS,HTTP 200; operational assessments=16
+reference_guidance,FAIL,local endpoint only; no external NCBI request required

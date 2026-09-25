@@ -1,0 +1,47 @@
+("Amplicon", AMPLICON_ASV_TABLE): {
+    "Alpha diversity": [
+        {"template_id": "amplicon_illumina_alpha_nonphylogenetic", "external_inputs": ["asv_table"], "remove_operations": []},
+        {"template_id": "amplicon_illumina_alpha_phylogenetic", "external_inputs": ["asv_table", "phylogenetic_tree_amplicon"], "remove_operations": []},
+    ],
+    "Beta diversity": [
+        {"template_id": "amplicon_illumina_beta_nonphylogenetic", "external_inputs": ["asv_table", "sample_metadata"], "remove_operations": []},
+        {"template_id": "amplicon_illumina_beta_phylogenetic", "external_inputs": ["asv_table", "sample_metadata", "phylogenetic_tree_amplicon"], "remove_operations": []},
+    ],
+    "Differential abundance": [
+        {"template_id": "amplicon_illumina_da_simple", "external_inputs": ["asv_table", "sample_metadata", "analysis_design"], "remove_operations": []},
+        {"template_id": "amplicon_illumina_da_multivariable", "external_inputs": ["asv_table", "sample_metadata", "analysis_design"], "remove_operations": []},
+        {"template_id": "amplicon_illumina_da_repeated", "external_inputs": ["asv_table", "sample_metadata", "analysis_design"], "remove_operations": []},
+    ],
+},
+
+("Amplicon", AMPLICON_OTU_TABLE): {
+    "Alpha diversity": [
+        {"template_id": "amplicon_illumina_alpha_nonphylogenetic", "external_inputs": ["otu_table"], "remove_operations": []},
+        {"template_id": "amplicon_illumina_alpha_phylogenetic", "external_inputs": ["otu_table", "phylogenetic_tree_amplicon"], "remove_operations": []},
+    ],
+    "Beta diversity": [
+        {"template_id": "amplicon_illumina_beta_nonphylogenetic", "external_inputs": ["otu_table", "sample_metadata"], "remove_operations": []},
+        {"template_id": "amplicon_illumina_beta_phylogenetic", "external_inputs": ["otu_table", "sample_metadata", "phylogenetic_tree_amplicon"], "remove_operations": []},
+    ],
+    "Differential abundance": [
+        {"template_id": "amplicon_illumina_da_simple", "external_inputs": ["otu_table", "sample_metadata", "analysis_design"], "remove_operations": []},
+        {"template_id": "amplicon_illumina_da_multivariable", "external_inputs": ["otu_table", "sample_metadata", "analysis_design"], "remove_operations": []},
+        {"template_id": "amplicon_illumina_da_repeated", "external_inputs": ["otu_table", "sample_metadata", "analysis_design"], "remove_operations": []},
+    ],
+},
+
+("Amplicon", AMPLICON_FEATURE_TABLE): {
+    "Alpha diversity": [
+        {"template_id": "amplicon_illumina_alpha_nonphylogenetic", "external_inputs": ["amplicon_feature_table"], "remove_operations": []},
+        {"template_id": "amplicon_illumina_alpha_phylogenetic", "external_inputs": ["amplicon_feature_table", "phylogenetic_tree_amplicon"], "remove_operations": []},
+    ],
+    "Beta diversity": [
+        {"template_id": "amplicon_illumina_beta_nonphylogenetic", "external_inputs": ["amplicon_feature_table", "sample_metadata"], "remove_operations": []},
+        {"template_id": "amplicon_illumina_beta_phylogenetic", "external_inputs": ["amplicon_feature_table", "sample_metadata", "phylogenetic_tree_amplicon"], "remove_operations": []},
+    ],
+    "Differential abundance": [
+        {"template_id": "amplicon_illumina_da_simple", "external_inputs": ["amplicon_feature_table", "sample_metadata", "analysis_design"], "remove_operations": []},
+        {"template_id": "amplicon_illumina_da_multivariable", "external_inputs": ["amplicon_feature_table", "sample_metadata", "analysis_design"], "remove_operations": []},
+        {"template_id": "amplicon_illumina_da_repeated", "external_inputs": ["amplicon_feature_table", "sample_metadata", "analysis_design"], "remove_operations": []},
+    ],
+},
